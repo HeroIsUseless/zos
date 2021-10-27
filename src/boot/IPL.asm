@@ -19,7 +19,7 @@ DB		0,0,0x29		; 意义不明（固定）
 DD		0xffffffff		; （可能是）卷标号码
 DB		"MyOS_disk  "	; 磁盘的名称（必须为11字节，不足填空格）
 DB		"FAT12   "		; 磁盘格式名称（必须是8字节，不足填空格）
-RESB	18				; 先空出18字节
+;RESB	18				; 先空出18字节
 ; 程序主体
 entry:
     MOV AX, 0 ; 初始化
@@ -91,5 +91,5 @@ DB		"load error"
 DB		0x0a			; 换行
 DB		0
  
-RESB    0x7dfe-$ 
+;RESB    0x7dfe-$ 
 DB		0x55, 0xaa

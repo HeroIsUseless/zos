@@ -1,6 +1,6 @@
 default:
-	nasm -f bin src/boot/IPL.asm -o build/IPL.o
+	nasm -f bin src/boot/IPL.asm -o build/IPL.bin -l log/IPL.log
 
-tools: src/tools/makeImg.c
+tools:
 	gcc src/tools/makeImg.c -o build/makeImg
 	./build/makeImg

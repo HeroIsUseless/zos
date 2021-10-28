@@ -1,0 +1,30 @@
+     1                                  ORG 0x8200
+     2                                  
+     3                                  main:
+     4 00000000 EB00                      jmp showSuccess 
+     5                                  
+     6                                  showSuccess:
+     7 00000002 BE[1A00]                    mov si, msg
+     8                                      putloop:
+     9 00000005 8A04                            mov al, [si] ; 把si中的内容放到al中
+    10 00000007 83C601                          add si, 1
+    11 0000000A 3C00                            cmp al, 0
+    12 0000000C 7409                            je halt
+    13 0000000E B40E                            mov ah, 0x0e
+    14 00000010 BB0F00                          mov bx, 15
+    15 00000013 CD10                            int 0x10
+    16 00000015 EBEE                        jmp putloop
+    17                                   
+    18                                  halt:
+    19 00000017 F4                          hlt 
+    20 00000018 EBFD                        jmp halt
+    21                                   
+    22                                  ; 信息显示部分
+    23                                  msg:
+    24 0000001A 0A0A                    db		0x0a, 0x0a		; 换行两次
+    25 0000001C 6C6F61642073756363-     db		"load success!"
+    25 00000025 65737321           
+    26 00000029 0A                      db		0x0a			; 换行
+    27 0000002A 00                      db		0
+    28                                  
+    29 0000002B 00<rep 1D5h>            times    512-($-$$) db 0 

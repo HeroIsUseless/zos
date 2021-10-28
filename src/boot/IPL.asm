@@ -1,99 +1,85 @@
-ORG 0x7c00 ; 程序的内存装载地址
-JMP entry
-CYLS EQU 10 ; 声明10个柱面
+org 0x7c00  ; 程序的内存装载地址
+jmp entry
 ; 标准FAT12格式软盘专用的代码
-DB		"MyOS_IPL"		; 启动扇区名称（8字节）
-DW		512				; 每个扇区（sector）大小（必须512字节）
-DB		1				; 簇（cluster）大小（必须为1个扇区）
-DW		1				; FAT起始位置（一般为第一个扇区）
-DB		2				; FAT个数（必须为2）
-DW		224				; 根目录大小（一般为224项）
-DW		2880			; 该磁盘大小（必须为2880扇区1440*1024/512）
-DB		0xf0			; 磁盘类型（必须为0xf0）
-DW		9				; FAT的长度（必须是9扇区）
-DW		18				; 一个磁道（track）有几个扇区（必须为18）
-DW		2				; 磁头数（必须是2）
-DD		0				; 不使用分区，必须是0
-DD		2880			; 重写一次磁盘大小
-DB		0,0,0x29		; 意义不明（固定）
-DD		0xffffffff		; （可能是）卷标号码
-DB		"MyOS_disk  "	; 磁盘的名称（必须为11字节，不足填空格）
-DB		"FAT12   "		; 磁盘格式名称（必须是8字节，不足填空格）
+db		"MyOS_IPL"		; 启动扇区名称（8字节）
+dw		512				; 每个扇区（sector）大小（必须512字节）
+db		1				; 簇（cluster）大小（必须为1个扇区）
+dw		1				; FAT起始位置（一般为第一个扇区）
+db		2				; FAT个数（必须为2）
+dw		224				; 根目录大小（一般为224项）
+dw		2880			; 该磁盘大小（必须为2880扇区1440*1024/512）
+db		0xf0			; 磁盘类型（必须为0xf0）
+dw		9				; FAT的长度（必须是9扇区）
+dw		18				; 一个磁道（track）有几个扇区（必须为18）
+dw		2				; 磁头数（必须是2）
+dd		0				; 不使用分区，必须是0
+dd		2880			; 重写一次磁盘大小
+db		0,0,0x29		; 意义不明（固定）
+dd		0xffffffff		; （可能是）卷标号码
+db		"MyOS_disk  "	; 磁盘的名称（必须为11字节，不足填空格）
+db		"FAT12   "		; 磁盘格式名称（必须是8字节，不足填空格）
 times	18 db 0			; 先空出18字节
-; 程序主体
+;  加载磁盘内容到内存
 entry:
-    MOV AX, 0 ; 初始化
-    MOV SS, AX ; 堆栈地址为0
-    MOV SP, 0x7c00 ; 堆栈指针附了特定值
-    MOV DS, AX ; DS, ES地址必须置0
+    mov ah, 0x00
+    int 0x13       ; 重置驱动器
+    mov ax, 0x7e00
+    mov ss, ax     ; 堆栈地址为0x7e00
+    mov sp, 0      ; 堆栈指针
+    mov ax, 0x8000 
+    mov es, ax     ; 内存基址
+    mov bx, 0      ; 内存偏移量始终为0
+    mov ch, 0      ; 柱面0
+    mov dh, 0      ; 磁头0
+    mov cl, 1      ; 扇区0
+    mov dl, 0      ; A驱动器
+    mov ah, 0x02   ; 读入磁盘功能号
+    mov al, 1      ; 一个扇区
+    int 0x13
+    jmp showError
  
-    MOV AX, 0x0820 ; 读取磁盘
-    MOV ES, AX 
-    MOV CH, 0 ; 柱面0
-    MOV DH, 0 ; 磁头0
-    MOV CL, 2 ; 扇区2，加载下一个扇区
+readloop:  
+    int 0x13     ; 读入
+    mov di, es
+    add di, 0x200
+    mov es, di   ; 把内存地址后移512
+    add cl, 1    ; cl的加1
+    cmp cl, 18   ; 读完18个扇区
+    jb readloop
+    mov cl, 0
+    add ch, 1
+    cmp ch, 80  ; 读完80个柱面
+    jb readloop 
+    mov ch, 0
+    add dh, 1
+    cmp dh, 2
+    jb readloop ; 两个正反面
+
+    jmp showError
+    ;jmp 0x8200 ; 跳转到系统执行
  
-readloop: ; 失败重新读取
-    MOV SI, 0 ; 记录失败次数寄存器
-retry:
-    MOV AH, 0x02 ; 读入磁盘
-    MOV AL, 1 ; 一个扇区
-    MOV BX, 0
-    MOV DL, 0x00 ; A驱动器
-    INT 0x13 ; 读入
-    JNC next ; 没出错跳出
-    ADD SI, 1 ; 计数加1
-    CMP SI, 5 ; 重复5次
-    JAE error ; 5次还不行就出错
-    MOV AH, 0x00
-    MOV DL, 0x00 ; A驱动器
-    INT 0x13 ; 重置驱动器
-    JMP retry 
-next:
-    MOV AX, ES
-    ADD AX, 0x0020
-    MOV ES, AX ; 把内存地址后移512
-    ADD CL, 1 ; CL的加1
-    CMP CL, 18 ; 读完18个扇区
-    JBE readloop ; 嗯，到这里
-    MOV CL, 1
-    ADD DH, 1
-    CMP DH, 2
-    JB readloop ; 两个正反面
-    MOV DH, 0
-    ADD CH, 1
-    CMP CH, CYLS
-    JB readloop ; 读完10个柱面
- 
-    JMP halt
-    ;JMP 0xc200 ; 跳转到系统执行
- 
-error:
-    MOV SI, msg
+showError:
+    mov si, msg
     putloop:
-        MOV AL, [SI] ; 把si中的内容放到AL中
-        ADD SI, 1
-        CMP AL, 0
-        JE halt
-        MOV AH, 0x0e
-        MOV BX, 15
-        INT 0x10
-    JMP putloop
+        mov al, [si] ; 把si中的内容放到al中
+        add si, 1
+        cmp al, 0
+        je halt
+        mov ah, 0x0e
+        mov bx, 15
+        int 0x10
+    jmp putloop
  
 halt:
-    ;HLT 
-    MOV		AH,0x0e			; 显示一个文字
-	MOV		BX,15			; 指定字符颜色
-	INT		0x10			; 调用显卡BIOS
-    JMP halt
+    hlt 
+    jmp halt
  
 ; 信息显示部分
 msg:
-DB		0x0a, 0x0a		; 换行两次
-DB		"load error"
-DB		0x0a			; 换行
-DB		0
+db		0x0a, 0x0a		; 换行两次
+db		"load error"
+db		0x0a			; 换行
+db		0
  
-;times    0x7dfe-($-$$) db 0 
 times    510-($-$$) db 0 
-DB		0x55, 0xaa
+db		0x55, 0xaa

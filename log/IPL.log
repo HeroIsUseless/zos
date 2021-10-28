@@ -20,8 +20,7 @@
     20 0000002A 4D794F535F6469736B-     DB		"MyOS_disk  "	; 磁盘的名称（必须为11字节，不足填空格）
     20 00000033 2020               
     21 00000035 4641543132202020        DB		"FAT12   "		; 磁盘格式名称（必须是8字节，不足填空格）
-    22 0000003D <res 12h>               RESB	18				; 先空出18字节
-    22          ******************       warning: uninitialized space declared in .text section: zeroing [-w+zeroing]
+    22 0000003D 00<rep 12h>             times	18 db 0			; 先空出18字节
     23                                  ; 程序主体
     24                                  entry:
     25 0000004F B80000                      MOV AX, 0 ; 初始化
@@ -46,7 +45,7 @@
     44 00000072 7310                        JNC next ; 没出错跳出
     45 00000074 83C601                      ADD SI, 1 ; 计数加1
     46 00000077 83FE05                      CMP SI, 5 ; 重复5次
-    47 0000007A 732E                        JAE error ; 5次还不行就出错
+    47 0000007A 732D                        JAE error ; 5次还不行就出错
     48 0000007C B400                        MOV AH, 0x00
     49 0000007E B200                        MOV DL, 0x00 ; A驱动器
     50 00000080 CD13                        INT 0x13 ; 重置驱动器
@@ -67,32 +66,36 @@
     65 000000A2 80FD0A                      CMP CH, CYLS
     66 000000A5 72BD                        JB readloop ; 读完10个柱面
     67                                   
-    68                                      ;JMP main
-    69 000000A7 E9(00C2)                    JMP 0xc200 ; 跳转到系统执行
+    68 000000A7 EB15                        JMP halt
+    69                                      ;JMP 0xc200 ; 跳转到系统执行
     70                                   
     71                                  error:
-    72 000000AA BE[C200]                    MOV SI, msg
+    72 000000A9 BE[C700]                    MOV SI, msg
     73                                      putloop:
-    74 000000AD 8A04                            MOV AL, [SI] ; 把si中的内容放到AL中
-    75 000000AF 83C601                          ADD SI, 1
-    76 000000B2 3C00                            CMP AL, 0
-    77 000000B4 7409                            JE halt
-    78 000000B6 B40E                            MOV AH, 0x0e
-    79 000000B8 BB0F00                          MOV BX, 15
-    80 000000BB CD10                            INT 0x10
-    81 000000BD EBEE                        JMP putloop
+    74 000000AC 8A04                            MOV AL, [SI] ; 把si中的内容放到AL中
+    75 000000AE 83C601                          ADD SI, 1
+    76 000000B1 3C00                            CMP AL, 0
+    77 000000B3 7409                            JE halt
+    78 000000B5 B40E                            MOV AH, 0x0e
+    79 000000B7 BB0F00                          MOV BX, 15
+    80 000000BA CD10                            INT 0x10
+    81 000000BC EBEE                        JMP putloop
     82                                   
     83                                  halt:
-    84 000000BF F4                          HLT 
-    85 000000C0 EBFD                        JMP halt
-    86                                   
-    87                                  ; 信息显示部分
-    88                                  msg:
-    89 000000C2 0A0A                    DB		0x0a, 0x0a		; 换行两次
-    90 000000C4 6C6F6164206572726F-     DB		"load error"
-    90 000000CD 72                 
-    91 000000CE 0A                      DB		0x0a			; 换行
-    92 000000CF 00                      DB		0
-    93                                   
-    94                                  ;RESB    0x7dfe-$ 
-    95 000000D0 55AA                    DB		0x55, 0xaa
+    84                                      ;HLT 
+    85 000000BE B40E                        MOV		AH,0x0e			; 显示一个文字
+    86 000000C0 BB0F00                  	MOV		BX,15			; 指定字符颜色
+    87 000000C3 CD10                    	INT		0x10			; 调用显卡BIOS
+    88 000000C5 EBF7                        JMP halt
+    89                                   
+    90                                  ; 信息显示部分
+    91                                  msg:
+    92 000000C7 0A0A                    DB		0x0a, 0x0a		; 换行两次
+    93 000000C9 6C6F6164206572726F-     DB		"load error"
+    93 000000D2 72                 
+    94 000000D3 0A                      DB		0x0a			; 换行
+    95 000000D4 00                      DB		0
+    96                                   
+    97                                  ;times    0x7dfe-($-$$) db 0 
+    98 000000D5 00<rep 129h>            times    510-($-$$) db 0 
+    99 000001FE 55AA                    DB		0x55, 0xaa

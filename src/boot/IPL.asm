@@ -19,7 +19,7 @@ DB		0,0,0x29		; 意义不明（固定）
 DD		0xffffffff		; （可能是）卷标号码
 DB		"MyOS_disk  "	; 磁盘的名称（必须为11字节，不足填空格）
 DB		"FAT12   "		; 磁盘格式名称（必须是8字节，不足填空格）
-RESB	18				; 先空出18字节
+times	18 db 0			; 先空出18字节
 ; 程序主体
 entry:
     MOV AX, 0 ; 初始化
@@ -65,8 +65,8 @@ next:
     CMP CH, CYLS
     JB readloop ; 读完10个柱面
  
-    ;JMP main
-    JMP 0xc200 ; 跳转到系统执行
+    JMP halt
+    ;JMP 0xc200 ; 跳转到系统执行
  
 error:
     MOV SI, msg
@@ -81,7 +81,10 @@ error:
     JMP putloop
  
 halt:
-    HLT 
+    ;HLT 
+    MOV		AH,0x0e			; 显示一个文字
+	MOV		BX,15			; 指定字符颜色
+	INT		0x10			; 调用显卡BIOS
     JMP halt
  
 ; 信息显示部分
@@ -91,5 +94,6 @@ DB		"load error"
 DB		0x0a			; 换行
 DB		0
  
-;RESB    0x7dfe-$ 
+;times    0x7dfe-($-$$) db 0 
+times    510-($-$$) db 0 
 DB		0x55, 0xaa

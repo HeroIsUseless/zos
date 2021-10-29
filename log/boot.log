@@ -1,30 +1,55 @@
      1                                  ORG 0x8200
      2                                  
-     3                                  main:
-     4 00000000 EB00                      jmp showSuccess 
-     5                                  
-     6                                  showSuccess:
-     7 00000002 BE[1A00]                    mov si, msg
-     8                                      putloop:
-     9 00000005 8A04                            mov al, [si] ; 把si中的内容放到al中
-    10 00000007 83C601                          add si, 1
-    11 0000000A 3C00                            cmp al, 0
-    12 0000000C 7409                            je halt
-    13 0000000E B40E                            mov ah, 0x0e
-    14 00000010 BB0F00                          mov bx, 15
-    15 00000013 CD10                            int 0x10
-    16 00000015 EBEE                        jmp putloop
-    17                                   
-    18                                  halt:
-    19 00000017 F4                          hlt 
-    20 00000018 EBFD                        jmp halt
-    21                                   
-    22                                  ; 信息显示部分
-    23                                  msg:
-    24 0000001A 0A0A                    db		0x0a, 0x0a		; 换行两次
-    25 0000001C 6C6F61642073756363-     db		"load success!"
-    25 00000025 65737321           
-    26 00000029 0A                      db		0x0a			; 换行
-    27 0000002A 00                      db		0
-    28                                  
-    29 0000002B 00<rep 1D5h>            times    512-($-$$) db 0 
+     3 00000000 EB00                    jmp main
+     4                                  
+     5                                  ; aligb 16
+     6                                  ; gdtr_tmp:
+     7                                  ;     dw 8*3-1
+     8                                  ;     dd gdt_tmp
+     9                                  
+    10                                  ; aligb 16
+    11                                  ; gdt_tmp:
+    12                                  ;     times 8 db 0
+    13                                  ;     dw 0xffff,0x0000, 0x9200,0x00cf
+    14                                  ;     dw 0xffff,0x0000, 0x9a00,0x00c7
+    15                                  
+    16                                  main:
+    17                                      ; ; VGA显卡
+    18                                      ; mov al, 0x13
+    19                                      ; mov ah, 0x00
+    20                                      ; int 0x10
+    21                                      ; ; 禁用中断
+    22                                      ; mov al, 0xff
+    23                                      ; out 0x21, al ; 禁止主PIC全部中断
+    24                                      ; cli          ; 禁止中断CPU(内部中断)
+    25                                      ; ; 打开A20GATE,让CPU支持1M以上内存
+    26                                  	; mov ax, 0x2401
+    27                                  	; int 0x15
+    28                                      ; ; 保护模式切换
+    29                                  
+    30 00000002 EB00                        jmp showSuccess 
+    31                                  
+    32                                  showSuccess:
+    33 00000004 BE[1C00]                    mov si, msg
+    34                                      putloop:
+    35 00000007 8A04                            mov al, [si] ; 把si中的内容放到al中
+    36 00000009 83C601                          add si, 1
+    37 0000000C 3C00                            cmp al, 0
+    38 0000000E 7409                            je halt
+    39 00000010 B40E                            mov ah, 0x0e
+    40 00000012 BB0F00                          mov bx, 15
+    41 00000015 CD10                            int 0x10
+    42 00000017 EBEE                        jmp putloop
+    43                                   
+    44                                  halt:
+    45 00000019 F4                          hlt 
+    46 0000001A EBFD                        jmp halt
+    47                                   
+    48                                  ; 信息显示部分
+    49                                  msg:
+    50 0000001C 6C6F61642073756363-     db		"load success!"
+    50 00000025 65737321           
+    51 00000029 0A                      db		0x0a			; 换行
+    52 0000002A 00                      db		0
+    53                                  
+    54 0000002B 00<rep 1D5h>            times    512-($-$$) db 0 

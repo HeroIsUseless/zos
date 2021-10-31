@@ -22,10 +22,10 @@ int main(int argc, char** argv){
   char main_buf[524288] = {0};
   char ZOS_buf[1474560] = {0};
 
-  IPL_bin = fopen("build/IPL.bin", "r");
-  boot_bin = fopen("build/boot.bin", "r");
-  main_bin = fopen("build/main.bin", "r");
-  ZOS_img = fopen("build/ZOS.img", "w");
+  IPL_bin = fopen(argv[1], "r");
+  boot_bin = fopen(argv[2], "r");
+  main_bin = fopen(argv[3], "r");
+  ZOS_img = fopen(argv[4], "w");
 
   fread(IPL_buf, sizeof(IPL_buf), 1, IPL_bin);
   fread(boot_buf, sizeof(boot_buf), 1, boot_bin);

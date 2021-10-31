@@ -3,18 +3,18 @@ tools: src/tools/makeImg.c
 	make zlang
 
 zlang:
-	cd build && flex ../src/tools/zlang/lex.l
-	cd build && bison -d ../src/tools/zlang/parse.y 
-	cd build && cc lex.yy.c parse.tab.c -ll -o zlang
+	cd build/temp && flex ../../src/tools/zlang/lex.l
+	cd build/temp && bison -d ../../src/tools/zlang/parse.y 
+	cd build/temp && cc lex.yy.c parse.tab.c -ll -o ../zlang
 	cd build && ./zlang ../example/1_var.z 1_var.asm
 
 compile:
-	nasm -f bin src/boot/IPL.asm -o build/IPL.bin -l log/IPL.log
-	nasm -f bin src/boot/boot.asm -o build/boot.bin -l log/boot.log
-	nasm -f bin src/boot/main.asm -o build/main.bin -l log/main.log
+	nasm -f bin src/boot/IPL.asm -o build/temp/IPL.bin -l log/IPL.log
+	nasm -f bin src/boot/boot.asm -o build/temp/boot.bin -l log/boot.log
+	nasm -f bin src/boot/main.asm -o build/temp/main.bin -l log/main.log
 
 run:
-	./build/makeImg
+	cd build && ./makeImg ./temp/IPL.bin ./temp/boot.bin ./temp/main.bin ZOS.img
 	cd build && qemu-system-x86_64 -m 128M  -fda ZOS.img -vnc :1 -monitor stdio
 
 all:

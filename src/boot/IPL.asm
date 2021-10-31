@@ -32,7 +32,7 @@ entry:
 		MOV		SP,0x7c00       
 		MOV		DS,ax		    
 		; 设置参数
-		MOV		AX,0x0820
+		MOV		AX,0x0800
 		MOV		ES,AX			; 内存基址
 		MOV		CH,0			; 柱面0
 		MOV		DH,0			; 磁头0
@@ -71,7 +71,7 @@ next:
 		JB		readloop
 
 		; 读取完毕，跳转到boot执行
-		JMP		0x8200
+		JMP		0x8000
 
 ; 出错显示部分
 error:

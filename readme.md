@@ -1,0 +1,1 @@
+我需要zlang那边提供的输出，把zlang做成zos的tool不就行了？对吧

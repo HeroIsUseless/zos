@@ -1,4 +1,4 @@
-ORG 0x8200
+ORG 0x8000
 
 jmp main
 

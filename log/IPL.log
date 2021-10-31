@@ -50,7 +50,7 @@
     49 00000073 7310                    		JNC		next			; 没出错则跳转到next，进行剩下的复制
     50 00000075 83C601                  		ADD		SI,1			; 出错了，往SI加1
     51 00000078 83FE05                  		CMP		SI,5			; 比较SI与5
-    52 0000007B 7330                    		JAE		error			; SI >= 5 跳转到error
+    52 0000007B 732E                    		JAE		error			; SI >= 5 跳转到error
     53 0000007D B400                    		MOV		AH,0x00   ; 否则继续重新尝试，重置寄存器
     54 0000007F B200                    		MOV		DL,0x00		; A驱动器
     55 00000081 CD13                    		INT		0x13			; 重置驱动器
@@ -68,49 +68,48 @@
     67 0000009C 72C7                    		JB		readloop	; DH < 2 跳转到readloop，DH是磁头数，2个
     68 0000009E B600                    		MOV		DH,0
     69 000000A0 80C501                  		ADD		CH,1
-    70 000000A3 80FD28                  		CMP		CH,40 		; 读80个柱面会出错，因为16位系统只能支配1MB的内存
+    70 000000A3 80FD27                  		CMP		CH,39 		; 读80个柱面会出错，因为16位系统只能支配1MB的内存
     71 000000A6 72BD                    		JB		readloop
     72                                  
     73                                  		; 读取完毕，跳转到boot执行
-    74 000000A8 EB08                    		jmp success
-    75 000000AA E9(0082)                		JMP		0x8200
-    76                                  
-    77                                  ; 出错显示部分
-    78                                  error:
-    79 000000AD BE[CC00]                		MOV		SI,error_msg
-    80 000000B0 EB05                    		JMP putloop
-    81                                  		
-    82                                  success: 
-    83 000000B2 BE[DA00]                		mov si, success_msg
-    84 000000B5 EB00                    		jmp putloop
-    85                                  
-    86                                  putloop:
-    87 000000B7 8A04                    		MOV		AL,[SI]
-    88 000000B9 83C601                  		ADD		SI,1			; 给SI加1
-    89 000000BC 3C00                    		CMP		AL,0
-    90 000000BE 7409                    		JE		fin
-    91 000000C0 B40E                    		MOV		AH,0x0e		; 显示一个文字
-    92 000000C2 BB0F00                  		MOV		BX,15			; 指定字符颜色
-    93 000000C5 CD10                    		INT		0x10			; 调用显卡BIOS
-    94 000000C7 EBEE                    		JMP		putloop
-    95                                  
-    96                                  fin:
-    97 000000C9 F4                      		HLT						  ; 让CPU停止，等待指令
-    98 000000CA EBFD                    		JMP		fin				; 无限循环
-    99                                  
-   100                                  error_msg:
-   101 000000CC 0A0A                    		DB		0x0a, 0x0a		; 换行两次
-   102 000000CE 6C6F6164206572726F-     		DB		"load error"
-   102 000000D7 72                 
-   103 000000D8 0A                      		DB		0x0a			    ; 换行
-   104 000000D9 00                      		DB		0
-   105                                  		
-   106                                  success_msg:
-   107 000000DA 0A0A                    		DB		0x0a, 0x0a		; 换行两次
-   108 000000DC 6C6F61642073756363-     		DB		"load success"
-   108 000000E5 657373             
-   109 000000E8 0A                      		DB		0x0a			    ; 换行
-   110 000000E9 00                      		DB		0
-   111                                  		
-   112 000000EA 00<rep 114h>            times    510-($-$$) db 0 
-   113 000001FE 55AA                    DB		0x55, 0xaa
+    74 000000A8 E9(0082)                		JMP		0x8200
+    75                                  
+    76                                  ; 出错显示部分
+    77                                  error:
+    78 000000AB BE[CA00]                		MOV		SI,error_msg
+    79 000000AE EB05                    		JMP putloop
+    80                                  		
+    81                                  success: 
+    82 000000B0 BE[D800]                		mov si, success_msg
+    83 000000B3 EB00                    		jmp putloop
+    84                                  
+    85                                  putloop:
+    86 000000B5 8A04                    		MOV		AL,[SI]
+    87 000000B7 83C601                  		ADD		SI,1			; 给SI加1
+    88 000000BA 3C00                    		CMP		AL,0
+    89 000000BC 7409                    		JE		fin
+    90 000000BE B40E                    		MOV		AH,0x0e		; 显示一个文字
+    91 000000C0 BB0F00                  		MOV		BX,15			; 指定字符颜色
+    92 000000C3 CD10                    		INT		0x10			; 调用显卡BIOS
+    93 000000C5 EBEE                    		JMP		putloop
+    94                                  
+    95                                  fin:
+    96 000000C7 F4                      		HLT						  ; 让CPU停止，等待指令
+    97 000000C8 EBFD                    		JMP		fin				; 无限循环
+    98                                  
+    99                                  error_msg:
+   100 000000CA 0A0A                    		DB		0x0a, 0x0a		; 换行两次
+   101 000000CC 6C6F6164206572726F-     		DB		"load error"
+   101 000000D5 72                 
+   102 000000D6 0A                      		DB		0x0a			    ; 换行
+   103 000000D7 00                      		DB		0
+   104                                  		
+   105                                  success_msg:
+   106 000000D8 0A0A                    		DB		0x0a, 0x0a		; 换行两次
+   107 000000DA 6C6F61642073756363-     		DB		"load success"
+   107 000000E3 657373             
+   108 000000E6 0A                      		DB		0x0a			    ; 换行
+   109 000000E7 00                      		DB		0
+   110                                  		
+   111 000000E8 00<rep 116h>            times    510-($-$$) db 0 
+   112 000001FE 55AA                    DB		0x55, 0xaa

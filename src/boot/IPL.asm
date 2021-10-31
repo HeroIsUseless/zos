@@ -71,7 +71,6 @@ next:
 		JB		readloop
 
 		; 读取完毕，跳转到boot执行
-		jmp success
 		JMP		0x8200
 
 ; 出错显示部分

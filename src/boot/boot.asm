@@ -1,7 +1,14 @@
 ORG 0x8000
 Addr_Main_16 equ 0x8200   ; 实模式下的操作系统入口
-Addr_Main_32 equ 0x00280000 ; 保护模式下的操作系统入口
-
+Addr_Main_32 equ 0x280000 ; 保护模式下的操作系统入口
+; 内存map
+; 0x008000~0x008200 boot
+; 0x0a0000~0x0affff 64kb VGA
+; 0x268000~0x26ffff 2kb IDT
+; 0x270000~0x27ffff 64kb GDT
+; 0x280000~0x28ffff 512kb 系统代码
+; 0x300000~0x3fffff 1mb 系统堆栈数据
+; 0x400000~end 用户空间
 jmp main
 
 		ALIGNB	16

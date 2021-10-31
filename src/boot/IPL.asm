@@ -71,6 +71,7 @@ next:
 		JB		readloop
 
 		; 读取完毕，跳转到boot执行
+		;jmp error
 		JMP		0x8000
 
 ; 出错显示部分
@@ -98,13 +99,13 @@ fin:
 
 error_msg:
 		DB		0x0a, 0x0a		; 换行两次
-		DB		"load error"
+		DB		"zipl error"
 		DB		0x0a			    ; 换行
 		DB		0
 		
 success_msg:
 		DB		0x0a, 0x0a		; 换行两次
-		DB		"load success"
+		DB		"zipl success"
 		DB		0x0a			    ; 换行
 		DB		0
 		

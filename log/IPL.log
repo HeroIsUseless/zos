@@ -72,44 +72,45 @@
     71 000000A6 72BD                    		JB		readloop
     72                                  
     73                                  		; 读取完毕，跳转到boot执行
-    74 000000A8 E9(0080)                		JMP		0x8000
-    75                                  
-    76                                  ; 出错显示部分
-    77                                  error:
-    78 000000AB BE[CA00]                		MOV		SI,error_msg
-    79 000000AE EB05                    		JMP putloop
-    80                                  		
-    81                                  success: 
-    82 000000B0 BE[D800]                		mov si, success_msg
-    83 000000B3 EB00                    		jmp putloop
-    84                                  
-    85                                  putloop:
-    86 000000B5 8A04                    		MOV		AL,[SI]
-    87 000000B7 83C601                  		ADD		SI,1			; 给SI加1
-    88 000000BA 3C00                    		CMP		AL,0
-    89 000000BC 7409                    		JE		fin
-    90 000000BE B40E                    		MOV		AH,0x0e		; 显示一个文字
-    91 000000C0 BB0F00                  		MOV		BX,15			; 指定字符颜色
-    92 000000C3 CD10                    		INT		0x10			; 调用显卡BIOS
-    93 000000C5 EBEE                    		JMP		putloop
-    94                                  
-    95                                  fin:
-    96 000000C7 F4                      		HLT						  ; 让CPU停止，等待指令
-    97 000000C8 EBFD                    		JMP		fin				; 无限循环
-    98                                  
-    99                                  error_msg:
-   100 000000CA 0A0A                    		DB		0x0a, 0x0a		; 换行两次
-   101 000000CC 6C6F6164206572726F-     		DB		"load error"
-   101 000000D5 72                 
-   102 000000D6 0A                      		DB		0x0a			    ; 换行
-   103 000000D7 00                      		DB		0
-   104                                  		
-   105                                  success_msg:
-   106 000000D8 0A0A                    		DB		0x0a, 0x0a		; 换行两次
-   107 000000DA 6C6F61642073756363-     		DB		"load success"
-   107 000000E3 657373             
-   108 000000E6 0A                      		DB		0x0a			    ; 换行
-   109 000000E7 00                      		DB		0
-   110                                  		
-   111 000000E8 00<rep 116h>            times    510-($-$$) db 0 
-   112 000001FE 55AA                    DB		0x55, 0xaa
+    74                                  		;jmp error
+    75 000000A8 E9(0080)                		JMP		0x8000
+    76                                  
+    77                                  ; 出错显示部分
+    78                                  error:
+    79 000000AB BE[CA00]                		MOV		SI,error_msg
+    80 000000AE EB05                    		JMP putloop
+    81                                  		
+    82                                  success: 
+    83 000000B0 BE[D800]                		mov si, success_msg
+    84 000000B3 EB00                    		jmp putloop
+    85                                  
+    86                                  putloop:
+    87 000000B5 8A04                    		MOV		AL,[SI]
+    88 000000B7 83C601                  		ADD		SI,1			; 给SI加1
+    89 000000BA 3C00                    		CMP		AL,0
+    90 000000BC 7409                    		JE		fin
+    91 000000BE B40E                    		MOV		AH,0x0e		; 显示一个文字
+    92 000000C0 BB0F00                  		MOV		BX,15			; 指定字符颜色
+    93 000000C3 CD10                    		INT		0x10			; 调用显卡BIOS
+    94 000000C5 EBEE                    		JMP		putloop
+    95                                  
+    96                                  fin:
+    97 000000C7 F4                      		HLT						  ; 让CPU停止，等待指令
+    98 000000C8 EBFD                    		JMP		fin				; 无限循环
+    99                                  
+   100                                  error_msg:
+   101 000000CA 0A0A                    		DB		0x0a, 0x0a		; 换行两次
+   102 000000CC 7A69706C206572726F-     		DB		"zipl error"
+   102 000000D5 72                 
+   103 000000D6 0A                      		DB		0x0a			    ; 换行
+   104 000000D7 00                      		DB		0
+   105                                  		
+   106                                  success_msg:
+   107 000000D8 0A0A                    		DB		0x0a, 0x0a		; 换行两次
+   108 000000DA 7A69706C2073756363-     		DB		"zipl success"
+   108 000000E3 657373             
+   109 000000E6 0A                      		DB		0x0a			    ; 换行
+   110 000000E7 00                      		DB		0
+   111                                  		
+   112 000000E8 00<rep 116h>            times    510-($-$$) db 0 
+   113 000001FE 55AA                    DB		0x55, 0xaa

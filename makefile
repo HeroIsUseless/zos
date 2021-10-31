@@ -8,7 +8,7 @@ tools: src/tools/makeImg.c
 
 run:
 	./build/makeImg
-	cd build && qemu-system-x86_64 -m 128M -fda ZOS.img
+	cd build && qemu-system-x86_64 -m 128M  -fda ZOS.img
 
 all:
 	make default

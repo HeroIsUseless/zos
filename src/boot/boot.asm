@@ -49,9 +49,8 @@ pipelineflush:
 	CALL	Memory_Copy ; 1024个扇面(512kb)
 
     ; 跳转到main执行
-fin:
-    hlt
-    jmp fin 
+    ;jmp showSuccess
+    jmp dword 2<<3:0x280000 ; 这里用的是第2段，这样做后，IP为0，基地址为280000，直接到达
 
 ; 参数：esi，源地址，edi，目标地址，ecx，数据个数(双字单位，一般普通字节除以4)
 Memory_Copy:

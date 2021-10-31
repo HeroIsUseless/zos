@@ -46,47 +46,46 @@
     46 0000006F 66BE00820000            	MOV		ESI,Addr_Main_16	; 源
     47 00000075 66BF00002800            	MOV		EDI,Addr_Main_32	; 目标
     48 0000007B 66B900000200            	MOV		ECX,512*1024/4 
-    49 00000081 E80300                  	CALL	Memory_Copy ; 1024个扇面(512kb)
+    49 00000081 E80800                  	CALL	Memory_Copy ; 1024个扇面(512kb)
     50                                  
     51                                      ; 跳转到main执行
-    52                                  fin:
-    53 00000084 F4                          hlt
-    54 00000085 EBFD                        jmp fin 
-    55                                  
-    56                                  ; 参数：esi，源地址，edi，目标地址，ecx，数据个数(双字单位，一般普通字节除以4)
-    57                                  Memory_Copy:
-    58 00000087 6660                    		pushad
-    59                                  	.loop:
-    60 00000089 66678B06                		MOV		EAX,[ESI]
-    61 0000008D 6683C604                		ADD		ESI,4
-    62 00000091 66678907                		MOV		[EDI],EAX
-    63 00000095 6683C704                		ADD		EDI,4
-    64 00000099 6683E901                		SUB		ECX,1
-    65 0000009D 75EA                    		JNZ		.loop			; 运算结果不为0跳转到memcpy
-    66 0000009F 6661                    		popad
-    67 000000A1 C3                      ret
-    68                                  
-    69                                  showSuccess:
-    70 000000A2 BE[BA00]                    mov si, msg
-    71                                      putloop:
-    72 000000A5 8A04                            mov al, [si] ; 把si中的内容放到al中
-    73 000000A7 83C601                          add si, 1
-    74 000000AA 3C00                            cmp al, 0
-    75 000000AC 7409                            je halt
-    76 000000AE B40E                            mov ah, 0x0e
-    77 000000B0 BB0F00                          mov bx, 15
-    78 000000B3 CD10                            int 0x10
-    79 000000B5 EBEE                        jmp putloop
-    80                                   
-    81                                  halt:
-    82 000000B7 F4                          hlt 
-    83 000000B8 EBFD                        jmp halt
-    84                                   
-    85                                  ; 信息显示部分
-    86                                  msg:
-    87 000000BA 626F6F742073756363-     db		"boot success"
-    87 000000C3 657373             
-    88 000000C6 0A                      db		0x0a			; 换行
-    89 000000C7 00                      db		0
-    90                                  
-    91 000000C8 00<rep 138h>            times    512-($-$$) db 0 
+    52                                      ;jmp showSuccess
+    53 00000084 66EA000028001000            jmp dword 2<<3:0x280000 ; 这里用的是第2段，这样做后，IP为0，基地址为280000，直接到达
+    54                                  
+    55                                  ; 参数：esi，源地址，edi，目标地址，ecx，数据个数(双字单位，一般普通字节除以4)
+    56                                  Memory_Copy:
+    57 0000008C 6660                    		pushad
+    58                                  	.loop:
+    59 0000008E 66678B06                		MOV		EAX,[ESI]
+    60 00000092 6683C604                		ADD		ESI,4
+    61 00000096 66678907                		MOV		[EDI],EAX
+    62 0000009A 6683C704                		ADD		EDI,4
+    63 0000009E 6683E901                		SUB		ECX,1
+    64 000000A2 75EA                    		JNZ		.loop			; 运算结果不为0跳转到memcpy
+    65 000000A4 6661                    		popad
+    66 000000A6 C3                      ret
+    67                                  
+    68                                  showSuccess:
+    69 000000A7 BE[BF00]                    mov si, msg
+    70                                      putloop:
+    71 000000AA 8A04                            mov al, [si] ; 把si中的内容放到al中
+    72 000000AC 83C601                          add si, 1
+    73 000000AF 3C00                            cmp al, 0
+    74 000000B1 7409                            je halt
+    75 000000B3 B40E                            mov ah, 0x0e
+    76 000000B5 BB0F00                          mov bx, 15
+    77 000000B8 CD10                            int 0x10
+    78 000000BA EBEE                        jmp putloop
+    79                                   
+    80                                  halt:
+    81 000000BC F4                          hlt 
+    82 000000BD EBFD                        jmp halt
+    83                                   
+    84                                  ; 信息显示部分
+    85                                  msg:
+    86 000000BF 626F6F742073756363-     db		"boot success"
+    86 000000C8 657373             
+    87 000000CB 0A                      db		0x0a			; 换行
+    88 000000CC 00                      db		0
+    89                                  
+    90 000000CD 00<rep 133h>            times    512-($-$$) db 0 

@@ -26,7 +26,7 @@
 %type <i> exp factor term
 %%
 stmts: /* empty */ {}
-     | stmt {printf("line %d\n", yylineno);} stmts
+     | stmt stmts
      ;
 
 stmt: stmt_def
@@ -70,10 +70,13 @@ int main(int argc, char **argv){
         }
     }
     yylineno = 1;
-    yyparse();
-    printf("\ncode: %s\n", code);
-    fwrite(code, strlen(code), 1, out_asm);
+    strcpy(var_prefix, argv[1]);
+    formatVar_prefix(var_prefix);
+    // yyparse();
+    // printf("\ncode: \n_______________\n%s\n", code);
+    // fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);
+    return 0;
 }
 
 void yyerror(char *s){

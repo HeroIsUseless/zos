@@ -9,4 +9,26 @@ void code_append(char code_part[], char code[]){
   }
 }
 
+void formatVar_prefix(char var_prefix[]){
+  int begin = strlen(var_prefix);
+  int end = begin;
+  while(begin>-1 && var_prefix[begin]!='/'){
+    begin --;
+  }
+  begin++;
+  int i;
+  for(i=0; i<end-begin; i++){
+    var_prefix[i] = var_prefix[i+begin];
+  }
+  var_prefix[i] = 0;
+  end = strlen(var_prefix);
+  for(i=0; i<end; i++){
+    if(var_prefix[i] == '.'){
+      var_prefix[i] = '_';
+    }
+  }
+  var_prefix[i] = '_';
+  var_prefix[++i] = 0;
+  printf("prefix %s\n", var_prefix);
+}
 #endif

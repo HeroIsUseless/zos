@@ -1,8 +1,0 @@
-     1                                  [bits 32]
-     2                                  ORG 0x280000
-     3 00000000 EB00                    jmp main
-     4                                  
-     5                                  main:
-     6 00000002 F4                        hlt 
-     7 00000003 EBFD                      jmp main
-     8                                  

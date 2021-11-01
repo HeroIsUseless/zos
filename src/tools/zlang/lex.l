@@ -1,8 +1,5 @@
 %{
   #include "parse.tab.h"
-  int chars = 0;
-  int words = 0;
-  int lines = 0;
   extern YYSTYPE yylval;
 %}
 %option noyywrap yylineno
@@ -16,5 +13,5 @@
 "*" {printf("TIMES\n");}
 "/" {printf("DIVIDE\n");}
 "|" {printf("ABS\n");}
-\n {chars++; lines++;}
+\n {}
 %%

@@ -97,6 +97,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include "../../src/tools/zlang/asmapper.c"
     void yyerror(char *s);
     extern int yylex();
     extern FILE* yyin;
@@ -126,7 +127,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 13 "../../src/tools/zlang/parse.y"
+#line 14 "../../src/tools/zlang/parse.y"
 {
     int i;
     char* s;
@@ -134,7 +135,7 @@ typedef union YYSTYPE
     double f;
 }
 /* Line 193 of yacc.c.  */
-#line 138 "parse.tab.c"
+#line 139 "parse.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -147,7 +148,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 151 "parse.tab.c"
+#line 152 "parse.tab.c"
 
 #ifdef short
 # undef short
@@ -430,7 +431,7 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    28,    28,    29,    29,    32,    35,    38
+       0,    29,    29,    30,    30,    33,    36,    39
 };
 #endif
 
@@ -1332,18 +1333,23 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 28 "../../src/tools/zlang/parse.y"
+#line 29 "../../src/tools/zlang/parse.y"
     {;}
     break;
 
   case 3:
-#line 29 "../../src/tools/zlang/parse.y"
-    {printf("line %d\n", yylineno); code[ci++]=ci+'0';;}
+#line 30 "../../src/tools/zlang/parse.y"
+    {printf("line %d\n", yylineno); code[ci]=ci+'0'; ci++;;}
+    break;
+
+  case 7:
+#line 39 "../../src/tools/zlang/parse.y"
+    {;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1347 "parse.tab.c"
+#line 1353 "parse.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1557,7 +1563,7 @@ yyreturn:
 }
 
 
-#line 59 "../../src/tools/zlang/parse.y"
+#line 60 "../../src/tools/zlang/parse.y"
 
 
 int main(int argc, char **argv){

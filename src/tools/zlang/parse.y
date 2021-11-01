@@ -2,6 +2,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include "../../src/tools/zlang/asmapper.c"
     void yyerror(char *s);
     extern int yylex();
     extern FILE* yyin;
@@ -26,7 +27,7 @@
 %type <i> exp factor term
 %%
 stmts: /* empty */ {}
-     | stmt {printf("line %d\n", yylineno); code[ci++]=ci+'0';} stmts
+     | stmt {printf("line %d\n", yylineno); code[ci]=ci+'0'; ci++;} stmts
      ;
 
 stmt: stmt_def
@@ -35,7 +36,7 @@ stmt: stmt_def
 stmt_def: def_var
         ;
 
-def_var: VAR ':' INTEGER ';' 
+def_var: VAR ':' INTEGER ';' {}
        ;
 
 calclist:

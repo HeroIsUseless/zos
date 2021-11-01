@@ -62,9 +62,11 @@ int main(int argc, char **argv){
     if(argc > 1){
         if(!(yyin = fopen(argv[1], "r"))){
             yyin = stdin;
+            printf("[error] infile open failed\n");
         }
         else {
             if(!(out_asm = fopen(argv[2], "w"))){
+                printf("[error] outfile open failed\n");
                 return 1;
             }
         }
@@ -72,9 +74,9 @@ int main(int argc, char **argv){
     yylineno = 1;
     strcpy(var_prefix, argv[1]);
     formatVar_prefix(var_prefix);
-    // yyparse();
-    // printf("\ncode: \n_______________\n%s\n", code);
-    // fwrite(code, strlen(code), 1, out_asm);
+    yyparse();
+    printf("\ncode: \n_______________\n%s\n", code);
+    fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);
     return 0;
 }

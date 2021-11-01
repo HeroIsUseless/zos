@@ -29,6 +29,5 @@ void formatVar_prefix(char var_prefix[]){
   }
   var_prefix[i] = '_';
   var_prefix[++i] = 0;
-  printf("prefix %s\n", var_prefix);
 }
 #endif

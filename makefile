@@ -10,9 +10,9 @@ zlang:
 	cd build/temp && cc lex.yy.c parse.tab.c -ll -o ../zlang
 
 compile:
-	cd build && ./zlang ../example/1_var.z ./temp/1_var.asm
-	cd build && ./zlang ../example/2_var.z ./temp/2_var.asm
-	cd build && ./zlink ../src/boot/main.asm ./temp/1_var.asm ./temp/2_var.asm ./temp/main.asm
+	cd build && ./zlang ../example/e1_var.z ./temp/e1_var.asm
+	cd build && ./zlang ../example/e2_var.z ./temp/e2_var.asm
+	cd build && ./zlink ../src/boot/main.asm ./temp/e1_var.asm ./temp/e2_var.asm ./temp/main.asm
 	nasm -f bin src/boot/IPL.asm -o build/temp/IPL.bin -l log/IPL.log
 	nasm -f bin src/boot/boot.asm -o build/temp/boot.bin -l log/boot.log
 	nasm -f bin build/temp/main.asm -o build/temp/main.bin -l log/main.log

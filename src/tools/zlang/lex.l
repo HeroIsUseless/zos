@@ -7,8 +7,8 @@
 %}
 %option noyywrap yylineno
 %%
-[a-zA-Z]+ {words++; chars+=strlen(yytext); printf("VAR %s\n", yytext); return VAR;}
-[0-9]+ {yylval.i=12344; printf("INTEGER %s\n", yytext); return INTEGER;}
+[a-zA-Z]+ {yylval.s = strdup(yytext); printf("VAR %s\n", yylval.s); return VAR;}
+[0-9]+ {yylval.s = strdup(yytext); printf("INTEGER %s\n", yylval.s); return INTEGER;}
 [ \t\n] {printf("space\n");}
 . {printf("char %c\n", yytext[0]); return yytext[0];}
 "+" {printf("PLUS\n");}

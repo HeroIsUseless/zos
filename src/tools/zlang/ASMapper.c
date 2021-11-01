@@ -3,27 +3,27 @@
 #include <string.h>
 #include "algo.c"
 
-void tag(const char* var_name, const char* code){
-  strcpy(code_end(code), var_name);
-  strcpy(code_end(code), ":\n");
+void tag(char var_name[], char code[]){
+  code_append(var_name, code);
+  code_append(":\n", code);
 }
 
-void jmp(const char* var_name, const char* code){
-  strcpy(code_end(code), "jmp ");
-  strcpy(code_end(code), var_name);
-  strcpy(code_end(code), "\n");
+void jmp(char var_name[], char code[]){
+  code_append("jmp ", code);
+  code_append(var_name, code);
+  code_append("\n", code);
 }
 
-void db(const char* var_name, const char* val, const char* code){
-  strcpy(code_end(code), var_name);
-  strcpy(code_end(code), " db ");
-  strcpy(code_end(code), val);
-  strcpy(code_end(code), "\n");
+void db(char var_name[], char val[], char code[]){
+  code_append(var_name, code);
+  code_append(" db ", code);
+  code_append(val, code);
+  code_append("\n", code);
 }
 
-void am_define_var(const char* var_name, const char* val, const char* code){
-  tag(var_name, code);
-  db(var_name, val, code);
+void am_define_var(char var_name[], char val[], char code[]){
   jmp(var_name, code);
+  db(var_name, val, code);
+  tag(var_name, code);
 }
 #endif

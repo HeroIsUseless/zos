@@ -9,7 +9,6 @@
     extern int yylineno;
     FILE *out_asm;
     char code[524288] = {0};
-    int ci = 0;
 %}
 %union {
     int i;
@@ -19,15 +18,15 @@
 }
 %left '+' '-'
 %left '*' '/'
-%token <i> NUMBER
-%token <i> INTEGER
+%token <s> NUMBER
+%token <s> INTEGER
 %token ADD SUB MUL DIV ABS
 %token <s> VAR
 %token EOL
 %type <i> exp factor term
 %%
 stmts: /* empty */ {}
-     | stmt {printf("line %d\n", yylineno); code[ci]=ci+'0'; ci++;} stmts
+     | stmt {printf("line %d\n", yylineno);} stmts
      ;
 
 stmt: stmt_def
@@ -36,7 +35,7 @@ stmt: stmt_def
 stmt_def: def_var
         ;
 
-def_var: VAR ':' INTEGER ';' {}
+def_var: VAR ':' INTEGER ';' {am_define_var($1, $3, code);}
        ;
 
 calclist:

@@ -768,12 +768,12 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 10 "../../src/tools/zlang/lex.l"
-{words++; chars+=strlen(yytext); printf("VAR %s\n", yytext); return VAR;}
+{yylval.s = strdup(yytext); printf("VAR %s\n", yylval.s); return VAR;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 11 "../../src/tools/zlang/lex.l"
-{yylval.i=12344; printf("INTEGER %s\n", yytext); return INTEGER;}
+{yylval.s = strdup(yytext); printf("INTEGER %s\n", yylval.s); return INTEGER;}
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */

@@ -1,0 +1,3 @@
+set1byte(val: int, addr: int):(
+  [kernel.z/set1byteMem(val, addr);
+);

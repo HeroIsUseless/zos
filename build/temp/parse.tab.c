@@ -369,7 +369,7 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  11
+#define YYNRULES  12
 /* YYNRULES -- Number of states.  */
 #define YYNSTATES  24
 
@@ -418,7 +418,7 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyprhs[] =
 {
        0,     0,     3,     4,     8,    10,    12,    14,    18,    26,
-      27,    31
+      27,    29,    33
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
@@ -426,15 +426,15 @@ static const yytype_int8 yyrhs[] =
 {
       22,     0,    -1,    -1,    23,    16,    22,    -1,    24,    -1,
       25,    -1,    26,    -1,    14,    17,     8,    -1,    14,    18,
-      27,    19,    17,    18,    19,    -1,    -1,    28,    20,    27,
-      -1,    14,    17,     8,    -1
+      27,    19,    17,    18,    19,    -1,    -1,    28,    -1,    28,
+      20,    27,    -1,    14,    17,     8,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
        0,    28,    28,    29,    32,    35,    36,    39,    42,    44,
-      45,    48
+      45,    46,    49
 };
 #endif
 
@@ -465,14 +465,14 @@ static const yytype_uint16 yytoknum[] =
 static const yytype_uint8 yyr1[] =
 {
        0,    21,    22,    22,    23,    24,    24,    25,    26,    27,
-      27,    28
+      27,    27,    28
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     0,     3,     1,     1,     1,     3,     7,     0,
-       3,     3
+       1,     3,     3
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -481,8 +481,8 @@ static const yytype_uint8 yyr2[] =
 static const yytype_uint8 yydefact[] =
 {
        2,     0,     0,     0,     4,     5,     6,     0,     9,     1,
-       2,     7,     0,     0,     0,     3,     0,     0,     9,    11,
-       0,    10,     0,     8
+       2,     7,     0,     0,    10,     3,     0,     0,     9,    12,
+       0,    11,     0,     8
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -1359,9 +1359,9 @@ yyreduce:
     {am_def_fun((yyvsp[(1) - (7)].s));;}
     break;
 
-  case 11:
-#line 48 "../../src/tools/zlang/parse.y"
-    {am_def_param((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s));;}
+  case 12:
+#line 49 "../../src/tools/zlang/parse.y"
+    {am_def_param((yyvsp[(1) - (3)].s));;}
     break;
 
 
@@ -1580,7 +1580,7 @@ yyreturn:
 }
 
 
-#line 69 "../../src/tools/zlang/parse.y"
+#line 70 "../../src/tools/zlang/parse.y"
 
 
 int main(int argc, char **argv){
@@ -1597,8 +1597,8 @@ int main(int argc, char **argv){
         }
     }
     yylineno = 1;
-    strcpy(var_prefix, argv[1]);
-    formatVar_prefix(var_prefix);
+    strcpy(prefix, argv[1]);
+    formatVar_prefix(prefix);
     yyparse();
     printf("\ncode: \n_______________\n%s\n", code);
     fwrite(code, strlen(code), 1, out_asm);

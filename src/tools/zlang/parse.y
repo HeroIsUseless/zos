@@ -7,7 +7,6 @@
     extern FILE* yyin;
     extern int yylineno;
     FILE *out_asm;
-    char code[524288] = {0};
     #include "../../src/tools/zlang/asmapper.c"
 %}
 %union {
@@ -42,10 +41,11 @@ def_var: VAR ':' INTEGER {am_def_var($1, $3);}
 def_fun: VAR '(' def_params ')' ':' '(' ')' {am_def_fun($1);}
 
 def_params: /* empty */
+          | def_param
           | def_param ',' def_params 
           ;
 
-def_param: VAR ':' INTEGER {am_def_param($1, $3);}
+def_param: VAR ':' INTEGER {am_def_param($1);}
          ;
 
 calclist:
@@ -82,8 +82,8 @@ int main(int argc, char **argv){
         }
     }
     yylineno = 1;
-    strcpy(var_prefix, argv[1]);
-    formatVar_prefix(var_prefix);
+    strcpy(prefix[0], argv[1]);
+    prefix_format();
     yyparse();
     printf("\ncode: \n_______________\n%s\n", code);
     fwrite(code, strlen(code), 1, out_asm);

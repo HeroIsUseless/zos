@@ -1,37 +1,37 @@
 #ifndef ASMAPPER_C
 #define ASMAPPER_C
 #include <string.h>
+# include "define.c"
 #include "algo.c"
-char var_prefix[50] = {0};
 // tag
 void tag(char var[]){
-  code_append(var_prefix);
+  code_append(prefix);
   code_append(var);
   code_append(":\n");
 }
 
 void tagNext(char var[]){
-  code_append(var_prefix);
+  code_append(prefix);
   code_append(var);
   code_append("_next:\n");
 }
 // jmp
 void jmp(char var[]){
   code_append("jmp ");
-  code_append(var_prefix);
+  code_append(prefix);
   code_append(var);
   code_append("\n");
 }
 
 void jmpNext(char var[]){
   code_append("jmp ");
-  code_append(var_prefix);
+  code_append(prefix);
   code_append(var);
   code_append("_next\n");
 }
 // data
 void db(char var[], char val[]){
-  code_append(var_prefix);
+  code_append(prefix);
   code_append(var);
   code_append(": db ");
   code_append(val);
@@ -82,18 +82,17 @@ void am_def_var(char var[], char val[]){
 void am_def_fun(char var[]){
   jmpNext(var);
   tag(var);
-  pushEbp();
   popEbp();
+  pushEbp();
   ret();
   tagNext(var);
 }
 
-void am_def_param(char var[], char val[]){
+void am_def_param(char var[]){
   jmpNext(var);
-  db(var, val);
+  db(var, "0");
   tagNext(var);
   popEax();
-  movVal2Eax(val);
   movEax2Var(var);
 }
 

@@ -46,6 +46,14 @@ void popad(){
   code_append("popad\n");
 }
 
+void popEbp(){
+  code_append("pop ebp\n");
+}
+
+void pushEbp(){
+  code_append("push ebp\n");
+}
+
 void ret(){
   code_append("ret\n");
 }
@@ -59,8 +67,8 @@ void am_def_var(char var_name[], char val[]){
 void am_def_fun(char var_name[]){
   jmpNext(var_name);
   tag(var_name);
-  pushad();
-  popad();
+  pushEbp();
+  popEbp();
   ret();
   tagNext(var_name);
 }

@@ -9,6 +9,9 @@ zlang:
 	cd build/temp && bison -d ../../src/tools/zlang/parse.y 
 	cd build/temp && cc lex.yy.c parse.tab.c -ll -o ../zlang
 
+exam:
+	cd build && ./zlang ../example/e3_fun.z ./temp/e3_fun.asm
+
 compile:
 	cd build && ./zlang ../example/e1_var.z ./temp/e1_var.asm
 	cd build && ./zlang ../example/e2_var.z ./temp/e2_var.asm

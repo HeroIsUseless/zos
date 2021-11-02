@@ -2,13 +2,13 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    #include "../../src/tools/zlang/asmapper.c"
     void yyerror(char *s);
     extern int yylex();
     extern FILE* yyin;
     extern int yylineno;
     FILE *out_asm;
     char code[524288] = {0};
+    #include "../../src/tools/zlang/asmapper.c"
 %}
 %union {
     int i;
@@ -26,17 +26,20 @@
 %type <i> exp factor term
 %%
 stmts: /* empty */ {}
-     | stmt stmts
+     | stmt ';' stmts
      ;
 
 stmt: stmt_def
     ;
 
 stmt_def: def_var
+        | def_fun
         ;
 
-def_var: VAR ':' INTEGER ';' {am_define_var($1, $3, code);}
+def_var: VAR ':' INTEGER {am_def_var($1, $3);}
        ;
+
+def_fun: VAR '(' ')' ':' '(' ')' {am_def_fun($1);}
 
 calclist:
         | calclist exp EOL {printf(" = %d\n", $2);}

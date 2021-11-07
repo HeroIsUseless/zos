@@ -66,7 +66,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 13 "../../src/tools/zlang/parse.y"
+#line 12 "../../src/tools/zlang/parse.y"
 {
     int i;
     char* s;

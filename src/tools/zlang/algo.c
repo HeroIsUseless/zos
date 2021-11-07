@@ -30,4 +30,9 @@ void prefix_format(char prefix[]){
   prefix[i] = '_';
   prefix[++i] = 0;
 }
+
+void prefix_all(char allPrefix[]){
+
+}
+
 #endif

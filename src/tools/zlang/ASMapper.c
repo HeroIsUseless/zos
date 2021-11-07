@@ -1,7 +1,7 @@
 #ifndef ASMAPPER_C
 #define ASMAPPER_C
 #include <string.h>
-# include "define.c"
+#include "define.c"
 #include "algo.c"
 // tag
 void tag(char var[]){

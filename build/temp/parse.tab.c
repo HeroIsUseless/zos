@@ -102,7 +102,6 @@
     extern FILE* yyin;
     extern int yylineno;
     FILE *out_asm;
-    char code[524288] = {0};
     #include "../../src/tools/zlang/asmapper.c"
 
 
@@ -126,7 +125,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 13 "../../src/tools/zlang/parse.y"
+#line 12 "../../src/tools/zlang/parse.y"
 {
     int i;
     char* s;
@@ -134,7 +133,7 @@ typedef union YYSTYPE
     double f;
 }
 /* Line 193 of yacc.c.  */
-#line 138 "parse.tab.c"
+#line 137 "parse.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -147,7 +146,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 151 "parse.tab.c"
+#line 150 "parse.tab.c"
 
 #ifdef short
 # undef short
@@ -433,8 +432,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    28,    28,    29,    32,    35,    36,    39,    42,    44,
-      45,    46,    49
+       0,    27,    27,    28,    31,    34,    35,    38,    41,    43,
+      44,    45,    48
 };
 #endif
 
@@ -1345,28 +1344,28 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 28 "../../src/tools/zlang/parse.y"
+#line 27 "../../src/tools/zlang/parse.y"
     {;}
     break;
 
   case 7:
-#line 39 "../../src/tools/zlang/parse.y"
+#line 38 "../../src/tools/zlang/parse.y"
     {am_def_var((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s));;}
     break;
 
   case 8:
-#line 42 "../../src/tools/zlang/parse.y"
+#line 41 "../../src/tools/zlang/parse.y"
     {am_def_fun((yyvsp[(1) - (7)].s));;}
     break;
 
   case 12:
-#line 49 "../../src/tools/zlang/parse.y"
+#line 48 "../../src/tools/zlang/parse.y"
     {am_def_param((yyvsp[(1) - (3)].s));;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1370 "parse.tab.c"
+#line 1369 "parse.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1580,7 +1579,7 @@ yyreturn:
 }
 
 
-#line 70 "../../src/tools/zlang/parse.y"
+#line 69 "../../src/tools/zlang/parse.y"
 
 
 int main(int argc, char **argv){
@@ -1597,8 +1596,8 @@ int main(int argc, char **argv){
         }
     }
     yylineno = 1;
-    strcpy(prefix, argv[1]);
-    formatVar_prefix(prefix);
+    strcpy(prefix[0], argv[1]);
+    prefix_format();
     yyparse();
     printf("\ncode: \n_______________\n%s\n", code);
     fwrite(code, strlen(code), 1, out_asm);

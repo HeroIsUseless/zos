@@ -97,11 +97,11 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    extern FILE* yyin;
+    FILE *out_asm;
     void yyerror(char *s);
     extern int yylex();
-    extern FILE* yyin;
     extern int yylineno;
-    FILE *out_asm;
     #include "../../src/tools/zlang/asmapper.c"
 
 
@@ -1355,12 +1355,12 @@ yyreduce:
 
   case 8:
 #line 41 "../../src/tools/zlang/parse.y"
-    {am_def_fun((yyvsp[(1) - (7)].s));;}
+    {/*am_def_fun($1);*/;}
     break;
 
   case 12:
 #line 48 "../../src/tools/zlang/parse.y"
-    {am_def_param((yyvsp[(1) - (3)].s));;}
+    {/*am_def_param($1);*/;}
     break;
 
 
@@ -1581,31 +1581,39 @@ yyreturn:
 
 #line 69 "../../src/tools/zlang/parse.y"
 
-
+int open(int argc, char **argv);
 int main(int argc, char **argv){
-    if(argc > 1){
-        if(!(yyin = fopen(argv[1], "r"))){
-            yyin = stdin;
-            printf("[error] infile open failed\n");
-        }
-        else {
-            if(!(out_asm = fopen(argv[2], "w"))){
-                printf("[error] outfile open failed\n");
-                return 1;
-            }
-        }
-    }
-    yylineno = 1;
+    if(!open(argc, argv)) return 1;
     strcpy(prefix[0], argv[1]);
     prefix_format();
+    yylineno = 1;
     yyparse();
-    printf("\ncode: \n_______________\n%s\n", code);
+    printf("[success]code:\n%s\n", code);
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);
     return 0;
 }
 
 void yyerror(char *s){
-    fprintf(stderr, "error: %s\n", s);
+    fprintf(stderr, "[error]line %d: %s\n", yylineno, s);
+}
+
+int open(int argc, char **argv){
+    if(argc > 1){
+        if(!(yyin = fopen(argv[1], "r"))){
+            printf("[error] infile open failed\n");
+            return 0;
+        }
+        else {
+            if(!(out_asm = fopen(argv[2], "w"))){
+                printf("[error] outfile open failed\n");
+                return 0;
+            }
+        }
+    }
+    else{
+        yyin = stdin;
+    }
+    return 1;
 }
 

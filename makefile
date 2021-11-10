@@ -11,9 +11,15 @@ zlang:
 	make exam
 
 exam:
+	cd build && ./zlang ../example/e1_var.z ./temp/e1_var.asm
+	cd build && ./zlang ../example/e2_var.z ./temp/e2_var.asm
 	cd build && ./zlang ../example/e3_fun.z ./temp/e3_fun.asm
 	cd build && ./zlang ../example/e4_anno.z ./temp/e4_anno.asm
 	cd build && ./zlang ../example/e5_param.z ./temp/e5_param.asm
+
+test:
+	cd src/tools/zlang && gcc test.c -o test 
+	mv src/tools/zlang/test build/test
 
 compile:
 	cd build && ./zlang ../example/e1_var.z ./temp/e1_var.asm

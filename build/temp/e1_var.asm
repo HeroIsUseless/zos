@@ -1,6 +1,6 @@
-jmp e1_var_z_a_next
-e1_var_z_a: db 9527
-e1_var_z_a_next:
-jmp e1_var_z_b_next
-e1_var_z_b: db 1234
-e1_var_z_b_next:
+jmp __/example/e1_var_za_next
+__/example/e1_var_za: db 9527
+__/example/e1_var_za_next:
+jmp __/example/e1_var_zb_next
+__/example/e1_var_zb: db 1234
+__/example/e1_var_zb_next:

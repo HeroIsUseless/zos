@@ -38,14 +38,14 @@ stmt_def: def_var
 def_var: VAR ':' INTEGER {am_def_var($1, $3);}
        ;
 
-def_fun: VAR '(' def_params ')' ':' '(' ')' {/*am_def_fun($1);*/}
+def_fun: VAR {am_def_fun_head($1);} '(' def_params ')' ':' '(' ')' {am_def_fun_tail($1);}
 
 def_params: /* empty */
           | def_param
           | def_param ',' def_params 
           ;
 
-def_param: VAR ':' INTEGER {/*am_def_param($1);*/}
+def_param: VAR ':' INTEGER {am_def_param($1);}
          ;
 
 calclist:

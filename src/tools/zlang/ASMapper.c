@@ -79,13 +79,10 @@ void am_def_var(char var[], char val[]){
   tagNext(var);
 }
 
-void am_def_fun(char var[]){
+void am_def_fun_head(char var[]){
   jmpNext(var);
   tag(var);
   popEbp();
-  pushEbp();
-  ret();
-  tagNext(var);
 }
 
 void am_def_param(char var[]){
@@ -94,6 +91,12 @@ void am_def_param(char var[]){
   tagNext(var);
   popEax();
   movEax2Var(var);
+}
+
+void am_def_fun_tail(char var[]){
+  pushEbp();
+  ret();
+  tagNext(var);
 }
 
 #endif

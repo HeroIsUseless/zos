@@ -33,15 +33,15 @@ ret
 main:
   hlt 
   jmp main
-jmp __/example/e1_var_za_next
-__/example/e1_var_za: db 9527
-__/example/e1_var_za_next:
-jmp __/example/e1_var_zb_next
-__/example/e1_var_zb: db 1234
-__/example/e1_var_zb_next:
-jmp __/example/e2_var_zc_next
-__/example/e2_var_zc: db 9527
-__/example/e2_var_zc_next:
-jmp __/example/e2_var_zd_next
-__/example/e2_var_zd: db 1234
-__/example/e2_var_zd_next:
+jmp e1_var_za_next
+e1_var_za: db 1
+e1_var_za_next:
+jmp e1_var_zb_next
+e1_var_zb: db 2
+e1_var_zb_next:
+jmp e2_var_zc_next
+e2_var_zc: db 3
+e2_var_zc_next:
+jmp e2_var_zd_next
+e2_var_zd: db 4
+e2_var_zd_next:

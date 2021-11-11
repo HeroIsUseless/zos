@@ -20,6 +20,7 @@ exam:
 test:
 	cd src/tools/zlang && gcc test.c -o test 
 	mv src/tools/zlang/test build/test
+	build/test
 
 compile:
 	cd build && ./zlang ../example/e1_var.z ./temp/e1_var.asm

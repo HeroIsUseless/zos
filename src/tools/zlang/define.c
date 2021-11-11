@@ -1,5 +1,9 @@
 #ifndef DEFINE_C
 #define DEFINE_C
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #define MAX_NAME 50
 #define MAX_COUNT 100
 #define MAX_COLEN 524288
@@ -28,7 +32,7 @@ void prefix_format(){
   for(i=0; i<prefix_size(); i++){
     int end = strlen(prefix[i]);
     int begin = end;
-    while(begin>-1 && prefix[begin]!='/'){
+    while(begin>-1 && prefix[i][begin]!='/'){
       begin --;
     }
     begin++;

@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "define.c"
+#include "define.c"
 
 void test_prefix(){
-  printf("test code\n");
+  strcpy(prefix[0], "./build/demo.z");
+  prefix_format();
+  printf("test code:___________\n%s\n_____________________\n", prefix[0]);
 }
 
 int main(){

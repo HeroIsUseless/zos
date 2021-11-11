@@ -1,0 +1,47 @@
+     1                                  [bits 32]
+     2                                  ORG 0x280000
+     3 00000000 EB16                    jmp main
+     4                                  
+     5                                  ; 读写内存
+     6                                  ; kernel.z/set1byteMem(val:int, addr:int)
+     7                                  kernel_z_set1byteMem:
+     8 00000002 5D                        pop ebp
+     9 00000003 5B                        pop ebx
+    10 00000004 58                        pop eax
+    11 00000005 55                        push ebp
+    12 00000006 8803                      mov [ebx], al
+    13 00000008 C3                      ret
+    14                                  
+    15                                  ; kernel.z/set2byteMem(val:int, addr:int)
+    16                                  kernel_z_set2byteMem:
+    17 00000009 5D                        pop ebp
+    18 0000000A 5B                        pop ebx
+    19 0000000B 58                        pop eax
+    20 0000000C 55                        push ebp
+    21 0000000D 668903                    mov [ebx], ax
+    22 00000010 C3                      ret
+    23                                  
+    24                                  ; kernel.z/set4byteMem(val:int, addr:int)
+    25                                  kernel_z_set4byteMem:
+    26 00000011 5D                        pop ebp
+    27 00000012 5B                        pop ebx
+    28 00000013 58                        pop eax
+    29 00000014 55                        push ebp
+    30 00000015 8903                      mov [ebx], eax
+    31 00000017 C3                      ret
+    32                                  
+    33                                  main:
+    34 00000018 F4                        hlt 
+    35 00000019 EBFD                      jmp main
+    36 0000001B EB01                    jmp e1_var_za_next
+    37 0000001D 01                      e1_var_za: db 1
+    38                                  e1_var_za_next:
+    39 0000001E EB01                    jmp e1_var_zb_next
+    40 00000020 02                      e1_var_zb: db 2
+    41                                  e1_var_zb_next:
+    42 00000021 EB01                    jmp e2_var_zc_next
+    43 00000023 03                      e2_var_zc: db 3
+    44                                  e2_var_zc_next:
+    45 00000024 EB01                    jmp e2_var_zd_next
+    46 00000026 04                      e2_var_zd: db 4
+    47                                  e2_var_zd_next:

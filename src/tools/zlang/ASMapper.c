@@ -5,33 +5,33 @@
 #include "algo.c"
 // tag
 void tag(char var[]){
-  code_append(prefix);
+  code_appendPrefix();
   code_append(var);
   code_append(":\n");
 }
 
 void tagNext(char var[]){
-  code_append(prefix);
+  code_appendPrefix();
   code_append(var);
-  code_append("_next:\n");
+  code_append("$next:\n");
 }
 // jmp
 void jmp(char var[]){
   code_append("jmp ");
-  code_append(prefix);
+  code_appendPrefix();
   code_append(var);
   code_append("\n");
 }
 
 void jmpNext(char var[]){
   code_append("jmp ");
-  code_append(prefix);
+  code_appendPrefix();
   code_append(var);
-  code_append("_next\n");
+  code_append("$next\n");
 }
 // data
 void db(char var[], char val[]){
-  code_append(prefix);
+  code_appendPrefix();
   code_append(var);
   code_append(": db ");
   code_append(val);
@@ -65,6 +65,7 @@ void movVal2Eax(char val[]){
 
 void movEax2Var(char var[]){
   code_append("mov [");
+  code_appendPrefix();
   code_append(var);
   code_append("], eax\n");
 }

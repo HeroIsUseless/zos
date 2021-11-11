@@ -33,15 +33,15 @@
     33                                  main:
     34 00000018 F4                        hlt 
     35 00000019 EBFD                      jmp main
-    36 0000001B EB01                    jmp e1_var_za_next
-    37 0000001D 01                      e1_var_za: db 1
-    38                                  e1_var_za_next:
-    39 0000001E EB01                    jmp e1_var_zb_next
-    40 00000020 02                      e1_var_zb: db 2
-    41                                  e1_var_zb_next:
-    42 00000021 EB01                    jmp e2_var_zc_next
-    43 00000023 03                      e2_var_zc: db 3
-    44                                  e2_var_zc_next:
-    45 00000024 EB01                    jmp e2_var_zd_next
-    46 00000026 04                      e2_var_zd: db 4
-    47                                  e2_var_zd_next:
+    36 0000001B EB01                    jmp e1_var_z@a$next
+    37 0000001D 01                      e1_var_z@a: db 1
+    38                                  e1_var_z@a$next:
+    39 0000001E EB01                    jmp e1_var_z@b$next
+    40 00000020 02                      e1_var_z@b: db 2
+    41                                  e1_var_z@b$next:
+    42 00000021 EB01                    jmp e2_var_z@c$next
+    43 00000023 03                      e2_var_z@c: db 3
+    44                                  e2_var_z@c$next:
+    45 00000024 EB01                    jmp e2_var_z@d$next
+    46 00000026 04                      e2_var_z@d: db 4
+    47                                  e2_var_z@d$next:

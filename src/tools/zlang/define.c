@@ -8,14 +8,6 @@
 #define MAX_COUNT 100
 #define MAX_COLEN 524288
 char prefix[MAX_COUNT][MAX_NAME] = {0};
-char code[524288] = {0};
-void code_append(char code_part[]){
-  char* code_end = code + strlen(code);
-  int i;
-  for(i=0; i<strlen(code_part); i++){
-    code_end[i] = code_part[i];
-  }
-}
 
 int prefix_size(){
   int i;
@@ -51,7 +43,32 @@ void prefix_format(){
 }
 
 void prefix_all(char allPrefix[]){
+  int i, size = prefix_size();
+  for(i=0; i<size; i++){
+    strcpy(allPrefix+strlen(allPrefix), prefix[i]);
+    strcpy(allPrefix+strlen(allPrefix), "@");
+  }
+}
 
+void prefix_push(char var[]){
+  int size = prefix_size();
+  strcpy(prefix[size], var);
+}
+
+void prefix_pop(){
+  int size = prefix_size();
+  strcpy(prefix[size-1], "");
+}
+
+char code[MAX_COLEN] = {0};
+void code_append(char code_part[]){
+  strcpy(code+strlen(code), code_part);
+}
+
+void code_appendPrefix(){
+  char allPrefix[MAX_COUNT*MAX_NAME] = {0};
+  prefix_all(allPrefix);
+  code_append(allPrefix);
 }
 
 #endif

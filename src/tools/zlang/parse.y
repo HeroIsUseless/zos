@@ -38,7 +38,7 @@ stmt_def: def_var
 def_var: VAR ':' INTEGER {am_def_var($1, $3);}
        ;
 
-def_fun: VAR {am_def_fun_head($1);} '(' def_params ')' ':' '(' ')' {am_def_fun_tail($1);}
+def_fun: VAR {am_def_fun_head($1); prefix_push($1);} '(' def_params ')' ':' '(' ')' {prefix_pop(); am_def_fun_tail($1);}
 
 def_params: /* empty */
           | def_param

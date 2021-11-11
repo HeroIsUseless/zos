@@ -1,6 +1,6 @@
-jmp e1_var_za_next
-e1_var_za: db 1
-e1_var_za_next:
-jmp e1_var_zb_next
-e1_var_zb: db 2
-e1_var_zb_next:
+jmp e1_var_z@a$next
+e1_var_z@a: db 1
+e1_var_z@a$next:
+jmp e1_var_z@b$next
+e1_var_z@b: db 2
+e1_var_z@b$next:

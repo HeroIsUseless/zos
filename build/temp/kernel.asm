@@ -33,15 +33,15 @@ ret
 main:
   hlt 
   jmp main
-jmp e1_var_za_next
-e1_var_za: db 1
-e1_var_za_next:
-jmp e1_var_zb_next
-e1_var_zb: db 2
-e1_var_zb_next:
-jmp e2_var_zc_next
-e2_var_zc: db 3
-e2_var_zc_next:
-jmp e2_var_zd_next
-e2_var_zd: db 4
-e2_var_zd_next:
+jmp e1_var_z@a$next
+e1_var_z@a: db 1
+e1_var_z@a$next:
+jmp e1_var_z@b$next
+e1_var_z@b: db 2
+e1_var_z@b$next:
+jmp e2_var_z@c$next
+e2_var_z@c: db 3
+e2_var_z@c$next:
+jmp e2_var_z@d$next
+e2_var_z@d: db 4
+e2_var_z@d$next:

@@ -1355,12 +1355,12 @@ yyreduce:
 
   case 8:
 #line 41 "../../src/tools/zlang/parse.y"
-    {am_def_fun_head((yyvsp[(1) - (1)].s));;}
+    {am_def_fun_head((yyvsp[(1) - (1)].s)); prefix_push((yyvsp[(1) - (1)].s));;}
     break;
 
   case 9:
 #line 41 "../../src/tools/zlang/parse.y"
-    {am_def_fun_tail((yyvsp[(1) - (8)].s));;}
+    {prefix_pop(); am_def_fun_tail((yyvsp[(1) - (8)].s));;}
     break;
 
   case 13:

@@ -22,13 +22,12 @@
 %token ADD SUB MUL DIV ABS
 %token <s> VAR
 %token EOL
-%type <i> exp factor term
 %%
 stmts: /* empty */ {}
-     | stmt ';' stmts
+     | stmt ';' stmts {printf("[line]%d:\n", yylineno);}
      ;
 
-stmt: stmt_def
+stmt: stmt_def 
     | stmt_exec
     ;
 
@@ -49,24 +48,22 @@ def_params: /* empty */
 def_param: VAR ':' INTEGER {am_def_param($1);}
          ;
 
-stmt_exec: VAR '<' '=' exp
-         ; 
+stmt_exec: VAR '<' '=' exp {am_assign($1);}
+         ;
 
 exp: factor 
-   | exp '+' factor {$$ = $1 + $3;}
-   | exp '-' factor {$$ = $1 - $3;}
-   | exp '*' factor {$$ = $1 * $3;}
-   | exp '/' factor {$$ = $1 / $3;}
+   | exp '+' factor
+   | exp '-' factor
    ;
 
 factor: term 
-      | factor '*' term {$$ = $1 * $3;}
-      | factor '/' term {$$ = $1 / $3;}
-      | '(' exp ')' {$$ = $2;}
+      | factor '*' term
+      | factor '/' term 
+      | '(' exp ')'
       ;
 
 term: INTEGER 
-    | '-' term {$$ = $2 >= 0? $2 : - $2;}
+    | '-' term
     ;
 %%
 int open(int argc, char **argv);

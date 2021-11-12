@@ -100,4 +100,9 @@ void am_def_fun_tail(char var[]){
   tagNext(var);
 }
 
+void am_assign(char var[]){
+  popEax();
+  movEax2Var(var);
+}
+
 #endif

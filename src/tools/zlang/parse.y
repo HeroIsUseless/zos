@@ -29,6 +29,7 @@ stmts: /* empty */ {}
      ;
 
 stmt: stmt_def
+    | stmt_exec
     ;
 
 stmt_def: def_var
@@ -48,23 +49,24 @@ def_params: /* empty */
 def_param: VAR ':' INTEGER {am_def_param($1);}
          ;
 
-calclist:
-        | calclist exp EOL {printf(" = %d\n", $2);}
-        ;
+stmt_exec: VAR '<' '=' exp
+         ; 
 
 exp: factor 
-   | exp ADD factor {$$ = $1 + $3;}
-   | exp SUB factor {$$ = $1 - $3;}
+   | exp '+' factor {$$ = $1 + $3;}
+   | exp '-' factor {$$ = $1 - $3;}
+   | exp '*' factor {$$ = $1 * $3;}
+   | exp '/' factor {$$ = $1 / $3;}
    ;
 
 factor: term 
-      | factor MUL term {$$ = $1 * $3;}
-      | factor DIV term {$$ = $1 / $3;}
+      | factor '*' term {$$ = $1 * $3;}
+      | factor '/' term {$$ = $1 / $3;}
       | '(' exp ')' {$$ = $2;}
       ;
 
-term: NUMBER 
-    | ABS term {$$ = $2 >= 0? $2 : - $2;}
+term: INTEGER 
+    | '-' term {$$ = $2 >= 0? $2 : - $2;}
     ;
 %%
 int open(int argc, char **argv);

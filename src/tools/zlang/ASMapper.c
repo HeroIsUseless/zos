@@ -56,6 +56,12 @@ void pushEbp(){
 void popEax(){
   code_append("pop eax\n");
 }
+void pushEax(){
+  code_append("push eax\n");
+}
+void popEbx(){
+  code_append("pop ebx\n");
+}
 // register
 void movVal2Eax(char val[]){
   code_append("mov eax, ");
@@ -68,6 +74,16 @@ void movEax2Var(char var[]){
   code_appendPrefix();
   code_append(var);
   code_append("], eax\n");
+}
+// operator
+void addEbx2Eax(){
+  code_append("add eax, ebx\n");
+}
+void subEbx2Eax(){
+  code_append("sub eax, ebx\n");
+}
+void mulEbx2Eax(){
+  code_append("mul ebx\n");
 }
 // func
 void ret(){
@@ -103,6 +119,32 @@ void am_def_fun_tail(char var[]){
 void am_assign(char var[]){
   popEax();
   movEax2Var(var);
+}
+
+void am_push(char val[]){
+  movVal2Eax(val);
+  pushEax();
+}
+
+void am_exp_add(){
+  popEax();
+  popEbx();
+  addEbx2Eax();
+  pushEax();
+}
+
+void am_exp_sub(){
+  popEax();
+  popEbx();
+  subEbx2Eax();
+  pushEax();
+}
+
+void am_exp_mul(){
+  popEax();
+  popEbx();
+  mulEbx2Eax();
+  pushEax();
 }
 
 #endif

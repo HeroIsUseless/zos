@@ -437,9 +437,9 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    26,    26,    27,    30,    31,    34,    35,    38,    41,
-      41,    43,    44,    45,    48,    51,    54,    55,    56,    59,
-      60,    61,    62,    65,    66
+       0,    27,    27,    28,    31,    32,    35,    36,    39,    42,
+      42,    44,    45,    46,    49,    52,    55,    56,    57,    60,
+      61,    62,    63,    66,    67
 };
 #endif
 
@@ -1365,43 +1365,63 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 26 "../../src/tools/zlang/parse.y"
+#line 27 "../../src/tools/zlang/parse.y"
     {;}
     break;
 
   case 3:
-#line 27 "../../src/tools/zlang/parse.y"
+#line 28 "../../src/tools/zlang/parse.y"
     {printf("[line]%d:\n", yylineno);;}
     break;
 
   case 8:
-#line 38 "../../src/tools/zlang/parse.y"
+#line 39 "../../src/tools/zlang/parse.y"
     {am_def_var((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s));;}
     break;
 
   case 9:
-#line 41 "../../src/tools/zlang/parse.y"
+#line 42 "../../src/tools/zlang/parse.y"
     {am_def_fun_head((yyvsp[(1) - (1)].s)); prefix_push((yyvsp[(1) - (1)].s));;}
     break;
 
   case 10:
-#line 41 "../../src/tools/zlang/parse.y"
+#line 42 "../../src/tools/zlang/parse.y"
     {prefix_pop(); am_def_fun_tail((yyvsp[(1) - (8)].s));;}
     break;
 
   case 14:
-#line 48 "../../src/tools/zlang/parse.y"
+#line 49 "../../src/tools/zlang/parse.y"
     {am_def_param((yyvsp[(1) - (3)].s));;}
     break;
 
   case 15:
-#line 51 "../../src/tools/zlang/parse.y"
+#line 52 "../../src/tools/zlang/parse.y"
     {am_assign((yyvsp[(1) - (4)].s));;}
+    break;
+
+  case 17:
+#line 56 "../../src/tools/zlang/parse.y"
+    {am_exp_add();;}
+    break;
+
+  case 18:
+#line 57 "../../src/tools/zlang/parse.y"
+    {am_exp_sub();;}
+    break;
+
+  case 20:
+#line 61 "../../src/tools/zlang/parse.y"
+    {am_exp_mul();;}
+    break;
+
+  case 23:
+#line 66 "../../src/tools/zlang/parse.y"
+    {am_push((yyvsp[(1) - (1)].s));;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1405 "parse.tab.c"
+#line 1425 "parse.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1615,7 +1635,7 @@ yyreturn:
 }
 
 
-#line 68 "../../src/tools/zlang/parse.y"
+#line 69 "../../src/tools/zlang/parse.y"
 
 int open(int argc, char **argv);
 int main(int argc, char **argv){

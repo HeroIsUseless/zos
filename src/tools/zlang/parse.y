@@ -22,6 +22,7 @@
 %token ADD SUB MUL DIV ABS
 %token <s> VAR
 %token EOL
+
 %%
 stmts: /* empty */ {}
      | stmt ';' stmts {printf("[line]%d:\n", yylineno);}
@@ -52,17 +53,17 @@ stmt_exec: VAR '<' '=' exp {am_assign($1);}
          ;
 
 exp: factor 
-   | exp '+' factor
-   | exp '-' factor
+   | exp '+' factor {am_exp_add();}
+   | exp '-' factor {am_exp_sub();}
    ;
 
 factor: term 
-      | factor '*' term
+      | factor '*' term {am_exp_mul();}
       | factor '/' term 
       | '(' exp ')'
       ;
 
-term: INTEGER 
+term: INTEGER {am_push($1);}
     | '-' term
     ;
 %%

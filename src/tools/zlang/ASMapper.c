@@ -89,6 +89,10 @@ void mulEbx2Eax(){
 void ret(){
   code_append("ret\n");
 }
+void exec_func(char var[]){
+  code_append("call ");
+  
+}
 // out
 void am_def_var(char var[], char val[]){
   jmpNext(var);
@@ -145,6 +149,10 @@ void am_exp_mul(){
   popEbx();
   mulEbx2Eax();
   pushEax();
+}
+
+void am_exec_func(char var[]){
+
 }
 
 #endif

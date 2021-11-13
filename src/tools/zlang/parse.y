@@ -50,6 +50,7 @@ def_param: VAR ':' INTEGER {am_def_param($1);}
          ;
 
 stmt_exec: VAR '<' '=' exp {am_assign($1);}
+         | VAR '(' ')' {am_exec_func($1);}
          ;
 
 exp: factor 

@@ -33,12 +33,6 @@ void prefix_format(){
       prefix[i][j] = prefix[i][j+begin];
     }
     prefix[i][j] = 0;
-    end = strlen(prefix[i]);
-    for(j=0; j<end; j++){
-      if(prefix[i][j] == '.'){
-        prefix[i][j] = '_';
-      }
-    }
   }
 }
 
@@ -62,7 +56,15 @@ void prefix_pop(){
 
 char code[MAX_COLEN] = {0};
 void code_append(char code_part[]){
-  strcpy(code+strlen(code), code_part);
+  char code_part_format[MAX_COLEN] = {0};
+  strcpy(code_part_format, code_part);
+  int i = 0;
+  for(i=0; i<strlen(code_part_format); i++){
+    if(code_part_format[i] == '.' || code_part_format[i] == '\\'){
+      code_part_format[i] = '_';
+    }
+  }
+  strcpy(code+strlen(code), code_part_format);
 }
 
 void code_appendPrefix(){

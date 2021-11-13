@@ -1,0 +1,565 @@
+Terminals which are not used
+
+   NUMBER
+   ADD
+   SUB
+   MUL
+   DIV
+   ABS
+   EOL
+
+
+Rules never reduced
+
+   10 @1: /* empty */
+
+
+State 3 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: stmts $end
+
+    1 stmts: /* empty */
+    2      | stmt ';' stmts
+
+    3 stmt: def
+    4     | exec
+    5     | exp
+    6     | '(' stmts ')'
+
+    7 def: def_var
+    8    | def_fun
+
+    9 def_var: VAR ':' INTEGER
+
+   10 @1: /* empty */
+
+   11 def_fun: VAR @1 '(' def_params ')' ':' '(' ')'
+
+   12 def_params: /* empty */
+   13           | def_param
+   14           | def_param ',' def_params
+
+   15 def_param: VAR ':' INTEGER
+
+   16 exec: VAR '<' '=' exp
+   17     | VAR '(' ')'
+
+   18 exp: factor
+   19    | exp '+' factor
+   20    | exp '-' factor
+
+   21 factor: term
+   22       | factor '*' term
+   23       | factor '/' term
+
+   24 term: INTEGER
+   25     | '-' term
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 6 11 17
+')' (41) 6 11 17
+'*' (42) 22
+'+' (43) 19
+',' (44) 14
+'-' (45) 20 25
+'/' (47) 23
+':' (58) 9 11 15
+';' (59) 2
+'<' (60) 16
+'=' (61) 16
+error (256)
+NUMBER (258)
+INTEGER (259) 9 15 24
+ADD (260)
+SUB (261)
+MUL (262)
+DIV (263)
+ABS (264)
+VAR (265) 9 11 15 16 17
+EOL (266)
+
+
+Nonterminals, with rules where they appear
+
+$accept (23)
+    on left: 0
+stmts (24)
+    on left: 1 2, on right: 0 2 6
+stmt (25)
+    on left: 3 4 5 6, on right: 2
+def (26)
+    on left: 7 8, on right: 3
+def_var (27)
+    on left: 9, on right: 7
+def_fun (28)
+    on left: 11, on right: 8
+@1 (29)
+    on left: 10, on right: 11
+def_params (30)
+    on left: 12 13 14, on right: 11 14
+def_param (31)
+    on left: 15, on right: 13 14
+exec (32)
+    on left: 16 17, on right: 4
+exp (33)
+    on left: 18 19 20, on right: 5 16 19 20
+factor (34)
+    on left: 21 22 23, on right: 18 19 20 22 23
+term (35)
+    on left: 24 25, on right: 21 22 23 25
+
+
+state 0
+
+    0 $accept: . stmts $end
+
+    '-'      shift, and go to state 1
+    INTEGER  shift, and go to state 2
+    VAR      shift, and go to state 3
+    '('      shift, and go to state 4
+
+    $default  reduce using rule 1 (stmts)
+
+    stmts    go to state 5
+    stmt     go to state 6
+    def      go to state 7
+    def_var  go to state 8
+    def_fun  go to state 9
+    exec     go to state 10
+    exp      go to state 11
+    factor   go to state 12
+    term     go to state 13
+
+
+state 1
+
+   25 term: '-' . term
+
+    '-'      shift, and go to state 1
+    INTEGER  shift, and go to state 2
+
+    term  go to state 14
+
+
+state 2
+
+   24 term: INTEGER .
+
+    $default  reduce using rule 24 (term)
+
+
+state 3
+
+    9 def_var: VAR . ':' INTEGER
+   11 def_fun: VAR . @1 '(' def_params ')' ':' '(' ')'
+   16 exec: VAR . '<' '=' exp
+   17     | VAR . '(' ')'
+
+    '('  shift, and go to state 15
+    ':'  shift, and go to state 16
+    '<'  shift, and go to state 17
+
+    '('  [reduce using rule 10 (@1)]
+
+    @1  go to state 18
+
+
+state 4
+
+    6 stmt: '(' . stmts ')'
+
+    '-'      shift, and go to state 1
+    INTEGER  shift, and go to state 2
+    VAR      shift, and go to state 3
+    '('      shift, and go to state 4
+
+    $default  reduce using rule 1 (stmts)
+
+    stmts    go to state 19
+    stmt     go to state 6
+    def      go to state 7
+    def_var  go to state 8
+    def_fun  go to state 9
+    exec     go to state 10
+    exp      go to state 11
+    factor   go to state 12
+    term     go to state 13
+
+
+state 5
+
+    0 $accept: stmts . $end
+
+    $end  shift, and go to state 20
+
+
+state 6
+
+    2 stmts: stmt . ';' stmts
+
+    ';'  shift, and go to state 21
+
+
+state 7
+
+    3 stmt: def .
+
+    $default  reduce using rule 3 (stmt)
+
+
+state 8
+
+    7 def: def_var .
+
+    $default  reduce using rule 7 (def)
+
+
+state 9
+
+    8 def: def_fun .
+
+    $default  reduce using rule 8 (def)
+
+
+state 10
+
+    4 stmt: exec .
+
+    $default  reduce using rule 4 (stmt)
+
+
+state 11
+
+    5 stmt: exp .
+   19 exp: exp . '+' factor
+   20    | exp . '-' factor
+
+    '+'  shift, and go to state 22
+    '-'  shift, and go to state 23
+
+    $default  reduce using rule 5 (stmt)
+
+
+state 12
+
+   18 exp: factor .
+   22 factor: factor . '*' term
+   23       | factor . '/' term
+
+    '*'  shift, and go to state 24
+    '/'  shift, and go to state 25
+
+    $default  reduce using rule 18 (exp)
+
+
+state 13
+
+   21 factor: term .
+
+    $default  reduce using rule 21 (factor)
+
+
+state 14
+
+   25 term: '-' term .
+
+    $default  reduce using rule 25 (term)
+
+
+state 15
+
+   17 exec: VAR '(' . ')'
+
+    ')'  shift, and go to state 26
+
+
+state 16
+
+    9 def_var: VAR ':' . INTEGER
+
+    INTEGER  shift, and go to state 27
+
+
+state 17
+
+   16 exec: VAR '<' . '=' exp
+
+    '='  shift, and go to state 28
+
+
+state 18
+
+   11 def_fun: VAR @1 . '(' def_params ')' ':' '(' ')'
+
+    '('  shift, and go to state 29
+
+
+state 19
+
+    6 stmt: '(' stmts . ')'
+
+    ')'  shift, and go to state 30
+
+
+state 20
+
+    0 $accept: stmts $end .
+
+    $default  accept
+
+
+state 21
+
+    2 stmts: stmt ';' . stmts
+
+    '-'      shift, and go to state 1
+    INTEGER  shift, and go to state 2
+    VAR      shift, and go to state 3
+    '('      shift, and go to state 4
+
+    $default  reduce using rule 1 (stmts)
+
+    stmts    go to state 31
+    stmt     go to state 6
+    def      go to state 7
+    def_var  go to state 8
+    def_fun  go to state 9
+    exec     go to state 10
+    exp      go to state 11
+    factor   go to state 12
+    term     go to state 13
+
+
+state 22
+
+   19 exp: exp '+' . factor
+
+    '-'      shift, and go to state 1
+    INTEGER  shift, and go to state 2
+
+    factor  go to state 32
+    term    go to state 13
+
+
+state 23
+
+   20 exp: exp '-' . factor
+
+    '-'      shift, and go to state 1
+    INTEGER  shift, and go to state 2
+
+    factor  go to state 33
+    term    go to state 13
+
+
+state 24
+
+   22 factor: factor '*' . term
+
+    '-'      shift, and go to state 1
+    INTEGER  shift, and go to state 2
+
+    term  go to state 34
+
+
+state 25
+
+   23 factor: factor '/' . term
+
+    '-'      shift, and go to state 1
+    INTEGER  shift, and go to state 2
+
+    term  go to state 35
+
+
+state 26
+
+   17 exec: VAR '(' ')' .
+
+    $default  reduce using rule 17 (exec)
+
+
+state 27
+
+    9 def_var: VAR ':' INTEGER .
+
+    $default  reduce using rule 9 (def_var)
+
+
+state 28
+
+   16 exec: VAR '<' '=' . exp
+
+    '-'      shift, and go to state 1
+    INTEGER  shift, and go to state 2
+
+    exp     go to state 36
+    factor  go to state 12
+    term    go to state 13
+
+
+state 29
+
+   11 def_fun: VAR @1 '(' . def_params ')' ':' '(' ')'
+
+    VAR  shift, and go to state 37
+
+    $default  reduce using rule 12 (def_params)
+
+    def_params  go to state 38
+    def_param   go to state 39
+
+
+state 30
+
+    6 stmt: '(' stmts ')' .
+
+    $default  reduce using rule 6 (stmt)
+
+
+state 31
+
+    2 stmts: stmt ';' stmts .
+
+    $default  reduce using rule 2 (stmts)
+
+
+state 32
+
+   19 exp: exp '+' factor .
+   22 factor: factor . '*' term
+   23       | factor . '/' term
+
+    '*'  shift, and go to state 24
+    '/'  shift, and go to state 25
+
+    $default  reduce using rule 19 (exp)
+
+
+state 33
+
+   20 exp: exp '-' factor .
+   22 factor: factor . '*' term
+   23       | factor . '/' term
+
+    '*'  shift, and go to state 24
+    '/'  shift, and go to state 25
+
+    $default  reduce using rule 20 (exp)
+
+
+state 34
+
+   22 factor: factor '*' term .
+
+    $default  reduce using rule 22 (factor)
+
+
+state 35
+
+   23 factor: factor '/' term .
+
+    $default  reduce using rule 23 (factor)
+
+
+state 36
+
+   16 exec: VAR '<' '=' exp .
+   19 exp: exp . '+' factor
+   20    | exp . '-' factor
+
+    '+'  shift, and go to state 22
+    '-'  shift, and go to state 23
+
+    $default  reduce using rule 16 (exec)
+
+
+state 37
+
+   15 def_param: VAR . ':' INTEGER
+
+    ':'  shift, and go to state 40
+
+
+state 38
+
+   11 def_fun: VAR @1 '(' def_params . ')' ':' '(' ')'
+
+    ')'  shift, and go to state 41
+
+
+state 39
+
+   13 def_params: def_param .
+   14           | def_param . ',' def_params
+
+    ','  shift, and go to state 42
+
+    $default  reduce using rule 13 (def_params)
+
+
+state 40
+
+   15 def_param: VAR ':' . INTEGER
+
+    INTEGER  shift, and go to state 43
+
+
+state 41
+
+   11 def_fun: VAR @1 '(' def_params ')' . ':' '(' ')'
+
+    ':'  shift, and go to state 44
+
+
+state 42
+
+   14 def_params: def_param ',' . def_params
+
+    VAR  shift, and go to state 37
+
+    $default  reduce using rule 12 (def_params)
+
+    def_params  go to state 45
+    def_param   go to state 39
+
+
+state 43
+
+   15 def_param: VAR ':' INTEGER .
+
+    $default  reduce using rule 15 (def_param)
+
+
+state 44
+
+   11 def_fun: VAR @1 '(' def_params ')' ':' . '(' ')'
+
+    '('  shift, and go to state 46
+
+
+state 45
+
+   14 def_params: def_param ',' def_params .
+
+    $default  reduce using rule 14 (def_params)
+
+
+state 46
+
+   11 def_fun: VAR @1 '(' def_params ')' ':' '(' . ')'
+
+    ')'  shift, and go to state 47
+
+
+state 47
+
+   11 def_fun: VAR @1 '(' def_params ')' ':' '(' ')' .
+
+    $default  reduce using rule 11 (def_fun)

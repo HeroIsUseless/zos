@@ -6,8 +6,9 @@ tools: src/tools/makeImg.c
 
 zlang:
 	cd src/tools/zlang && flex lex.l
-	cd src/tools/zlang && bison -d parse.y
+	cd src/tools/zlang && bison -d parse.y -v
 	cd src/tools/zlang && cc lex.yy.c parse.tab.c -ll -o zlang
+	mv src/tools/zlang/parse.output log
 	mv src/tools/zlang/lex.yy.c build/temp
 	mv src/tools/zlang/parse.tab.* build/temp
 	mv src/tools/zlang/zlang build

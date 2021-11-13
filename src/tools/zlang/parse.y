@@ -22,7 +22,6 @@
 %token ADD SUB MUL DIV ABS
 %token <s> VAR
 %token EOL
-
 %%
 stmts: /* empty */ {}
      | stmt ';' stmts {printf("[line]%d:\n", yylineno);}
@@ -41,18 +40,28 @@ def: def_var
 def_var: VAR ':' INTEGER {am_def_var($1, $3);}
        ;
 
-def_fun: VAR {am_def_fun_head($1); prefix_push($1);} '(' def_params ')' ':' '(' ')' {prefix_pop(); am_def_fun_tail($1);}
+def_fun: VAR params ':' {am_def_fun_head($1); prefix_push($1);} '(' ')' {prefix_pop(); am_def_fun_tail($1);}
 
-def_params: /* empty */
-          | def_param
-          | def_param ',' def_params 
+params: '(' ')'
+      | '(' params_def ')'
+      | '(' params_exec ')'
+      ;
+
+params_def: param_def
+          | param_def ',' params_def
           ;
 
-def_param: VAR ':' INTEGER {am_def_param($1);}
+param_def: VAR ':' INTEGER {am_def_param($1);}
          ;
 
+params_exec: param_exec
+           | param_exec ',' params_exec
+
+param_exec: exp
+          ;
+
 exec: VAR '<' '=' exp {am_assign($1);}
-    | VAR '(' ')' {am_exec_func($1);}
+    | VAR params {am_exec_func($1);}
     ;
 
 exp: factor 
@@ -66,7 +75,6 @@ factor: term
       ;
 
 term: INTEGER {am_push($1);}
-    | '-' term
     ;
 %%
 int open(int argc, char **argv);

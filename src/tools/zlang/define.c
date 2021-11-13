@@ -7,8 +7,9 @@
 #define MAX_NAME 50
 #define MAX_COUNT 100
 #define MAX_COLEN 524288
-char prefix[MAX_COUNT][MAX_NAME] = {0};
 
+//////////////////prefix//////////////////////
+char prefix[MAX_COUNT][MAX_NAME] = {0};
 int prefix_size(){
   int i;
   for(i=MAX_COUNT; i>=0; i--){
@@ -54,6 +55,29 @@ void prefix_pop(){
   strcpy(prefix[size-1], "");
 }
 
+//////////////////params//////////////////////
+char params[MAX_COUNT][MAX_NAME] = {0};
+int params_size(){
+  int i;
+  for(i=MAX_COUNT; i>=0; i--){
+    if(strlen(params[i]) != 0){
+      break;
+    }
+  }
+  return i+1;
+}
+
+void params_push(char var[]){
+  int size = params_size();
+  strcpy(params[size], var);
+}
+
+void params_pop(){
+  int size = params_size();
+  strcpy(params[size-1], "");
+}
+
+///////////////////code////////////////////////////
 char code[MAX_COLEN] = {0};
 void code_append(char code_part[]){
   char code_part_format[MAX_COLEN] = {0};

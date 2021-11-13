@@ -481,8 +481,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "../../src/tools/zlang/lex.l"
-#line 2 "../../src/tools/zlang/lex.l"
+#line 1 "lex.l"
+#line 2 "lex.l"
   #include "parse.tab.h"
   extern YYSTYPE yylval;
 #line 488 "lex.yy.c"
@@ -703,9 +703,9 @@ YY_DECL
 		}
 
 	{
-#line 6 "../../src/tools/zlang/lex.l"
+#line 6 "lex.l"
 
-#line 8 "../../src/tools/zlang/lex.l"
+#line 8 "lex.l"
     /* 注释 */
 
 #line 711 "lex.yy.c"
@@ -778,7 +778,7 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 10 "../../src/tools/zlang/lex.l"
+#line 10 "lex.l"
 {
     printf("annotations: %s\n", yytext);
 }
@@ -786,66 +786,66 @@ YY_RULE_SETUP
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 13 "../../src/tools/zlang/lex.l"
+#line 13 "lex.l"
 {
     printf("annotation: %s\n", yytext);
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 16 "../../src/tools/zlang/lex.l"
+#line 16 "lex.l"
 {yylval.s = strdup(yytext); printf("VAR %s\n", yylval.s); return VAR;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 17 "../../src/tools/zlang/lex.l"
+#line 17 "lex.l"
 {yylval.s = strdup(yytext); printf("INTEGER %s\n", yylval.s); return INTEGER;}
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 18 "../../src/tools/zlang/lex.l"
+#line 18 "lex.l"
 {printf("space\n");}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 19 "../../src/tools/zlang/lex.l"
+#line 19 "lex.l"
 {printf("char %c\n", yytext[0]); return yytext[0];}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 20 "../../src/tools/zlang/lex.l"
+#line 20 "lex.l"
 {printf("PLUS\n");}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 21 "../../src/tools/zlang/lex.l"
+#line 21 "lex.l"
 {printf("MINUS\n");}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 22 "../../src/tools/zlang/lex.l"
+#line 22 "lex.l"
 {printf("TIMES\n");}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 23 "../../src/tools/zlang/lex.l"
+#line 23 "lex.l"
 {printf("DIVIDE\n");}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 24 "../../src/tools/zlang/lex.l"
+#line 24 "lex.l"
 {printf("ABS\n");}
 	YY_BREAK
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 25 "../../src/tools/zlang/lex.l"
+#line 25 "lex.l"
 {}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 26 "../../src/tools/zlang/lex.l"
+#line 26 "lex.l"
 ECHO;
 	YY_BREAK
 #line 851 "lex.yy.c"
@@ -1865,6 +1865,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 26 "../../src/tools/zlang/lex.l"
+#line 26 "lex.l"
 
 

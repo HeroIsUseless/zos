@@ -5,9 +5,12 @@ tools: src/tools/makeImg.c
 	make zlang
 
 zlang:
-	cd build/temp && flex ../../src/tools/zlang/lex.l
-	cd build/temp && bison -d ../../src/tools/zlang/parse.y 
-	cd build/temp && cc lex.yy.c parse.tab.c -ll -o ../zlang
+	cd src/tools/zlang && flex lex.l
+	cd src/tools/zlang && bison -d parse.y
+	cd src/tools/zlang && cc lex.yy.c parse.tab.c -ll -o zlang
+	mv src/tools/zlang/lex.yy.c build/temp
+	mv src/tools/zlang/parse.tab.* build/temp
+	mv src/tools/zlang/zlang build
 	make exam
 
 exam:
@@ -17,6 +20,7 @@ exam:
 	cd build && ./zlang ../example/e4_anno.z ./temp/e4_anno.asm
 	cd build && ./zlang ../example/e5_param.z ./temp/e5_param.asm
 	cd build && ./zlang ../example/e6_assgin.z ./temp/e6_assgin.asm
+	cd build && ./zlang ../example/e7_exec_func.z ./temp/e7_exec_func.asm
 
 test:
 	cd src/tools/zlang && gcc test.c -o test 

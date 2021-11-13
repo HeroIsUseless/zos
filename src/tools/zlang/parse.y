@@ -7,7 +7,7 @@
     void yyerror(char *s);
     extern int yylex();
     extern int yylineno;
-    #include "../../src/tools/zlang/asmapper.c"
+    #include "asmapper.c"
 %}
 %union {
     int i;
@@ -28,13 +28,15 @@ stmts: /* empty */ {}
      | stmt ';' stmts {printf("[line]%d:\n", yylineno);}
      ;
 
-stmt: stmt_def 
-    | stmt_exec
+stmt: def 
+    | exec
+    | exp
+    | '(' stmts ')'
     ;
 
-stmt_def: def_var
-        | def_fun
-        ;
+def: def_var
+   | def_fun
+   ;
 
 def_var: VAR ':' INTEGER {am_def_var($1, $3);}
        ;
@@ -49,9 +51,9 @@ def_params: /* empty */
 def_param: VAR ':' INTEGER {am_def_param($1);}
          ;
 
-stmt_exec: VAR '<' '=' exp {am_assign($1);}
-         | VAR '(' ')' {am_exec_func($1);}
-         ;
+exec: VAR '<' '=' exp {am_assign($1);}
+    | VAR '(' ')' {am_exec_func($1);}
+    ;
 
 exp: factor 
    | exp '+' factor {am_exp_add();}
@@ -61,7 +63,6 @@ exp: factor
 factor: term 
       | factor '*' term {am_exp_mul();}
       | factor '/' term 
-      | '(' exp ')'
       ;
 
 term: INTEGER {am_push($1);}

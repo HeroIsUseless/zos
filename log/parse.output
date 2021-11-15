@@ -56,6 +56,7 @@ Grammar
    28       | factor '/' term
 
    29 term: INTEGER
+   30     | VAR
 
 
 Terminals, with rules where they appear
@@ -80,7 +81,7 @@ SUB (261)
 MUL (262)
 DIV (263)
 ABS (264)
-VAR (265) 9 11 17 21 22
+VAR (265) 9 11 17 21 22 30
 EOL (266)
 
 
@@ -117,7 +118,7 @@ exp (36)
 factor (37)
     on left: 26 27 28, on right: 23 24 25 27 28
 term (38)
-    on left: 29, on right: 26 27 28
+    on left: 29 30, on right: 26 27 28
 
 
 state 0
@@ -154,10 +155,13 @@ state 2
    11 def_fun: VAR . params ':' @1 '(' ')'
    21 exec: VAR . '<' '=' exp
    22     | VAR . params
+   30 term: VAR .
 
     '('  shift, and go to state 13
     ':'  shift, and go to state 14
     '<'  shift, and go to state 15
+
+    $default  reduce using rule 30 (term)
 
     params  go to state 16
 
@@ -339,8 +343,9 @@ state 20
    24 exp: exp '+' . factor
 
     INTEGER  shift, and go to state 1
+    VAR      shift, and go to state 36
 
-    factor  go to state 36
+    factor  go to state 37
     term    go to state 12
 
 
@@ -349,8 +354,9 @@ state 21
    25 exp: exp '-' . factor
 
     INTEGER  shift, and go to state 1
+    VAR      shift, and go to state 36
 
-    factor  go to state 37
+    factor  go to state 38
     term    go to state 12
 
 
@@ -359,8 +365,9 @@ state 22
    27 factor: factor '*' . term
 
     INTEGER  shift, and go to state 1
+    VAR      shift, and go to state 36
 
-    term  go to state 38
+    term  go to state 39
 
 
 state 23
@@ -368,15 +375,19 @@ state 23
    28 factor: factor '/' . term
 
     INTEGER  shift, and go to state 1
+    VAR      shift, and go to state 36
 
-    term  go to state 39
+    term  go to state 40
 
 
 state 24
 
    17 param_def: VAR . ':' INTEGER
+   30 term: VAR .
 
-    ':'  shift, and go to state 40
+    ':'  shift, and go to state 41
+
+    $default  reduce using rule 30 (term)
 
 
 state 25
@@ -390,7 +401,7 @@ state 26
 
    13 params: '(' params_def . ')'
 
-    ')'  shift, and go to state 41
+    ')'  shift, and go to state 42
 
 
 state 27
@@ -398,7 +409,7 @@ state 27
    15 params_def: param_def .
    16           | param_def . ',' params_def
 
-    ','  shift, and go to state 42
+    ','  shift, and go to state 43
 
     $default  reduce using rule 15 (params_def)
 
@@ -407,7 +418,7 @@ state 28
 
    14 params: '(' params_exec . ')'
 
-    ')'  shift, and go to state 43
+    ')'  shift, and go to state 44
 
 
 state 29
@@ -415,7 +426,7 @@ state 29
    18 params_exec: param_exec .
    19            | param_exec . ',' params_exec
 
-    ','  shift, and go to state 44
+    ','  shift, and go to state 45
 
     $default  reduce using rule 18 (params_exec)
 
@@ -444,8 +455,9 @@ state 32
    21 exec: VAR '<' '=' . exp
 
     INTEGER  shift, and go to state 1
+    VAR      shift, and go to state 36
 
-    exp     go to state 45
+    exp     go to state 46
     factor  go to state 11
     term    go to state 12
 
@@ -456,7 +468,7 @@ state 33
 
     $default  reduce using rule 10 (@1)
 
-    @1  go to state 46
+    @1  go to state 47
 
 
 state 34
@@ -475,6 +487,13 @@ state 35
 
 state 36
 
+   30 term: VAR .
+
+    $default  reduce using rule 30 (term)
+
+
+state 37
+
    24 exp: exp '+' factor .
    27 factor: factor . '*' term
    28       | factor . '/' term
@@ -485,7 +504,7 @@ state 36
     $default  reduce using rule 24 (exp)
 
 
-state 37
+state 38
 
    25 exp: exp '-' factor .
    27 factor: factor . '*' term
@@ -497,65 +516,66 @@ state 37
     $default  reduce using rule 25 (exp)
 
 
-state 38
+state 39
 
    27 factor: factor '*' term .
 
     $default  reduce using rule 27 (factor)
 
 
-state 39
+state 40
 
    28 factor: factor '/' term .
 
     $default  reduce using rule 28 (factor)
 
 
-state 40
+state 41
 
    17 param_def: VAR ':' . INTEGER
 
-    INTEGER  shift, and go to state 47
+    INTEGER  shift, and go to state 48
 
 
-state 41
+state 42
 
    13 params: '(' params_def ')' .
 
     $default  reduce using rule 13 (params)
 
 
-state 42
+state 43
 
    16 params_def: param_def ',' . params_def
 
-    VAR  shift, and go to state 24
+    VAR  shift, and go to state 49
 
-    params_def  go to state 48
+    params_def  go to state 50
     param_def   go to state 27
 
 
-state 43
+state 44
 
    14 params: '(' params_exec ')' .
 
     $default  reduce using rule 14 (params)
 
 
-state 44
+state 45
 
    19 params_exec: param_exec ',' . params_exec
 
     INTEGER  shift, and go to state 1
+    VAR      shift, and go to state 36
 
-    params_exec  go to state 49
+    params_exec  go to state 51
     param_exec   go to state 29
     exp          go to state 30
     factor       go to state 11
     term         go to state 12
 
 
-state 45
+state 46
 
    21 exec: VAR '<' '=' exp .
    24 exp: exp . '+' factor
@@ -567,42 +587,49 @@ state 45
     $default  reduce using rule 21 (exec)
 
 
-state 46
+state 47
 
    11 def_fun: VAR params ':' @1 . '(' ')'
 
-    '('  shift, and go to state 50
+    '('  shift, and go to state 52
 
 
-state 47
+state 48
 
    17 param_def: VAR ':' INTEGER .
 
     $default  reduce using rule 17 (param_def)
 
 
-state 48
+state 49
+
+   17 param_def: VAR . ':' INTEGER
+
+    ':'  shift, and go to state 41
+
+
+state 50
 
    16 params_def: param_def ',' params_def .
 
     $default  reduce using rule 16 (params_def)
 
 
-state 49
+state 51
 
    19 params_exec: param_exec ',' params_exec .
 
     $default  reduce using rule 19 (params_exec)
 
 
-state 50
+state 52
 
    11 def_fun: VAR params ':' @1 '(' . ')'
 
-    ')'  shift, and go to state 51
+    ')'  shift, and go to state 53
 
 
-state 51
+state 53
 
    11 def_fun: VAR params ':' @1 '(' ')' .
 

@@ -12,7 +12,10 @@ VARIABLE [a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?[\\[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0
 \[[^\[\n]*\n {
     printf("annotation: %s\n", yytext);
 }
-{VARIABLE} {yylval.s = strdup(yytext); 
+[a-zA-Z] {yylval.s = strdup(yytext); 
+            printf("VAR %s\n", yylval.s); 
+            return VAR;}         
+[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?[\\[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?]* {yylval.s = strdup(yytext); 
             printf("VAR %s\n", yylval.s); 
             return VAR;}
 [0-9]+ {yylval.s = strdup(yytext); printf("INTEGER %s\n", yylval.s); return INTEGER;}

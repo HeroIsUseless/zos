@@ -75,6 +75,7 @@ factor: term
       ;
 
 term: INTEGER {am_push($1);}
+    | VAR
     ;
 %%
 int open(int argc, char **argv);

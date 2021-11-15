@@ -374,8 +374,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 8
-#define YY_END_OF_BUFFER 9
+#define YY_NUM_RULES 9
+#define YY_END_OF_BUFFER 10
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -385,10 +385,10 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[36] =
     {   0,
-        0,    0,    9,    7,    5,    5,    4,    7,    7,    4,
-        0,    0,    3,    3,    0,    2,    1,    0,    0,    3,
-        3,    3,    0,    3,    0,    1,    3,    3,    3,    3,
-        3,    3,    3,    3,    0
+        0,    0,   10,    8,    6,    6,    5,    3,    8,    5,
+        0,    0,    4,    4,    0,    2,    1,    0,    0,    4,
+        4,    4,    0,    4,    0,    1,    4,    4,    4,    4,
+        4,    4,    4,    4,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -467,9 +467,9 @@ static const flex_int16_t yy_chk[69] =
     } ;
 
 /* Table of booleans, true if rule could match eol. */
-static const flex_int32_t yy_rule_can_match_eol[9] =
+static const flex_int32_t yy_rule_can_match_eol[10] =
     {   0,
-1, 1, 0, 0, 1, 1, 0, 0,     };
+1, 1, 0, 0, 0, 1, 1, 0, 0,     };
 
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
@@ -799,36 +799,43 @@ YY_RULE_SETUP
 #line 16 "lex.l"
 {yylval.s = strdup(yytext); 
             printf("VAR %s\n", yylval.s); 
-            return VAR;}
+            return VAR;}         
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 19 "lex.l"
-{yylval.s = strdup(yytext); printf("INTEGER %s\n", yylval.s); return INTEGER;}
+{yylval.s = strdup(yytext); 
+            printf("VAR %s\n", yylval.s); 
+            return VAR;}
 	YY_BREAK
 case 5:
-/* rule 5 can match eol */
 YY_RULE_SETUP
-#line 20 "lex.l"
-{printf("space\n");}
+#line 22 "lex.l"
+{yylval.s = strdup(yytext); printf("INTEGER %s\n", yylval.s); return INTEGER;}
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 21 "lex.l"
-{}
+#line 23 "lex.l"
+{printf("space\n");}
 	YY_BREAK
 case 7:
+/* rule 7 can match eol */
 YY_RULE_SETUP
-#line 22 "lex.l"
-{printf("char %c\n", yytext[0]); return yytext[0];}
+#line 24 "lex.l"
+{}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 23 "lex.l"
+#line 25 "lex.l"
+{printf("char %c\n", yytext[0]); return yytext[0];}
+	YY_BREAK
+case 9:
+YY_RULE_SETUP
+#line 26 "lex.l"
 ECHO;
 	YY_BREAK
-#line 831 "lex.yy.c"
+#line 838 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1845,6 +1852,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 23 "lex.l"
+#line 26 "lex.l"
 
 

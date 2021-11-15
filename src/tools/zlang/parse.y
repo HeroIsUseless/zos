@@ -19,7 +19,7 @@
 %left '*' '/'
 %token <s> NUMBER
 %token <s> INTEGER
-%token ADD SUB MUL DIV ABS
+%token IF
 %token <s> VAR
 %token EOL
 %%
@@ -62,6 +62,8 @@ param_exec: exp
 
 exec: VAR '<' '=' exp {am_assign($1);}
     | VAR params {am_exec_func($1);}
+    | IF '(' exp ',' stmt ',' stmt ')'
+    | IF '(' exp ',' stmt ')'
     ;
 
 exp: factor 

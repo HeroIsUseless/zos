@@ -41,25 +41,17 @@
    enum yytokentype {
      NUMBER = 258,
      INTEGER = 259,
-     ADD = 260,
-     SUB = 261,
-     MUL = 262,
-     DIV = 263,
-     ABS = 264,
-     VAR = 265,
-     EOL = 266
+     IF = 260,
+     VAR = 261,
+     EOL = 262
    };
 #endif
 /* Tokens.  */
 #define NUMBER 258
 #define INTEGER 259
-#define ADD 260
-#define SUB 261
-#define MUL 262
-#define DIV 263
-#define ABS 264
-#define VAR 265
-#define EOL 266
+#define IF 260
+#define VAR 261
+#define EOL 262
 
 
 
@@ -74,7 +66,7 @@ typedef union YYSTYPE
     double f;
 }
 /* Line 1529 of yacc.c.  */
-#line 78 "parse.tab.h"
+#line 70 "parse.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

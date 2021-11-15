@@ -74,8 +74,8 @@ factor: term
       | factor '/' term 
       ;
 
-term: INTEGER {am_push($1);}
-    | VAR
+term: INTEGER {am_pushVal($1);}
+    | VAR {am_pushVar($1);}
     ;
 %%
 int open(int argc, char **argv);

@@ -69,6 +69,13 @@ void movVal2Eax(char val[]){
   code_append("\n");
 }
 
+void movVar2Eax(char var[]){
+  code_append("mov eax, [");
+  code_appendPrefix();
+  code_append(var);
+  code_append("]\n");
+}
+
 void movEax2Var(char var[]){
   code_append("mov [");
   code_appendPrefix();
@@ -135,8 +142,13 @@ void am_assign(char var[]){
   movEax2Var(var);
 }
 
-void am_push(char val[]){
+void am_pushVal(char val[]){
   movVal2Eax(val);
+  pushEax();
+}
+
+void am_pushVar(char var[]){
+  movVar2Eax(var);
   pushEax();
 }
 

@@ -1432,12 +1432,17 @@ yyreduce:
 
   case 30:
 #line 77 "parse.y"
-    {am_push((yyvsp[(1) - (1)].s));;}
+    {am_pushVal((yyvsp[(1) - (1)].s));;}
+    break;
+
+  case 31:
+#line 78 "parse.y"
+    {am_pushVar((yyvsp[(1) - (1)].s));;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1441 "parse.tab.c"
+#line 1446 "parse.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

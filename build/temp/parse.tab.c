@@ -1392,12 +1392,12 @@ yyreduce:
 
   case 11:
 #line 43 "parse.y"
-    {am_def_fun_head((yyvsp[(1) - (3)].s)); prefix_push((yyvsp[(1) - (3)].s));;}
+    {am_def_fun_head((yyvsp[(1) - (3)].s));;}
     break;
 
   case 12:
 #line 43 "parse.y"
-    {prefix_pop(); am_def_fun_tail((yyvsp[(1) - (6)].s));;}
+    {am_def_fun_tail((yyvsp[(1) - (6)].s));;}
     break;
 
   case 18:
@@ -1656,8 +1656,7 @@ yyreturn:
 int open(int argc, char **argv);
 int main(int argc, char **argv){
     if(!open(argc, argv)) return 1;
-    strcpy(prefix[0], argv[1]);
-    prefix_format();
+    prefixes_push(argv[1]);
     yylineno = 1;
     yyparse();
     printf("[success]code:\n%s\n", code);

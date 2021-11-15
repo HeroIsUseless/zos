@@ -9,50 +9,55 @@
 #define MAX_COLEN 524288
 
 //////////////////prefix//////////////////////
-char prefix[MAX_COUNT][MAX_NAME] = {0};
-int prefix_size(){
+char prefixes[MAX_COUNT][MAX_NAME] = {0};
+int prefixes_size(){
   int i;
   for(i=MAX_COUNT; i>=0; i--){
-    if(strlen(prefix[i]) != 0){
+    if(strlen(prefixes[i]) != 0){
       break;
     }
   }
   return i+1;
 }
 
-void prefix_format(){
+void prefix_format(char prefix[]){
+  int end = strlen(prefix);
+  int begin = end;
+  while(begin>-1 && prefix[begin]!='/'){
+    begin --;
+  }
+  begin++;
   int i;
-  for(i=0; i<prefix_size(); i++){
-    int end = strlen(prefix[i]);
-    int begin = end;
-    while(begin>-1 && prefix[i][begin]!='/'){
-      begin --;
-    }
-    begin++;
-    int j;
-    for(j=0; j<end-begin; j++){
-      prefix[i][j] = prefix[i][j+begin];
-    }
-    prefix[i][j] = 0;
+  for(i=0; i<end-begin; i++){
+    prefix[i] = prefix[i+begin];
+  }
+  prefix[i] = 0;
+}
+
+void prefixes_format(){
+  int i;
+  for(i=0; i<prefixes_size(); i++){
+    prefix_format(prefixes[i]);
   }
 }
 
-void prefix_all(char allPrefix[]){
-  int i, size = prefix_size();
+void prefixes_all(char allPrefixes[]){
+  int i, size = prefixes_size();
   for(i=0; i<size; i++){
-    strcpy(allPrefix+strlen(allPrefix), prefix[i]);
-    strcpy(allPrefix+strlen(allPrefix), "@");
+    strcpy(allPrefixes+strlen(allPrefixes), prefixes[i]);
+    strcpy(allPrefixes+strlen(allPrefixes), "@");
   }
 }
 
-void prefix_push(char var[]){
-  int size = prefix_size();
-  strcpy(prefix[size], var);
+void prefixes_push(char var[]){
+  int size = prefixes_size();
+  strcpy(prefixes[size], var);
+  prefixes_format();
 }
 
-void prefix_pop(){
-  int size = prefix_size();
-  strcpy(prefix[size-1], "");
+void prefixes_pop(){
+  int size = prefixes_size();
+  strcpy(prefixes[size-1], "");
 }
 
 //////////////////params//////////////////////
@@ -77,6 +82,12 @@ void params_pop(){
   strcpy(params[size-1], "");
 }
 
+void params_clear(){
+  int i;
+  for(i=0; i<prefixes_size(); i++){
+    strcpy(prefixes[i], "");
+  }
+}
 ///////////////////code////////////////////////////
 char code[MAX_COLEN] = {0};
 void code_append(char code_part[]){
@@ -92,9 +103,9 @@ void code_append(char code_part[]){
 }
 
 void code_appendPrefix(){
-  char allPrefix[MAX_COUNT*MAX_NAME] = {0};
-  prefix_all(allPrefix);
-  code_append(allPrefix);
+  char allPrefixes[MAX_COUNT*MAX_NAME] = {0};
+  prefixes_all(allPrefixes);
+  code_append(allPrefixes);
 }
 
 #endif

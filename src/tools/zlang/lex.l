@@ -3,6 +3,7 @@
   extern YYSTYPE yylval;
 %}
 %option noyywrap yylineno
+VARIABLE [a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?[\\[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?]*
 %%
     /* 注释 */
 \[[^\[]*\] {
@@ -11,7 +12,9 @@
 \[[^\[\n]*\n {
     printf("annotation: %s\n", yytext);
 }
-[a-zA-Z]+ {yylval.s = strdup(yytext); printf("VAR %s\n", yylval.s); return VAR;}
+{VARIABLE} {yylval.s = strdup(yytext); 
+            printf("VAR %s\n", yylval.s); 
+            return VAR;}
 [0-9]+ {yylval.s = strdup(yytext); printf("INTEGER %s\n", yylval.s); return INTEGER;}
 [ \t\n] {printf("space\n");}
 \n {}

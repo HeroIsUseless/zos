@@ -89,9 +89,10 @@ void mulEbx2Eax(){
 void ret(){
   code_append("ret\n");
 }
-void exec_func(char var[]){
+void exec_func(char prefixes_var[]){
   code_append("call ");
-  
+  code_append(prefixes_var);
+  code_append("\n");
 }
 // out
 void am_def_var(char var[], char val[]){
@@ -103,20 +104,29 @@ void am_def_var(char var[], char val[]){
 void am_def_fun_head(char var[]){
   jmpNext(var);
   tag(var);
+  prefixes_push(var);
+  int i;
+  for(i=0; i<params_size(); i++){
+    jmpNext(params[i]);
+    db(params[i], "0");
+    tagNext(params[i]);
+  }
   popEbp();
+  for(i=0; i<params_size(); i++){
+    popEax();
+    movEax2Var(params[i]);
+  }
 }
 
 void am_def_param(char var[]){
-  jmpNext(var);
-  db(var, "0");
-  tagNext(var);
-  popEax();
-  movEax2Var(var);
+  params_push(var);
 }
 
 void am_def_fun_tail(char var[]){
   pushEbp();
   ret();
+  params_clear();
+  prefixes_pop(); 
   tagNext(var);
 }
 
@@ -151,8 +161,8 @@ void am_exp_mul(){
   pushEax();
 }
 
-void am_exec_func(char var[]){
-
+void am_exec_func(char prefixes_var[]){
+  exec_func(prefixes_var);
 }
 
 #endif

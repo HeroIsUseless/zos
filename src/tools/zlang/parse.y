@@ -40,7 +40,7 @@ def: def_var
 def_var: VAR ':' INTEGER {am_def_var($1, $3);}
        ;
 
-def_fun: VAR params ':' {am_def_fun_head($1); prefix_push($1);} '(' ')' {prefix_pop(); am_def_fun_tail($1);}
+def_fun: VAR params ':' {am_def_fun_head($1);} '(' ')' {am_def_fun_tail($1);}
 
 params: '(' ')'
       | '(' params_def ')'
@@ -80,8 +80,7 @@ term: INTEGER {am_push($1);}
 int open(int argc, char **argv);
 int main(int argc, char **argv){
     if(!open(argc, argv)) return 1;
-    strcpy(prefix[0], argv[1]);
-    prefix_format();
+    prefixes_push(argv[1]);
     yylineno = 1;
     yyparse();
     printf("[success]code:\n%s\n", code);

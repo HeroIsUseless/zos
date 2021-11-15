@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include "define.c"
 
-void test_prefix(){
-  strcpy(prefix[0], "./build/demo.z");
-  prefix_format();
-  printf("test code:___________\n%s\n_____________________\n", prefix[0]);
+void test_prefixes(){
+  strcpy(prefixes[0], "./build/demo.z");
+  prefixes_format();
+  printf("test code:___________\n%s\n_____________________\n", prefixes[0]);
 }
 
 int main(){
-  test_prefix();
+  test_prefixes();
   return 0;
 }

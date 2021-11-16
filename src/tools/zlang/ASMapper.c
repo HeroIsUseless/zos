@@ -49,6 +49,20 @@ void jmpEndIf(){
   code_appendInt(if_count);
   code_append("\n");
 }
+void jeEndWhile(){
+  code_append("je ");
+  code_appendPrefix();
+  code_append("while@end$");
+  code_appendInt(while_count);
+  code_append("\n");
+}
+void jmpHeadWhile(){
+  code_append("jmp ");
+  code_appendPrefix();
+  code_append("while$");
+  code_appendInt(while_count);
+  code_append("\n");
+}
 // data
 void db(char var[], char val[]){
   code_appendPrefix();
@@ -149,7 +163,7 @@ void am_def_param(char var[]){
   params_push(var);
 }
 
-void am_def_fun_tail(char var[]){
+void am_def_fun_end(char var[]){
   pushEbp();
   ret();
   params_clear();
@@ -225,6 +239,28 @@ void am_if_end(){
   code_appendPrefix();
   code_append("if@end$");
   code_appendInt(if_count);
+  code_append(":\n");
+}
+
+void am_while_head(){
+  while_count++;
+  code_appendPrefix();
+  code_append("while$");
+  code_appendInt(while_count);
+  code_append(":\n");
+}
+
+void am_while_mid(){
+  popEax();
+  cmpEaxWith0();
+  jeEndWhile();
+}
+
+void am_while_end(){
+  jmpHeadWhile();
+  code_appendPrefix();
+  code_append("while@end$");
+  code_appendInt(while_count);
   code_append(":\n");
 }
 #endif

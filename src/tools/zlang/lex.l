@@ -14,6 +14,9 @@
 if {
     return IF;
 }
+while {
+    return WHILE;
+}
 [a-zA-Z] {
     yylval.s = strdup(yytext); 
     printf("VAR %s\n", yylval.s); 

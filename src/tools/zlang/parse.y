@@ -19,8 +19,8 @@
 %left '*' '/'
 %token <s> NUMBER
 %token <s> INTEGER
-%token IF
 %token <s> VAR
+%token IF WHILE
 %token EOL
 %%
 stmts: /* empty */ {}
@@ -40,7 +40,7 @@ def: def_var
 def_var: VAR ':' INTEGER {am_def_var($1, $3);}
        ;
 
-def_fun: VAR params ':' {am_def_fun_head($1);} '(' ')' {am_def_fun_tail($1);}
+def_fun: VAR params ':' {am_def_fun_head($1);} '(' ')' {am_def_fun_end($1);}
 
 params: '(' ')'
       | '(' params_def ')'
@@ -64,6 +64,7 @@ exec: VAR '<' '=' exp {am_assign($1);}
     | VAR params {am_exec_func($1);}
     | if_head ',' stmt ')' {am_if_end();}
     | if_head ')' {am_if_end();}
+    | WHILE {am_while_head();} '(' exp ',' {am_while_mid();} stmt ')' {am_while_end();}
     ;
 
 if_head: IF '(' exp ',' {am_if_head();} stmt {am_if_else();}

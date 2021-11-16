@@ -10,6 +10,7 @@
 #define MAX_COLEN 524288
 //////////////////////////////////////////////
 int if_count;
+int while_count;
 //////////////////prefix//////////////////////
 char prefixes[MAX_COUNT][MAX_NAME] = {0};
 int prefixes_size(){

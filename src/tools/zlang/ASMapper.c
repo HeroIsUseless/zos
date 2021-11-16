@@ -167,7 +167,7 @@ void am_def_fun_end(char var[]){
   pushEbp();
   ret();
   params_clear();
-  prefixes_pop(); 
+  //prefixes_pop(); 
   tagNext(var);
 }
 

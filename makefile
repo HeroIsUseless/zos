@@ -32,9 +32,8 @@ test:
 	build/test
 
 compile:
-	cd build && ./zlang ../example/e1_var.z ./temp/e1_var.asm
-	cd build && ./zlang ../example/e2_var.z ./temp/e2_var.asm
-	cd build && ./zlink ../src/kernel/kernel.asm ./temp/e1_var.asm ./temp/e2_var.asm ./temp/kernel.asm
+	cd build && ./zlang ../src/kernel/memory.z ./temp/memory.asm
+	cd build && ./zlink ../src/kernel/kernel.asm ./temp/memory.asm ./temp/kernel.asm
 	nasm -f bin src/boot/IPL.asm -o build/temp/IPL.bin -l log/IPL.log
 	nasm -f bin src/boot/boot.asm -o build/temp/boot.bin -l log/boot.log
 	nasm -f bin build/temp/kernel.asm -o build/temp/kernel.bin -l log/kernel.log

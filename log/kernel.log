@@ -33,15 +33,25 @@
     33                                  main:
     34 00000018 F4                        hlt 
     35 00000019 EBFD                      jmp main
-    36 0000001B EB01                    jmp e1_var_z@a$next
-    37 0000001D 01                      e1_var_z@a: db 1
-    38                                  e1_var_z@a$next:
-    39 0000001E EB01                    jmp e1_var_z@b$next
-    40 00000020 02                      e1_var_z@b: db 2
-    41                                  e1_var_z@b$next:
-    42 00000021 EB01                    jmp e2_var_z@c$next
-    43 00000023 03                      e2_var_z@c: db 3
-    44                                  e2_var_z@c$next:
-    45 00000024 EB01                    jmp e2_var_z@d$next
-    46 00000026 04                      e2_var_z@d: db 4
-    47                                  e2_var_z@d$next:
+    36                                  jmp memory_z@set_1byte$next
+    36          ******************       error: symbol `memory_z@set_1byte$next' not defined
+    37                                  memory_z@set_1byte:
+    38 0000001B EB03                    jmp memory_z@set_1byte@val$next
+    39 0000001D 00                      memory_z@set_1byte@val: db 0
+    40                                  memory_z@set_1byte@val$next:
+    41 0000001E EB03                    jmp memory_z@set_1byte@addr$next
+    42 00000020 00                      memory_z@set_1byte@addr: db 0
+    43                                  memory_z@set_1byte@addr$next:
+    44 00000021 5D                      pop ebp
+    45 00000022 58                      pop eax
+    46 00000023 A3[1D000000]            mov [memory_z@set_1byte@val], eax
+    47 00000028 58                      pop eax
+    48 00000029 A3[20000000]            mov [memory_z@set_1byte@addr], eax
+    49 0000002E A1[1D000000]            mov eax, [memory_z@set_1byte@val]
+    50 00000033 50                      push eax
+    51 00000034 A1[20000000]            mov eax, [memory_z@set_1byte@addr]
+    52 00000039 50                      push eax
+    53 0000003A E8C3FFFFFF              call kernel_z_setMem_1byte
+    54 0000003F 55                      push ebp
+    55 00000040 C3                      ret
+    56                                  set_1byte$next:

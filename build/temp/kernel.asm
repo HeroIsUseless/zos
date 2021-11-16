@@ -33,15 +33,24 @@ ret
 main:
   hlt 
   jmp main
-jmp e1_var_z@a$next
-e1_var_z@a: db 1
-e1_var_z@a$next:
-jmp e1_var_z@b$next
-e1_var_z@b: db 2
-e1_var_z@b$next:
-jmp e2_var_z@c$next
-e2_var_z@c: db 3
-e2_var_z@c$next:
-jmp e2_var_z@d$next
-e2_var_z@d: db 4
-e2_var_z@d$next:
+jmp memory_z@set_1byte$next
+memory_z@set_1byte:
+jmp memory_z@set_1byte@val$next
+memory_z@set_1byte@val: db 0
+memory_z@set_1byte@val$next:
+jmp memory_z@set_1byte@addr$next
+memory_z@set_1byte@addr: db 0
+memory_z@set_1byte@addr$next:
+pop ebp
+pop eax
+mov [memory_z@set_1byte@val], eax
+pop eax
+mov [memory_z@set_1byte@addr], eax
+mov eax, [memory_z@set_1byte@val]
+push eax
+mov eax, [memory_z@set_1byte@addr]
+push eax
+call kernel_z_setMem_1byte
+push ebp
+ret
+set_1byte$next:

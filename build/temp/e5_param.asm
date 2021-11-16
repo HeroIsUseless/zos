@@ -13,4 +13,4 @@ pop eax
 mov [e5_param_z@fun@b], eax
 push ebp
 ret
-fun$next:
+e5_param_z@fun$next:

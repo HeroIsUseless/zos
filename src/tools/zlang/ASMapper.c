@@ -157,6 +157,7 @@ void am_def_fun_head(char var[]){
     popEax();
     movEax2Var(params[i]);
   }
+  pushEbp();
 }
 
 void am_def_param(char var[]){
@@ -164,10 +165,11 @@ void am_def_param(char var[]){
 }
 
 void am_def_fun_end(char var[]){
-  pushEbp();
   ret();
   params_clear();
-  //prefixes_pop(); 
+  prefixes_print();
+  prefixes_pop(); 
+  prefixes_print();
   tagNext(var);
 }
 

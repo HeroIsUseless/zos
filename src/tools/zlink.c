@@ -22,6 +22,7 @@ int main(int argc, char** argv){
   }
   fwrite(code, strlen(code), 1, outFile);
   fclose(outFile);
+  printf("[zlink] code len:%lu/524288\n", strlen(code));
   return 0;
 }
 

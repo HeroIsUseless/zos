@@ -23,6 +23,15 @@ int prefixes_size(){
   return i+1;
 }
 
+void prefixes_print(){
+  int i;
+  printf("//////////////////////prefixes//////////////////////\n");
+  for(i=0; i<prefixes_size(); i++){
+    printf("%s\n", prefixes[i]);
+  }
+  printf("//////////////////////prefixes//////////////////////\n");
+}
+
 void prefix_format(char prefix[]){
   int end = strlen(prefix);
   int begin = end;
@@ -87,8 +96,8 @@ void params_pop(){
 
 void params_clear(){
   int i;
-  for(i=0; i<prefixes_size(); i++){
-    strcpy(prefixes[i], "");
+  for(i=0; i<params_size(); i++){
+    strcpy(params[i], "");
   }
 }
 ///////////////////code////////////////////////////

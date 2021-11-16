@@ -3,8 +3,8 @@ ORG 0x280000
 jmp main
 
 ; 读写内存
-; kernel.z/set1byteMem(val:int, addr:int)
-kernel_z_set1byteMem:
+; kernel.z/setMem.1byte(val:int, addr:int)
+kernel_z_setMem_1byte:
   pop ebp
   pop ebx
   pop eax
@@ -12,8 +12,8 @@ kernel_z_set1byteMem:
   mov [ebx], al
 ret
 
-; kernel.z/set2byteMem(val:int, addr:int)
-kernel_z_set2byteMem:
+; kernel.z/setMem.2byte(val:int, addr:int)
+kernel_z_setMem_2byte:
   pop ebp
   pop ebx
   pop eax
@@ -21,8 +21,8 @@ kernel_z_set2byteMem:
   mov [ebx], ax
 ret
 
-; kernel.z/set4byteMem(val:int, addr:int)
-kernel_z_set4byteMem:
+; kernel.z/setMem.4byte(val:int, addr:int)
+kernel_z_setMem_4byte:
   pop ebp
   pop ebx
   pop eax

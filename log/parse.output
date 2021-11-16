@@ -23,7 +23,7 @@ Grammar
 
    10 @1: /* empty */
 
-   11 def_fun: VAR params ':' @1 '(' ')'
+   11 def_fun: VAR params ':' @1 '(' stmts ')'
 
    12 params: '(' ')'
    13       | '(' params_def ')'
@@ -94,7 +94,7 @@ Nonterminals, with rules where they appear
 $accept (20)
     on left: 0
 stmts (21)
-    on left: 1 2, on right: 0 2 6
+    on left: 1 2, on right: 0 2 6 11
 stmt (22)
     on left: 3 4 5 6, on right: 2 23 27 29
 def (23)
@@ -167,7 +167,7 @@ state 1
 state 2
 
     9 def_var: VAR . ':' INTEGER
-   11 def_fun: VAR . params ':' @1 '(' ')'
+   11 def_fun: VAR . params ':' @1 '(' stmts ')'
    21 exec: VAR . '<' '=' exp
    22     | VAR . params
    37 term: VAR .
@@ -338,7 +338,7 @@ state 18
 
 state 19
 
-   11 def_fun: VAR params . ':' @1 '(' ')'
+   11 def_fun: VAR params . ':' @1 '(' stmts ')'
    22 exec: VAR params .
 
     ':'  shift, and go to state 40
@@ -557,7 +557,7 @@ state 39
 
 state 40
 
-   11 def_fun: VAR params ':' . @1 '(' ')'
+   11 def_fun: VAR params ':' . @1 '(' stmts ')'
 
     $default  reduce using rule 10 (@1)
 
@@ -712,7 +712,7 @@ state 56
 
 state 57
 
-   11 def_fun: VAR params ':' @1 . '(' ')'
+   11 def_fun: VAR params ':' @1 . '(' stmts ')'
 
     '('  shift, and go to state 65
 
@@ -774,9 +774,26 @@ state 64
 
 state 65
 
-   11 def_fun: VAR params ':' @1 '(' . ')'
+   11 def_fun: VAR params ':' @1 '(' . stmts ')'
 
-    ')'  shift, and go to state 68
+    INTEGER  shift, and go to state 1
+    VAR      shift, and go to state 2
+    IF       shift, and go to state 3
+    WHILE    shift, and go to state 4
+    '('      shift, and go to state 5
+
+    $default  reduce using rule 1 (stmts)
+
+    stmts    go to state 68
+    stmt     go to state 7
+    def      go to state 8
+    def_var  go to state 9
+    def_fun  go to state 10
+    exec     go to state 11
+    if_head  go to state 12
+    exp      go to state 13
+    factor   go to state 14
+    term     go to state 15
 
 
 state 66
@@ -811,9 +828,9 @@ state 67
 
 state 68
 
-   11 def_fun: VAR params ':' @1 '(' ')' .
+   11 def_fun: VAR params ':' @1 '(' stmts . ')'
 
-    $default  reduce using rule 11 (def_fun)
+    ')'  shift, and go to state 71
 
 
 state 69
@@ -833,7 +850,7 @@ state 70
     WHILE    shift, and go to state 4
     '('      shift, and go to state 5
 
-    stmt     go to state 71
+    stmt     go to state 72
     def      go to state 8
     def_var  go to state 9
     def_fun  go to state 10
@@ -846,12 +863,19 @@ state 70
 
 state 71
 
-   27 exec: WHILE @2 '(' exp ',' @3 stmt . ')'
+   11 def_fun: VAR params ':' @1 '(' stmts ')' .
 
-    ')'  shift, and go to state 72
+    $default  reduce using rule 11 (def_fun)
 
 
 state 72
+
+   27 exec: WHILE @2 '(' exp ',' @3 stmt . ')'
+
+    ')'  shift, and go to state 73
+
+
+state 73
 
    27 exec: WHILE @2 '(' exp ',' @3 stmt ')' .
 

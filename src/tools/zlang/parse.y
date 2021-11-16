@@ -40,7 +40,7 @@ def: def_var
 def_var: VAR ':' INTEGER {am_def_var($1, $3);}
        ;
 
-def_fun: VAR params ':' {am_def_fun_head($1);} '(' ')' {am_def_fun_end($1);}
+def_fun: VAR params ':' {am_def_fun_head($1);} '(' stmts ')' {am_def_fun_end($1);}
 
 params: '(' ')'
       | '(' params_def ')'

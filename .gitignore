@@ -1,5 +1,5 @@
-.vscode
-build
-doc
-example
-log
+/.vscode/
+/build/
+/doc/
+/example/
+/log/

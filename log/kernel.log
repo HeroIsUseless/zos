@@ -3,8 +3,8 @@
      3 00000000 EB16                    jmp main
      4                                  
      5                                  ; 读写内存
-     6                                  ; kernel.z/set1byteMem(val:int, addr:int)
-     7                                  kernel_z_set1byteMem:
+     6                                  ; kernel.z/setMem.1byte(val:int, addr:int)
+     7                                  kernel_z_setMem_1byte:
      8 00000002 5D                        pop ebp
      9 00000003 5B                        pop ebx
     10 00000004 58                        pop eax
@@ -12,8 +12,8 @@
     12 00000006 8803                      mov [ebx], al
     13 00000008 C3                      ret
     14                                  
-    15                                  ; kernel.z/set2byteMem(val:int, addr:int)
-    16                                  kernel_z_set2byteMem:
+    15                                  ; kernel.z/setMem.2byte(val:int, addr:int)
+    16                                  kernel_z_setMem_2byte:
     17 00000009 5D                        pop ebp
     18 0000000A 5B                        pop ebx
     19 0000000B 58                        pop eax
@@ -21,8 +21,8 @@
     21 0000000D 668903                    mov [ebx], ax
     22 00000010 C3                      ret
     23                                  
-    24                                  ; kernel.z/set4byteMem(val:int, addr:int)
-    25                                  kernel_z_set4byteMem:
+    24                                  ; kernel.z/setMem.4byte(val:int, addr:int)
+    25                                  kernel_z_setMem_4byte:
     26 00000011 5D                        pop ebp
     27 00000012 5B                        pop ebx
     28 00000013 58                        pop eax

@@ -62,11 +62,11 @@ param_exec: exp
 
 exec: VAR '<' '=' exp {am_assign($1);}
     | VAR params {am_exec_func($1);}
-    | if_head ',' stmt ')' 
-    | if_head ')'
+    | if_head ',' stmt ')' {am_if_end();}
+    | if_head ')' {am_if_end();}
     ;
 
-if_head: IF '(' exp ',' {am_if_head();} stmt
+if_head: IF '(' exp ',' {am_if_head();} stmt {am_if_else();}
        ;
 
 exp: factor 

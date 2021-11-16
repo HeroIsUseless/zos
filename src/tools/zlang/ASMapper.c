@@ -34,8 +34,20 @@ void jmpNext(char var[]){
   code_append("$next\n");
 }
 
-void je(){
-  
+void jeElse(){
+  code_append("je ");
+  code_appendPrefix();
+  code_append("if@else$");
+  code_appendInt(if_count);
+  code_append("\n");
+}
+
+void jmpEndIf(){
+  code_append("jmp ");
+  code_appendPrefix();
+  code_append("if@end$");
+  code_appendInt(if_count);
+  code_append("\n");
 }
 // data
 void db(char var[], char val[]){
@@ -189,14 +201,29 @@ void am_exec_func(char prefixes_var[]){
 void am_if_head(){
   if_count++;
   code_appendPrefix();
-  code_append("if_");
+  code_append("if$");
   code_appendInt(if_count);
   code_append(":\n");
   popEax();
   cmpEaxWith0();
-  je();
+  jeElse();
   code_appendPrefix();
-  code_append("if_then_");
+  code_append("if@then$");
+  code_appendInt(if_count);
+  code_append(":\n");
+}
+
+void am_if_else(){
+  jmpEndIf();
+  code_appendPrefix();
+  code_append("if@else$");
+  code_appendInt(if_count);
+  code_append(":\n");
+}
+
+void am_if_end(){
+  code_appendPrefix();
+  code_append("if@end$");
   code_appendInt(if_count);
   code_append(":\n");
 }

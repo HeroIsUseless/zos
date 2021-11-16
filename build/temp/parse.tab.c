@@ -1413,9 +1413,24 @@ yyreduce:
     {am_exec_func((yyvsp[(1) - (2)].s));;}
     break;
 
+  case 24:
+#line 65 "parse.y"
+    {am_if_end();;}
+    break;
+
+  case 25:
+#line 66 "parse.y"
+    {am_if_end();;}
+    break;
+
   case 26:
 #line 69 "parse.y"
     {am_if_head();;}
+    break;
+
+  case 27:
+#line 69 "parse.y"
+    {am_if_else();;}
     break;
 
   case 29:
@@ -1445,7 +1460,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1449 "parse.tab.c"
+#line 1464 "parse.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

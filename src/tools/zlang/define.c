@@ -3,11 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "algo.c"
 
 #define MAX_NAME 50
 #define MAX_COUNT 100
 #define MAX_COLEN 524288
-
+//////////////////////////////////////////////
+int if_count;
 //////////////////prefix//////////////////////
 char prefixes[MAX_COUNT][MAX_NAME] = {0};
 int prefixes_size(){
@@ -108,4 +110,9 @@ void code_appendPrefix(){
   code_append(allPrefixes);
 }
 
+void code_appendInt(int num){
+  char num_str[100] = {0};
+  int2str(num, num_str);
+  code_append(num_str);
+}
 #endif

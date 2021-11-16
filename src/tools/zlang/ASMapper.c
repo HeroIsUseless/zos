@@ -15,6 +15,10 @@ void tagNext(char var[]){
   code_append(var);
   code_append("$next:\n");
 }
+// cmp
+void cmpEaxWith0(){
+  code_append("cmp eax, 0\n");
+}
 // jmp
 void jmp(char var[]){
   code_append("jmp ");
@@ -28,6 +32,10 @@ void jmpNext(char var[]){
   code_appendPrefix();
   code_append(var);
   code_append("$next\n");
+}
+
+void je(){
+  
 }
 // data
 void db(char var[], char val[]){
@@ -177,4 +185,19 @@ void am_exec_func(char prefixes_var[]){
   exec_func(prefixes_var);
 }
 
+////////////////if////////////////
+void am_if_head(){
+  if_count++;
+  code_appendPrefix();
+  code_append("if_");
+  code_appendInt(if_count);
+  code_append(":\n");
+  popEax();
+  cmpEaxWith0();
+  je();
+  code_appendPrefix();
+  code_append("if_then_");
+  code_appendInt(if_count);
+  code_append(":\n");
+}
 #endif

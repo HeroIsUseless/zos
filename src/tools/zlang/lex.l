@@ -17,8 +17,11 @@ if {
 while {
     return WHILE;
 }
+dword {
+    return INTEGER;
+}
 
-\.[\\a-zA-Z0-9\.]+ return PATH;
+@[\\a-zA-Z0-9\.]+ return PATH;
 [a-zA-Z] {
     yylval.s = strdup(yytext); 
     printf("VAR %s\n", yylval.s); 
@@ -30,7 +33,7 @@ while {
     return VAR;
 }
 [0-9]+ {yylval.s = strdup(yytext); printf("INTEGER %s\n", yylval.s); return INTEGER;}
-[ \t\n] {printf("space\n");}
+[ \t\n] {}
 \n {}
 . {printf("char %c\n", yytext[0]); return yytext[0];}
 %%

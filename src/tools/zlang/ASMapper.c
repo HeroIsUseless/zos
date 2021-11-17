@@ -126,6 +126,9 @@ void subEbx2Eax(){
 void mulEbx2Eax(){
   code_append("mul ebx\n");
 }
+void divEbx2Eax(){
+  code_append("div ebx\n");
+}
 // func
 void ret(){
   code_append("ret\n");
@@ -136,10 +139,12 @@ void exec_func(char prefixes_var[]){
   code_append("\n");
 }
 // out
-void am_def_var(char var[], char val[]){
+void am_def_var(char var[]){
   jmpNext(var);
-  db(var, val);
+  db(var, "0");
   tagNext(var);
+  popEax();
+  movEax2Var(var);
 }
 
 void am_def_fun_head(char var[]){
@@ -147,7 +152,7 @@ void am_def_fun_head(char var[]){
   tag(var);
   prefixes_push(var);
   int i;
-  for(i=0; i<params_size(); i++){
+  for(i=params_size()-1; i>=0; i--){
     jmpNext(params[i]);
     db(params[i], "0");
     tagNext(params[i]);
@@ -206,6 +211,13 @@ void am_exp_mul(){
   popEax();
   popEbx();
   mulEbx2Eax();
+  pushEax();
+}
+
+void am_exp_div(){
+  popEax();
+  popEbx();
+  divEbx2Eax();
   pushEax();
 }
 

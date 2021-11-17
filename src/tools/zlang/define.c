@@ -25,11 +25,9 @@ int prefixes_size(){
 
 void prefixes_print(){
   int i;
-  printf("//////////////////////prefixes//////////////////////\n");
   for(i=0; i<prefixes_size(); i++){
     printf("%s\n", prefixes[i]);
   }
-  printf("//////////////////////prefixes//////////////////////\n");
 }
 
 void prefix_format(char prefix[]){

@@ -34,7 +34,9 @@ test:
 compile:
 	cd build && ./zlang ../src/main.z ./temp/main.asm
 	cd build && ./zlang ../src/kernel/memory.z ./temp/memory.asm
-	cd build && ./zlink ../src/kernel/kernel.asm ./temp/main.asm ./temp/memory.asm ./temp/zos.asm
+	cd build && ./zlang ../src/screen/draw.z ./temp/draw.asm
+	cd build && ./zlang ../src/test.z ./temp/test.asm
+	cd build && ./zlink ../src/kernel/kernel.asm ./temp/main.asm ./temp/memory.asm ./temp/test.asm ./temp/zos.asm
 	nasm -f bin src/boot/IPL.asm -o build/temp/IPL.bin -l log/IPL.log
 	nasm -f bin src/boot/boot.asm -o build/temp/boot.bin -l log/boot.log
 	nasm -f bin build/temp/zos.asm -o build/temp/zos.bin -l log/zos.log

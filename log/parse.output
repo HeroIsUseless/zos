@@ -19,7 +19,7 @@ Grammar
     7 def: def_var
     8    | def_fun
 
-    9 def_var: VAR ':' INTEGER
+    9 def_var: VAR ':' exp
    10        | VAR ':' PATH
 
    11 @1: /* empty */
@@ -83,7 +83,7 @@ $end (0) 0
 '=' (61) 22
 error (256)
 NUMBER (258)
-INTEGER (259) 9 18 37
+INTEGER (259) 18 37
 VAR (260) 9 10 12 18 22 23 38
 PATH (261) 10
 IF (262) 30
@@ -128,7 +128,7 @@ if_head (36)
 @4 (37)
     on left: 29, on right: 30
 exp (38)
-    on left: 31 32 33, on right: 5 21 22 28 30 32 33
+    on left: 31 32 33, on right: 5 9 21 22 28 30 32 33
 factor (39)
     on left: 34 35 36, on right: 31 32 33 35 36
 term (40)
@@ -168,7 +168,7 @@ state 1
 
 state 2
 
-    9 def_var: VAR . ':' INTEGER
+    9 def_var: VAR . ':' exp
    10        | VAR . ':' PATH
    12 def_fun: VAR . params ':' @1 '(' stmts ')'
    22 exec: VAR . '<' '=' exp
@@ -327,18 +327,23 @@ state 16
 
 state 17
 
-    9 def_var: VAR ':' . INTEGER
+    9 def_var: VAR ':' . exp
    10        | VAR ':' . PATH
 
-    INTEGER  shift, and go to state 38
+    INTEGER  shift, and go to state 1
+    VAR      shift, and go to state 38
     PATH     shift, and go to state 39
+
+    exp     go to state 40
+    factor  go to state 14
+    term    go to state 15
 
 
 state 18
 
    22 exec: VAR '<' . '=' exp
 
-    '='  shift, and go to state 40
+    '='  shift, and go to state 41
 
 
 state 19
@@ -346,7 +351,7 @@ state 19
    12 def_fun: VAR params . ':' @1 '(' stmts ')'
    23 exec: VAR params .
 
-    ':'  shift, and go to state 41
+    ':'  shift, and go to state 42
 
     $default  reduce using rule 23 (exec)
 
@@ -356,7 +361,7 @@ state 20
    30 if_head: IF '(' . exp ',' @4 stmt
 
     INTEGER  shift, and go to state 1
-    VAR      shift, and go to state 42
+    VAR      shift, and go to state 38
 
     exp     go to state 43
     factor  go to state 14
@@ -441,7 +446,7 @@ state 27
    32 exp: exp '+' . factor
 
     INTEGER  shift, and go to state 1
-    VAR      shift, and go to state 42
+    VAR      shift, and go to state 38
 
     factor  go to state 48
     term    go to state 15
@@ -452,7 +457,7 @@ state 28
    33 exp: exp '-' . factor
 
     INTEGER  shift, and go to state 1
-    VAR      shift, and go to state 42
+    VAR      shift, and go to state 38
 
     factor  go to state 49
     term    go to state 15
@@ -463,7 +468,7 @@ state 29
    35 factor: factor '*' . term
 
     INTEGER  shift, and go to state 1
-    VAR      shift, and go to state 42
+    VAR      shift, and go to state 38
 
     term  go to state 50
 
@@ -473,7 +478,7 @@ state 30
    36 factor: factor '/' . term
 
     INTEGER  shift, and go to state 1
-    VAR      shift, and go to state 42
+    VAR      shift, and go to state 38
 
     term  go to state 51
 
@@ -543,9 +548,9 @@ state 37
 
 state 38
 
-    9 def_var: VAR ':' INTEGER .
+   38 term: VAR .
 
-    $default  reduce using rule 9 (def_var)
+    $default  reduce using rule 38 (term)
 
 
 state 39
@@ -557,30 +562,35 @@ state 39
 
 state 40
 
+    9 def_var: VAR ':' exp .
+   32 exp: exp . '+' factor
+   33    | exp . '-' factor
+
+    '+'  shift, and go to state 27
+    '-'  shift, and go to state 28
+
+    $default  reduce using rule 9 (def_var)
+
+
+state 41
+
    22 exec: VAR '<' '=' . exp
 
     INTEGER  shift, and go to state 1
-    VAR      shift, and go to state 42
+    VAR      shift, and go to state 38
 
     exp     go to state 57
     factor  go to state 14
     term    go to state 15
 
 
-state 41
+state 42
 
    12 def_fun: VAR params ':' . @1 '(' stmts ')'
 
     $default  reduce using rule 11 (@1)
 
     @1  go to state 58
-
-
-state 42
-
-   38 term: VAR .
-
-    $default  reduce using rule 38 (term)
 
 
 state 43
@@ -599,7 +609,7 @@ state 44
    28 exec: WHILE @2 '(' . exp ',' @3 stmt ')'
 
     INTEGER  shift, and go to state 1
-    VAR      shift, and go to state 42
+    VAR      shift, and go to state 38
 
     exp     go to state 60
     factor  go to state 14
@@ -701,7 +711,7 @@ state 56
    20 params_exec: param_exec ',' . params_exec
 
     INTEGER  shift, and go to state 1
-    VAR      shift, and go to state 42
+    VAR      shift, and go to state 38
 
     params_exec  go to state 65
     param_exec   go to state 36

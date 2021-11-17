@@ -1,0 +1,4 @@
+draw.z: @\screen\draw.z;
+
+draw():();
+

@@ -37,7 +37,7 @@ def: def_var
    | def_fun
    ;
 
-def_var: VAR ':' INTEGER {am_def_var($1, $3);}
+def_var: VAR ':' exp {am_def_var($1);}
        | VAR ':' PATH {}
        ;
 
@@ -78,7 +78,7 @@ exp: factor
 
 factor: term 
       | factor '*' term {am_exp_mul();}
-      | factor '/' term 
+      | factor '/' term {am_exp_div();} 
       ;
 
 term: INTEGER {am_pushVal($1);}

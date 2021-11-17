@@ -1,4 +1,4 @@
-kernel.z: .\kernel\kernel.z;
+kernel.z: @\kernel\kernel.z;
 
 run.once():(
 

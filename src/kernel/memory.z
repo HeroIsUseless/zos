@@ -1,10 +1,10 @@
-set.1byte(val: 0, addr: 0):(
+set.1byte(val: dword, addr: dword):(
   kernel.z\setMem.1byte(val, addr);
 );
-set.2byte(val: 0, addr: 0):(
+set.2byte(val: dword, addr: dword):(
   kernel.z\setMem.2byte(val, addr);
 );
-set.4byte(val: 0, addr: 0):(
+set.4byte(val: dword, addr: dword):(
   kernel.z\setMem.4byte(val, addr);
 );
 

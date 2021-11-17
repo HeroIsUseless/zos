@@ -19,7 +19,7 @@
 %left '*' '/'
 %token <s> NUMBER
 %token <s> INTEGER
-%token <s> VAR
+%token <s> VAR PATH
 %token IF WHILE
 %token EOL
 %%
@@ -38,6 +38,7 @@ def: def_var
    ;
 
 def_var: VAR ':' INTEGER {am_def_var($1, $3);}
+       | VAR ':' PATH {}
        ;
 
 def_fun: VAR params ':' {am_def_fun_head($1);} '(' stmts ')' {am_def_fun_end($1);}

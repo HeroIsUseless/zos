@@ -1,3 +1,5 @@
+kernel.z: .\kernel\kernel.z;
+
 run.once():(
 
 );

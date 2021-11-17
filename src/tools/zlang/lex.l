@@ -17,6 +17,8 @@ if {
 while {
     return WHILE;
 }
+
+\.[\\a-zA-Z0-9\.]+ return PATH;
 [a-zA-Z] {
     yylval.s = strdup(yytext); 
     printf("VAR %s\n", yylval.s); 

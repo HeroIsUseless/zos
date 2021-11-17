@@ -24,7 +24,7 @@
 %token EOL
 %%
 stmts: /* empty */ {}
-     | stmt ';' stmts {printf("[line]%d:\n", yylineno);}
+     | stmt ';' stmts {/*printf("[line]%d:\n", yylineno);*/}
      ;
 
 stmt: def 
@@ -91,7 +91,7 @@ int main(int argc, char **argv){
     prefixes_push(argv[1]);
     yylineno = 1;
     yyparse();
-    printf("[success]code:\n%s\n", code);
+    //printf("[code]:\n%s\n", code);
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);
     return 0;

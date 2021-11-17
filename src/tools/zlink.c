@@ -6,7 +6,7 @@ int main(int argc, char** argv){
   char code[524288] = {0};
   int i;
   for(i=1; i<argc-1; i++){
-    printf("file %s\n", argv[i]);
+    //printf("file %s\n", argv[i]);
     FILE* inFile = fopen(argv[i], "r");
     if(!inFile){
       printf("[error] open asm infile failed %s\n", argv[i]);
@@ -22,7 +22,11 @@ int main(int argc, char** argv){
   }
   fwrite(code, strlen(code), 1, outFile);
   fclose(outFile);
-  printf("[zlink] code len:%lu/524288\n", strlen(code));
+  int line = 0;
+  for(i=0; i<strlen(code); i++){
+    if(code[i] == '\n') line ++;
+  }
+  printf("[zlink] code line:%d\n", line);
   return 0;
 }
 

@@ -30,7 +30,7 @@ int main(int argc, char** argv){
   fread(IPL_buf, sizeof(IPL_buf), 1, IPL_bin);
   fread(boot_buf, sizeof(boot_buf), 1, boot_bin);
   fread(main_buf, sizeof(main_buf), 1, main_bin);
-  printf("[info] os size: %d/524288\n", os_size(main_buf));
+  printf("[info] os size: %dB/524288B\n", os_size(main_buf));
 
   memcpy(ZOS_buf, IPL_buf, 512);
   memcpy(ZOS_buf+512, boot_buf, 512);

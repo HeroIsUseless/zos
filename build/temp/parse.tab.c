@@ -1392,7 +1392,7 @@ yyreduce:
 
   case 3:
 #line 27 "parse.y"
-    {printf("[line]%d:\n", yylineno);;}
+    {/*printf("[line]%d:\n", yylineno);*/;}
     break;
 
   case 10:
@@ -1719,7 +1719,7 @@ int main(int argc, char **argv){
     prefixes_push(argv[1]);
     yylineno = 1;
     yyparse();
-    printf("[success]code:\n%s\n", code);
+    //printf("[code]:\n%s\n", code);
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);
     return 0;

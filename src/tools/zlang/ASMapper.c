@@ -172,9 +172,7 @@ void am_def_param(char var[]){
 void am_def_fun_end(char var[]){
   ret();
   params_clear();
-  prefixes_print();
   prefixes_pop(); 
-  prefixes_print();
   tagNext(var);
 }
 

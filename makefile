@@ -32,14 +32,15 @@ test:
 	build/test
 
 compile:
+	cd build && ./zlang ../src/main.z ./temp/main.asm
 	cd build && ./zlang ../src/kernel/memory.z ./temp/memory.asm
-	cd build && ./zlink ../src/kernel/kernel.asm ./temp/memory.asm ./temp/kernel.asm
+	cd build && ./zlink ../src/kernel/kernel.asm ./temp/main.asm ./temp/memory.asm ./temp/zos.asm
 	nasm -f bin src/boot/IPL.asm -o build/temp/IPL.bin -l log/IPL.log
 	nasm -f bin src/boot/boot.asm -o build/temp/boot.bin -l log/boot.log
-	nasm -f bin build/temp/kernel.asm -o build/temp/kernel.bin -l log/kernel.log
+	nasm -f bin build/temp/zos.asm -o build/temp/zos.bin -l log/zos.log
 
 run:
-	cd build && ./makeImg ./temp/IPL.bin ./temp/boot.bin ./temp/kernel.bin ZOS.img
+	cd build && ./makeImg ./temp/IPL.bin ./temp/boot.bin ./temp/zos.bin ZOS.img
 	cd build && qemu-system-x86_64 -m 128M  -fda ZOS.img -vnc :1 -monitor stdio
 
 all:

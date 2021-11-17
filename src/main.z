@@ -1,0 +1,7 @@
+run.once():(
+
+);
+
+run.loop():(
+  kernel.z\halt();
+);

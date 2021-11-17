@@ -30,6 +30,14 @@ kernel_z_setMem_4byte:
   mov [ebx], eax
 ret
 
+; kernel.z\halt()
+kernel_z_halt:
+  hlt
+ret
+
 main:
-  hlt 
-  jmp main
+  call main_z@run_once
+  .loop:
+    call main_z@run_loop
+  jmp .loop
+

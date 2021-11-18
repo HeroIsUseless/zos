@@ -71,6 +71,13 @@ void db(char var[], char val[]){
   code_append(val);
   code_append("\n");
 }
+void dd(char var[], char val[]){
+  code_appendPrefix();
+  code_append(var);
+  code_append(": dd ");
+  code_append(val);
+  code_append("\n");
+}
 // push pop
 void pushad(){
   code_append("pushad\n");
@@ -141,7 +148,7 @@ void exec_func(char prefixes_var[]){
 // out
 void am_def_var(char var[]){
   jmpNext(var);
-  db(var, "0");
+  dd(var, "0");
   tagNext(var);
   popEax();
   movEax2Var(var);
@@ -152,13 +159,13 @@ void am_def_fun_head(char var[]){
   tag(var);
   prefixes_push(var);
   int i;
-  for(i=params_size()-1; i>=0; i--){
+  for(i=0; i<params_size(); i++){
     jmpNext(params[i]);
-    db(params[i], "0");
+    dd(params[i], "0");
     tagNext(params[i]);
   }
   popEbp();
-  for(i=0; i<params_size(); i++){
+  for(i=params_size()-1; i>=0; i--){
     popEax();
     movEax2Var(params[i]);
   }

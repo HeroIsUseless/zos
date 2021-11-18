@@ -1,5 +1,20 @@
 draw.z: @\screen\draw.z;
 
 draw(addrVram: dword):(
-  draw.z\pixel(10, 10, 5, addrVram);
+  draw.z\pixel(0, 0, 0, 320, addrVram);
+  draw.z\pixel(1, 1, 1, 320, addrVram);
+  draw.z\pixel(2, 2, 2, 320, addrVram);
+  draw.z\pixel(3, 3, 3, 320, addrVram);
+  draw.z\pixel(4, 4, 4, 320, addrVram);
+  draw.z\pixel(5, 5, 5, 320, addrVram);
+  draw.z\pixel(6, 6, 6, 320, addrVram);
+  draw.z\pixel(7, 7, 7, 320, addrVram);
+  draw.z\pixel(8, 8, 8, 320, addrVram);
+  draw.z\pixel(9, 9, 9, 320, addrVram);
+  draw.z\pixel(10, 10, 10, 320, addrVram);
+  draw.z\pixel(11, 11, 11, 320, addrVram);
+  draw.z\pixel(12, 12, 12, 320, addrVram);
+  draw.z\pixel(13, 13, 13, 320, addrVram);
+  draw.z\pixel(14, 14, 14, 320, addrVram);
+  draw.z\pixel(15, 15, 15, 320, addrVram);
 );

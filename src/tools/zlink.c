@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+void removePopEaxPushEax(char code[]){
+
+}
+
 int main(int argc, char** argv){
   char code[524288] = {0};
   int i;

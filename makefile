@@ -47,6 +47,11 @@ compile:
 	nasm -f bin build/temp/zos.asm -o build/temp/zos.bin -l log/zos.log
 	cd build && ./makeImg ./temp/IPL.bin ./temp/boot.bin ./temp/zos.bin ZOS.img
 
+debug:
+	nasm -f bin build/temp/zos.asm -o build/temp/zos.bin -l log/zos.log
+	cd build && ./makeImg ./temp/IPL.bin ./temp/boot.bin ./temp/zos.bin ZOS.img
+	make run
+
 run:
 	cd build && qemu-system-x86_64 -m 128M  -fda ZOS.img -vnc :1 -monitor stdio
 

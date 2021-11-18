@@ -24,7 +24,7 @@ GDT0: ; 临时GDT
 
 main:
     ; VGA显卡
-    mov al, 0x12
+    mov al, 0x13
     mov ah, 0x00
     int 0x10
     ; 禁用中断

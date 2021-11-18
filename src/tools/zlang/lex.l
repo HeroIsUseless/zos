@@ -32,6 +32,11 @@ dword {
     //printf("VAR %s\n", yylval.s); 
     return VAR;
 }
+0x[0-9a-f]+ {
+    yylval.s = strdup(yytext); 
+    //printf("INTEGER %s\n", yylval.s); 
+    return INTEGER;
+}
 [0-9]+ {
     yylval.s = strdup(yytext); 
     //printf("INTEGER %s\n", yylval.s); 

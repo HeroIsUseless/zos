@@ -1,4 +1,5 @@
 draw.z: @\screen\draw.z;
 
-draw():();
-
+draw(addrVram: dword):(
+  draw.z\pixel(10, 10, 5, addrVram);
+);

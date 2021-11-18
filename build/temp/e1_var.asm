@@ -1,14 +1,14 @@
 mov eax, 1
 push eax
-jmp e1_var_z@a$next
-e1_var_z@a: db 0
-e1_var_z@a$next:
+jmp e1_var_z_a$next
+e1_var_z_a: db 0
+e1_var_z_a$next:
 pop eax
-mov [e1_var_z@a], eax
+mov [e1_var_z_a], eax
 mov eax, 2
 push eax
-jmp e1_var_z@b$next
-e1_var_z@b: db 0
-e1_var_z@b$next:
+jmp e1_var_z_b$next
+e1_var_z_b: db 0
+e1_var_z_b$next:
 pop eax
-mov [e1_var_z@b], eax
+mov [e1_var_z_b], eax

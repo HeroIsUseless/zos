@@ -36,8 +36,8 @@ kernel_z_halt:
 ret
 
 main:
-  call main_z@run_once
+  call main_z_run_once
   .loop:
-    call main_z@run_loop
+    call main_z_run_loop
   jmp .loop
 

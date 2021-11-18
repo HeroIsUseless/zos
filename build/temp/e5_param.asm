@@ -1,16 +1,16 @@
-jmp e5_param_z@fun$next
-e5_param_z@fun:
-jmp e5_param_z@fun@b$next
-e5_param_z@fun@b: db 0
-e5_param_z@fun@b$next:
-jmp e5_param_z@fun@a$next
-e5_param_z@fun@a: db 0
-e5_param_z@fun@a$next:
+jmp e5_param_z_fun$next
+e5_param_z_fun:
+jmp e5_param_z_fun_b$next
+e5_param_z_fun_b: db 0
+e5_param_z_fun_b$next:
+jmp e5_param_z_fun_a$next
+e5_param_z_fun_a: db 0
+e5_param_z_fun_a$next:
 pop ebp
 pop eax
-mov [e5_param_z@fun@a], eax
+mov [e5_param_z_fun_a], eax
 pop eax
-mov [e5_param_z@fun@b], eax
+mov [e5_param_z_fun_b], eax
 push ebp
 ret
-e5_param_z@fun$next:
+e5_param_z_fun$next:

@@ -55,7 +55,7 @@ void prefixes_all(char allPrefixes[]){
   int i, size = prefixes_size();
   for(i=0; i<size; i++){
     strcpy(allPrefixes+strlen(allPrefixes), prefixes[i]);
-    strcpy(allPrefixes+strlen(allPrefixes), "@");
+    strcpy(allPrefixes+strlen(allPrefixes), "_");
   }
 }
 

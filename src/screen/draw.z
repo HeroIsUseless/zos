@@ -6,6 +6,18 @@ pixel(x:dword,
       color:dword, 
       screenWidth:dword, 
       vramAddr:dword):(
-  addr: x + y * screenWidth + vramAddr;
+  addr: y * screenWidth + x + vramAddr;
   memory.z\set.1byte(color, addr);
 );
+[画一条横直线]
+hLine(bx:dword, by:dword, 
+      ex:dword, ey:dword, 
+      color:dword, 
+      screenWidth:dword, 
+      vramAddr:dword):(
+    i: bx;
+    if(i\<ex, (
+        pixel(i, by, color, screenWidth, vramAddr);
+        i <= i+1;)
+    );
+).

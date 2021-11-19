@@ -17,6 +17,14 @@ draw(addrVram: dword):(
   draw.z\pixel(13, 13, 13, 320, addrVram);
   draw.z\pixel(14, 14, 14, 320, addrVram);
   draw.z\pixel(15, 15, 15, 320, addrVram);
-  i: 0;
   while(i < 16, (draw.z\pixel(i, 0, i, 320, addrVram);i<=i+1;));
+  x: 0;
+  y: 0;
+  while(y\<200, (
+    while(x\<320, (
+      draw.z\pixel(x, y, y, 320, addrVram);
+      x <= x+1;
+    ));
+    y <= y+1;
+  ));
 );

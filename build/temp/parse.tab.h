@@ -39,23 +39,29 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     NUMBER = 258,
-     INTEGER = 259,
-     VAR = 260,
-     PATH = 261,
-     IF = 262,
-     WHILE = 263,
-     EOL = 264
+     MEQ = 258,
+     LEQ = 259,
+     NUMBER = 260,
+     INTEGER = 261,
+     VAR = 262,
+     PATH = 263,
+     PREFIXES_VAR = 264,
+     IF = 265,
+     WHILE = 266,
+     EOL = 267
    };
 #endif
 /* Tokens.  */
-#define NUMBER 258
-#define INTEGER 259
-#define VAR 260
-#define PATH 261
-#define IF 262
-#define WHILE 263
-#define EOL 264
+#define MEQ 258
+#define LEQ 259
+#define NUMBER 260
+#define INTEGER 261
+#define VAR 262
+#define PATH 263
+#define PREFIXES_VAR 264
+#define IF 265
+#define WHILE 266
+#define EOL 267
 
 
 
@@ -70,7 +76,7 @@ typedef union YYSTYPE
     double f;
 }
 /* Line 1529 of yacc.c.  */
-#line 74 "parse.tab.h"
+#line 80 "parse.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

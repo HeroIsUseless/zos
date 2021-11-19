@@ -16,12 +16,12 @@
     char c;
     double f;
 }
-%left '<' '>' '=' '#'
+%left '<' '>' '=' '#' LEQ MEQ
 %left '+' '-'
 %left '*' '/'
 %token <s> NUMBER
 %token <s> INTEGER
-%token <s> VAR PATH
+%token <s> VAR PATH PREFIXES_VAR
 %token IF WHILE
 %token EOL
 %%
@@ -63,8 +63,10 @@ params_exec: param_exec
 param_exec: exp
           ;
 
-exec: VAR '<' '=' exp {am_assign($1);}
-    | VAR params {am_exec_func($1);}
+exec: VAR '<' '=' exp {am_assign_var($1);}                  /*调用函数内定义的变量*/
+    | PREFIXES_VAR '<' '=' exp {am_assign_prefixesVar($1);} /*调用函数外定义的变量，任何文件内都可以*/
+    | VAR params {am_exec_func($1);}                        /*调用文件内定义的函数*/
+    | PREFIXES_VAR params {am_exec_prefixesFunc($1);}       /*调用文件外定义的函数*/
     | if_head ',' stmt ')' {am_if_end();}
     | if_head ')' {am_if_end();}
     | WHILE {am_while_head();} '(' exp ',' {am_while_mid();} stmt ')' {am_while_end();}
@@ -78,6 +80,8 @@ exp: factor
    | exp '-' factor {am_exp_sub();}
    | exp '<' factor {am_exp_les();}
    | exp '>' factor {am_exp_mor();}
+   | exp LEQ factor {am_exp_leq();}
+   | exp MEQ factor {am_exp_meq();}
    | exp '=' factor {am_exp_equ();}
    | exp '#' factor {am_exp_neq();}
    ;

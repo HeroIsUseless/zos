@@ -5,19 +5,19 @@
 #include "algo.c"
 // tag
 void tag(char var[]){
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append(var);
   code_append(":\n");
 }
 
 void tagNext(char var[]){
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append(var);
   code_append("$next:\n");
 }
 
 void tagCount(char var[], int count){
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append(var);
   code_appendInt(count);
   code_append(":\n");
@@ -29,14 +29,14 @@ void cmpEaxWith0(){
 // jmp
 void jmp(char var[]){
   code_append("jmp ");
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append(var);
   code_append("\n");
 }
 
 void jmpNext(char var[]){
   code_append("jmp ");
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append(var);
   code_append("$next\n");
 }
@@ -44,7 +44,7 @@ void jmpNext(char var[]){
 void jmpExp(char jmp[], char var[]){
   code_append(jmp);
   code_append(" ");
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append(var);
   code_appendInt(jmp_count);
   code_append("\n");
@@ -52,45 +52,53 @@ void jmpExp(char jmp[], char var[]){
 
 void jeElse(){
   code_append("je ");
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append("if@else$");
-  code_appendInt(if_count);
+  char allIfCounts[MAX_COUNT];
+  counts_all(if_counts, allIfCounts);
+  code_append(allIfCounts);
   code_append("\n");
 }
 
 void jmpEndIf(){
   code_append("jmp ");
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append("if@end$");
-  code_appendInt(if_count);
+  char allIfCounts[MAX_COUNT];
+  counts_all(if_counts, allIfCounts);
+  code_append(allIfCounts);
   code_append("\n");
 }
 
 void jeEndWhile(){
   code_append("je ");
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append("while@end$");
-  code_appendInt(while_count);
+  char allWhileCounts[MAX_COUNT];
+  counts_all(while_counts, allWhileCounts);
+  code_append(allWhileCounts);
   code_append("\n");
 }
 
 void jmpHeadWhile(){
   code_append("jmp ");
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append("while$");
-  code_appendInt(while_count);
+  char allWhileCounts[MAX_COUNT];
+  counts_all(while_counts, allWhileCounts);
+  code_append(allWhileCounts);
   code_append("\n");
 }
 // data
 void db(char var[], char val[]){
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append(var);
   code_append(": db ");
   code_append(val);
   code_append("\n");
 }
 void dd(char var[], char val[]){
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append(var);
   code_append(": dd ");
   code_append(val);
@@ -130,14 +138,20 @@ void movVal2Eax(char val[]){
 
 void movVar2Eax(char var[]){
   code_append("mov eax, [");
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append(var);
   code_append("]\n");
 }
 
+void movEax2PrefixVar(char var[]){
+  code_append("mov [");
+  code_appendPrefixes();
+  code_append(var);
+  code_append("], eax\n");
+}
+
 void movEax2Var(char var[]){
   code_append("mov [");
-  code_appendPrefix();
   code_append(var);
   code_append("], eax\n");
 }
@@ -166,13 +180,20 @@ void exec_func(char prefixes_var[]){
   code_append(prefixes_var);
   code_append("\n");
 }
+void exec_prefixFunc(char var[]){
+  code_append("call ");
+  code_append(prefixes[0]);
+  code_append("_");
+  code_append(var);
+  code_append("\n");
+}
 // out
 void am_def_var(char var[]){
   jmpNext(var);
   dd(var, "0");
   tagNext(var);
   popEax();
-  movEax2Var(var);
+  movEax2PrefixVar(var);
 }
 
 void am_def_fun_head(char var[]){
@@ -188,7 +209,7 @@ void am_def_fun_head(char var[]){
   popEbp();
   for(i=params_size()-1; i>=0; i--){
     popEax();
-    movEax2Var(params[i]);
+    movEax2PrefixVar(params[i]);
   }
   pushEbp();
 }
@@ -204,9 +225,22 @@ void am_def_fun_end(char var[]){
   tagNext(var);
 }
 
-void am_assign(char var[]){
+void am_assign_var(char var[]){
   popEax();
-  movEax2Var(var);
+  movEax2PrefixVar(var);
+}
+
+void am_assign_prefixesVar(char prefixesVar[]){
+  popEax();
+  movEax2Var(prefixesVar);
+}
+
+void am_exec_prefixesFunc(char prefixes_var[]){
+  exec_func(prefixes_var);
+}
+
+void am_exec_func(char var[]){
+  exec_prefixFunc(var);
 }
 
 void am_pushVal(char val[]){
@@ -274,6 +308,34 @@ void am_exp_mor(){
   pushEax();
 }
 
+void am_exp_leq(){
+  popEbx();
+  popEax();
+  cmpEaxEbx();
+  jmp_count++;
+  jmpExp("jbe", "lessequal@true$");
+  movVal2Eax("0");
+  jmpExp("jmp", "lessequal@false$");
+  tagCount("lessequal@true$", jmp_count);
+  movVal2Eax("1");
+  tagCount("lessequal@false$", jmp_count);
+  pushEax();
+}
+
+void am_exp_meq(){
+  popEbx();
+  popEax();
+  cmpEaxEbx();
+  jmp_count++;
+  jmpExp("jae", "moreequal@true$");
+  movVal2Eax("0");
+  jmpExp("jmp", "moreequal@false$");
+  tagCount("moreequal@true$", jmp_count);
+  movVal2Eax("1");
+  tagCount("moreequal@false$", jmp_count);
+  pushEax();
+}
+
 void am_exp_equ(){
   popEbx();
   popEax();
@@ -301,45 +363,48 @@ void am_exp_neq(){
   tagCount("unequal@false$", jmp_count);
   pushEax();
 }
-
-void am_exec_func(char prefixes_var[]){
-  exec_func(prefixes_var);
-}
-
 ////////////////if////////////////
 void am_if_head(){
-  if_count++;
-  code_appendPrefix();
+  counts_add(if_counts);
+  code_appendPrefixes();
   code_append("if$");
-  code_appendInt(if_count);
+  char allIfCounts[MAX_COUNT];
+  counts_all(if_counts, allIfCounts);
+  code_append(allIfCounts);
   code_append(":\n");
   popEax();
   cmpEaxWith0();
   jeElse();
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append("if@then$");
-  code_appendInt(if_count);
+  char allIfCounts[MAX_COUNT];
+  counts_all(if_counts, allIfCounts);
+  code_append(allIfCounts);
   code_append(":\n");
 }
 
 void am_if_else(){
   jmpEndIf();
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append("if@else$");
-  code_appendInt(if_count);
+  char allIfCounts[MAX_COUNT];
+  counts_all(if_counts, allIfCounts);
+  code_append(allIfCounts);
   code_append(":\n");
 }
 
 void am_if_end(){
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append("if@end$");
-  code_appendInt(if_count);
+  char allIfCounts[MAX_COUNT];
+  counts_all(if_counts, allIfCounts);
+  code_append(allIfCounts);
   code_append(":\n");
 }
 
 void am_while_head(){
   while_count++;
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append("while$");
   code_appendInt(while_count);
   code_append(":\n");
@@ -353,7 +418,7 @@ void am_while_mid(){
 
 void am_while_end(){
   jmpHeadWhile();
-  code_appendPrefix();
+  code_appendPrefixes();
   code_append("while@end$");
   code_appendInt(while_count);
   code_append(":\n");

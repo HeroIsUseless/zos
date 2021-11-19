@@ -27,13 +27,13 @@ mov [draw_z_pixel_y], eax
 pop eax
 mov [draw_z_pixel_x], eax
 push ebp
-mov eax, [draw_z_pixel_x]
-push eax
 mov eax, [draw_z_pixel_y]
 push eax
 mov eax, [draw_z_pixel_screenWidth]
 pop ebx
 mul ebx
+push eax
+mov eax, [draw_z_pixel_x]
 pop ebx
 add eax, ebx
 push eax
@@ -53,3 +53,90 @@ push eax
 call memory_z_set_1byte
 ret
 draw_z_pixel$next:
+jmp draw_z_hLine$next
+draw_z_hLine:
+jmp draw_z_hLine_bx$next
+draw_z_hLine_bx: dd 0
+draw_z_hLine_bx$next:
+jmp draw_z_hLine_by$next
+draw_z_hLine_by: dd 0
+draw_z_hLine_by$next:
+jmp draw_z_hLine_ex$next
+draw_z_hLine_ex: dd 0
+draw_z_hLine_ex$next:
+jmp draw_z_hLine_ey$next
+draw_z_hLine_ey: dd 0
+draw_z_hLine_ey$next:
+jmp draw_z_hLine_color$next
+draw_z_hLine_color: dd 0
+draw_z_hLine_color$next:
+jmp draw_z_hLine_screenWidth$next
+draw_z_hLine_screenWidth: dd 0
+draw_z_hLine_screenWidth$next:
+jmp draw_z_hLine_vramAddr$next
+draw_z_hLine_vramAddr: dd 0
+draw_z_hLine_vramAddr$next:
+pop ebp
+pop eax
+mov [draw_z_hLine_vramAddr], eax
+pop eax
+mov [draw_z_hLine_screenWidth], eax
+pop eax
+mov [draw_z_hLine_color], eax
+pop eax
+mov [draw_z_hLine_ey], eax
+pop eax
+mov [draw_z_hLine_ex], eax
+pop eax
+mov [draw_z_hLine_by], eax
+pop eax
+mov [draw_z_hLine_bx], eax
+push ebp
+mov eax, [draw_z_hLine_bx]
+push eax
+jmp draw_z_hLine_i$next
+draw_z_hLine_i: dd 0
+draw_z_hLine_i$next:
+pop eax
+mov [draw_z_hLine_i], eax
+mov eax, [draw_z_hLine_i]
+push eax
+mov eax, [draw_z_hLine_ex]
+push eax
+pop ebx
+pop eax
+cmp eax, ebx
+jbe draw_z_hLine_lessequal@true$1
+mov eax, 0
+jmp draw_z_hLine_lessequal@false$1
+draw_z_hLine_lessequal@true$1:
+mov eax, 1
+draw_z_hLine_lessequal@false$1:
+push eax
+draw_z_hLine_if$1:
+pop eax
+cmp eax, 0
+je draw_z_hLine_if@else$1
+draw_z_hLine_if@then$1:
+mov eax, [draw_z_hLine_i]
+push eax
+mov eax, [draw_z_hLine_by]
+push eax
+mov eax, [draw_z_hLine_color]
+push eax
+mov eax, [draw_z_hLine_screenWidth]
+push eax
+mov eax, [draw_z_hLine_vramAddr]
+push eax
+call draw_z_pixel
+mov eax, [draw_z_hLine_i]
+push eax
+mov eax, 1
+pop ebx
+add eax, ebx
+mov [draw_z_hLine_i], eax
+jmp draw_z_hLine_if@end$1
+draw_z_hLine_if@else$1:
+draw_z_hLine_if@end$1:
+ret
+draw_z_hLine$next:

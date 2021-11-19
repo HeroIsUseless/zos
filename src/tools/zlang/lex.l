@@ -11,6 +11,12 @@
 \[[^\[\n]*\n {
     //printf("annotation: %s\n", yytext);
 }
+\\< {
+    return LEQ;
+}
+>\/ {
+    return MEQ;
+}
 if {
     return IF;
 }
@@ -21,17 +27,17 @@ dword {
     return INTEGER;
 }
 
-@[\\a-zA-Z0-9\.]+ return PATH;
-[a-zA-Z] {
+@[\\a-zA-Z0-9\.]+ return PATH; 
+[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?(\\[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?)+ {
     yylval.s = strdup(yytext); 
-    //printf("VAR %s\n", yylval.s); 
-    return VAR;
-}         
-[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?[\\[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?]* {
-    yylval.s = strdup(yytext); 
-    //printf("VAR %s\n", yylval.s); 
-    return VAR;
+    printf("PREFIXES_VAR %s\n", yylval.s); 
+    return PREFIXES_VAR;
 }
+[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)? {
+    yylval.s = strdup(yytext); 
+    printf("VAR %s\n", yylval.s); 
+    return VAR;
+}        
 0x[0-9a-f]+ {
     yylval.s = strdup(yytext); 
     //printf("INTEGER %s\n", yylval.s); 

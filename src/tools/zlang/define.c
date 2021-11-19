@@ -8,10 +8,37 @@
 #define MAX_NAME 50
 #define MAX_COUNT 100
 #define MAX_COLEN 524288
-//////////////////////////////////////////////
-int if_count;
-int while_count;
+////////////////////count//////////////////////////
 int jmp_count;
+int if_counts[MAX_COUNT];
+int while_counts[MAX_COUNT];
+counts_add(int counts[]){
+  if(counts[0] == 0){
+    counts[0]++;
+  }
+  else{
+    int i = MAX_COUNT-1;
+    while(counts[i] == 0) i--;
+    counts[i]++;
+  }
+}
+counts_push(int counts[]){
+  int i=0;
+  while(counts[i] != 0) i++;
+  counts[i]++;
+}
+counts_pop(int counts[]){
+  int i = MAX_COUNT-1;
+  while(counts[i] == 0) i--;
+  counts[i] = 0;
+}
+counts_all(int counts[], char allCounts[]){
+  int i = 0;
+  while(counts[i] != 0){
+    allCounts[strlen(allCounts)] = counts[i] + '0';
+    allCounts[strlen(allCounts)] = '_';
+  }
+}
 //////////////////prefix//////////////////////
 char prefixes[MAX_COUNT][MAX_NAME] = {0};
 int prefixes_size(){
@@ -113,7 +140,7 @@ void code_append(char code_part[]){
   strcpy(code+strlen(code), code_part_format);
 }
 
-void code_appendPrefix(){
+void code_appendPrefixes(){
   char allPrefixes[MAX_COUNT*MAX_NAME] = {0};
   prefixes_all(allPrefixes);
   code_append(allPrefixes);

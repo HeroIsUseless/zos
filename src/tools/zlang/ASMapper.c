@@ -247,8 +247,8 @@ void am_exp_div(){
   pushEax();
 }
 void am_exp_les(){
-  popEax();
   popEbx();
+  popEax();
   cmpEaxEbx();
   jmp_count++;
   jmpExp("jb", "less@true$");
@@ -261,8 +261,8 @@ void am_exp_les(){
 }
 
 void am_exp_mor(){
-  popEax();
   popEbx();
+  popEax();
   cmpEaxEbx();
   jmp_count++;
   jmpExp("ja", "more@true$");
@@ -275,8 +275,8 @@ void am_exp_mor(){
 }
 
 void am_exp_equ(){
-  popEax();
   popEbx();
+  popEax();
   cmpEaxEbx();
   jmp_count++;
   jmpExp("je", "equal@true$");
@@ -289,8 +289,8 @@ void am_exp_equ(){
 }
 
 void am_exp_neq(){
-  popEax();
   popEbx();
+  popEax();
   cmpEaxEbx();
   jmp_count++;
   jmpExp("jne", "unequal@true$");

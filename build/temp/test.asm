@@ -194,7 +194,9 @@ test_z_draw_while$1:
 mov eax, [test_z_draw_i]
 push eax
 mov eax, 16
+push eax
 pop ebx
+pop eax
 cmp eax, ebx
 jb test_z_draw_less@true$1
 mov eax, 0

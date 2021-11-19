@@ -15,7 +15,9 @@ mov [e11_exp_z_b], eax
 mov eax, [e11_exp_z_a]
 push eax
 mov eax, [e11_exp_z_b]
+push eax
 pop ebx
+pop eax
 cmp eax, ebx
 jb e11_exp_z_less@true$1
 mov eax, 0
@@ -32,7 +34,9 @@ mov [e11_exp_z_d], eax
 mov eax, [e11_exp_z_a]
 push eax
 mov eax, [e11_exp_z_b]
+push eax
 pop ebx
+pop eax
 cmp eax, ebx
 ja e11_exp_z_more@true$2
 mov eax, 0
@@ -49,7 +53,9 @@ mov [e11_exp_z_c], eax
 mov eax, [e11_exp_z_a]
 push eax
 mov eax, [e11_exp_z_b]
+push eax
 pop ebx
+pop eax
 cmp eax, ebx
 je e11_exp_z_equal@true$3
 mov eax, 0
@@ -66,7 +72,9 @@ mov [e11_exp_z_e], eax
 mov eax, [e11_exp_z_a]
 push eax
 mov eax, [e11_exp_z_b]
+push eax
 pop ebx
+pop eax
 cmp eax, ebx
 jne e11_exp_z_unequal@true$4
 mov eax, 0

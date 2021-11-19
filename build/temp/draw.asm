@@ -32,18 +32,12 @@ push eax
 mov eax, [draw_z_pixel_y]
 push eax
 mov eax, [draw_z_pixel_screenWidth]
-push eax
-pop eax
 pop ebx
 mul ebx
-push eax
-pop eax
 pop ebx
 add eax, ebx
 push eax
 mov eax, [draw_z_pixel_vramAddr]
-push eax
-pop eax
 pop ebx
 add eax, ebx
 push eax

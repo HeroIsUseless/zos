@@ -7,6 +7,7 @@
     void yyerror(char *s);
     extern int yylex();
     extern int yylineno;
+    #include "define.c"
     #include "asmapper.c"
 %}
 %union {
@@ -97,6 +98,7 @@ int main(int argc, char **argv){
     yylineno = 1;
     yyparse();
     //printf("[code]:\n%s\n", code);
+    code_cut("push eax\npop eax\n");
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);
     return 0;

@@ -1,5 +1,4 @@
 tools: src/tools/makeImg.c
-	rm build/makeImg build/zlink
 	gcc src/tools/makeImg.c -o build/makeImg
 	gcc src/tools/zlink.c -o build/zlink
 	make zlang

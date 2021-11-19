@@ -124,4 +124,18 @@ void code_appendInt(int num){
   int2str(num, num_str);
   code_append(num_str);
 }
+
+void code_cut(char code_part[]){
+  int begin = KMP(code, code_part);
+  while(begin > -1){
+    int code_len = strlen(code);
+    int code_part_len = strlen(code_part);
+    int i;
+    for(i=begin; i<code_len-code_part_len; i++){
+      code[i] = code[i+code_part_len];
+    }
+    code[i] = 0;
+    begin = KMP(code, code_part);
+  }
+}
 #endif

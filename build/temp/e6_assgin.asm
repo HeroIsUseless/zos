@@ -6,6 +6,4 @@ e6_assgin_z_a$next:
 pop eax
 mov [e6_assgin_z_a], eax
 mov eax, 5678
-push eax
-pop eax
 mov [e6_assgin_z_a], eax

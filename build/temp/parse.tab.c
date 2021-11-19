@@ -98,6 +98,7 @@
     void yyerror(char *s);
     extern int yylex();
     extern int yylineno;
+    #include "define.c"
     #include "asmapper.c"
 
 
@@ -121,7 +122,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 12 "parse.y"
+#line 13 "parse.y"
 {
     int i;
     char* s;
@@ -129,7 +130,7 @@ typedef union YYSTYPE
     double f;
 }
 /* Line 193 of yacc.c.  */
-#line 133 "parse.tab.c"
+#line 134 "parse.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -142,7 +143,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 146 "parse.tab.c"
+#line 147 "parse.tab.c"
 
 #ifdef short
 # undef short
@@ -442,11 +443,11 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    27,    27,    28,    31,    32,    33,    34,    37,    38,
-      41,    42,    45,    45,    47,    48,    49,    52,    53,    56,
-      59,    60,    62,    65,    66,    67,    68,    69,    69,    69,
-      72,    72,    75,    76,    77,    78,    79,    80,    81,    84,
-      85,    86,    89,    90
+       0,    28,    28,    29,    32,    33,    34,    35,    38,    39,
+      42,    43,    46,    46,    48,    49,    50,    53,    54,    57,
+      60,    61,    63,    66,    67,    68,    69,    70,    70,    70,
+      73,    73,    76,    77,    78,    79,    80,    81,    82,    85,
+      86,    87,    90,    91
 };
 #endif
 
@@ -1399,138 +1400,138 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 27 "parse.y"
+#line 28 "parse.y"
     {;}
     break;
 
   case 3:
-#line 28 "parse.y"
+#line 29 "parse.y"
     {/*printf("[line]%d:\n", yylineno);*/;}
     break;
 
   case 10:
-#line 41 "parse.y"
+#line 42 "parse.y"
     {am_def_var((yyvsp[(1) - (3)].s));;}
     break;
 
   case 11:
-#line 42 "parse.y"
+#line 43 "parse.y"
     {;}
     break;
 
   case 12:
-#line 45 "parse.y"
+#line 46 "parse.y"
     {am_def_fun_head((yyvsp[(1) - (3)].s));;}
     break;
 
   case 13:
-#line 45 "parse.y"
+#line 46 "parse.y"
     {am_def_fun_end((yyvsp[(1) - (7)].s));;}
     break;
 
   case 19:
-#line 56 "parse.y"
+#line 57 "parse.y"
     {am_def_param((yyvsp[(1) - (3)].s));;}
     break;
 
   case 23:
-#line 65 "parse.y"
+#line 66 "parse.y"
     {am_assign((yyvsp[(1) - (4)].s));;}
     break;
 
   case 24:
-#line 66 "parse.y"
+#line 67 "parse.y"
     {am_exec_func((yyvsp[(1) - (2)].s));;}
     break;
 
   case 25:
-#line 67 "parse.y"
-    {am_if_end();;}
-    break;
-
-  case 26:
 #line 68 "parse.y"
     {am_if_end();;}
     break;
 
-  case 27:
+  case 26:
 #line 69 "parse.y"
+    {am_if_end();;}
+    break;
+
+  case 27:
+#line 70 "parse.y"
     {am_while_head();;}
     break;
 
   case 28:
-#line 69 "parse.y"
+#line 70 "parse.y"
     {am_while_mid();;}
     break;
 
   case 29:
-#line 69 "parse.y"
+#line 70 "parse.y"
     {am_while_end();;}
     break;
 
   case 30:
-#line 72 "parse.y"
+#line 73 "parse.y"
     {am_if_head();;}
     break;
 
   case 31:
-#line 72 "parse.y"
+#line 73 "parse.y"
     {am_if_else();;}
     break;
 
   case 33:
-#line 76 "parse.y"
+#line 77 "parse.y"
     {am_exp_add();;}
     break;
 
   case 34:
-#line 77 "parse.y"
+#line 78 "parse.y"
     {am_exp_sub();;}
     break;
 
   case 35:
-#line 78 "parse.y"
+#line 79 "parse.y"
     {am_exp_les();;}
     break;
 
   case 36:
-#line 79 "parse.y"
+#line 80 "parse.y"
     {am_exp_mor();;}
     break;
 
   case 37:
-#line 80 "parse.y"
+#line 81 "parse.y"
     {am_exp_equ();;}
     break;
 
   case 38:
-#line 81 "parse.y"
+#line 82 "parse.y"
     {am_exp_neq();;}
     break;
 
   case 40:
-#line 85 "parse.y"
+#line 86 "parse.y"
     {am_exp_mul();;}
     break;
 
   case 41:
-#line 86 "parse.y"
+#line 87 "parse.y"
     {am_exp_div();;}
     break;
 
   case 42:
-#line 89 "parse.y"
+#line 90 "parse.y"
     {am_pushVal((yyvsp[(1) - (1)].s));;}
     break;
 
   case 43:
-#line 90 "parse.y"
+#line 91 "parse.y"
     {am_pushVar((yyvsp[(1) - (1)].s));;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1534 "parse.tab.c"
+#line 1535 "parse.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1744,7 +1745,7 @@ yyreturn:
 }
 
 
-#line 92 "parse.y"
+#line 93 "parse.y"
 
 int open(int argc, char **argv);
 int main(int argc, char **argv){
@@ -1753,6 +1754,7 @@ int main(int argc, char **argv){
     yylineno = 1;
     yyparse();
     //printf("[code]:\n%s\n", code);
+    code_cut("push eax\npop eax\n");
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);
     return 0;

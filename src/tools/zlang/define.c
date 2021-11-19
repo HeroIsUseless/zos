@@ -11,6 +11,7 @@
 //////////////////////////////////////////////
 int if_count;
 int while_count;
+int jmp_count;
 //////////////////prefix//////////////////////
 char prefixes[MAX_COUNT][MAX_NAME] = {0};
 int prefixes_size(){

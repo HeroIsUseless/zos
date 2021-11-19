@@ -230,7 +230,7 @@
    230 000001CD E8F1FEFFFF              call memory_z_set_1byte
    231 000001D2 C3                      ret
    232                                  draw_z_pixel$next:
-   233 000001D3 E93F020000              jmp test_z_draw$next
+   233 000001D3 E9B2020000              jmp test_z_draw$next
    234                                  test_z_draw:
    235 000001D8 EB04                    jmp test_z_draw_addrVram$next
    236 000001DA 00000000                test_z_draw_addrVram: dd 0
@@ -415,5 +415,53 @@
    415 0000040B A1[DA010000]            mov eax, [test_z_draw_addrVram]
    416 00000410 50                      push eax
    417 00000411 E83AFDFFFF              call draw_z_pixel
-   418 00000416 C3                      ret
-   419                                  test_z_draw$next:
+   418 00000416 B800000000              mov eax, 0
+   419 0000041B 50                      push eax
+   420 0000041C EB04                    jmp test_z_draw_i$next
+   421 0000041E 00000000                test_z_draw_i: dd 0
+   422                                  test_z_draw_i$next:
+   423 00000422 58                      pop eax
+   424 00000423 A3[1E040000]            mov [test_z_draw_i], eax
+   425                                  test_z_draw_while$1:
+   426 00000428 A1[1E040000]            mov eax, [test_z_draw_i]
+   427 0000042D 50                      push eax
+   428 0000042E B810000000              mov eax, 16
+   429 00000433 50                      push eax
+   430 00000434 58                      pop eax
+   431 00000435 5B                      pop ebx
+   432 00000436 39D8                    cmp eax, ebx
+   433 00000438 7207                    jb test_z_draw_less@true$1
+   434 0000043A B800000000              mov eax, 0
+   435 0000043F EB05                    jmp test_z_draw_less@false$1
+   436                                  test_z_draw_less@true$1:
+   437 00000441 B801000000              mov eax, 1
+   438                                  test_z_draw_less@false$1:
+   439 00000446 50                      push eax
+   440 00000447 58                      pop eax
+   441 00000448 83F800                  cmp eax, 0
+   442 0000044B 743C                    je test_z_draw_while@end$1
+   443 0000044D A1[1E040000]            mov eax, [test_z_draw_i]
+   444 00000452 50                      push eax
+   445 00000453 B800000000              mov eax, 0
+   446 00000458 50                      push eax
+   447 00000459 A1[1E040000]            mov eax, [test_z_draw_i]
+   448 0000045E 50                      push eax
+   449 0000045F B840010000              mov eax, 320
+   450 00000464 50                      push eax
+   451 00000465 A1[DA010000]            mov eax, [test_z_draw_addrVram]
+   452 0000046A 50                      push eax
+   453 0000046B E8E0FCFFFF              call draw_z_pixel
+   454 00000470 A1[1E040000]            mov eax, [test_z_draw_i]
+   455 00000475 50                      push eax
+   456 00000476 B801000000              mov eax, 1
+   457 0000047B 50                      push eax
+   458 0000047C 58                      pop eax
+   459 0000047D 5B                      pop ebx
+   460 0000047E 01D8                    add eax, ebx
+   461 00000480 50                      push eax
+   462 00000481 58                      pop eax
+   463 00000482 A3[1E040000]            mov [test_z_draw_i], eax
+   464 00000487 EB9F                    jmp test_z_draw_while$1
+   465                                  test_z_draw_while@end$1:
+   466 00000489 C3                      ret
+   467                                  test_z_draw$next:

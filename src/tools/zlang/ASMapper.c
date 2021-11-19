@@ -15,6 +15,13 @@ void tagNext(char var[]){
   code_append(var);
   code_append("$next:\n");
 }
+
+void tagCount(char var[], int count){
+  code_appendPrefix();
+  code_append(var);
+  code_appendInt(count);
+  code_append(":\n");
+}
 // cmp
 void cmpEaxWith0(){
   code_append("cmp eax, 0\n");
@@ -34,6 +41,15 @@ void jmpNext(char var[]){
   code_append("$next\n");
 }
 
+void jmpExp(char jmp[], char var[]){
+  code_append(jmp);
+  code_append(" ");
+  code_appendPrefix();
+  code_append(var);
+  code_appendInt(jmp_count);
+  code_append("\n");
+}
+
 void jeElse(){
   code_append("je ");
   code_appendPrefix();
@@ -49,6 +65,7 @@ void jmpEndIf(){
   code_appendInt(if_count);
   code_append("\n");
 }
+
 void jeEndWhile(){
   code_append("je ");
   code_appendPrefix();
@@ -56,6 +73,7 @@ void jeEndWhile(){
   code_appendInt(while_count);
   code_append("\n");
 }
+
 void jmpHeadWhile(){
   code_append("jmp ");
   code_appendPrefix();
@@ -135,6 +153,9 @@ void mulEbx2Eax(){
 }
 void divEbx2Eax(){
   code_append("div ebx\n");
+}
+void cmpEaxEbx(){
+  code_append("cmp eax, ebx\n");
 }
 // func
 void ret(){
@@ -223,6 +244,61 @@ void am_exp_div(){
   popEax();
   popEbx();
   divEbx2Eax();
+  pushEax();
+}
+void am_exp_les(){
+  popEax();
+  popEbx();
+  cmpEaxEbx();
+  jmp_count++;
+  jmpExp("jb", "less@true$");
+  movVal2Eax("0");
+  jmpExp("jmp", "less@false$");
+  tagCount("less@true$", jmp_count);
+  movVal2Eax("1");
+  tagCount("less@false$", jmp_count);
+  pushEax();
+}
+
+void am_exp_mor(){
+  popEax();
+  popEbx();
+  cmpEaxEbx();
+  jmp_count++;
+  jmpExp("ja", "more@true$");
+  movVal2Eax("0");
+  jmpExp("jmp", "more@false$");
+  tagCount("more@true$", jmp_count);
+  movVal2Eax("1");
+  tagCount("more@false$", jmp_count);
+  pushEax();
+}
+
+void am_exp_equ(){
+  popEax();
+  popEbx();
+  cmpEaxEbx();
+  jmp_count++;
+  jmpExp("je", "equal@true$");
+  movVal2Eax("0");
+  jmpExp("jmp", "equal@false$");
+  tagCount("equal@true$", jmp_count);
+  movVal2Eax("1");
+  tagCount("equal@false$", jmp_count);
+  pushEax();
+}
+
+void am_exp_neq(){
+  popEax();
+  popEbx();
+  cmpEaxEbx();
+  jmp_count++;
+  jmpExp("jne", "unequal@true$");
+  movVal2Eax("0");
+  jmpExp("jmp", "unequal@false$");
+  tagCount("unequal@true$", jmp_count);
+  movVal2Eax("1");
+  tagCount("unequal@false$", jmp_count);
   pushEax();
 }
 

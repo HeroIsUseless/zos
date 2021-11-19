@@ -25,6 +25,7 @@ exam:
 	cd build && ./zlang ../example/e8_exec_param.z ./temp/e8_exec_param.asm
 	cd build && ./zlang ../example/e9_if.z ./temp/e9_if.asm
 	cd build && ./zlang ../example/e10_while.z ./temp/e10_while.asm
+	cd build && ./zlang ../example/e11_exp.z ./temp/e11_exp.asm
 
 test:
 	cd src/tools/zlang && gcc test.c -o test 

@@ -15,6 +15,7 @@
     char c;
     double f;
 }
+%left '<' '>' '=' '#'
 %left '+' '-'
 %left '*' '/'
 %token <s> NUMBER
@@ -74,6 +75,10 @@ if_head: IF '(' exp ',' {am_if_head();} stmt {am_if_else();}
 exp: factor 
    | exp '+' factor {am_exp_add();}
    | exp '-' factor {am_exp_sub();}
+   | exp '<' factor {am_exp_les();}
+   | exp '>' factor {am_exp_mor();}
+   | exp '=' factor {am_exp_equ();}
+   | exp '#' factor {am_exp_neq();}
    ;
 
 factor: term 

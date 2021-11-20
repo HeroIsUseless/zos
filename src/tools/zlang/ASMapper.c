@@ -27,10 +27,21 @@ void cmpEaxWith0(){
   code_append("cmp eax, 0\n");
 }
 // jmp
-void jmp(char var[]){
-  code_append("jmp ");
+void jump(char jmp[], char var[]){
+  code_append(jmp);
+  code_append(" ");
   code_appendPrefixes();
   code_append(var);
+  code_append("\n");
+}
+
+void jumpCount(char jmp[], char var[], int count){
+  code_append(jmp);
+  code_append(" ");
+  code_appendPrefixes();
+  code_append(var);
+  code_append("$");
+  code_appendInt(count);
   code_append("\n");
 }
 
@@ -41,7 +52,7 @@ void jmpNext(char var[]){
   code_append("$next\n");
 }
 
-void jmpExp(char jmp[], char var[]){
+void jumpExp(char jmp[], char var[]){
   code_append(jmp);
   code_append(" ");
   code_appendPrefixes();
@@ -50,45 +61,6 @@ void jmpExp(char jmp[], char var[]){
   code_append("\n");
 }
 
-void jeElse(){
-  code_append("je ");
-  code_appendPrefixes();
-  code_append("if@else$");
-  char allIfCounts[MAX_COUNT];
-  counts_all(if_counts, allIfCounts);
-  code_append(allIfCounts);
-  code_append("\n");
-}
-
-void jmpEndIf(){
-  code_append("jmp ");
-  code_appendPrefixes();
-  code_append("if@end$");
-  char allIfCounts[MAX_COUNT];
-  counts_all(if_counts, allIfCounts);
-  code_append(allIfCounts);
-  code_append("\n");
-}
-
-void jeEndWhile(){
-  code_append("je ");
-  code_appendPrefixes();
-  code_append("while@end$");
-  char allWhileCounts[MAX_COUNT];
-  counts_all(while_counts, allWhileCounts);
-  code_append(allWhileCounts);
-  code_append("\n");
-}
-
-void jmpHeadWhile(){
-  code_append("jmp ");
-  code_appendPrefixes();
-  code_append("while$");
-  char allWhileCounts[MAX_COUNT];
-  counts_all(while_counts, allWhileCounts);
-  code_append(allWhileCounts);
-  code_append("\n");
-}
 // data
 void db(char var[], char val[]){
   code_appendPrefixes();
@@ -285,9 +257,9 @@ void am_exp_les(){
   popEax();
   cmpEaxEbx();
   jmp_count++;
-  jmpExp("jb", "less@true$");
+  jumpExp("jb", "less@true$");
   movVal2Eax("0");
-  jmpExp("jmp", "less@false$");
+  jumpExp("jmp", "less@false$");
   tagCount("less@true$", jmp_count);
   movVal2Eax("1");
   tagCount("less@false$", jmp_count);
@@ -299,9 +271,9 @@ void am_exp_mor(){
   popEax();
   cmpEaxEbx();
   jmp_count++;
-  jmpExp("ja", "more@true$");
+  jumpExp("ja", "more@true$");
   movVal2Eax("0");
-  jmpExp("jmp", "more@false$");
+  jumpExp("jmp", "more@false$");
   tagCount("more@true$", jmp_count);
   movVal2Eax("1");
   tagCount("more@false$", jmp_count);
@@ -313,9 +285,9 @@ void am_exp_leq(){
   popEax();
   cmpEaxEbx();
   jmp_count++;
-  jmpExp("jbe", "lessequal@true$");
+  jumpExp("jbe", "lessequal@true$");
   movVal2Eax("0");
-  jmpExp("jmp", "lessequal@false$");
+  jumpExp("jmp", "lessequal@false$");
   tagCount("lessequal@true$", jmp_count);
   movVal2Eax("1");
   tagCount("lessequal@false$", jmp_count);
@@ -327,9 +299,9 @@ void am_exp_meq(){
   popEax();
   cmpEaxEbx();
   jmp_count++;
-  jmpExp("jae", "moreequal@true$");
+  jumpExp("jae", "moreequal@true$");
   movVal2Eax("0");
-  jmpExp("jmp", "moreequal@false$");
+  jumpExp("jmp", "moreequal@false$");
   tagCount("moreequal@true$", jmp_count);
   movVal2Eax("1");
   tagCount("moreequal@false$", jmp_count);
@@ -341,9 +313,9 @@ void am_exp_equ(){
   popEax();
   cmpEaxEbx();
   jmp_count++;
-  jmpExp("je", "equal@true$");
+  jumpExp("je", "equal@true$");
   movVal2Eax("0");
-  jmpExp("jmp", "equal@false$");
+  jumpExp("jmp", "equal@false$");
   tagCount("equal@true$", jmp_count);
   movVal2Eax("1");
   tagCount("equal@false$", jmp_count);
@@ -355,9 +327,9 @@ void am_exp_neq(){
   popEax();
   cmpEaxEbx();
   jmp_count++;
-  jmpExp("jne", "unequal@true$");
+  jumpExp("jne", "unequal@true$");
   movVal2Eax("0");
-  jmpExp("jmp", "unequal@false$");
+  jumpExp("jmp", "unequal@false$");
   tagCount("unequal@true$", jmp_count);
   movVal2Eax("1");
   tagCount("unequal@false$", jmp_count);
@@ -365,62 +337,59 @@ void am_exp_neq(){
 }
 ////////////////if////////////////
 void am_if_head(){
-  counts_add(if_counts);
-  code_appendPrefixes();
-  code_append("if$");
-  char allIfCounts[MAX_COUNT];
-  counts_all(if_counts, allIfCounts);
-  code_append(allIfCounts);
-  code_append(":\n");
+  code_append("; if start\n");
+  if(isIfOpens[if_layer] == TRUE)
+    if_layer ++;
+  if_counts[if_layer]++;
+  isIfOpens[if_layer] = TRUE;
+  prefixes_pushCount("if", if_counts[if_layer]);
+  tag("start");
+}
+
+void am_if_then(){
   popEax();
   cmpEaxWith0();
-  jeElse();
-  code_appendPrefixes();
-  code_append("if@then$");
-  char allIfCounts[MAX_COUNT];
-  counts_all(if_counts, allIfCounts);
-  code_append(allIfCounts);
-  code_append(":\n");
+  jump("je", "else");
+  tag("then");
 }
 
 void am_if_else(){
-  jmpEndIf();
-  code_appendPrefixes();
-  code_append("if@else$");
-  char allIfCounts[MAX_COUNT];
-  counts_all(if_counts, allIfCounts);
-  code_append(allIfCounts);
-  code_append(":\n");
+  jump("jmp", "end");
+  tag("else");
 }
 
 void am_if_end(){
-  code_appendPrefixes();
-  code_append("if@end$");
-  char allIfCounts[MAX_COUNT];
-  counts_all(if_counts, allIfCounts);
-  code_append(allIfCounts);
-  code_append(":\n");
+  tag("end");
+  isIfOpens[if_layer] = FALSE;
+  if_counts[if_layer+1] = 0;
+  if_layer --;
+  prefixes_pop();
+  code_append(";if end\n");
 }
 
 void am_while_head(){
-  while_count++;
-  code_appendPrefixes();
-  code_append("while$");
-  code_appendInt(while_count);
-  code_append(":\n");
+  code_append("; while start\n");
+  if(isWhileOpens[while_layer] == TRUE)
+    while_layer ++;
+  while_counts[while_layer]++;
+  isWhileOpens[while_layer] = TRUE;
+  prefixes_pushCount("while", while_counts[while_layer]);
+  tag("start");
 }
 
 void am_while_mid(){
   popEax();
   cmpEaxWith0();
-  jeEndWhile();
+  jump("je", "end");
 }
 
 void am_while_end(){
-  jmpHeadWhile();
-  code_appendPrefixes();
-  code_append("while@end$");
-  code_appendInt(while_count);
-  code_append(":\n");
+  jump("jmp", "start");
+  tag("end");
+  isWhileOpens[while_layer] = FALSE;
+  while_counts[while_layer+1] = 0;
+  while_layer --;
+  prefixes_pop();
+  code_append(";while end\n");
 }
 #endif

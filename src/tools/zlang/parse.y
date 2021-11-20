@@ -72,7 +72,7 @@ exec: VAR '<' '=' exp {am_assign_var($1);}                  /*调用函数内定
     | WHILE {am_while_head();} '(' exp ',' {am_while_mid();} stmt ')' {am_while_end();}
     ;
 
-if_head: IF '(' exp ',' {am_if_head();} stmt {am_if_else();}
+if_head: IF {am_if_head();} '(' exp {am_if_then();} ',' stmt {am_if_else();}
        ;
 
 exp: factor 

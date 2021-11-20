@@ -99,44 +99,42 @@ draw_z_hLine_i: dd 0
 draw_z_hLine_i$next:
 pop eax
 mov [draw_z_hLine_i], eax
-mov eax, [draw_z_hLine_i]
+; while start
+draw_z_hLine_while$1_start:
+mov eax, [draw_z_hLine_while$1_i]
 push eax
-mov eax, [draw_z_hLine_ex]
+mov eax, [draw_z_hLine_while$1_ex]
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe draw_z_hLine_lessequal@true$1
+jb draw_z_hLine_while$1_less@true$1
 mov eax, 0
-jmp draw_z_hLine_lessequal@false$1
-draw_z_hLine_lessequal@true$1:
+jmp draw_z_hLine_while$1_less@false$1
+draw_z_hLine_while$1_less@true$1:
 mov eax, 1
-draw_z_hLine_lessequal@false$1:
-push eax
-draw_z_hLine_if$1:
-pop eax
+draw_z_hLine_while$1_less@false$1:
 cmp eax, 0
-je draw_z_hLine_if@else$1
-draw_z_hLine_if@then$1:
-mov eax, [draw_z_hLine_i]
+je draw_z_hLine_while$1_end
+mov eax, [draw_z_hLine_while$1_i]
 push eax
-mov eax, [draw_z_hLine_by]
+mov eax, [draw_z_hLine_while$1_by]
 push eax
-mov eax, [draw_z_hLine_color]
+mov eax, [draw_z_hLine_while$1_color]
 push eax
-mov eax, [draw_z_hLine_screenWidth]
+mov eax, [draw_z_hLine_while$1_screenWidth]
 push eax
-mov eax, [draw_z_hLine_vramAddr]
+mov eax, [draw_z_hLine_while$1_vramAddr]
 push eax
 call draw_z_pixel
-mov eax, [draw_z_hLine_i]
+mov eax, [draw_z_hLine_while$1_i]
 push eax
 mov eax, 1
 pop ebx
 add eax, ebx
-mov [draw_z_hLine_i], eax
-jmp draw_z_hLine_if@end$1
-draw_z_hLine_if@else$1:
-draw_z_hLine_if@end$1:
+mov [draw_z_hLine_while$1_i], eax
+jmp draw_z_hLine_while$1_start
+draw_z_hLine_while$1_end:
+;while end
 ret
 draw_z_hLine$next:

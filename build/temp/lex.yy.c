@@ -866,7 +866,7 @@ YY_RULE_SETUP
 #line 32 "lex.l"
 {
     yylval.s = strdup(yytext); 
-    printf("PREFIXES_VAR %s\n", yylval.s); 
+    //printf("PREFIXES_VAR %s\n", yylval.s); 
     return PREFIXES_VAR;
 }
 	YY_BREAK
@@ -875,7 +875,7 @@ YY_RULE_SETUP
 #line 37 "lex.l"
 {
     yylval.s = strdup(yytext); 
-    printf("VAR %s\n", yylval.s); 
+    //printf("VAR %s\n", yylval.s); 
     return VAR;
 }        
 	YY_BREAK

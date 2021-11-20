@@ -270,45 +270,43 @@ draw_z_hLine_i: dd 0
 draw_z_hLine_i$next:
 pop eax
 mov [draw_z_hLine_i], eax
-mov eax, [draw_z_hLine_i]
+; while start
+draw_z_hLine_while$1_start:
+mov eax, [draw_z_hLine_while$1_i]
 push eax
-mov eax, [draw_z_hLine_ex]
+mov eax, [draw_z_hLine_while$1_ex]
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe draw_z_hLine_lessequal@true$1
+jb draw_z_hLine_while$1_less@true$1
 mov eax, 0
-jmp draw_z_hLine_lessequal@false$1
-draw_z_hLine_lessequal@true$1:
+jmp draw_z_hLine_while$1_less@false$1
+draw_z_hLine_while$1_less@true$1:
 mov eax, 1
-draw_z_hLine_lessequal@false$1:
-push eax
-draw_z_hLine_if$1:
-pop eax
+draw_z_hLine_while$1_less@false$1:
 cmp eax, 0
-je draw_z_hLine_if@else$1
-draw_z_hLine_if@then$1:
-mov eax, [draw_z_hLine_i]
+je draw_z_hLine_while$1_end
+mov eax, [draw_z_hLine_while$1_i]
 push eax
-mov eax, [draw_z_hLine_by]
+mov eax, [draw_z_hLine_while$1_by]
 push eax
-mov eax, [draw_z_hLine_color]
+mov eax, [draw_z_hLine_while$1_color]
 push eax
-mov eax, [draw_z_hLine_screenWidth]
+mov eax, [draw_z_hLine_while$1_screenWidth]
 push eax
-mov eax, [draw_z_hLine_vramAddr]
+mov eax, [draw_z_hLine_while$1_vramAddr]
 push eax
 call draw_z_pixel
-mov eax, [draw_z_hLine_i]
+mov eax, [draw_z_hLine_while$1_i]
 push eax
 mov eax, 1
 pop ebx
 add eax, ebx
-mov [draw_z_hLine_i], eax
-jmp draw_z_hLine_if@end$1
-draw_z_hLine_if@else$1:
-draw_z_hLine_if@end$1:
+mov [draw_z_hLine_while$1_i], eax
+jmp draw_z_hLine_while$1_start
+draw_z_hLine_while$1_end:
+;while end
 ret
 draw_z_hLine$next:
 jmp test_z_draw$next
@@ -496,41 +494,43 @@ push eax
 mov eax, [test_z_draw_addrVram]
 push eax
 call draw_z_pixel
-test_z_draw_while$1:
-mov eax, [test_z_draw_i]
+; while start
+test_z_draw_while$1_start:
+mov eax, [test_z_draw_while$1_i]
 push eax
 mov eax, 16
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jb test_z_draw_less@true$1
+jb test_z_draw_while$1_less@true$1
 mov eax, 0
-jmp test_z_draw_less@false$1
-test_z_draw_less@true$1:
+jmp test_z_draw_while$1_less@false$1
+test_z_draw_while$1_less@true$1:
 mov eax, 1
-test_z_draw_less@false$1:
+test_z_draw_while$1_less@false$1:
 cmp eax, 0
-je test_z_draw_while@end$1
-mov eax, [test_z_draw_i]
+je test_z_draw_while$1_end
+mov eax, [test_z_draw_while$1_i]
 push eax
 mov eax, 0
 push eax
-mov eax, [test_z_draw_i]
+mov eax, [test_z_draw_while$1_i]
 push eax
 mov eax, 320
 push eax
-mov eax, [test_z_draw_addrVram]
+mov eax, [test_z_draw_while$1_addrVram]
 push eax
 call draw_z_pixel
-mov eax, [test_z_draw_i]
+mov eax, [test_z_draw_while$1_i]
 push eax
 mov eax, 1
 pop ebx
 add eax, ebx
-mov [test_z_draw_i], eax
-jmp test_z_draw_while$1
-test_z_draw_while@end$1:
+mov [test_z_draw_while$1_i], eax
+jmp test_z_draw_while$1_start
+test_z_draw_while$1_end:
+;while end
 mov eax, 0
 push eax
 jmp test_z_draw_x$next
@@ -545,64 +545,68 @@ test_z_draw_y: dd 0
 test_z_draw_y$next:
 pop eax
 mov [test_z_draw_y], eax
-test_z_draw_while$2:
-mov eax, [test_z_draw_y]
+; while start
+test_z_draw_while$2_start:
+mov eax, [test_z_draw_while$2_y]
 push eax
 mov eax, 200
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe test_z_draw_lessequal@true$2
+jb test_z_draw_while$2_less@true$2
 mov eax, 0
-jmp test_z_draw_lessequal@false$2
-test_z_draw_lessequal@true$2:
+jmp test_z_draw_while$2_less@false$2
+test_z_draw_while$2_less@true$2:
 mov eax, 1
-test_z_draw_lessequal@false$2:
+test_z_draw_while$2_less@false$2:
 cmp eax, 0
-je test_z_draw_while@end$2
-test_z_draw_while$3:
-mov eax, [test_z_draw_x]
+je test_z_draw_while$2_end
+; while start
+test_z_draw_while$2_while$1_start:
+mov eax, [test_z_draw_while$2_while$1_x]
 push eax
 mov eax, 320
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe test_z_draw_lessequal@true$3
+jb test_z_draw_while$2_while$1_less@true$3
 mov eax, 0
-jmp test_z_draw_lessequal@false$3
-test_z_draw_lessequal@true$3:
+jmp test_z_draw_while$2_while$1_less@false$3
+test_z_draw_while$2_while$1_less@true$3:
 mov eax, 1
-test_z_draw_lessequal@false$3:
+test_z_draw_while$2_while$1_less@false$3:
 cmp eax, 0
-je test_z_draw_while@end$3
-mov eax, [test_z_draw_x]
+je test_z_draw_while$2_while$1_end
+mov eax, [test_z_draw_while$2_while$1_x]
 push eax
-mov eax, [test_z_draw_y]
+mov eax, [test_z_draw_while$2_while$1_y]
 push eax
-mov eax, [test_z_draw_y]
+mov eax, [test_z_draw_while$2_while$1_y]
 push eax
 mov eax, 320
 push eax
-mov eax, [test_z_draw_addrVram]
+mov eax, [test_z_draw_while$2_while$1_addrVram]
 push eax
 call draw_z_pixel
-mov eax, [test_z_draw_x]
+mov eax, [test_z_draw_while$2_while$1_x]
 push eax
 mov eax, 1
 pop ebx
 add eax, ebx
-mov [test_z_draw_x], eax
-jmp test_z_draw_while$3
-test_z_draw_while@end$3:
-mov eax, [test_z_draw_y]
+mov [test_z_draw_while$2_while$1_x], eax
+jmp test_z_draw_while$2_while$1_start
+test_z_draw_while$2_while$1_end:
+;while end
+mov eax, [test_z_draw_while$2_y]
 push eax
 mov eax, 1
 pop ebx
 add eax, ebx
-mov [test_z_draw_y], eax
-jmp test_z_draw_while$3
-test_z_draw_while@end$3:
+mov [test_z_draw_while$2_y], eax
+jmp test_z_draw_while$2_start
+test_z_draw_while$2_end:
+;while end
 ret
 test_z_draw$next:

@@ -58,51 +58,53 @@ Grammar
 
    31 @4: /* empty */
 
-   32 if_head: IF '(' exp ',' @4 stmt
+   32 @5: /* empty */
 
-   33 exp: factor
-   34    | exp '+' factor
-   35    | exp '-' factor
-   36    | exp '<' factor
-   37    | exp '>' factor
-   38    | exp LEQ factor
-   39    | exp MEQ factor
-   40    | exp '=' factor
-   41    | exp '#' factor
+   33 if_head: IF @4 '(' exp @5 ',' stmt
 
-   42 factor: term
-   43       | factor '*' term
-   44       | factor '/' term
+   34 exp: factor
+   35    | exp '+' factor
+   36    | exp '-' factor
+   37    | exp '<' factor
+   38    | exp '>' factor
+   39    | exp LEQ factor
+   40    | exp MEQ factor
+   41    | exp '=' factor
+   42    | exp '#' factor
 
-   45 term: INTEGER
-   46     | VAR
+   43 factor: term
+   44       | factor '*' term
+   45       | factor '/' term
+
+   46 term: INTEGER
+   47     | VAR
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'#' (35) 41
-'(' (40) 6 12 13 14 15 30 32
+'#' (35) 42
+'(' (40) 6 12 13 14 15 30 33
 ')' (41) 6 12 13 14 15 26 27 30
-'*' (42) 43
-'+' (43) 34
-',' (44) 17 20 26 30 32
-'-' (45) 35
-'/' (47) 44
+'*' (42) 44
+'+' (43) 35
+',' (44) 17 20 26 30 33
+'-' (45) 36
+'/' (47) 45
 ':' (58) 9 10 12 18
 ';' (59) 2
-'<' (60) 22 23 36
-'=' (61) 22 23 40
-'>' (62) 37
+'<' (60) 22 23 37
+'=' (61) 22 23 41
+'>' (62) 38
 error (256)
-MEQ (258) 39
-LEQ (259) 38
+MEQ (258) 40
+LEQ (259) 39
 NUMBER (260)
-INTEGER (261) 18 45
-VAR (262) 9 10 12 18 22 24 46
+INTEGER (261) 18 46
+VAR (262) 9 10 12 18 22 24 47
 PATH (263) 10
 PREFIXES_VAR (264) 23 25
-IF (265) 32
+IF (265) 33
 WHILE (266) 30
 EOL (267)
 
@@ -114,7 +116,7 @@ $accept (26)
 stmts (27)
     on left: 1 2, on right: 0 2 6 12
 stmt (28)
-    on left: 3 4 5 6, on right: 2 26 30 32
+    on left: 3 4 5 6, on right: 2 26 30 33
 def (29)
     on left: 7 8, on right: 3
 def_var (30)
@@ -140,16 +142,18 @@ exec (38)
 @3 (40)
     on left: 29, on right: 30
 if_head (41)
-    on left: 32, on right: 26 27
+    on left: 33, on right: 26 27
 @4 (42)
-    on left: 31, on right: 32
-exp (43)
-    on left: 33 34 35 36 37 38 39 40 41, on right: 5 9 21 22 23 30
-    32 34 35 36 37 38 39 40 41
-factor (44)
-    on left: 42 43 44, on right: 33 34 35 36 37 38 39 40 41 43 44
-term (45)
-    on left: 45 46, on right: 42 43 44
+    on left: 31, on right: 33
+@5 (43)
+    on left: 32, on right: 33
+exp (44)
+    on left: 34 35 36 37 38 39 40 41 42, on right: 5 9 21 22 23 30
+    33 35 36 37 38 39 40 41 42
+factor (45)
+    on left: 43 44 45, on right: 34 35 36 37 38 39 40 41 42 44 45
+term (46)
+    on left: 46 47, on right: 43 44 45
 
 
 state 0
@@ -179,9 +183,9 @@ state 0
 
 state 1
 
-   45 term: INTEGER .
+   46 term: INTEGER .
 
-    $default  reduce using rule 45 (term)
+    $default  reduce using rule 46 (term)
 
 
 state 2
@@ -191,14 +195,14 @@ state 2
    12 def_fun: VAR . params ':' @1 '(' stmts ')'
    22 exec: VAR . '<' '=' exp
    24     | VAR . params
-   46 term: VAR .
+   47 term: VAR .
 
     '<'  shift, and go to state 17
     '('  shift, and go to state 18
     ':'  shift, and go to state 19
 
-    '<'       [reduce using rule 46 (term)]
-    $default  reduce using rule 46 (term)
+    '<'       [reduce using rule 47 (term)]
+    $default  reduce using rule 47 (term)
 
     params  go to state 20
 
@@ -216,9 +220,11 @@ state 3
 
 state 4
 
-   32 if_head: IF . '(' exp ',' @4 stmt
+   33 if_head: IF . @4 '(' exp @5 ',' stmt
 
-    '('  shift, and go to state 23
+    $default  reduce using rule 31 (@4)
+
+    @4  go to state 23
 
 
 state 5
@@ -309,14 +315,14 @@ state 13
 state 14
 
     5 stmt: exp .
-   34 exp: exp . '+' factor
-   35    | exp . '-' factor
-   36    | exp . '<' factor
-   37    | exp . '>' factor
-   38    | exp . LEQ factor
-   39    | exp . MEQ factor
-   40    | exp . '=' factor
-   41    | exp . '#' factor
+   35 exp: exp . '+' factor
+   36    | exp . '-' factor
+   37    | exp . '<' factor
+   38    | exp . '>' factor
+   39    | exp . LEQ factor
+   40    | exp . MEQ factor
+   41    | exp . '=' factor
+   42    | exp . '#' factor
 
     '<'  shift, and go to state 30
     '>'  shift, and go to state 31
@@ -332,21 +338,21 @@ state 14
 
 state 15
 
-   33 exp: factor .
-   43 factor: factor . '*' term
-   44       | factor . '/' term
+   34 exp: factor .
+   44 factor: factor . '*' term
+   45       | factor . '/' term
 
     '*'  shift, and go to state 38
     '/'  shift, and go to state 39
 
-    $default  reduce using rule 33 (exp)
+    $default  reduce using rule 34 (exp)
 
 
 state 16
 
-   42 factor: term .
+   43 factor: term .
 
-    $default  reduce using rule 42 (factor)
+    $default  reduce using rule 43 (factor)
 
 
 state 17
@@ -415,14 +421,9 @@ state 22
 
 state 23
 
-   32 if_head: IF '(' . exp ',' @4 stmt
+   33 if_head: IF @4 . '(' exp @5 ',' stmt
 
-    INTEGER  shift, and go to state 1
-    VAR      shift, and go to state 48
-
-    exp     go to state 53
-    factor  go to state 15
-    term    go to state 16
+    '('  shift, and go to state 53
 
 
 state 24
@@ -502,7 +503,7 @@ state 29
 
 state 30
 
-   36 exp: exp '<' . factor
+   37 exp: exp '<' . factor
 
     INTEGER  shift, and go to state 1
     VAR      shift, and go to state 48
@@ -513,7 +514,7 @@ state 30
 
 state 31
 
-   37 exp: exp '>' . factor
+   38 exp: exp '>' . factor
 
     INTEGER  shift, and go to state 1
     VAR      shift, and go to state 48
@@ -524,7 +525,7 @@ state 31
 
 state 32
 
-   40 exp: exp '=' . factor
+   41 exp: exp '=' . factor
 
     INTEGER  shift, and go to state 1
     VAR      shift, and go to state 48
@@ -535,7 +536,7 @@ state 32
 
 state 33
 
-   41 exp: exp '#' . factor
+   42 exp: exp '#' . factor
 
     INTEGER  shift, and go to state 1
     VAR      shift, and go to state 48
@@ -546,7 +547,7 @@ state 33
 
 state 34
 
-   39 exp: exp MEQ . factor
+   40 exp: exp MEQ . factor
 
     INTEGER  shift, and go to state 1
     VAR      shift, and go to state 48
@@ -557,7 +558,7 @@ state 34
 
 state 35
 
-   38 exp: exp LEQ . factor
+   39 exp: exp LEQ . factor
 
     INTEGER  shift, and go to state 1
     VAR      shift, and go to state 48
@@ -568,7 +569,7 @@ state 35
 
 state 36
 
-   34 exp: exp '+' . factor
+   35 exp: exp '+' . factor
 
     INTEGER  shift, and go to state 1
     VAR      shift, and go to state 48
@@ -579,7 +580,7 @@ state 36
 
 state 37
 
-   35 exp: exp '-' . factor
+   36 exp: exp '-' . factor
 
     INTEGER  shift, and go to state 1
     VAR      shift, and go to state 48
@@ -590,7 +591,7 @@ state 37
 
 state 38
 
-   43 factor: factor '*' . term
+   44 factor: factor '*' . term
 
     INTEGER  shift, and go to state 1
     VAR      shift, and go to state 48
@@ -600,7 +601,7 @@ state 38
 
 state 39
 
-   44 factor: factor '/' . term
+   45 factor: factor '/' . term
 
     INTEGER  shift, and go to state 1
     VAR      shift, and go to state 48
@@ -623,11 +624,11 @@ state 40
 state 41
 
    18 param_def: VAR . ':' INTEGER
-   46 term: VAR .
+   47 term: VAR .
 
     ':'  shift, and go to state 69
 
-    $default  reduce using rule 46 (term)
+    $default  reduce using rule 47 (term)
 
 
 state 42
@@ -674,14 +675,14 @@ state 46
 state 47
 
    21 param_exec: exp .
-   34 exp: exp . '+' factor
-   35    | exp . '-' factor
-   36    | exp . '<' factor
-   37    | exp . '>' factor
-   38    | exp . LEQ factor
-   39    | exp . MEQ factor
-   40    | exp . '=' factor
-   41    | exp . '#' factor
+   35 exp: exp . '+' factor
+   36    | exp . '-' factor
+   37    | exp . '<' factor
+   38    | exp . '>' factor
+   39    | exp . LEQ factor
+   40    | exp . MEQ factor
+   41    | exp . '=' factor
+   42    | exp . '#' factor
 
     '<'  shift, and go to state 30
     '>'  shift, and go to state 31
@@ -697,9 +698,9 @@ state 47
 
 state 48
 
-   46 term: VAR .
+   47 term: VAR .
 
-    $default  reduce using rule 46 (term)
+    $default  reduce using rule 47 (term)
 
 
 state 49
@@ -712,14 +713,14 @@ state 49
 state 50
 
     9 def_var: VAR ':' exp .
-   34 exp: exp . '+' factor
-   35    | exp . '-' factor
-   36    | exp . '<' factor
-   37    | exp . '>' factor
-   38    | exp . LEQ factor
-   39    | exp . MEQ factor
-   40    | exp . '=' factor
-   41    | exp . '#' factor
+   35 exp: exp . '+' factor
+   36    | exp . '-' factor
+   37    | exp . '<' factor
+   38    | exp . '>' factor
+   39    | exp . LEQ factor
+   40    | exp . MEQ factor
+   41    | exp . '=' factor
+   42    | exp . '#' factor
 
     '<'  shift, and go to state 30
     '>'  shift, and go to state 31
@@ -756,25 +757,14 @@ state 52
 
 state 53
 
-   32 if_head: IF '(' exp . ',' @4 stmt
-   34 exp: exp . '+' factor
-   35    | exp . '-' factor
-   36    | exp . '<' factor
-   37    | exp . '>' factor
-   38    | exp . LEQ factor
-   39    | exp . MEQ factor
-   40    | exp . '=' factor
-   41    | exp . '#' factor
+   33 if_head: IF @4 '(' . exp @5 ',' stmt
 
-    '<'  shift, and go to state 30
-    '>'  shift, and go to state 31
-    '='  shift, and go to state 32
-    '#'  shift, and go to state 33
-    MEQ  shift, and go to state 34
-    LEQ  shift, and go to state 35
-    '+'  shift, and go to state 36
-    '-'  shift, and go to state 37
-    ','  shift, and go to state 76
+    INTEGER  shift, and go to state 1
+    VAR      shift, and go to state 48
+
+    exp     go to state 76
+    factor  go to state 15
+    term    go to state 16
 
 
 state 54
@@ -812,21 +802,9 @@ state 57
 
 state 58
 
-   36 exp: exp '<' factor .
-   43 factor: factor . '*' term
-   44       | factor . '/' term
-
-    '*'  shift, and go to state 38
-    '/'  shift, and go to state 39
-
-    $default  reduce using rule 36 (exp)
-
-
-state 59
-
-   37 exp: exp '>' factor .
-   43 factor: factor . '*' term
-   44       | factor . '/' term
+   37 exp: exp '<' factor .
+   44 factor: factor . '*' term
+   45       | factor . '/' term
 
     '*'  shift, and go to state 38
     '/'  shift, and go to state 39
@@ -834,47 +812,11 @@ state 59
     $default  reduce using rule 37 (exp)
 
 
-state 60
+state 59
 
-   40 exp: exp '=' factor .
-   43 factor: factor . '*' term
-   44       | factor . '/' term
-
-    '*'  shift, and go to state 38
-    '/'  shift, and go to state 39
-
-    $default  reduce using rule 40 (exp)
-
-
-state 61
-
-   41 exp: exp '#' factor .
-   43 factor: factor . '*' term
-   44       | factor . '/' term
-
-    '*'  shift, and go to state 38
-    '/'  shift, and go to state 39
-
-    $default  reduce using rule 41 (exp)
-
-
-state 62
-
-   39 exp: exp MEQ factor .
-   43 factor: factor . '*' term
-   44       | factor . '/' term
-
-    '*'  shift, and go to state 38
-    '/'  shift, and go to state 39
-
-    $default  reduce using rule 39 (exp)
-
-
-state 63
-
-   38 exp: exp LEQ factor .
-   43 factor: factor . '*' term
-   44       | factor . '/' term
+   38 exp: exp '>' factor .
+   44 factor: factor . '*' term
+   45       | factor . '/' term
 
     '*'  shift, and go to state 38
     '/'  shift, and go to state 39
@@ -882,23 +824,59 @@ state 63
     $default  reduce using rule 38 (exp)
 
 
-state 64
+state 60
 
-   34 exp: exp '+' factor .
-   43 factor: factor . '*' term
-   44       | factor . '/' term
+   41 exp: exp '=' factor .
+   44 factor: factor . '*' term
+   45       | factor . '/' term
 
     '*'  shift, and go to state 38
     '/'  shift, and go to state 39
 
-    $default  reduce using rule 34 (exp)
+    $default  reduce using rule 41 (exp)
 
 
-state 65
+state 61
 
-   35 exp: exp '-' factor .
-   43 factor: factor . '*' term
-   44       | factor . '/' term
+   42 exp: exp '#' factor .
+   44 factor: factor . '*' term
+   45       | factor . '/' term
+
+    '*'  shift, and go to state 38
+    '/'  shift, and go to state 39
+
+    $default  reduce using rule 42 (exp)
+
+
+state 62
+
+   40 exp: exp MEQ factor .
+   44 factor: factor . '*' term
+   45       | factor . '/' term
+
+    '*'  shift, and go to state 38
+    '/'  shift, and go to state 39
+
+    $default  reduce using rule 40 (exp)
+
+
+state 63
+
+   39 exp: exp LEQ factor .
+   44 factor: factor . '*' term
+   45       | factor . '/' term
+
+    '*'  shift, and go to state 38
+    '/'  shift, and go to state 39
+
+    $default  reduce using rule 39 (exp)
+
+
+state 64
+
+   35 exp: exp '+' factor .
+   44 factor: factor . '*' term
+   45       | factor . '/' term
 
     '*'  shift, and go to state 38
     '/'  shift, and go to state 39
@@ -906,31 +884,43 @@ state 65
     $default  reduce using rule 35 (exp)
 
 
+state 65
+
+   36 exp: exp '-' factor .
+   44 factor: factor . '*' term
+   45       | factor . '/' term
+
+    '*'  shift, and go to state 38
+    '/'  shift, and go to state 39
+
+    $default  reduce using rule 36 (exp)
+
+
 state 66
 
-   43 factor: factor '*' term .
+   44 factor: factor '*' term .
 
-    $default  reduce using rule 43 (factor)
+    $default  reduce using rule 44 (factor)
 
 
 state 67
 
-   44 factor: factor '/' term .
+   45 factor: factor '/' term .
 
-    $default  reduce using rule 44 (factor)
+    $default  reduce using rule 45 (factor)
 
 
 state 68
 
    22 exec: VAR '<' '=' exp .
-   34 exp: exp . '+' factor
-   35    | exp . '-' factor
-   36    | exp . '<' factor
-   37    | exp . '>' factor
-   38    | exp . LEQ factor
-   39    | exp . MEQ factor
-   40    | exp . '=' factor
-   41    | exp . '#' factor
+   35 exp: exp . '+' factor
+   36    | exp . '-' factor
+   37    | exp . '<' factor
+   38    | exp . '>' factor
+   39    | exp . LEQ factor
+   40    | exp . MEQ factor
+   41    | exp . '=' factor
+   42    | exp . '#' factor
 
     '<'  shift, and go to state 30
     '>'  shift, and go to state 31
@@ -999,14 +989,14 @@ state 74
 state 75
 
    23 exec: PREFIXES_VAR '<' '=' exp .
-   34 exp: exp . '+' factor
-   35    | exp . '-' factor
-   36    | exp . '<' factor
-   37    | exp . '>' factor
-   38    | exp . LEQ factor
-   39    | exp . MEQ factor
-   40    | exp . '=' factor
-   41    | exp . '#' factor
+   35 exp: exp . '+' factor
+   36    | exp . '-' factor
+   37    | exp . '<' factor
+   38    | exp . '>' factor
+   39    | exp . LEQ factor
+   40    | exp . MEQ factor
+   41    | exp . '=' factor
+   42    | exp . '#' factor
 
     '<'  shift, and go to state 30
     '>'  shift, and go to state 31
@@ -1022,24 +1012,41 @@ state 75
 
 state 76
 
-   32 if_head: IF '(' exp ',' . @4 stmt
+   33 if_head: IF @4 '(' exp . @5 ',' stmt
+   35 exp: exp . '+' factor
+   36    | exp . '-' factor
+   37    | exp . '<' factor
+   38    | exp . '>' factor
+   39    | exp . LEQ factor
+   40    | exp . MEQ factor
+   41    | exp . '=' factor
+   42    | exp . '#' factor
 
-    $default  reduce using rule 31 (@4)
+    '<'  shift, and go to state 30
+    '>'  shift, and go to state 31
+    '='  shift, and go to state 32
+    '#'  shift, and go to state 33
+    MEQ  shift, and go to state 34
+    LEQ  shift, and go to state 35
+    '+'  shift, and go to state 36
+    '-'  shift, and go to state 37
 
-    @4  go to state 84
+    $default  reduce using rule 32 (@5)
+
+    @5  go to state 84
 
 
 state 77
 
    30 exec: WHILE @2 '(' exp . ',' @3 stmt ')'
-   34 exp: exp . '+' factor
-   35    | exp . '-' factor
-   36    | exp . '<' factor
-   37    | exp . '>' factor
-   38    | exp . LEQ factor
-   39    | exp . MEQ factor
-   40    | exp . '=' factor
-   41    | exp . '#' factor
+   35 exp: exp . '+' factor
+   36    | exp . '-' factor
+   37    | exp . '<' factor
+   38    | exp . '>' factor
+   39    | exp . LEQ factor
+   40    | exp . MEQ factor
+   41    | exp . '=' factor
+   42    | exp . '#' factor
 
     '<'  shift, and go to state 30
     '>'  shift, and go to state 31
@@ -1114,24 +1121,9 @@ state 83
 
 state 84
 
-   32 if_head: IF '(' exp ',' @4 . stmt
+   33 if_head: IF @4 '(' exp @5 . ',' stmt
 
-    INTEGER       shift, and go to state 1
-    VAR           shift, and go to state 2
-    PREFIXES_VAR  shift, and go to state 3
-    IF            shift, and go to state 4
-    WHILE         shift, and go to state 5
-    '('           shift, and go to state 6
-
-    stmt     go to state 87
-    def      go to state 9
-    def_var  go to state 10
-    def_fun  go to state 11
-    exec     go to state 12
-    if_head  go to state 13
-    exp      go to state 14
-    factor   go to state 15
-    term     go to state 16
+    ','  shift, and go to state 87
 
 
 state 85
@@ -1152,14 +1144,7 @@ state 86
 
 state 87
 
-   32 if_head: IF '(' exp ',' @4 stmt .
-
-    $default  reduce using rule 32 (if_head)
-
-
-state 88
-
-   30 exec: WHILE @2 '(' exp ',' @3 . stmt ')'
+   33 if_head: IF @4 '(' exp @5 ',' . stmt
 
     INTEGER       shift, and go to state 1
     VAR           shift, and go to state 2
@@ -1179,6 +1164,28 @@ state 88
     term     go to state 16
 
 
+state 88
+
+   30 exec: WHILE @2 '(' exp ',' @3 . stmt ')'
+
+    INTEGER       shift, and go to state 1
+    VAR           shift, and go to state 2
+    PREFIXES_VAR  shift, and go to state 3
+    IF            shift, and go to state 4
+    WHILE         shift, and go to state 5
+    '('           shift, and go to state 6
+
+    stmt     go to state 91
+    def      go to state 9
+    def_var  go to state 10
+    def_fun  go to state 11
+    exec     go to state 12
+    if_head  go to state 13
+    exp      go to state 14
+    factor   go to state 15
+    term     go to state 16
+
+
 state 89
 
    12 def_fun: VAR params ':' @1 '(' stmts ')' .
@@ -1188,12 +1195,19 @@ state 89
 
 state 90
 
-   30 exec: WHILE @2 '(' exp ',' @3 stmt . ')'
+   33 if_head: IF @4 '(' exp @5 ',' stmt .
 
-    ')'  shift, and go to state 91
+    $default  reduce using rule 33 (if_head)
 
 
 state 91
+
+   30 exec: WHILE @2 '(' exp ',' @3 stmt . ')'
+
+    ')'  shift, and go to state 92
+
+
+state 92
 
    30 exec: WHILE @2 '(' exp ',' @3 stmt ')' .
 

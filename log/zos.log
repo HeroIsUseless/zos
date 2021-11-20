@@ -1,0 +1,637 @@
+     1                                  [bits 32]
+     2                                  ORG 0x280000
+     3 00000000 EB18                    jmp main
+     4                                  
+     5                                  ; 读写内存
+     6                                  ; kernel.z\setMem.1byte(val:dword, addr:dword)
+     7                                  kernel_z_setMem_1byte:
+     8 00000002 5D                        pop ebp
+     9 00000003 5B                        pop ebx
+    10 00000004 58                        pop eax
+    11 00000005 55                        push ebp
+    12 00000006 8803                      mov [ebx], al
+    13 00000008 C3                      ret
+    14                                  
+    15                                  ; kernel.z\setMem.2byte(val:dword, addr:dword)
+    16                                  kernel_z_setMem_2byte:
+    17 00000009 5D                        pop ebp
+    18 0000000A 5B                        pop ebx
+    19 0000000B 58                        pop eax
+    20 0000000C 55                        push ebp
+    21 0000000D 668903                    mov [ebx], ax
+    22 00000010 C3                      ret
+    23                                  
+    24                                  ; kernel.z\setMem.4byte(val:dword, addr:dword)
+    25                                  kernel_z_setMem_4byte:
+    26 00000011 5D                        pop ebp
+    27 00000012 5B                        pop ebx
+    28 00000013 58                        pop eax
+    29 00000014 55                        push ebp
+    30 00000015 8903                      mov [ebx], eax
+    31 00000017 C3                      ret
+    32                                  
+    33                                  ; kernel.z\halt()
+    34                                  kernel_z_halt:
+    35 00000018 F4                        hlt
+    36 00000019 C3                      ret
+    37                                  
+    38                                  main:
+    39 0000001A E80C000000                call main_z_run_once
+    40                                    .loop:
+    41 0000001F E895000000                  call main_z_run_loop
+    42 00000024 EBF9                      jmp .loop
+    43                                  
+    44 00000026 E98C000000              jmp main_z_run_once$next
+    45                                  main_z_run_once:
+    46 0000002B 5D                      pop ebp
+    47 0000002C 55                      push ebp
+    48 0000002D B840010000              mov eax, 320
+    49 00000032 50                      push eax
+    50 00000033 EB04                    jmp main_z_run_once_screenWidth$next
+    51 00000035 00000000                main_z_run_once_screenWidth: dd 0
+    52                                  main_z_run_once_screenWidth$next:
+    53 00000039 58                      pop eax
+    54 0000003A A3[35000000]            mov [main_z_run_once_screenWidth], eax
+    55 0000003F B8C8000000              mov eax, 200
+    56 00000044 50                      push eax
+    57 00000045 EB04                    jmp main_z_run_once_screenHeight$next
+    58 00000047 00000000                main_z_run_once_screenHeight: dd 0
+    59                                  main_z_run_once_screenHeight$next:
+    60 0000004B 58                      pop eax
+    61 0000004C A3[47000000]            mov [main_z_run_once_screenHeight], eax
+    62 00000051 B800000A00              mov eax, 0x000a0000
+    63 00000056 50                      push eax
+    64 00000057 EB04                    jmp main_z_run_once_addrVram$next
+    65 00000059 00000000                main_z_run_once_addrVram: dd 0
+    66                                  main_z_run_once_addrVram$next:
+    67 0000005D 58                      pop eax
+    68 0000005E A3[59000000]            mov [main_z_run_once_addrVram], eax
+    69 00000063 B800E02400              mov eax, 0x0024e000
+    70 00000068 50                      push eax
+    71 00000069 EB04                    jmp main_z_run_once_addrPM$next
+    72 0000006B 00000000                main_z_run_once_addrPM: dd 0
+    73                                  main_z_run_once_addrPM$next:
+    74 0000006F 58                      pop eax
+    75 00000070 A3[6B000000]            mov [main_z_run_once_addrPM], eax
+    76 00000075 B800E02600              mov eax, 0x0026e000
+    77 0000007A 50                      push eax
+    78 0000007B EB04                    jmp main_z_run_once_addrPDT$next
+    79 0000007D 00000000                main_z_run_once_addrPDT: dd 0
+    80                                  main_z_run_once_addrPDT$next:
+    81 00000081 58                      pop eax
+    82 00000082 A3[7D000000]            mov [main_z_run_once_addrPDT], eax
+    83 00000087 B800F82600              mov eax, 0x0026f800
+    84 0000008C 50                      push eax
+    85 0000008D EB04                    jmp main_z_run_once_addrIDT$next
+    86 0000008F 00000000                main_z_run_once_addrIDT: dd 0
+    87                                  main_z_run_once_addrIDT$next:
+    88 00000093 58                      pop eax
+    89 00000094 A3[8F000000]            mov [main_z_run_once_addrIDT], eax
+    90 00000099 B800002700              mov eax, 0x00270000
+    91 0000009E 50                      push eax
+    92 0000009F EB04                    jmp main_z_run_once_addrGDT$next
+    93 000000A1 00000000                main_z_run_once_addrGDT: dd 0
+    94                                  main_z_run_once_addrGDT$next:
+    95 000000A5 58                      pop eax
+    96 000000A6 A3[A1000000]            mov [main_z_run_once_addrGDT], eax
+    97 000000AB A1[59000000]            mov eax, [main_z_run_once_addrVram]
+    98 000000B0 50                      push eax
+    99 000000B1 E8E2010000              call test_z_draw
+   100 000000B6 C3                      ret
+   101                                  main_z_run_once$next:
+   102 000000B7 EB08                    jmp main_z_run_loop$next
+   103                                  main_z_run_loop:
+   104 000000B9 5D                      pop ebp
+   105 000000BA 55                      push ebp
+   106 000000BB E858FFFFFF              call kernel_z_halt
+   107 000000C0 C3                      ret
+   108                                  main_z_run_loop$next:
+   109 000000C1 EB2C                    jmp memory_z_set_1byte$next
+   110                                  memory_z_set_1byte:
+   111 000000C3 EB04                    jmp memory_z_set_1byte_val$next
+   112 000000C5 00000000                memory_z_set_1byte_val: dd 0
+   113                                  memory_z_set_1byte_val$next:
+   114 000000C9 EB04                    jmp memory_z_set_1byte_addr$next
+   115 000000CB 00000000                memory_z_set_1byte_addr: dd 0
+   116                                  memory_z_set_1byte_addr$next:
+   117 000000CF 5D                      pop ebp
+   118 000000D0 58                      pop eax
+   119 000000D1 A3[CB000000]            mov [memory_z_set_1byte_addr], eax
+   120 000000D6 58                      pop eax
+   121 000000D7 A3[C5000000]            mov [memory_z_set_1byte_val], eax
+   122 000000DC 55                      push ebp
+   123 000000DD A1[C5000000]            mov eax, [memory_z_set_1byte_val]
+   124 000000E2 50                      push eax
+   125 000000E3 A1[CB000000]            mov eax, [memory_z_set_1byte_addr]
+   126 000000E8 50                      push eax
+   127 000000E9 E814FFFFFF              call kernel_z_setMem_1byte
+   128 000000EE C3                      ret
+   129                                  memory_z_set_1byte$next:
+   130 000000EF EB2C                    jmp memory_z_set_2byte$next
+   131                                  memory_z_set_2byte:
+   132 000000F1 EB04                    jmp memory_z_set_2byte_val$next
+   133 000000F3 00000000                memory_z_set_2byte_val: dd 0
+   134                                  memory_z_set_2byte_val$next:
+   135 000000F7 EB04                    jmp memory_z_set_2byte_addr$next
+   136 000000F9 00000000                memory_z_set_2byte_addr: dd 0
+   137                                  memory_z_set_2byte_addr$next:
+   138 000000FD 5D                      pop ebp
+   139 000000FE 58                      pop eax
+   140 000000FF A3[F9000000]            mov [memory_z_set_2byte_addr], eax
+   141 00000104 58                      pop eax
+   142 00000105 A3[F3000000]            mov [memory_z_set_2byte_val], eax
+   143 0000010A 55                      push ebp
+   144 0000010B A1[F3000000]            mov eax, [memory_z_set_2byte_val]
+   145 00000110 50                      push eax
+   146 00000111 A1[F9000000]            mov eax, [memory_z_set_2byte_addr]
+   147 00000116 50                      push eax
+   148 00000117 E8EDFEFFFF              call kernel_z_setMem_2byte
+   149 0000011C C3                      ret
+   150                                  memory_z_set_2byte$next:
+   151 0000011D EB2C                    jmp memory_z_set_4byte$next
+   152                                  memory_z_set_4byte:
+   153 0000011F EB04                    jmp memory_z_set_4byte_val$next
+   154 00000121 00000000                memory_z_set_4byte_val: dd 0
+   155                                  memory_z_set_4byte_val$next:
+   156 00000125 EB04                    jmp memory_z_set_4byte_addr$next
+   157 00000127 00000000                memory_z_set_4byte_addr: dd 0
+   158                                  memory_z_set_4byte_addr$next:
+   159 0000012B 5D                      pop ebp
+   160 0000012C 58                      pop eax
+   161 0000012D A3[27010000]            mov [memory_z_set_4byte_addr], eax
+   162 00000132 58                      pop eax
+   163 00000133 A3[21010000]            mov [memory_z_set_4byte_val], eax
+   164 00000138 55                      push ebp
+   165 00000139 A1[21010000]            mov eax, [memory_z_set_4byte_val]
+   166 0000013E 50                      push eax
+   167 0000013F A1[27010000]            mov eax, [memory_z_set_4byte_addr]
+   168 00000144 50                      push eax
+   169 00000145 E8C7FEFFFF              call kernel_z_setMem_4byte
+   170 0000014A C3                      ret
+   171                                  memory_z_set_4byte$next:
+   172 0000014B EB7D                    jmp draw_z_pixel$next
+   173                                  draw_z_pixel:
+   174 0000014D EB04                    jmp draw_z_pixel_x$next
+   175 0000014F 00000000                draw_z_pixel_x: dd 0
+   176                                  draw_z_pixel_x$next:
+   177 00000153 EB04                    jmp draw_z_pixel_y$next
+   178 00000155 00000000                draw_z_pixel_y: dd 0
+   179                                  draw_z_pixel_y$next:
+   180 00000159 EB04                    jmp draw_z_pixel_color$next
+   181 0000015B 00000000                draw_z_pixel_color: dd 0
+   182                                  draw_z_pixel_color$next:
+   183 0000015F EB04                    jmp draw_z_pixel_screenWidth$next
+   184 00000161 00000000                draw_z_pixel_screenWidth: dd 0
+   185                                  draw_z_pixel_screenWidth$next:
+   186 00000165 EB04                    jmp draw_z_pixel_vramAddr$next
+   187 00000167 00000000                draw_z_pixel_vramAddr: dd 0
+   188                                  draw_z_pixel_vramAddr$next:
+   189 0000016B 5D                      pop ebp
+   190 0000016C 58                      pop eax
+   191 0000016D A3[67010000]            mov [draw_z_pixel_vramAddr], eax
+   192 00000172 58                      pop eax
+   193 00000173 A3[61010000]            mov [draw_z_pixel_screenWidth], eax
+   194 00000178 58                      pop eax
+   195 00000179 A3[5B010000]            mov [draw_z_pixel_color], eax
+   196 0000017E 58                      pop eax
+   197 0000017F A3[55010000]            mov [draw_z_pixel_y], eax
+   198 00000184 58                      pop eax
+   199 00000185 A3[4F010000]            mov [draw_z_pixel_x], eax
+   200 0000018A 55                      push ebp
+   201 0000018B A1[55010000]            mov eax, [draw_z_pixel_y]
+   202 00000190 50                      push eax
+   203 00000191 A1[61010000]            mov eax, [draw_z_pixel_screenWidth]
+   204 00000196 5B                      pop ebx
+   205 00000197 F7E3                    mul ebx
+   206 00000199 50                      push eax
+   207 0000019A A1[4F010000]            mov eax, [draw_z_pixel_x]
+   208 0000019F 5B                      pop ebx
+   209 000001A0 01D8                    add eax, ebx
+   210 000001A2 50                      push eax
+   211 000001A3 A1[67010000]            mov eax, [draw_z_pixel_vramAddr]
+   212 000001A8 5B                      pop ebx
+   213 000001A9 01D8                    add eax, ebx
+   214 000001AB 50                      push eax
+   215 000001AC EB04                    jmp draw_z_pixel_addr$next
+   216 000001AE 00000000                draw_z_pixel_addr: dd 0
+   217                                  draw_z_pixel_addr$next:
+   218 000001B2 58                      pop eax
+   219 000001B3 A3[AE010000]            mov [draw_z_pixel_addr], eax
+   220 000001B8 A1[5B010000]            mov eax, [draw_z_pixel_color]
+   221 000001BD 50                      push eax
+   222 000001BE A1[AE010000]            mov eax, [draw_z_pixel_addr]
+   223 000001C3 50                      push eax
+   224 000001C4 E8FAFEFFFF              call memory_z_set_1byte
+   225 000001C9 C3                      ret
+   226                                  draw_z_pixel$next:
+   227 000001CA E9C4000000              jmp draw_z_hLine$next
+   228                                  draw_z_hLine:
+   229 000001CF EB04                    jmp draw_z_hLine_bx$next
+   230 000001D1 00000000                draw_z_hLine_bx: dd 0
+   231                                  draw_z_hLine_bx$next:
+   232 000001D5 EB04                    jmp draw_z_hLine_by$next
+   233 000001D7 00000000                draw_z_hLine_by: dd 0
+   234                                  draw_z_hLine_by$next:
+   235 000001DB EB04                    jmp draw_z_hLine_ex$next
+   236 000001DD 00000000                draw_z_hLine_ex: dd 0
+   237                                  draw_z_hLine_ex$next:
+   238 000001E1 EB04                    jmp draw_z_hLine_ey$next
+   239 000001E3 00000000                draw_z_hLine_ey: dd 0
+   240                                  draw_z_hLine_ey$next:
+   241 000001E7 EB04                    jmp draw_z_hLine_color$next
+   242 000001E9 00000000                draw_z_hLine_color: dd 0
+   243                                  draw_z_hLine_color$next:
+   244 000001ED EB04                    jmp draw_z_hLine_screenWidth$next
+   245 000001EF 00000000                draw_z_hLine_screenWidth: dd 0
+   246                                  draw_z_hLine_screenWidth$next:
+   247 000001F3 EB04                    jmp draw_z_hLine_vramAddr$next
+   248 000001F5 00000000                draw_z_hLine_vramAddr: dd 0
+   249                                  draw_z_hLine_vramAddr$next:
+   250 000001F9 5D                      pop ebp
+   251 000001FA 58                      pop eax
+   252 000001FB A3[F5010000]            mov [draw_z_hLine_vramAddr], eax
+   253 00000200 58                      pop eax
+   254 00000201 A3[EF010000]            mov [draw_z_hLine_screenWidth], eax
+   255 00000206 58                      pop eax
+   256 00000207 A3[E9010000]            mov [draw_z_hLine_color], eax
+   257 0000020C 58                      pop eax
+   258 0000020D A3[E3010000]            mov [draw_z_hLine_ey], eax
+   259 00000212 58                      pop eax
+   260 00000213 A3[DD010000]            mov [draw_z_hLine_ex], eax
+   261 00000218 58                      pop eax
+   262 00000219 A3[D7010000]            mov [draw_z_hLine_by], eax
+   263 0000021E 58                      pop eax
+   264 0000021F A3[D1010000]            mov [draw_z_hLine_bx], eax
+   265 00000224 55                      push ebp
+   266 00000225 A1[D1010000]            mov eax, [draw_z_hLine_bx]
+   267 0000022A 50                      push eax
+   268 0000022B EB04                    jmp draw_z_hLine_i$next
+   269 0000022D 00000000                draw_z_hLine_i: dd 0
+   270                                  draw_z_hLine_i$next:
+   271 00000231 58                      pop eax
+   272 00000232 A3[2D020000]            mov [draw_z_hLine_i], eax
+   273                                  ; while start
+   274                                  draw_z_hLine_while$1_start:
+   275                                  mov eax, [draw_z_hLine_while$1_i]
+   275          ******************       error: symbol `draw_z_hLine_while$1_i' not defined
+   276 00000237 50                      push eax
+   277                                  mov eax, [draw_z_hLine_while$1_ex]
+   277          ******************       error: symbol `draw_z_hLine_while$1_ex' not defined
+   278 00000238 50                      push eax
+   279 00000239 5B                      pop ebx
+   280 0000023A 58                      pop eax
+   281 0000023B 39D8                    cmp eax, ebx
+   282 0000023D 7211                    jb draw_z_hLine_while$1_less@true$1
+   283 0000023F B800000000              mov eax, 0
+   284 00000244 EB0F                    jmp draw_z_hLine_while$1_less@false$1
+   285                                  draw_z_hLine_while$1_less@true$1:
+   286 00000246 B801000000              mov eax, 1
+   287                                  draw_z_hLine_while$1_less@false$1:
+   288 0000024B 83F800                  cmp eax, 0
+   289 0000024E 7442                    je draw_z_hLine_while$1_end
+   290                                  mov eax, [draw_z_hLine_while$1_i]
+   290          ******************       error: symbol `draw_z_hLine_while$1_i' not defined
+   291 00000250 50                      push eax
+   292                                  mov eax, [draw_z_hLine_while$1_by]
+   292          ******************       error: symbol `draw_z_hLine_while$1_by' not defined
+   293 00000251 50                      push eax
+   294                                  mov eax, [draw_z_hLine_while$1_color]
+   294          ******************       error: symbol `draw_z_hLine_while$1_color' not defined
+   295 00000252 50                      push eax
+   296                                  mov eax, [draw_z_hLine_while$1_screenWidth]
+   296          ******************       error: symbol `draw_z_hLine_while$1_screenWidth' not defined
+   297 00000253 50                      push eax
+   298                                  mov eax, [draw_z_hLine_while$1_vramAddr]
+   298          ******************       error: symbol `draw_z_hLine_while$1_vramAddr' not defined
+   299 00000254 50                      push eax
+   300 00000255 E8F3FEFFFF              call draw_z_pixel
+   301                                  mov eax, [draw_z_hLine_while$1_i]
+   301          ******************       error: symbol `draw_z_hLine_while$1_i' not defined
+   302 0000025A 50                      push eax
+   303 0000025B B801000000              mov eax, 1
+   304 00000260 5B                      pop ebx
+   305 00000261 01D8                    add eax, ebx
+   306                                  mov [draw_z_hLine_while$1_i], eax
+   306          ******************       error: symbol `draw_z_hLine_while$1_i' not defined
+   307 00000263 EBD2                    jmp draw_z_hLine_while$1_start
+   308                                  draw_z_hLine_while$1_end:
+   309                                  ;while end
+   310 00000265 C3                      ret
+   311                                  draw_z_hLine$next:
+   312 00000266 E981030000              jmp test_z_draw$next
+   313                                  test_z_draw:
+   314 0000026B EB31                    jmp test_z_draw_addrVram$next
+   315 0000026D 00000000                test_z_draw_addrVram: dd 0
+   316                                  test_z_draw_addrVram$next:
+   317 00000271 5D                      pop ebp
+   318 00000272 58                      pop eax
+   319 00000273 A3[6D020000]            mov [test_z_draw_addrVram], eax
+   320 00000278 55                      push ebp
+   321 00000279 B800000000              mov eax, 0
+   322 0000027E 50                      push eax
+   323 0000027F B800000000              mov eax, 0
+   324 00000284 50                      push eax
+   325 00000285 B800000000              mov eax, 0
+   326 0000028A 50                      push eax
+   327 0000028B B840010000              mov eax, 320
+   328 00000290 50                      push eax
+   329 00000291 A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   330 00000296 50                      push eax
+   331 00000297 E8B1FEFFFF              call draw_z_pixel
+   332 0000029C B801000000              mov eax, 1
+   333 000002A1 50                      push eax
+   334 000002A2 B801000000              mov eax, 1
+   335 000002A7 50                      push eax
+   336 000002A8 B801000000              mov eax, 1
+   337 000002AD 50                      push eax
+   338 000002AE B840010000              mov eax, 320
+   339 000002B3 50                      push eax
+   340 000002B4 A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   341 000002B9 50                      push eax
+   342 000002BA E88EFEFFFF              call draw_z_pixel
+   343 000002BF B802000000              mov eax, 2
+   344 000002C4 50                      push eax
+   345 000002C5 B802000000              mov eax, 2
+   346 000002CA 50                      push eax
+   347 000002CB B802000000              mov eax, 2
+   348 000002D0 50                      push eax
+   349 000002D1 B840010000              mov eax, 320
+   350 000002D6 50                      push eax
+   351 000002D7 A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   352 000002DC 50                      push eax
+   353 000002DD E86BFEFFFF              call draw_z_pixel
+   354 000002E2 B803000000              mov eax, 3
+   355 000002E7 50                      push eax
+   356 000002E8 B803000000              mov eax, 3
+   357 000002ED 50                      push eax
+   358 000002EE B803000000              mov eax, 3
+   359 000002F3 50                      push eax
+   360 000002F4 B840010000              mov eax, 320
+   361 000002F9 50                      push eax
+   362 000002FA A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   363 000002FF 50                      push eax
+   364 00000300 E848FEFFFF              call draw_z_pixel
+   365 00000305 B804000000              mov eax, 4
+   366 0000030A 50                      push eax
+   367 0000030B B804000000              mov eax, 4
+   368 00000310 50                      push eax
+   369 00000311 B804000000              mov eax, 4
+   370 00000316 50                      push eax
+   371 00000317 B840010000              mov eax, 320
+   372 0000031C 50                      push eax
+   373 0000031D A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   374 00000322 50                      push eax
+   375 00000323 E825FEFFFF              call draw_z_pixel
+   376 00000328 B805000000              mov eax, 5
+   377 0000032D 50                      push eax
+   378 0000032E B805000000              mov eax, 5
+   379 00000333 50                      push eax
+   380 00000334 B805000000              mov eax, 5
+   381 00000339 50                      push eax
+   382 0000033A B840010000              mov eax, 320
+   383 0000033F 50                      push eax
+   384 00000340 A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   385 00000345 50                      push eax
+   386 00000346 E802FEFFFF              call draw_z_pixel
+   387 0000034B B806000000              mov eax, 6
+   388 00000350 50                      push eax
+   389 00000351 B806000000              mov eax, 6
+   390 00000356 50                      push eax
+   391 00000357 B806000000              mov eax, 6
+   392 0000035C 50                      push eax
+   393 0000035D B840010000              mov eax, 320
+   394 00000362 50                      push eax
+   395 00000363 A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   396 00000368 50                      push eax
+   397 00000369 E8DFFDFFFF              call draw_z_pixel
+   398 0000036E B807000000              mov eax, 7
+   399 00000373 50                      push eax
+   400 00000374 B807000000              mov eax, 7
+   401 00000379 50                      push eax
+   402 0000037A B807000000              mov eax, 7
+   403 0000037F 50                      push eax
+   404 00000380 B840010000              mov eax, 320
+   405 00000385 50                      push eax
+   406 00000386 A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   407 0000038B 50                      push eax
+   408 0000038C E8BCFDFFFF              call draw_z_pixel
+   409 00000391 B808000000              mov eax, 8
+   410 00000396 50                      push eax
+   411 00000397 B808000000              mov eax, 8
+   412 0000039C 50                      push eax
+   413 0000039D B808000000              mov eax, 8
+   414 000003A2 50                      push eax
+   415 000003A3 B840010000              mov eax, 320
+   416 000003A8 50                      push eax
+   417 000003A9 A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   418 000003AE 50                      push eax
+   419 000003AF E899FDFFFF              call draw_z_pixel
+   420 000003B4 B809000000              mov eax, 9
+   421 000003B9 50                      push eax
+   422 000003BA B809000000              mov eax, 9
+   423 000003BF 50                      push eax
+   424 000003C0 B809000000              mov eax, 9
+   425 000003C5 50                      push eax
+   426 000003C6 B840010000              mov eax, 320
+   427 000003CB 50                      push eax
+   428 000003CC A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   429 000003D1 50                      push eax
+   430 000003D2 E876FDFFFF              call draw_z_pixel
+   431 000003D7 B80A000000              mov eax, 10
+   432 000003DC 50                      push eax
+   433 000003DD B80A000000              mov eax, 10
+   434 000003E2 50                      push eax
+   435 000003E3 B80A000000              mov eax, 10
+   436 000003E8 50                      push eax
+   437 000003E9 B840010000              mov eax, 320
+   438 000003EE 50                      push eax
+   439 000003EF A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   440 000003F4 50                      push eax
+   441 000003F5 E853FDFFFF              call draw_z_pixel
+   442 000003FA B80B000000              mov eax, 11
+   443 000003FF 50                      push eax
+   444 00000400 B80B000000              mov eax, 11
+   445 00000405 50                      push eax
+   446 00000406 B80B000000              mov eax, 11
+   447 0000040B 50                      push eax
+   448 0000040C B840010000              mov eax, 320
+   449 00000411 50                      push eax
+   450 00000412 A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   451 00000417 50                      push eax
+   452 00000418 E830FDFFFF              call draw_z_pixel
+   453 0000041D B80C000000              mov eax, 12
+   454 00000422 50                      push eax
+   455 00000423 B80C000000              mov eax, 12
+   456 00000428 50                      push eax
+   457 00000429 B80C000000              mov eax, 12
+   458 0000042E 50                      push eax
+   459 0000042F B840010000              mov eax, 320
+   460 00000434 50                      push eax
+   461 00000435 A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   462 0000043A 50                      push eax
+   463 0000043B E80DFDFFFF              call draw_z_pixel
+   464 00000440 B80D000000              mov eax, 13
+   465 00000445 50                      push eax
+   466 00000446 B80D000000              mov eax, 13
+   467 0000044B 50                      push eax
+   468 0000044C B80D000000              mov eax, 13
+   469 00000451 50                      push eax
+   470 00000452 B840010000              mov eax, 320
+   471 00000457 50                      push eax
+   472 00000458 A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   473 0000045D 50                      push eax
+   474 0000045E E8EAFCFFFF              call draw_z_pixel
+   475 00000463 B80E000000              mov eax, 14
+   476 00000468 50                      push eax
+   477 00000469 B80E000000              mov eax, 14
+   478 0000046E 50                      push eax
+   479 0000046F B80E000000              mov eax, 14
+   480 00000474 50                      push eax
+   481 00000475 B840010000              mov eax, 320
+   482 0000047A 50                      push eax
+   483 0000047B A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   484 00000480 50                      push eax
+   485 00000481 E8C7FCFFFF              call draw_z_pixel
+   486 00000486 B80F000000              mov eax, 15
+   487 0000048B 50                      push eax
+   488 0000048C B80F000000              mov eax, 15
+   489 00000491 50                      push eax
+   490 00000492 B80F000000              mov eax, 15
+   491 00000497 50                      push eax
+   492 00000498 B840010000              mov eax, 320
+   493 0000049D 50                      push eax
+   494 0000049E A1[6D020000]            mov eax, [test_z_draw_addrVram]
+   495 000004A3 50                      push eax
+   496 000004A4 E8A4FCFFFF              call draw_z_pixel
+   497                                  ; while start
+   498                                  test_z_draw_while$1_start:
+   499                                  mov eax, [test_z_draw_while$1_i]
+   499          ******************       error: symbol `test_z_draw_while$1_i' not defined
+   500 000004A9 50                      push eax
+   501 000004AA B810000000              mov eax, 16
+   502 000004AF 50                      push eax
+   503 000004B0 5B                      pop ebx
+   504 000004B1 58                      pop eax
+   505 000004B2 39D8                    cmp eax, ebx
+   506 000004B4 7239                    jb test_z_draw_while$1_less@true$1
+   507 000004B6 B800000000              mov eax, 0
+   508 000004BB EB37                    jmp test_z_draw_while$1_less@false$1
+   509                                  test_z_draw_while$1_less@true$1:
+   510 000004BD B801000000              mov eax, 1
+   511                                  test_z_draw_while$1_less@false$1:
+   512 000004C2 83F800                  cmp eax, 0
+   513 000004C5 746A                    je test_z_draw_while$1_end
+   514                                  mov eax, [test_z_draw_while$1_i]
+   514          ******************       error: symbol `test_z_draw_while$1_i' not defined
+   515 000004C7 50                      push eax
+   516 000004C8 B800000000              mov eax, 0
+   517 000004CD 50                      push eax
+   518                                  mov eax, [test_z_draw_while$1_i]
+   518          ******************       error: symbol `test_z_draw_while$1_i' not defined
+   519 000004CE 50                      push eax
+   520 000004CF B840010000              mov eax, 320
+   521 000004D4 50                      push eax
+   522                                  mov eax, [test_z_draw_while$1_addrVram]
+   522          ******************       error: symbol `test_z_draw_while$1_addrVram' not defined
+   523 000004D5 50                      push eax
+   524 000004D6 E872FCFFFF              call draw_z_pixel
+   525                                  mov eax, [test_z_draw_while$1_i]
+   525          ******************       error: symbol `test_z_draw_while$1_i' not defined
+   526 000004DB 50                      push eax
+   527 000004DC B801000000              mov eax, 1
+   528 000004E1 5B                      pop ebx
+   529 000004E2 01D8                    add eax, ebx
+   530                                  mov [test_z_draw_while$1_i], eax
+   530          ******************       error: symbol `test_z_draw_while$1_i' not defined
+   531 000004E4 EBC3                    jmp test_z_draw_while$1_start
+   532                                  test_z_draw_while$1_end:
+   533                                  ;while end
+   534 000004E6 B800000000              mov eax, 0
+   535 000004EB 50                      push eax
+   536 000004EC EB4F                    jmp test_z_draw_x$next
+   537 000004EE 00000000                test_z_draw_x: dd 0
+   538                                  test_z_draw_x$next:
+   539 000004F2 58                      pop eax
+   540 000004F3 A3[EE040000]            mov [test_z_draw_x], eax
+   541 000004F8 B800000000              mov eax, 0
+   542 000004FD 50                      push eax
+   543 000004FE EB4F                    jmp test_z_draw_y$next
+   544 00000500 00000000                test_z_draw_y: dd 0
+   545                                  test_z_draw_y$next:
+   546 00000504 58                      pop eax
+   547 00000505 A3[00050000]            mov [test_z_draw_y], eax
+   548                                  ; while start
+   549                                  test_z_draw_while$2_start:
+   550                                  mov eax, [test_z_draw_while$2_y]
+   550          ******************       error: symbol `test_z_draw_while$2_y' not defined
+   551 0000050A 50                      push eax
+   552 0000050B B8C8000000              mov eax, 200
+   553 00000510 50                      push eax
+   554 00000511 5B                      pop ebx
+   555 00000512 58                      pop eax
+   556 00000513 39D8                    cmp eax, ebx
+   557 00000515 7257                    jb test_z_draw_while$2_less@true$2
+   558 00000517 B800000000              mov eax, 0
+   559 0000051C EB55                    jmp test_z_draw_while$2_less@false$2
+   560                                  test_z_draw_while$2_less@true$2:
+   561 0000051E B801000000              mov eax, 1
+   562                                  test_z_draw_while$2_less@false$2:
+   563 00000523 83F800                  cmp eax, 0
+   564 00000526 0F84BF000000            je test_z_draw_while$2_end
+   565                                  ; while start
+   566                                  test_z_draw_while$2_while$1_start:
+   567                                  mov eax, [test_z_draw_while$2_while$1_x]
+   567          ******************       error: symbol `test_z_draw_while$2_while$1_x' not defined
+   568 0000052C 50                      push eax
+   569 0000052D B840010000              mov eax, 320
+   570 00000532 50                      push eax
+   571 00000533 5B                      pop ebx
+   572 00000534 58                      pop eax
+   573 00000535 39D8                    cmp eax, ebx
+   574 00000537 7258                    jb test_z_draw_while$2_while$1_less@true$3
+   575 00000539 B800000000              mov eax, 0
+   576 0000053E EB56                    jmp test_z_draw_while$2_while$1_less@false$3
+   577                                  test_z_draw_while$2_while$1_less@true$3:
+   578 00000540 B801000000              mov eax, 1
+   579                                  test_z_draw_while$2_while$1_less@false$3:
+   580 00000545 83F800                  cmp eax, 0
+   581 00000548 0F8485000000            je test_z_draw_while$2_while$1_end
+   582                                  mov eax, [test_z_draw_while$2_while$1_x]
+   582          ******************       error: symbol `test_z_draw_while$2_while$1_x' not defined
+   583 0000054E 50                      push eax
+   584                                  mov eax, [test_z_draw_while$2_while$1_y]
+   584          ******************       error: symbol `test_z_draw_while$2_while$1_y' not defined
+   585 0000054F 50                      push eax
+   586                                  mov eax, [test_z_draw_while$2_while$1_y]
+   586          ******************       error: symbol `test_z_draw_while$2_while$1_y' not defined
+   587 00000550 50                      push eax
+   588 00000551 B840010000              mov eax, 320
+   589 00000556 50                      push eax
+   590                                  mov eax, [test_z_draw_while$2_while$1_addrVram]
+   590          ******************       error: symbol `test_z_draw_while$2_while$1_addrVram' not defined
+   591 00000557 50                      push eax
+   592 00000558 E8F0FBFFFF              call draw_z_pixel
+   593                                  mov eax, [test_z_draw_while$2_while$1_x]
+   593          ******************       error: symbol `test_z_draw_while$2_while$1_x' not defined
+   594 0000055D 50                      push eax
+   595 0000055E B801000000              mov eax, 1
+   596 00000563 5B                      pop ebx
+   597 00000564 01D8                    add eax, ebx
+   598                                  mov [test_z_draw_while$2_while$1_x], eax
+   598          ******************       error: symbol `test_z_draw_while$2_while$1_x' not defined
+   599 00000566 EBC4                    jmp test_z_draw_while$2_while$1_start
+   600                                  test_z_draw_while$2_while$1_end:
+   601                                  ;while end
+   602                                  mov eax, [test_z_draw_while$2_y]
+   602          ******************       error: symbol `test_z_draw_while$2_y' not defined
+   603 00000568 50                      push eax
+   604 00000569 B801000000              mov eax, 1
+   605 0000056E 5B                      pop ebx
+   606 0000056F 01D8                    add eax, ebx
+   607                                  mov [test_z_draw_while$2_y], eax
+   607          ******************       error: symbol `test_z_draw_while$2_y' not defined
+   608 00000571 EB97                    jmp test_z_draw_while$2_start
+   609                                  test_z_draw_while$2_end:
+   610                                  ;while end
+   611 00000573 C3                      ret
+   612                                  test_z_draw$next:

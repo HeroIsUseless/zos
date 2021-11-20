@@ -1,6 +1,8 @@
-e10_while_z_while$1:
+; while start
+e10_while_z_while$1_start:
 mov eax, 1
 cmp eax, 0
-je e10_while_z_while@end$1
-jmp e10_while_z_while$1
-e10_while_z_while@end$1:
+je e10_while_z_while$1_end
+jmp e10_while_z_while$1_start
+e10_while_z_while$1_end:
+;while end

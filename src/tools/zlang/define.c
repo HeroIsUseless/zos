@@ -8,11 +8,17 @@
 #define MAX_NAME 50
 #define MAX_COUNT 100
 #define MAX_COLEN 524288
+#define TRUE 1
+#define FALSE 0
 ////////////////////count//////////////////////////
 int jmp_count;
+int if_layer;
+int isIfOpens[MAX_COUNT] = {TRUE};
 int if_counts[MAX_COUNT];
+int while_layer;
+int isWhileOpens[MAX_COUNT] = {TRUE};
 int while_counts[MAX_COUNT];
-counts_add(int counts[]){
+void counts_add(int counts[]){
   if(counts[0] == 0){
     counts[0]++;
   }
@@ -22,22 +28,20 @@ counts_add(int counts[]){
     counts[i]++;
   }
 }
-counts_push(int counts[]){
+void counts_push(int counts[]){
   int i=0;
   while(counts[i] != 0) i++;
   counts[i]++;
 }
-counts_pop(int counts[]){
+void counts_pop(int counts[]){
   int i = MAX_COUNT-1;
   while(counts[i] == 0) i--;
   counts[i] = 0;
 }
-counts_all(int counts[], char allCounts[]){
-  int i = 0;
-  while(counts[i] != 0){
-    allCounts[strlen(allCounts)] = counts[i] + '0';
-    allCounts[strlen(allCounts)] = '_';
-  }
+int counts_top(int counts[]){
+  int i = MAX_COUNT-1;
+  while(counts[i] == 0) i--;
+  return counts[i];
 }
 //////////////////prefix//////////////////////
 char prefixes[MAX_COUNT][MAX_NAME] = {0};
@@ -49,13 +53,6 @@ int prefixes_size(){
     }
   }
   return i+1;
-}
-
-void prefixes_print(){
-  int i;
-  for(i=0; i<prefixes_size(); i++){
-    printf("%s\n", prefixes[i]);
-  }
 }
 
 void prefix_format(char prefix[]){
@@ -79,6 +76,30 @@ void prefixes_format(){
   }
 }
 
+void prefixes_push(char var[]){
+  int size = prefixes_size();
+  strcpy(prefixes[size], var);
+  prefixes_format();
+}
+
+void prefixes_pushCount(char var[], int count){
+  char var_count[MAX_COUNT] = {0};
+  char count_str[MAX_COUNT] = {0};
+  int2str(count, count_str);
+  strcpy(var_count+strlen(var_count), var);
+  strcpy(var_count+strlen(var_count), "$");
+  strcpy(var_count+strlen(var_count), count_str);
+  int size = prefixes_size();
+  strcpy(prefixes[size], var_count);
+  printf("zws:%s\n", var_count);
+  prefixes_format();
+}
+
+void prefixes_pop(){
+  int size = prefixes_size();
+  strcpy(prefixes[size-1], "");
+}
+
 void prefixes_all(char allPrefixes[]){
   int i, size = prefixes_size();
   for(i=0; i<size; i++){
@@ -87,15 +108,11 @@ void prefixes_all(char allPrefixes[]){
   }
 }
 
-void prefixes_push(char var[]){
-  int size = prefixes_size();
-  strcpy(prefixes[size], var);
-  prefixes_format();
-}
-
-void prefixes_pop(){
-  int size = prefixes_size();
-  strcpy(prefixes[size-1], "");
+void prefixes_print(){
+  int i;
+  for(i=0; i<prefixes_size(); i++){
+    printf("%s\n", prefixes[i]);
+  }
 }
 
 //////////////////params//////////////////////

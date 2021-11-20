@@ -16,7 +16,7 @@ hLine(bx:dword, by:dword,
       screenWidth:dword, 
       vramAddr:dword):(
     i: bx;
-    if(i\<ex, (
+    while(i\<ex, (
         pixel(i, by, color, screenWidth, vramAddr);
         i <= i+1;)
     );

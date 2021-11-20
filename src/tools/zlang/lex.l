@@ -30,12 +30,12 @@ dword {
 @[\\a-zA-Z0-9\.]+ return PATH; 
 [a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?(\\[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?)+ {
     yylval.s = strdup(yytext); 
-    printf("PREFIXES_VAR %s\n", yylval.s); 
+    //printf("PREFIXES_VAR %s\n", yylval.s); 
     return PREFIXES_VAR;
 }
 [a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)? {
     yylval.s = strdup(yytext); 
-    printf("VAR %s\n", yylval.s); 
+    //printf("VAR %s\n", yylval.s); 
     return VAR;
 }        
 0x[0-9a-f]+ {

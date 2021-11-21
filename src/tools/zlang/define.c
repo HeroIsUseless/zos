@@ -10,6 +10,9 @@
 #define MAX_COLEN 524288
 #define TRUE 1
 #define FALSE 0
+////////////////////vars父节点变量///////////////////
+int func_layer;
+char funcVars[MAX_COUNT][MAX_COUNT][MAX_NAME];
 ////////////////////count//////////////////////////
 int jmp_count;
 int if_layer;
@@ -108,6 +111,14 @@ void prefixes_all(char allPrefixes[]){
   }
 }
 
+void prefixes_part(char partPrefixes[], int layer){
+  int i;
+  for(i=0; i<layer; i++){
+    strcpy(partPrefixes+strlen(partPrefixes), prefixes[i]);
+    strcpy(partPrefixes+strlen(partPrefixes), "_");
+  }
+}
+
 void prefixes_print(){
   int i;
   for(i=0; i<prefixes_size(); i++){
@@ -161,6 +172,12 @@ void code_appendPrefixes(){
   char allPrefixes[MAX_COUNT*MAX_NAME] = {0};
   prefixes_all(allPrefixes);
   code_append(allPrefixes);
+}
+
+void code_appendPartPrefixes(int layer){
+  char partPrefixes[MAX_COUNT*MAX_NAME] = {0};
+  prefixes_part(partPrefixes, layer);
+  code_append(partPrefixes);
 }
 
 void code_appendInt(int num){

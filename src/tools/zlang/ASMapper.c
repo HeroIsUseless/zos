@@ -169,6 +169,9 @@ void am_def_var(char var[]){
 }
 
 void am_def_fun_head(char var[]){
+
+  func_layer ++;
+  funcVars_pushParams();
   jmpNext(var);
   tag(var);
   prefixes_push(var);

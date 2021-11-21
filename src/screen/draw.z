@@ -1,11 +1,11 @@
 memory.z: @\kernel\memory.z;
 
 [画一个像素]
-pixel(x:dword, 
-      y:dword, 
-      color:dword, 
+pixel(          x:dword, 
+                y:dword, 
+            color:dword, 
       screenWidth:dword, 
-      vramAddr:dword):(
+         vramAddr:dword):(
   addr: y * screenWidth + x + vramAddr;
   memory.z\set.1byte(color, addr);
 );
@@ -16,7 +16,7 @@ hLine(bx:dword, by:dword,
       screenWidth:dword, 
       vramAddr:dword):(
     i: bx;
-    while(i\<ex, (
+    while(i \< ex, (
         pixel(i, by, color, screenWidth, vramAddr);
         i <= i+1;)
     );

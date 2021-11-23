@@ -27,6 +27,6 @@ func_layer-- => 1
 funcVars_pop() => [["a"],[]...]
 func_layer-- => 0
 
-
+if部分能转到func吗？毕竟序号已经不一样了
 
 

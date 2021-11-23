@@ -10,54 +10,53 @@
 #define MAX_COLEN 524288
 #define TRUE 1
 #define FALSE 0
-////////////////////vars父节点变量///////////////////
-int func_layer;
-char funcVars[MAX_COUNT][MAX_COUNT][MAX_NAME];
 ////////////////////count//////////////////////////
+/////////////用于区分不同的if和while//////////////////
 int jmp_count;
+
 int if_layer;
 int isIfOpens[MAX_COUNT] = {TRUE};
 int if_counts[MAX_COUNT];
+
 int while_layer;
 int isWhileOpens[MAX_COUNT] = {TRUE};
 int while_counts[MAX_COUNT];
-void counts_add(int counts[]){
+// 表示counts有多少层
+int count_layer(int counts[]){
   if(counts[0] == 0){
-    counts[0]++;
+    return 1;
   }
   else{
-    int i = MAX_COUNT-1;
-    while(counts[i] == 0) i--;
-    counts[i]++;
+    int i = 0;
+    while(counts[i] != 0) i++;
+    return i;
   }
 }
-void counts_push(int counts[]){
-  int i=0;
-  while(counts[i] != 0) i++;
-  counts[i]++;
+// 用于同层的下一个if或while
+// 理论上是找最后一个不为0的，+1
+void counts_add(int counts[]){
+  counts[count_layer(counts)-1]++;
 }
+// 用于下一层的if或while
+void counts_push(int counts[]){
+  counts[count_layer(counts)] = 1;
+}
+
 void counts_pop(int counts[]){
-  int i = MAX_COUNT-1;
-  while(counts[i] == 0) i--;
-  counts[i] = 0;
+  counts[count_layer(counts)-1] = 0;
 }
 int counts_top(int counts[]){
-  int i = MAX_COUNT-1;
-  while(counts[i] == 0) i--;
-  return counts[i];
+  return counts[count_layer(counts)-1];
 }
 //////////////////prefix//////////////////////
 char prefixes[MAX_COUNT][MAX_NAME] = {0};
+
 int prefixes_size(){
   int i;
-  for(i=MAX_COUNT; i>=0; i--){
-    if(strlen(prefixes[i]) != 0){
-      break;
-    }
-  }
-  return i+1;
+  while(strlen(prefixes[i]) != 0) i++;
+  return i;
 }
-
+// 仅仅用于删除路径前面的东西
 void prefix_format(char prefix[]){
   int end = strlen(prefix);
   int begin = end;
@@ -71,14 +70,14 @@ void prefix_format(char prefix[]){
   }
   prefix[i] = 0;
 }
-
+// 仅仅用于删除路径前面的东西
 void prefixes_format(){
   int i;
   for(i=0; i<prefixes_size(); i++){
     prefix_format(prefixes[i]);
   }
 }
-
+// 压入前缀
 void prefixes_push(char var[]){
   int size = prefixes_size();
   strcpy(prefixes[size], var);
@@ -94,13 +93,11 @@ void prefixes_pushCount(char var[], int count){
   strcpy(var_count+strlen(var_count), count_str);
   int size = prefixes_size();
   strcpy(prefixes[size], var_count);
-  printf("zws:%s\n", var_count);
   prefixes_format();
 }
 
 void prefixes_pop(){
-  int size = prefixes_size();
-  strcpy(prefixes[size-1], "");
+  strcpy(prefixes[prefixes_size()-1], "");
 }
 
 void prefixes_all(char allPrefixes[]){
@@ -112,40 +109,40 @@ void prefixes_all(char allPrefixes[]){
 }
 
 void prefixes_part(char partPrefixes[], int layer){
-  int i;
-  for(i=0; i<layer; i++){
-    strcpy(partPrefixes+strlen(partPrefixes), prefixes[i]);
-    strcpy(partPrefixes+strlen(partPrefixes), "_");
+  if(layer == -1){
+    strcpy(partPrefixes, " !!! var is not defined !!! ");
+  }
+  else{
+    int i;
+    for(i=0; i<layer; i++){
+      strcpy(partPrefixes+strlen(partPrefixes), prefixes[i]);
+      strcpy(partPrefixes+strlen(partPrefixes), "_");
+    }
   }
 }
 
 void prefixes_print(){
   int i;
   for(i=0; i<prefixes_size(); i++){
-    printf("%s\n", prefixes[i]);
+    printf("[prefixes_print]%s\n", prefixes[i]);
   }
 }
 
 //////////////////params//////////////////////
 char params[MAX_COUNT][MAX_NAME] = {0};
+
 int params_size(){
-  int i;
-  for(i=MAX_COUNT; i>=0; i--){
-    if(strlen(params[i]) != 0){
-      break;
-    }
-  }
-  return i+1;
+  int i = 0;
+  while(strlen(params[i]) != 0) i++;
+  return i;
 }
 
 void params_push(char var[]){
-  int size = params_size();
-  strcpy(params[size], var);
+  strcpy(params[params_size()], var);
 }
 
 void params_pop(){
-  int size = params_size();
-  strcpy(params[size-1], "");
+  strcpy(params[params_size()-1], "");
 }
 
 void params_clear(){
@@ -154,18 +151,63 @@ void params_clear(){
     strcpy(params[i], "");
   }
 }
-///////////////////code////////////////////////////
-char code[MAX_COLEN] = {0};
-void code_append(char code_part[]){
-  char code_part_format[MAX_COLEN] = {0};
-  strcpy(code_part_format, code_part);
-  int i = 0;
-  for(i=0; i<strlen(code_part_format); i++){
-    if(code_part_format[i] == '.' || code_part_format[i] == '\\'){
-      code_part_format[i] = '_';
+////////////////////vars父节点变量///////////////////
+int funcLayer;
+char funcVars[MAX_COUNT][MAX_COUNT][MAX_NAME];
+
+void funcVars_push(char var[]){
+  int n = funcLayer_varsCount(funcLayer);
+  strcpy(funcVars[funcLayer][n], var);
+}
+
+void funcVars_clear(){
+  int i, n = funcLayer_varsCount(funcLayer);
+  for(i=0; i<n; i++){
+    strcpy(funcVars[funcLayer][i], "");
+  }
+}
+
+void funcLayer_push(){
+  funcLayer++;
+}
+
+void funcLayer_pop(){
+  funcVars_clear();
+  funcLayer--;
+}
+
+int funcVars_find(char var[]){
+  int i;
+  for(i=0; i<funcLayer; i++){
+    int j, n = funcLayer_varsCount(funcLayer);
+    for(j=0; j<n; j++){
+      if(strcmp(funcVars[funcLayer], var) == 0)
+        return i;
     }
   }
-  strcpy(code+strlen(code), code_part_format);
+  return -1;
+}
+
+int funcLayer_varsCount(int layer){
+  int i = 0;
+  while(strlen(funcVars[layer][i]) != 0) i++;
+  return i;
+}
+///////////////////code////////////////////////////
+char code[MAX_COLEN] = {0};
+
+void code_format(char code_format[]){
+  int i = 0;
+  for(i=0; i<strlen(code_format); i++){
+    if(code_format[i] == '.' || code_format[i] == '\\'){
+      code_format[i] = '_';
+    }
+  }
+}
+
+void code_append(char code_part[]){
+  code_format(code_part);
+  strcpy(code+strlen(code), code_part);
 }
 
 void code_appendPrefixes(){
@@ -185,7 +227,7 @@ void code_appendInt(int num){
   int2str(num, num_str);
   code_append(num_str);
 }
-
+// 整理汇编代码，删除类似 push eax pop eax之类的
 void code_cut(char code_part[]){
   int begin = KMP(code, code_part);
   while(begin > -1){

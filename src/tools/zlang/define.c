@@ -52,8 +52,10 @@ int counts_top(int counts[]){
 char prefixes[MAX_COUNT][MAX_NAME] = {0};
 
 int prefixes_size(){
-  int i;
-  while(strlen(prefixes[i]) != 0) i++;
+  int i=0;
+  while(strlen(prefixes[i]) != 0){
+    i++;
+  } 
   return i;
 }
 // 仅仅用于删除路径前面的东西
@@ -114,7 +116,7 @@ void prefixes_part(char partPrefixes[], int layer){
   }
   else{
     int i;
-    for(i=0; i<layer; i++){
+    for(i=0; i<=layer; i++){
       strcpy(partPrefixes+strlen(partPrefixes), prefixes[i]);
       strcpy(partPrefixes+strlen(partPrefixes), "_");
     }
@@ -155,6 +157,12 @@ void params_clear(){
 int funcLayer;
 char funcVars[MAX_COUNT][MAX_COUNT][MAX_NAME];
 
+int funcLayer_varsCount(int layer){
+  int i = 0;
+  while(strlen(funcVars[layer][i]) != 0) i++;
+  return i;
+}
+
 void funcVars_push(char var[]){
   int n = funcLayer_varsCount(funcLayer);
   strcpy(funcVars[funcLayer][n], var);
@@ -178,20 +186,16 @@ void funcLayer_pop(){
 
 int funcVars_find(char var[]){
   int i;
-  for(i=0; i<funcLayer; i++){
+  printf("search var: funclayer:%d\n", funcLayer);
+  for(i=0; i<=funcLayer; i++){
     int j, n = funcLayer_varsCount(funcLayer);
     for(j=0; j<n; j++){
-      if(strcmp(funcVars[funcLayer], var) == 0)
+      printf("cmp var:[%d][%d]:%s|%s\n", i, j, var, funcVars[i][j]);
+      if(strcmp(funcVars[i][j], var) == 0)
         return i;
     }
   }
   return -1;
-}
-
-int funcLayer_varsCount(int layer){
-  int i = 0;
-  while(strlen(funcVars[layer][i]) != 0) i++;
-  return i;
 }
 ///////////////////code////////////////////////////
 char code[MAX_COLEN] = {0};

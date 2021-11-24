@@ -1793,6 +1793,7 @@ int main(int argc, char **argv){
     yyparse();
     //printf("[code]:\n%s\n", code);
     code_cut("push eax\npop eax\n");
+    code_cut("push ebp\npop ebp\n");
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);
     return 0;

@@ -135,7 +135,12 @@ memory_z_set_2byte_val$next:
 jmp memory_z_set_2byte_addr$next
 memory_z_set_2byte_addr: dd 0
 memory_z_set_2byte_addr$next:
+jmp memory_z_set_2byte_addr$next
+memory_z_set_2byte_addr: dd 0
+memory_z_set_2byte_addr$next:
 pop ebp
+pop eax
+mov [memory_z_set_2byte_addr], eax
 pop eax
 mov [memory_z_set_2byte_addr], eax
 pop eax
@@ -156,7 +161,17 @@ memory_z_set_4byte_val$next:
 jmp memory_z_set_4byte_addr$next
 memory_z_set_4byte_addr: dd 0
 memory_z_set_4byte_addr$next:
+jmp memory_z_set_4byte_addr$next
+memory_z_set_4byte_addr: dd 0
+memory_z_set_4byte_addr$next:
+jmp memory_z_set_4byte_addr$next
+memory_z_set_4byte_addr: dd 0
+memory_z_set_4byte_addr$next:
 pop ebp
+pop eax
+mov [memory_z_set_4byte_addr], eax
+pop eax
+mov [memory_z_set_4byte_addr], eax
 pop eax
 mov [memory_z_set_4byte_addr], eax
 pop eax
@@ -229,6 +244,18 @@ draw_z_hLine:
 jmp draw_z_hLine_bx$next
 draw_z_hLine_bx: dd 0
 draw_z_hLine_bx$next:
+jmp draw_z_hLine_y$next
+draw_z_hLine_y: dd 0
+draw_z_hLine_y$next:
+jmp draw_z_hLine_color$next
+draw_z_hLine_color: dd 0
+draw_z_hLine_color$next:
+jmp draw_z_hLine_screenWidth$next
+draw_z_hLine_screenWidth: dd 0
+draw_z_hLine_screenWidth$next:
+jmp draw_z_hLine_vramAddr$next
+draw_z_hLine_vramAddr: dd 0
+draw_z_hLine_vramAddr$next:
 jmp draw_z_hLine_by$next
 draw_z_hLine_by: dd 0
 draw_z_hLine_by$next:
@@ -261,6 +288,14 @@ mov [draw_z_hLine_ex], eax
 pop eax
 mov [draw_z_hLine_by], eax
 pop eax
+mov [draw_z_hLine_vramAddr], eax
+pop eax
+mov [draw_z_hLine_screenWidth], eax
+pop eax
+mov [draw_z_hLine_color], eax
+pop eax
+mov [draw_z_hLine_y], eax
+pop eax
 mov [draw_z_hLine_bx], eax
 push ebp
 mov eax, [draw_z_hLine_bx]
@@ -279,12 +314,12 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jb draw_z_hLine_while$1_less@true$1
+jbe draw_z_hLine_while$1_lessequal@true$1
 mov eax, 0
-jmp draw_z_hLine_while$1_less@false$1
-draw_z_hLine_while$1_less@true$1:
+jmp draw_z_hLine_while$1_lessequal@false$1
+draw_z_hLine_while$1_lessequal@true$1:
 mov eax, 1
-draw_z_hLine_while$1_less@false$1:
+draw_z_hLine_while$1_lessequal@false$1:
 cmp eax, 0
 je draw_z_hLine_while$1_end
 mov eax, [draw_z_hLine_while$1_i]
@@ -303,7 +338,7 @@ push eax
 mov eax, 1
 pop ebx
 add eax, ebx
-mov [draw_z_hLine_while$1_i], eax
+mov [ !!! var is not defined !!! i], eax
 jmp draw_z_hLine_while$1_start
 draw_z_hLine_while$1_end:
 ;while end
@@ -527,7 +562,7 @@ push eax
 mov eax, 1
 pop ebx
 add eax, ebx
-mov [test_z_draw_while$1_i], eax
+mov [ !!! var is not defined !!! i], eax
 jmp test_z_draw_while$1_start
 test_z_draw_while$1_end:
 ;while end
@@ -554,12 +589,12 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jb test_z_draw_while$2_less@true$2
+jbe test_z_draw_while$2_lessequal@true$2
 mov eax, 0
-jmp test_z_draw_while$2_less@false$2
-test_z_draw_while$2_less@true$2:
+jmp test_z_draw_while$2_lessequal@false$2
+test_z_draw_while$2_lessequal@true$2:
 mov eax, 1
-test_z_draw_while$2_less@false$2:
+test_z_draw_while$2_lessequal@false$2:
 cmp eax, 0
 je test_z_draw_while$2_end
 ; while start
@@ -571,12 +606,12 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jb test_z_draw_while$2_while$1_less@true$3
+jbe test_z_draw_while$2_while$1_lessequal@true$3
 mov eax, 0
-jmp test_z_draw_while$2_while$1_less@false$3
-test_z_draw_while$2_while$1_less@true$3:
+jmp test_z_draw_while$2_while$1_lessequal@false$3
+test_z_draw_while$2_while$1_lessequal@true$3:
 mov eax, 1
-test_z_draw_while$2_while$1_less@false$3:
+test_z_draw_while$2_while$1_lessequal@false$3:
 cmp eax, 0
 je test_z_draw_while$2_while$1_end
 mov eax, [test_z_draw_while$2_while$1_x]
@@ -595,7 +630,7 @@ push eax
 mov eax, 1
 pop ebx
 add eax, ebx
-mov [test_z_draw_while$2_while$1_x], eax
+mov [ !!! var is not defined !!! x], eax
 jmp test_z_draw_while$2_while$1_start
 test_z_draw_while$2_while$1_end:
 ;while end
@@ -604,7 +639,7 @@ push eax
 mov eax, 1
 pop ebx
 add eax, ebx
-mov [test_z_draw_while$2_y], eax
+mov [ !!! var is not defined !!! y], eax
 jmp test_z_draw_while$2_start
 test_z_draw_while$2_end:
 ;while end

@@ -216,7 +216,7 @@ push eax
 mov eax, 1
 pop ebx
 add eax, ebx
-mov [test_z_draw_while$1_i], eax
+mov [ !!! var is not defined !!! i], eax
 jmp test_z_draw_while$1_start
 test_z_draw_while$1_end:
 ;while end
@@ -243,12 +243,12 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jb test_z_draw_while$2_less@true$2
+jbe test_z_draw_while$2_lessequal@true$2
 mov eax, 0
-jmp test_z_draw_while$2_less@false$2
-test_z_draw_while$2_less@true$2:
+jmp test_z_draw_while$2_lessequal@false$2
+test_z_draw_while$2_lessequal@true$2:
 mov eax, 1
-test_z_draw_while$2_less@false$2:
+test_z_draw_while$2_lessequal@false$2:
 cmp eax, 0
 je test_z_draw_while$2_end
 ; while start
@@ -260,12 +260,12 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jb test_z_draw_while$2_while$1_less@true$3
+jbe test_z_draw_while$2_while$1_lessequal@true$3
 mov eax, 0
-jmp test_z_draw_while$2_while$1_less@false$3
-test_z_draw_while$2_while$1_less@true$3:
+jmp test_z_draw_while$2_while$1_lessequal@false$3
+test_z_draw_while$2_while$1_lessequal@true$3:
 mov eax, 1
-test_z_draw_while$2_while$1_less@false$3:
+test_z_draw_while$2_while$1_lessequal@false$3:
 cmp eax, 0
 je test_z_draw_while$2_while$1_end
 mov eax, [test_z_draw_while$2_while$1_x]
@@ -284,7 +284,7 @@ push eax
 mov eax, 1
 pop ebx
 add eax, ebx
-mov [test_z_draw_while$2_while$1_x], eax
+mov [ !!! var is not defined !!! x], eax
 jmp test_z_draw_while$2_while$1_start
 test_z_draw_while$2_while$1_end:
 ;while end
@@ -293,7 +293,7 @@ push eax
 mov eax, 1
 pop ebx
 add eax, ebx
-mov [test_z_draw_while$2_y], eax
+mov [ !!! var is not defined !!! y], eax
 jmp test_z_draw_while$2_start
 test_z_draw_while$2_end:
 ;while end

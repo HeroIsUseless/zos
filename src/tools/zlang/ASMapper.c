@@ -183,11 +183,10 @@ void am_def_var(char var[]){
 }
 
 void am_def_fun_head(char var[]){
-  prefixes_push(var);
-  funcLayer_push();
-
   jmpNext(var);
   tag(var);
+  prefixes_push(var);
+  funcLayer_push();
   int i;
   for(i=0; i<params_size(); i++){
     jmpNext(params[i]);
@@ -277,12 +276,12 @@ void am_exp_les(){
   popEax();
   cmpEaxEbx();
   jmp_count++;
-  jumpExp("jb", "less@true$");
+  jumpExp("jb", "less@true");
   movVal2Eax("0");
-  jumpExp("jmp", "less@false$");
-  tagCount("less@true$", jmp_count);
+  jumpExp("jmp", "less@false");
+  tagCount("less@true", jmp_count);
   movVal2Eax("1");
-  tagCount("less@false$", jmp_count);
+  tagCount("less@false", jmp_count);
   pushEax();
 }
 
@@ -291,12 +290,12 @@ void am_exp_mor(){
   popEax();
   cmpEaxEbx();
   jmp_count++;
-  jumpExp("ja", "more@true$");
+  jumpExp("ja", "more@true");
   movVal2Eax("0");
-  jumpExp("jmp", "more@false$");
-  tagCount("more@true$", jmp_count);
+  jumpExp("jmp", "more@false");
+  tagCount("more@true", jmp_count);
   movVal2Eax("1");
-  tagCount("more@false$", jmp_count);
+  tagCount("more@false", jmp_count);
   pushEax();
 }
 
@@ -305,12 +304,12 @@ void am_exp_leq(){
   popEax();
   cmpEaxEbx();
   jmp_count++;
-  jumpExp("jbe", "lessequal@true$");
+  jumpExp("jbe", "lessequal@true");
   movVal2Eax("0");
-  jumpExp("jmp", "lessequal@false$");
-  tagCount("lessequal@true$", jmp_count);
+  jumpExp("jmp", "lessequal@false");
+  tagCount("lessequal@true", jmp_count);
   movVal2Eax("1");
-  tagCount("lessequal@false$", jmp_count);
+  tagCount("lessequal@false", jmp_count);
   pushEax();
 }
 
@@ -319,12 +318,12 @@ void am_exp_meq(){
   popEax();
   cmpEaxEbx();
   jmp_count++;
-  jumpExp("jae", "moreequal@true$");
+  jumpExp("jae", "moreequal@true");
   movVal2Eax("0");
-  jumpExp("jmp", "moreequal@false$");
-  tagCount("moreequal@true$", jmp_count);
+  jumpExp("jmp", "moreequal@false");
+  tagCount("moreequal@true", jmp_count);
   movVal2Eax("1");
-  tagCount("moreequal@false$", jmp_count);
+  tagCount("moreequal@false", jmp_count);
   pushEax();
 }
 
@@ -333,12 +332,12 @@ void am_exp_equ(){
   popEax();
   cmpEaxEbx();
   jmp_count++;
-  jumpExp("je", "equal@true$");
+  jumpExp("je", "equal@true");
   movVal2Eax("0");
-  jumpExp("jmp", "equal@false$");
-  tagCount("equal@true$", jmp_count);
+  jumpExp("jmp", "equal@false");
+  tagCount("equal@true", jmp_count);
   movVal2Eax("1");
-  tagCount("equal@false$", jmp_count);
+  tagCount("equal@false", jmp_count);
   pushEax();
 }
 
@@ -347,12 +346,12 @@ void am_exp_neq(){
   popEax();
   cmpEaxEbx();
   jmp_count++;
-  jumpExp("jne", "unequal@true$");
+  jumpExp("jne", "unequal@true");
   movVal2Eax("0");
-  jumpExp("jmp", "unequal@false$");
-  tagCount("unequal@true$", jmp_count);
+  jumpExp("jmp", "unequal@false");
+  tagCount("unequal@true", jmp_count);
   movVal2Eax("1");
-  tagCount("unequal@false$", jmp_count);
+  tagCount("unequal@false", jmp_count);
   pushEax();
 }
 ////////////////if////////////////
@@ -362,7 +361,8 @@ void am_if_head(){
   if_counts[if_layer]++;
   isIfOpens[if_layer] = TRUE;
   prefixes_pushCount("if", if_counts[if_layer]);
-  
+  funcLayer_push();
+
   code_append("; if start\n");
   tag("start");
 }
@@ -381,11 +381,13 @@ void am_if_else(){
 
 void am_if_end(){
   tag("end");
+  code_append(";if end\n");
+
   isIfOpens[if_layer] = FALSE;
   if_counts[if_layer+1] = 0;
   if_layer --;
   prefixes_pop();
-  code_append(";if end\n");
+  funcLayer_pop();
 }
 
 void am_while_head(){
@@ -395,6 +397,8 @@ void am_while_head(){
   while_counts[while_layer]++;
   isWhileOpens[while_layer] = TRUE;
   prefixes_pushCount("while", while_counts[while_layer]);
+  funcLayer_push();
+
   tag("start");
 }
 
@@ -407,10 +411,12 @@ void am_while_mid(){
 void am_while_end(){
   jump("jmp", "start");
   tag("end");
+  code_append(";while end\n");
+
   isWhileOpens[while_layer] = FALSE;
   while_counts[while_layer+1] = 0;
   while_layer --;
   prefixes_pop();
-  code_append(";while end\n");
+  funcLayer_pop();
 }
 #endif

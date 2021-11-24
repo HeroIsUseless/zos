@@ -27,7 +27,12 @@ memory_z_set_2byte_val$next:
 jmp memory_z_set_2byte_addr$next
 memory_z_set_2byte_addr: dd 0
 memory_z_set_2byte_addr$next:
+jmp memory_z_set_2byte_addr$next
+memory_z_set_2byte_addr: dd 0
+memory_z_set_2byte_addr$next:
 pop ebp
+pop eax
+mov [memory_z_set_2byte_addr], eax
 pop eax
 mov [memory_z_set_2byte_addr], eax
 pop eax
@@ -48,7 +53,17 @@ memory_z_set_4byte_val$next:
 jmp memory_z_set_4byte_addr$next
 memory_z_set_4byte_addr: dd 0
 memory_z_set_4byte_addr$next:
+jmp memory_z_set_4byte_addr$next
+memory_z_set_4byte_addr: dd 0
+memory_z_set_4byte_addr$next:
+jmp memory_z_set_4byte_addr$next
+memory_z_set_4byte_addr: dd 0
+memory_z_set_4byte_addr$next:
 pop ebp
+pop eax
+mov [memory_z_set_4byte_addr], eax
+pop eax
+mov [memory_z_set_4byte_addr], eax
 pop eax
 mov [memory_z_set_4byte_addr], eax
 pop eax

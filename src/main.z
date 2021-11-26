@@ -1,13 +1,13 @@
 kernel.z: @\kernel\kernel.z;
 test.z: @\test.z;
+screenWidth:  320; [屏幕宽度]
+screenHeight: 200; [屏幕高度]
+addrVram: 0x000a0000; [显存映射地址]
+addrPM:   0x0024e000; [页地图]
+addrPDT:  0x0026e000; [PDT，掌管页映射的表]
+addrIDT:  0x0026f800;
+addrGDT:  0x00270000;
 
-  screenWidth:  320; [屏幕宽度]
-  screenHeight: 200; [屏幕高度]
-  addrVram: 0x000a0000; [显存映射地址]
-  addrPM:   0x0024e000; [页地图]
-  addrPDT:  0x0026e000; [PDT，掌管页映射的表]
-  addrIDT:  0x0026f800;
-  addrGDT:  0x00270000;
 run.once():(
   test.z\draw(addrVram);
 );

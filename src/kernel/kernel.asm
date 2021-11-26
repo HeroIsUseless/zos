@@ -1,5 +1,3 @@
-[bits 32]
-ORG 0x280000
 jmp main
 
 ; 读写内存

@@ -2,15 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-void removePopEaxPushEax(char code[]){
-
+void addZOSPrefix(char code[]){
+  strcpy(code+strlen(code), "[bits 32]\nORG 0x280000\n");
 }
 
 int main(int argc, char** argv){
   char code[524288] = {0};
+  addZOSPrefix(code);
   int i;
   for(i=1; i<argc-1; i++){
-    //printf("file %s\n", argv[i]);
     FILE* inFile = fopen(argv[i], "r");
     if(!inFile){
       printf("[error] open asm infile failed %s\n", argv[i]);

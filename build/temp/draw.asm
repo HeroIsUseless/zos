@@ -37,20 +37,14 @@ push ebp
 mov eax, [draw_z_pixel_y]
 push eax
 mov eax, [draw_z_pixel_screenWidth]
-push eax
-pop eax
 pop ebx
 mul ebx
 push eax
 mov eax, [draw_z_pixel_x]
-push eax
-pop eax
 pop ebx
 add eax, ebx
 push eax
 mov eax, [draw_z_pixel_vramAddr]
-push eax
-pop eax
 pop ebx
 add eax, ebx
 push eax
@@ -136,8 +130,6 @@ jmp draw_z_hLine_while$1_lessequal@false$1
 draw_z_hLine_while$1_lessequal@true$1:
 mov eax, 1
 draw_z_hLine_while$1_lessequal@false$1:
-push eax
-pop eax
 cmp eax, 0
 je draw_z_hLine_while$1_end
 mov eax, [draw_z_hLine_i]
@@ -154,12 +146,8 @@ call draw_z_pixel
 mov eax, [draw_z_hLine_i]
 push eax
 mov eax, 1
-push eax
-pop eax
 pop ebx
 add eax, ebx
-push eax
-pop eax
 mov [draw_z_hLine_i], eax
 jmp draw_z_hLine_while$1_start
 draw_z_hLine_while$1_end:

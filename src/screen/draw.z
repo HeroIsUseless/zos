@@ -20,4 +20,4 @@ hLine(bx:dword, by:dword,
         pixel(i, by, color, screenWidth, vramAddr);
         i <= i+1;)
     );
-).
+);

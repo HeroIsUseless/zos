@@ -1,8 +1,12 @@
+
+;function
 jmp e5_param_z_fun$next
 e5_param_z_fun:
+;param
 jmp e5_param_z_fun_a$next
 e5_param_z_fun_a: dd 0
 e5_param_z_fun_a$next:
+;param
 jmp e5_param_z_fun_b$next
 e5_param_z_fun_b: dd 0
 e5_param_z_fun_b$next:

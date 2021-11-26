@@ -132,6 +132,13 @@ void movEax2PartPrefixesVar(char var[], int layer){
   code_append("], eax\n");
 }
 
+void movPartPrefixesVar2Eax(char var[], int layer){
+  code_append("mov eax, [");
+  code_appendPartPrefixes(layer);
+  code_append(var);
+  code_append("]\n");
+}
+
 void movEax2Var(char var[]){
   code_append("mov [");
   code_append(var);
@@ -175,6 +182,7 @@ void exec_prefixFunc(char var[]){
 void am_def_var(char var[]){
   funcVars_push(var);
 
+  code_append("\n");
   jmpNext(var);
   dd(var, "0");
   tagNext(var);
@@ -182,13 +190,20 @@ void am_def_var(char var[]){
   movEax2PrefixesVar(var);
 }
 
+void am_def_param(char var[]){
+  params_push(var);
+}
+
 void am_def_fun_head(char var[]){
+  code_append("\n;function\n");
   jmpNext(var);
   tag(var);
   prefixes_push(var);
   funcLayer_push();
   int i;
   for(i=0; i<params_size(); i++){
+    funcVars_push(params[i]);
+    code_append(";param\n");
     jmpNext(params[i]);
     dd(params[i], "0");
     tagNext(params[i]);
@@ -199,11 +214,6 @@ void am_def_fun_head(char var[]){
     movEax2PrefixesVar(params[i]);
   }
   pushEbp();
-}
-
-void am_def_param(char var[]){
-  funcVars_push(var);
-  params_push(var);
 }
 
 void am_def_fun_end(char var[]){
@@ -234,13 +244,17 @@ void am_exec_func(char var[]){
   exec_prefixFunc(var);
 }
 
-void am_pushVal(char val[]){
+void am_exp_val(char val[]){
   movVal2Eax(val);
   pushEax();
 }
 
-void am_pushVar(char var[]){
-  movVar2Eax(var);
+void am_exp_var(char var[]){
+  int layer = funcVars_find(var);
+  if(layer == -1){
+    printf("unfind var:%s\n", var);
+  } 
+  movPartPrefixesVar2Eax(var, layer);
   pushEax();
 }
 

@@ -1,1 +1,2 @@
+a: 1;
 memory.z\set.8bit(a, 12);

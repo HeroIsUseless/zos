@@ -48,6 +48,61 @@ void counts_pop(int counts[]){
 int counts_top(int counts[]){
   return counts[count_layer(counts)-1];
 }
+
+////////////////////vars父节点变量///////////////////
+int funcLayer;
+char funcVars[MAX_COUNT][MAX_COUNT][MAX_NAME];
+
+int funcLayer_varsCount(int layer){
+  int i = 0;
+  while(strlen(funcVars[layer][i]) != 0) i++;
+  return i;
+}
+
+void funcVars_push(char var[]){
+  int n = funcLayer_varsCount(funcLayer);
+  strcpy(funcVars[funcLayer][n], var);
+}
+
+void funcVars_clear(){
+  int i, n = funcLayer_varsCount(funcLayer);
+  for(i=0; i<n; i++){
+    strcpy(funcVars[funcLayer][i], "");
+  }
+}
+
+void funcLayer_push(){
+  funcLayer++;
+}
+
+void funcLayer_pop(){
+  funcVars_clear();
+  funcLayer--;
+}
+
+void funcVars_print(){
+  int i;
+  printf("[funcVars_print]begin:%d\n", funcLayer);
+  for(i=0; i<=funcLayer; i++){
+    int j, n = funcLayer_varsCount(i);
+    for(j=0; j<n; j++){
+      printf("[funcVars_print]%s\n", funcVars[i][j]);
+    }
+  }
+}
+
+int funcVars_find(char var[]){
+  int i;
+  for(i=0; i<=funcLayer; i++){
+    int j, n = funcLayer_varsCount(i);
+    for(j=0; j<n; j++){
+      if(strcmp(funcVars[i][j], var) == 0)
+        return i;
+    }
+  }
+  return -1;
+}
+
 //////////////////prefix//////////////////////
 char prefixes[MAX_COUNT][MAX_NAME] = {0};
 
@@ -112,7 +167,7 @@ void prefixes_all(char allPrefixes[]){
 
 void prefixes_part(char partPrefixes[], int layer){
   if(layer == -1){
-    strcpy(partPrefixes, " !!! var is not defined !!! ");
+    strcpy(partPrefixes, " !!! var is not defined->");
   }
   else{
     int i;
@@ -147,56 +202,23 @@ void params_pop(){
   strcpy(params[params_size()-1], "");
 }
 
-void params_clear(){
+void params_print(){
   int i;
+  printf("________print_______\n");
+  printf("params size:%d\n", params_size());
   for(i=0; i<params_size(); i++){
-    strcpy(params[i], "");
+    printf("params[%d]:%s\n", i, params[i]);
   }
+  printf("____________________\n");
 }
-////////////////////vars父节点变量///////////////////
-int funcLayer;
-char funcVars[MAX_COUNT][MAX_COUNT][MAX_NAME];
-
-int funcLayer_varsCount(int layer){
-  int i = 0;
-  while(strlen(funcVars[layer][i]) != 0) i++;
-  return i;
-}
-
-void funcVars_push(char var[]){
-  int n = funcLayer_varsCount(funcLayer);
-  strcpy(funcVars[funcLayer][n], var);
-}
-
-void funcVars_clear(){
-  int i, n = funcLayer_varsCount(funcLayer);
+void params_clear(){
+  int i, n = params_size();
   for(i=0; i<n; i++){
-    strcpy(funcVars[funcLayer][i], "");
+    strcpy(params[i], "");
+    params[i][0] = 0;
   }
 }
 
-void funcLayer_push(){
-  funcLayer++;
-}
-
-void funcLayer_pop(){
-  funcVars_clear();
-  funcLayer--;
-}
-
-int funcVars_find(char var[]){
-  int i;
-  printf("search var: funclayer:%d\n", funcLayer);
-  for(i=0; i<=funcLayer; i++){
-    int j, n = funcLayer_varsCount(funcLayer);
-    for(j=0; j<n; j++){
-      printf("cmp var:[%d][%d]:%s|%s\n", i, j, var, funcVars[i][j]);
-      if(strcmp(funcVars[i][j], var) == 0)
-        return i;
-    }
-  }
-  return -1;
-}
 ///////////////////code////////////////////////////
 char code[MAX_COLEN] = {0};
 

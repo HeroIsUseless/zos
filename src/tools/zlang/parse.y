@@ -91,8 +91,8 @@ factor: term
       | factor '/' term {am_exp_div();} 
       ;
 
-term: INTEGER {am_pushVal($1);}
-    | VAR {am_pushVar($1);}
+term: INTEGER {am_exp_val($1);}
+    | VAR {am_exp_var($1);}
     ;
 %%
 int open(int argc, char **argv);
@@ -102,7 +102,7 @@ int main(int argc, char **argv){
     yylineno = 1;
     yyparse();
     //printf("[code]:\n%s\n", code);
-    code_cut("push eax\npop eax\n");
+    //code_cut("push eax\npop eax\n");
     code_cut("push ebp\npop ebp\n");
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);

@@ -1559,12 +1559,12 @@ yyreduce:
 
   case 47:
 #line 94 "parse.y"
-    {am_pushVal((yyvsp[(1) - (1)].s));;}
+    {am_exp_val((yyvsp[(1) - (1)].s));;}
     break;
 
   case 48:
 #line 95 "parse.y"
-    {am_pushVar((yyvsp[(1) - (1)].s));;}
+    {am_exp_var((yyvsp[(1) - (1)].s));;}
     break;
 
 
@@ -1792,7 +1792,7 @@ int main(int argc, char **argv){
     yylineno = 1;
     yyparse();
     //printf("[code]:\n%s\n", code);
-    code_cut("push eax\npop eax\n");
+    //code_cut("push eax\npop eax\n");
     code_cut("push ebp\npop ebp\n");
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);

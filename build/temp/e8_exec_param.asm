@@ -1,6 +1,5 @@
 mov eax, 1
 push eax
-
 jmp e8_exec_param_z_a$next
 e8_exec_param_z_a: dd 0
 e8_exec_param_z_a$next:

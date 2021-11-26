@@ -18,7 +18,6 @@ jmp e12_nest_z_if$1_if$1_end
 e12_nest_z_if$1_if$1_else:
 mov eax, 1
 push eax
-
 jmp e12_nest_z_if$1_if$1_a$next
 e12_nest_z_if$1_if$1_a: dd 0
 e12_nest_z_if$1_if$1_a$next:

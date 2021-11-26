@@ -2,7 +2,7 @@ draw.z: @\screen\draw.z;
 
 draw(addrVram: dword):(
   i: 0;
-  [while(i < 300, (draw.z\pixel(i, i, i, 320, addrVram);i<=i+1;));
+  while(i < 300, (draw.z\pixel(i, i, i, 320, addrVram);i<=i+1;));
   x: 0;
   y: 0;
   while(y\<200, (

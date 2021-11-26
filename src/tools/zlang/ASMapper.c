@@ -181,8 +181,6 @@ void exec_prefixFunc(char var[]){
 //////////////// out ////////////////////
 void am_def_var(char var[]){
   funcVars_push(var);
-
-  code_append("\n");
   jmpNext(var);
   dd(var, "0");
   tagNext(var);

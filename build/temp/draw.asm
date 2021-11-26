@@ -54,7 +54,6 @@ pop eax
 pop ebx
 add eax, ebx
 push eax
-
 jmp draw_z_pixel_addr$next
 draw_z_pixel_addr: dd 0
 draw_z_pixel_addr$next:
@@ -117,7 +116,6 @@ mov [draw_z_hLine_bx], eax
 push ebp
 mov eax, [draw_z_hLine_bx]
 push eax
-
 jmp draw_z_hLine_i$next
 draw_z_hLine_i: dd 0
 draw_z_hLine_i$next:

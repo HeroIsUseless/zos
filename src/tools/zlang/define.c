@@ -222,18 +222,19 @@ void params_clear(){
 ///////////////////code////////////////////////////
 char code[MAX_COLEN] = {0};
 
-void code_format(char code_format[]){
+void code_append(char code_part[]){
   int i = 0;
+  char code_format[MAX_COLEN] = {0};
+  strcpy(code_format, code_part);
   for(i=0; i<strlen(code_format); i++){
     if(code_format[i] == '.' || code_format[i] == '\\'){
       code_format[i] = '_';
     }
+    if(code_format[i] == '!'){
+      code_format[i] = '\\';
+    }
   }
-}
-
-void code_append(char code_part[]){
-  code_format(code_part);
-  strcpy(code+strlen(code), code_part);
+  strcpy(code+strlen(code), code_format);
 }
 
 void code_appendPrefixes(){

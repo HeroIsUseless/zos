@@ -41,27 +41,25 @@
    enum yytokentype {
      MEQ = 258,
      LEQ = 259,
-     NUMBER = 260,
-     INTEGER = 261,
-     VAR = 262,
-     PATH = 263,
-     PREFIXES_VAR = 264,
-     IF = 265,
-     WHILE = 266,
-     EOL = 267
+     INTEGER = 260,
+     VAR = 261,
+     PATH = 262,
+     PREFIXES_VAR = 263,
+     IF = 264,
+     WHILE = 265,
+     EOL = 266
    };
 #endif
 /* Tokens.  */
 #define MEQ 258
 #define LEQ 259
-#define NUMBER 260
-#define INTEGER 261
-#define VAR 262
-#define PATH 263
-#define PREFIXES_VAR 264
-#define IF 265
-#define WHILE 266
-#define EOL 267
+#define INTEGER 260
+#define VAR 261
+#define PATH 262
+#define PREFIXES_VAR 263
+#define IF 264
+#define WHILE 265
+#define EOL 266
 
 
 
@@ -76,7 +74,7 @@ typedef union YYSTYPE
     double f;
 }
 /* Line 1529 of yacc.c.  */
-#line 80 "parse.tab.h"
+#line 78 "parse.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

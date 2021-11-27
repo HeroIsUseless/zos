@@ -188,6 +188,22 @@ void am_def_var(char var[]){
   movEax2PrefixesVar(var);
 }
 
+void am_def_arr_start(char var[]){
+  funcVars_push(var);
+  jmpNext(var);
+  db(var, "!");
+}
+
+void am_def_arr_item(char val[]){
+  code_append(val);
+  code_append(",");
+}
+
+void am_def_arr_end(char var[]){
+  code_append("\n");
+  tagNext(var);
+}
+
 void am_def_param(char var[]){
   params_push(var);
 }
@@ -431,4 +447,5 @@ void am_while_end(){
   prefixes_pop();
   funcLayer_pop();
 }
+
 #endif

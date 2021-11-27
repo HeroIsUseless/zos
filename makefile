@@ -26,6 +26,7 @@ exam:
 	cd build && ./zlang ../example/e10_while.z ./temp/e10_while.asm
 	cd build && ./zlang ../example/e11_exp.z ./temp/e11_exp.asm
 	cd build && ./zlang ../example/e12_nest.z ./temp/e12_nest.asm
+	cd build && ./zlang ../example/e13_arr.z ./temp/e13_arr.asm
 
 test:
 	cd src/tools/zlang && gcc test.c -o test 
@@ -36,10 +37,12 @@ compile:
 	cd build && ./zlang ../src/main.z ./temp/main.asm
 	cd build && ./zlang ../src/kernel/memory.z ./temp/memory.asm
 	cd build && ./zlang ../src/screen/draw.z ./temp/draw.asm
+	cd build && ./zlang ../src/screen/font.z ./temp/font.asm
 	cd build && ./zlang ../src/test.z ./temp/test.asm
 	cd build && ./zlink  ./temp/main.asm \
 											 ./temp/memory.asm \
 											 ./temp/draw.asm \
+											 ./temp/font.asm \
 											 ./temp/test.asm \
 											 ../src/kernel/kernel.asm \
 											 ./temp/zos.asm

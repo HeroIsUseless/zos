@@ -19,7 +19,6 @@
 %left '<' '>' '=' '#' LEQ MEQ
 %left '+' '-'
 %left '*' '/'
-%token <s> NUMBER
 %token <s> INTEGER
 %token <s> VAR PATH PREFIXES_VAR
 %token IF WHILE
@@ -36,12 +35,21 @@ stmt: def
     ;
 
 def: def_var
+   | def_arr
    | def_fun
    ;
 
 def_var: VAR ':' exp {am_def_var($1);}
        | VAR ':' PATH {}
        ;
+
+def_arr: VAR ':' '{' {am_def_arr_start($1);} items '}' {am_def_arr_end($1);}
+       ;
+
+items: items ',' INTEGER {am_def_arr_item($3);}
+     | INTEGER {am_def_arr_item($1);}
+     | /* empty */
+     ;
 
 def_fun: VAR params ':' {am_def_fun_head($1);} '(' stmts ')' {am_def_fun_end($1);}
 

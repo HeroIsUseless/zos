@@ -1,4 +1,5 @@
 memory.z: @\kernel\memory.z;
+font.z: @\screen\font.z;
 
 [画一个像素]
 pixel(          x:dword, 
@@ -20,4 +21,20 @@ hLine(bx:dword, by:dword,
         pixel(i, by, color, screenWidth, vramAddr);
         i <= i+1;)
     );
+);
+[用缓存刷新]]
+
+flush(addrVram: dword):(
+  i: 0;
+  x: 0;
+  y: 0;
+  while(y\<200, (
+    x <= 0;
+    while(x\<320, (
+      color: font.z\screen.buf\(y*320+x);
+      draw.z\pixel(x, y, color, 320, addrVram);
+      x <= x+1;
+    ));
+    y <= y+1;
+  ));
 );

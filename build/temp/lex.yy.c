@@ -867,7 +867,7 @@ YY_RULE_SETUP
 {
     yylval.s = strdup(yytext); 
     //printf("PREFIXES_VAR %s\n", yylval.s); 
-    return PREFIXES_VAR;
+    return PREFIXES_VAR; // 不会有一半的，全部都是从文件开始的
 }
 	YY_BREAK
 case 10:

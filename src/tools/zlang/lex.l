@@ -31,7 +31,7 @@ dword {
 [a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?(\\[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?)+ {
     yylval.s = strdup(yytext); 
     //printf("PREFIXES_VAR %s\n", yylval.s); 
-    return PREFIXES_VAR;
+    return PREFIXES_VAR; // 不会有一半的，全部都是从文件开始的
 }
 [a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)? {
     yylval.s = strdup(yytext); 

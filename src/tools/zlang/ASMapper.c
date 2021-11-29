@@ -272,6 +272,11 @@ void am_exp_var(char var[]){
   pushEax();
 }
 
+void am_exp_arr(char var[]){
+  popEax();
+  
+}
+
 void am_exp_add(){
   popEax();
   popEbx();

@@ -25,7 +25,6 @@ hLine(bx:dword, by:dword,
 [用缓存刷新]]
 
 flush(addrVram: dword):(
-  i: 0;
   x: 0;
   y: 0;
   while(y\<200, (

@@ -9,7 +9,8 @@ addrIDT:  0x0026f800;
 addrGDT:  0x00270000;
 
 run.once():(
-  test.z\draw(addrVram);
+  [test.z\draw(addrVram);
+  draw.z\flush(addrVram);
 );
 
 run.loop():(

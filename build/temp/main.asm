@@ -55,7 +55,7 @@ pop ebp
 push ebp
 mov eax, [main_z_addrVram]
 push eax
-call test_z_draw
+call draw_z_flush
 ret
 main_z_run_once$next:
 

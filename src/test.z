@@ -8,9 +8,10 @@ draw(addrVram: dword):(
   while(y\<200, (
     x <= 0;
     while(x\<320, (
-      draw.z\pixel(x, y, y, 320, addrVram);
+      draw.z\pixel(x, y, x, 320, addrVram);
       x <= x+1;
     ));
     y <= y+1;
   ));
+  draw.z\flush();
 );

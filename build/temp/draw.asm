@@ -37,14 +37,20 @@ push ebp
 mov eax, [draw_z_pixel_y]
 push eax
 mov eax, [draw_z_pixel_screenWidth]
+push eax
+pop eax
 pop ebx
 mul ebx
 push eax
 mov eax, [draw_z_pixel_x]
+push eax
+pop eax
 pop ebx
 add eax, ebx
 push eax
 mov eax, [draw_z_pixel_vramAddr]
+push eax
+pop eax
 pop ebx
 add eax, ebx
 push eax
@@ -130,6 +136,8 @@ jmp draw_z_hLine_while$1_lessequal@false$1
 draw_z_hLine_while$1_lessequal@true$1:
 mov eax, 1
 draw_z_hLine_while$1_lessequal@false$1:
+push eax
+pop eax
 cmp eax, 0
 je draw_z_hLine_while$1_end
 mov eax, [draw_z_hLine_i]
@@ -146,8 +154,12 @@ call draw_z_pixel
 mov eax, [draw_z_hLine_i]
 push eax
 mov eax, 1
+push eax
+pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
 mov [draw_z_hLine_i], eax
 jmp draw_z_hLine_while$1_start
 draw_z_hLine_while$1_end:
@@ -168,13 +180,6 @@ mov [draw_z_flush_addrVram], eax
 push ebp
 mov eax, 0
 push eax
-jmp draw_z_flush_i$next
-draw_z_flush_i: dd 0
-draw_z_flush_i$next:
-pop eax
-mov [draw_z_flush_i], eax
-mov eax, 0
-push eax
 jmp draw_z_flush_x$next
 draw_z_flush_x: dd 0
 draw_z_flush_x$next:
@@ -188,7 +193,7 @@ draw_z_flush_y$next:
 pop eax
 mov [draw_z_flush_y], eax
 ; while start
-draw_z_flush_while$2_start:
+draw_z_flush_while$1_start:
 mov eax, [draw_z_flush_y]
 push eax
 mov eax, 200
@@ -196,18 +201,22 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe draw_z_flush_while$2_lessequal@true$2
+jbe draw_z_flush_while$1_lessequal@true$2
 mov eax, 0
-jmp draw_z_flush_while$2_lessequal@false$2
-draw_z_flush_while$2_lessequal@true$2:
+jmp draw_z_flush_while$1_lessequal@false$2
+draw_z_flush_while$1_lessequal@true$2:
 mov eax, 1
-draw_z_flush_while$2_lessequal@false$2:
+draw_z_flush_while$1_lessequal@false$2:
+push eax
+pop eax
 cmp eax, 0
-je draw_z_flush_while$2_end
+je draw_z_flush_while$1_end
 mov eax, 0
+push eax
+pop eax
 mov [draw_z_flush_x], eax
 ; while start
-draw_z_flush_while$2_while$1_start:
+draw_z_flush_while$1_while$1_start:
 mov eax, [draw_z_flush_x]
 push eax
 mov eax, 320
@@ -215,34 +224,45 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe draw_z_flush_while$2_while$1_lessequal@true$3
+jbe draw_z_flush_while$1_while$1_lessequal@true$3
 mov eax, 0
-jmp draw_z_flush_while$2_while$1_lessequal@false$3
-draw_z_flush_while$2_while$1_lessequal@true$3:
+jmp draw_z_flush_while$1_while$1_lessequal@false$3
+draw_z_flush_while$1_while$1_lessequal@true$3:
 mov eax, 1
-draw_z_flush_while$2_while$1_lessequal@false$3:
+draw_z_flush_while$1_while$1_lessequal@false$3:
+push eax
+pop eax
 cmp eax, 0
-je draw_z_flush_while$2_while$1_end
+je draw_z_flush_while$1_while$1_end
 mov eax, [draw_z_flush_y]
 push eax
 mov eax, 320
+push eax
+pop eax
 pop ebx
 mul ebx
 push eax
 mov eax, [draw_z_flush_x]
+push eax
+pop eax
 pop ebx
 add eax, ebx
 push eax
-jmp draw_z_flush_while$2_while$1_color$next
-draw_z_flush_while$2_while$1_color: dd 0
-draw_z_flush_while$2_while$1_color$next:
 pop eax
-mov [draw_z_flush_while$2_while$1_color], eax
+mov ebx, 4
+mul ebx
+mov ebx, [font_z_screen_buf+eax]
+push ebx
+jmp draw_z_flush_while$1_while$1_color$next
+draw_z_flush_while$1_while$1_color: dd 0
+draw_z_flush_while$1_while$1_color$next:
+pop eax
+mov [draw_z_flush_while$1_while$1_color], eax
 mov eax, [draw_z_flush_x]
 push eax
 mov eax, [draw_z_flush_y]
 push eax
-mov eax, [draw_z_flush_while$2_while$1_color]
+mov eax, [draw_z_flush_while$1_while$1_color]
 push eax
 mov eax, 320
 push eax
@@ -252,20 +272,28 @@ call draw_z_pixel
 mov eax, [draw_z_flush_x]
 push eax
 mov eax, 1
+push eax
+pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
 mov [draw_z_flush_x], eax
-jmp draw_z_flush_while$2_while$1_start
-draw_z_flush_while$2_while$1_end:
+jmp draw_z_flush_while$1_while$1_start
+draw_z_flush_while$1_while$1_end:
 ;while end
 mov eax, [draw_z_flush_y]
 push eax
 mov eax, 1
+push eax
+pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
 mov [draw_z_flush_y], eax
-jmp draw_z_flush_while$2_start
-draw_z_flush_while$2_end:
+jmp draw_z_flush_while$1_start
+draw_z_flush_while$1_end:
 ;while end
 ret
 draw_z_flush$next:

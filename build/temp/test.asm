@@ -32,6 +32,8 @@ jmp test_z_draw_while$1_less@false$1
 test_z_draw_while$1_less@true$1:
 mov eax, 1
 test_z_draw_while$1_less@false$1:
+push eax
+pop eax
 cmp eax, 0
 je test_z_draw_while$1_end
 mov eax, [test_z_draw_i]
@@ -48,8 +50,12 @@ call draw_z_pixel
 mov eax, [test_z_draw_i]
 push eax
 mov eax, 1
+push eax
+pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
 mov [test_z_draw_i], eax
 jmp test_z_draw_while$1_start
 test_z_draw_while$1_end:
@@ -83,9 +89,13 @@ jmp test_z_draw_while$2_lessequal@false$2
 test_z_draw_while$2_lessequal@true$2:
 mov eax, 1
 test_z_draw_while$2_lessequal@false$2:
+push eax
+pop eax
 cmp eax, 0
 je test_z_draw_while$2_end
 mov eax, 0
+push eax
+pop eax
 mov [test_z_draw_x], eax
 ; while start
 test_z_draw_while$2_while$1_start:
@@ -102,13 +112,15 @@ jmp test_z_draw_while$2_while$1_lessequal@false$3
 test_z_draw_while$2_while$1_lessequal@true$3:
 mov eax, 1
 test_z_draw_while$2_while$1_lessequal@false$3:
+push eax
+pop eax
 cmp eax, 0
 je test_z_draw_while$2_while$1_end
 mov eax, [test_z_draw_x]
 push eax
 mov eax, [test_z_draw_y]
 push eax
-mov eax, [test_z_draw_y]
+mov eax, [test_z_draw_x]
 push eax
 mov eax, 320
 push eax
@@ -118,8 +130,12 @@ call draw_z_pixel
 mov eax, [test_z_draw_x]
 push eax
 mov eax, 1
+push eax
+pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
 mov [test_z_draw_x], eax
 jmp test_z_draw_while$2_while$1_start
 test_z_draw_while$2_while$1_end:
@@ -127,11 +143,16 @@ test_z_draw_while$2_while$1_end:
 mov eax, [test_z_draw_y]
 push eax
 mov eax, 1
+push eax
+pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
 mov [test_z_draw_y], eax
 jmp test_z_draw_while$2_start
 test_z_draw_while$2_end:
 ;while end
+call draw_z_flush
 ret
 test_z_draw$next:

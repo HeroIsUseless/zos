@@ -1507,6 +1507,16 @@ yyreduce:
     {am_assign_prefixesVar((yyvsp[(1) - (4)].s));;}
     break;
 
+  case 31:
+#line 76 "parse.y"
+    {am_assign_arr((yyvsp[(1) - (8)].s));;}
+    break;
+
+  case 32:
+#line 77 "parse.y"
+    {am_assign_prefixesArr((yyvsp[(1) - (8)].s));;}
+    break;
+
   case 33:
 #line 78 "parse.y"
     {am_exec_func((yyvsp[(1) - (2)].s));;}
@@ -1617,9 +1627,19 @@ yyreduce:
     {am_exp_var((yyvsp[(1) - (1)].s));;}
     break;
 
+  case 58:
+#line 107 "parse.y"
+    {am_exp_arr((yyvsp[(1) - (5)].s));;}
+    break;
+
+  case 59:
+#line 108 "parse.y"
+    {am_exp_chainArr((yyvsp[(1) - (5)].s));;}
+    break;
+
 
 /* Line 1267 of yacc.c.  */
-#line 1623 "parse.tab.c"
+#line 1643 "parse.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1841,7 +1861,7 @@ int main(int argc, char **argv){
     prefixes_push(argv[1]);
     yylineno = 1;
     yyparse();
-    code_cut("push eax\npop eax\n");
+    //code_cut("push eax\npop eax\n");
     code_cut("push ebp\npop ebp\n");
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);

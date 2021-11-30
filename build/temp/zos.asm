@@ -57,7 +57,7 @@ pop ebp
 push ebp
 mov eax, [main_z_addrVram]
 push eax
-call test_z_draw
+call draw_z_flush
 ret
 main_z_run_once$next:
 
@@ -158,14 +158,20 @@ push ebp
 mov eax, [draw_z_pixel_y]
 push eax
 mov eax, [draw_z_pixel_screenWidth]
+push eax
+pop eax
 pop ebx
 mul ebx
 push eax
 mov eax, [draw_z_pixel_x]
+push eax
+pop eax
 pop ebx
 add eax, ebx
 push eax
 mov eax, [draw_z_pixel_vramAddr]
+push eax
+pop eax
 pop ebx
 add eax, ebx
 push eax
@@ -251,6 +257,8 @@ jmp draw_z_hLine_while$1_lessequal@false$1
 draw_z_hLine_while$1_lessequal@true$1:
 mov eax, 1
 draw_z_hLine_while$1_lessequal@false$1:
+push eax
+pop eax
 cmp eax, 0
 je draw_z_hLine_while$1_end
 mov eax, [draw_z_hLine_i]
@@ -267,8 +275,12 @@ call draw_z_pixel
 mov eax, [draw_z_hLine_i]
 push eax
 mov eax, 1
+push eax
+pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
 mov [draw_z_hLine_i], eax
 jmp draw_z_hLine_while$1_start
 draw_z_hLine_while$1_end:
@@ -289,13 +301,6 @@ mov [draw_z_flush_addrVram], eax
 push ebp
 mov eax, 0
 push eax
-jmp draw_z_flush_i$next
-draw_z_flush_i: dd 0
-draw_z_flush_i$next:
-pop eax
-mov [draw_z_flush_i], eax
-mov eax, 0
-push eax
 jmp draw_z_flush_x$next
 draw_z_flush_x: dd 0
 draw_z_flush_x$next:
@@ -309,7 +314,7 @@ draw_z_flush_y$next:
 pop eax
 mov [draw_z_flush_y], eax
 ; while start
-draw_z_flush_while$2_start:
+draw_z_flush_while$1_start:
 mov eax, [draw_z_flush_y]
 push eax
 mov eax, 200
@@ -317,18 +322,22 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe draw_z_flush_while$2_lessequal@true$2
+jbe draw_z_flush_while$1_lessequal@true$2
 mov eax, 0
-jmp draw_z_flush_while$2_lessequal@false$2
-draw_z_flush_while$2_lessequal@true$2:
+jmp draw_z_flush_while$1_lessequal@false$2
+draw_z_flush_while$1_lessequal@true$2:
 mov eax, 1
-draw_z_flush_while$2_lessequal@false$2:
+draw_z_flush_while$1_lessequal@false$2:
+push eax
+pop eax
 cmp eax, 0
-je draw_z_flush_while$2_end
+je draw_z_flush_while$1_end
 mov eax, 0
+push eax
+pop eax
 mov [draw_z_flush_x], eax
 ; while start
-draw_z_flush_while$2_while$1_start:
+draw_z_flush_while$1_while$1_start:
 mov eax, [draw_z_flush_x]
 push eax
 mov eax, 320
@@ -336,34 +345,45 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe draw_z_flush_while$2_while$1_lessequal@true$3
+jbe draw_z_flush_while$1_while$1_lessequal@true$3
 mov eax, 0
-jmp draw_z_flush_while$2_while$1_lessequal@false$3
-draw_z_flush_while$2_while$1_lessequal@true$3:
+jmp draw_z_flush_while$1_while$1_lessequal@false$3
+draw_z_flush_while$1_while$1_lessequal@true$3:
 mov eax, 1
-draw_z_flush_while$2_while$1_lessequal@false$3:
+draw_z_flush_while$1_while$1_lessequal@false$3:
+push eax
+pop eax
 cmp eax, 0
-je draw_z_flush_while$2_while$1_end
+je draw_z_flush_while$1_while$1_end
 mov eax, [draw_z_flush_y]
 push eax
 mov eax, 320
+push eax
+pop eax
 pop ebx
 mul ebx
 push eax
 mov eax, [draw_z_flush_x]
+push eax
+pop eax
 pop ebx
 add eax, ebx
 push eax
-jmp draw_z_flush_while$2_while$1_color$next
-draw_z_flush_while$2_while$1_color: dd 0
-draw_z_flush_while$2_while$1_color$next:
 pop eax
-mov [draw_z_flush_while$2_while$1_color], eax
+mov ebx, 4
+mul ebx
+mov ebx, [font_z_screen_buf+eax]
+push ebx
+jmp draw_z_flush_while$1_while$1_color$next
+draw_z_flush_while$1_while$1_color: dd 0
+draw_z_flush_while$1_while$1_color$next:
+pop eax
+mov [draw_z_flush_while$1_while$1_color], eax
 mov eax, [draw_z_flush_x]
 push eax
 mov eax, [draw_z_flush_y]
 push eax
-mov eax, [draw_z_flush_while$2_while$1_color]
+mov eax, [draw_z_flush_while$1_while$1_color]
 push eax
 mov eax, 320
 push eax
@@ -373,145 +393,153 @@ call draw_z_pixel
 mov eax, [draw_z_flush_x]
 push eax
 mov eax, 1
+push eax
+pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
 mov [draw_z_flush_x], eax
-jmp draw_z_flush_while$2_while$1_start
-draw_z_flush_while$2_while$1_end:
+jmp draw_z_flush_while$1_while$1_start
+draw_z_flush_while$1_while$1_end:
 ;while end
 mov eax, [draw_z_flush_y]
 push eax
 mov eax, 1
+push eax
+pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
 mov [draw_z_flush_y], eax
-jmp draw_z_flush_while$2_start
-draw_z_flush_while$2_end:
+jmp draw_z_flush_while$1_start
+draw_z_flush_while$1_end:
 ;while end
 ret
 draw_z_flush$next:
 jmp font_z_font_A$next
-font_z_font_A: db \
+font_z_font_A: dd \
 0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
 font_z_font_A$next:
 jmp font_z_font_B$next
-font_z_font_B: db \
+font_z_font_B: dd \
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
 font_z_font_B$next:
 jmp font_z_font_C$next
-font_z_font_C: db \
+font_z_font_C: dd \
 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
 font_z_font_C$next:
 jmp font_z_font_D$next
-font_z_font_D: db \
+font_z_font_D: dd \
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
 font_z_font_D$next:
 jmp font_z_font_E$next
-font_z_font_E: db \
+font_z_font_E: dd \
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
 font_z_font_E$next:
 jmp font_z_font_F$next
-font_z_font_F: db \
+font_z_font_F: dd \
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 font_z_font_F$next:
 jmp font_z_font_G$next
-font_z_font_G: db \
+font_z_font_G: dd \
 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
 font_z_font_G$next:
 jmp font_z_font_H$next
-font_z_font_H: db \
+font_z_font_H: dd \
 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
 font_z_font_H$next:
 jmp font_z_font_I$next
-font_z_font_I: db \
+font_z_font_I: dd \
 0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,
 font_z_font_I$next:
 jmp font_z_font_J$next
-font_z_font_J: db \
+font_z_font_J: dd \
 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,
 font_z_font_J$next:
 jmp font_z_font_K$next
-font_z_font_K: db \
+font_z_font_K: dd \
 0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,1,0,1,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,1,1,0,0,0,0,1,0,0,1,1,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,
 font_z_font_K$next:
 jmp font_z_font_L$next
-font_z_font_L: db \
+font_z_font_L: dd \
 0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
 font_z_font_L$next:
 jmp font_z_font_M$next
-font_z_font_M: db \
+font_z_font_M: dd \
 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,1,0,0,1,1,0,0,1,0,1,1,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
 font_z_font_M$next:
 jmp font_z_font_N$next
-font_z_font_N: db \
+font_z_font_N: dd \
 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,1,0,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
 font_z_font_N$next:
 jmp font_z_font_O$next
-font_z_font_O: db \
+font_z_font_O: dd \
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
 font_z_font_O$next:
 jmp font_z_font_P$next
-font_z_font_P: db \
+font_z_font_P: dd \
 0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,
 font_z_font_P$next:
 jmp font_z_font_Q$next
-font_z_font_Q: db \
+font_z_font_Q: dd \
 0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,
 font_z_font_Q$next:
 jmp font_z_font_R$next
-font_z_font_R: db \
+font_z_font_R: dd \
 0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,
 font_z_font_R$next:
 jmp font_z_font_S$next
-font_z_font_S: db \
+font_z_font_S: dd \
 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
 font_z_font_S$next:
 jmp font_z_font_T$next
-font_z_font_T: db \
+font_z_font_T: dd \
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
 font_z_font_T$next:
 jmp font_z_font_U$next
-font_z_font_U: db \
+font_z_font_U: dd \
 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,
 font_z_font_U$next:
 jmp font_z_font_V$next
-font_z_font_V: db \
+font_z_font_V: dd \
 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,
 font_z_font_V$next:
 jmp font_z_font_W$next
-font_z_font_W: db \
+font_z_font_W: dd \
 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,1,1,0,1,0,0,1,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
 font_z_font_W$next:
 jmp font_z_font_X$next
-font_z_font_X: db \
+font_z_font_X: dd \
 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
 font_z_font_X$next:
 jmp font_z_font_Y$next
-font_z_font_Y: db \
+font_z_font_Y: dd \
 0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
 font_z_font_Y$next:
 jmp font_z_font_Z$next
-font_z_font_Z: db \
+font_z_font_Z: dd \
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
 font_z_font_Z$next:
 jmp font_z_font_question$next
-font_z_font_question: db \
+font_z_font_question: dd \
 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,
 font_z_font_question$next:
 jmp font_z_font_space$next
-font_z_font_space: db \
+font_z_font_space: dd \
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 font_z_font_space$next:
 jmp font_z_font_add$next
-font_z_font_add: db \
+font_z_font_add: dd \
 0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,
 font_z_font_add$next:
 jmp font_z_font_sub$next
-font_z_font_sub: db \
+font_z_font_sub: dd \
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 font_z_font_sub$next:
 jmp font_z_screen_buf$next
-font_z_screen_buf: db \
+font_z_screen_buf: dd \
 32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,
 font_z_screen_buf$next:
 
@@ -548,6 +576,8 @@ jmp test_z_draw_while$1_less@false$1
 test_z_draw_while$1_less@true$1:
 mov eax, 1
 test_z_draw_while$1_less@false$1:
+push eax
+pop eax
 cmp eax, 0
 je test_z_draw_while$1_end
 mov eax, [test_z_draw_i]
@@ -564,8 +594,12 @@ call draw_z_pixel
 mov eax, [test_z_draw_i]
 push eax
 mov eax, 1
+push eax
+pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
 mov [test_z_draw_i], eax
 jmp test_z_draw_while$1_start
 test_z_draw_while$1_end:
@@ -599,9 +633,13 @@ jmp test_z_draw_while$2_lessequal@false$2
 test_z_draw_while$2_lessequal@true$2:
 mov eax, 1
 test_z_draw_while$2_lessequal@false$2:
+push eax
+pop eax
 cmp eax, 0
 je test_z_draw_while$2_end
 mov eax, 0
+push eax
+pop eax
 mov [test_z_draw_x], eax
 ; while start
 test_z_draw_while$2_while$1_start:
@@ -618,13 +656,15 @@ jmp test_z_draw_while$2_while$1_lessequal@false$3
 test_z_draw_while$2_while$1_lessequal@true$3:
 mov eax, 1
 test_z_draw_while$2_while$1_lessequal@false$3:
+push eax
+pop eax
 cmp eax, 0
 je test_z_draw_while$2_while$1_end
 mov eax, [test_z_draw_x]
 push eax
 mov eax, [test_z_draw_y]
 push eax
-mov eax, [test_z_draw_y]
+mov eax, [test_z_draw_x]
 push eax
 mov eax, 320
 push eax
@@ -634,8 +674,12 @@ call draw_z_pixel
 mov eax, [test_z_draw_x]
 push eax
 mov eax, 1
+push eax
+pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
 mov [test_z_draw_x], eax
 jmp test_z_draw_while$2_while$1_start
 test_z_draw_while$2_while$1_end:
@@ -643,12 +687,17 @@ test_z_draw_while$2_while$1_end:
 mov eax, [test_z_draw_y]
 push eax
 mov eax, 1
+push eax
+pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
 mov [test_z_draw_y], eax
 jmp test_z_draw_while$2_start
 test_z_draw_while$2_end:
 ;while end
+call draw_z_flush
 ret
 test_z_draw$next:
 jmp main

@@ -73,8 +73,8 @@ param_exec: exp
 
 exec: VAR '<' '=' exp {am_assign_var($1);}                  /*调用函数内定义的变量*/
     | PREFIXES_VAR '<' '=' exp {am_assign_prefixesVar($1);} /*调用函数外定义的变量，任何文件内都可以*/
-    | VAR '\\' '(' exp ')' '<' '=' exp                      /*调用函数内定义的数组*/
-    | PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp             /*调用函数外定义的数组*/
+    | VAR '\\' '(' exp ')' '<' '=' exp {am_assign_arr($1);}                      /*调用函数内定义的数组*/
+    | PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am_assign_prefixesArr($1);}             /*调用函数外定义的数组*/
     | VAR params {am_exec_func($1);}                        /*调用文件内定义的函数*/
     | PREFIXES_VAR params {am_exec_prefixesFunc($1);}       /*调用文件外定义的函数*/
     | if_head ',' stmt ')' {am_if_end();}
@@ -114,7 +114,7 @@ int main(int argc, char **argv){
     prefixes_push(argv[1]);
     yylineno = 1;
     yyparse();
-    code_cut("push eax\npop eax\n");
+    //code_cut("push eax\npop eax\n");
     code_cut("push ebp\npop ebp\n");
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);

@@ -57,7 +57,7 @@
     57 00000081 55                      push ebp
     58 00000082 A1[2C000000]            mov eax, [main_z_addrVram]
     59 00000087 50                      push eax
-    60 00000088 E86F0E0000              call test_z_draw
+    60 00000088 E8C3010000              call draw_z_flush
     61 0000008D C3                      ret
     62                                  main_z_run_once$next:
     63                                  
@@ -66,7 +66,7 @@
     66                                  main_z_run_loop:
     67 00000090 5D                      pop ebp
     68 00000091 55                      push ebp
-    69 00000092 E8BD0F0000              call kernel_z_halt
+    69 00000092 E88D320000              call kernel_z_halt
     70 00000097 C3                      ret
     71                                  main_z_run_loop$next:
     72                                  
@@ -91,7 +91,7 @@
     91 000000B9 50                      push eax
     92 000000BA A1[A2000000]            mov eax, [memory_z_set_1byte_addr]
     93 000000BF 50                      push eax
-    94 000000C0 E8790F0000              call kernel_z_setMem_1byte
+    94 000000C0 E849320000              call kernel_z_setMem_1byte
     95 000000C5 C3                      ret
     96                                  memory_z_set_1byte$next:
     97                                  
@@ -116,869 +116,1881 @@
    116 000000E7 50                      push eax
    117 000000E8 A1[D0000000]            mov eax, [memory_z_set_2byte_addr]
    118 000000ED 50                      push eax
-   119 000000EE E8520F0000              call kernel_z_setMem_2byte
+   119 000000EE E822320000              call kernel_z_setMem_2byte
    120 000000F3 C3                      ret
    121                                  memory_z_set_2byte$next:
    122                                  
    123                                  ;function
-   124 000000F4 EB7D                    jmp draw_z_pixel$next
+   124 000000F4 E983000000              jmp draw_z_pixel$next
    125                                  draw_z_pixel:
    126                                  ;param
-   127 000000F6 EB04                    jmp draw_z_pixel_x$next
-   128 000000F8 00000000                draw_z_pixel_x: dd 0
+   127 000000F9 EB04                    jmp draw_z_pixel_x$next
+   128 000000FB 00000000                draw_z_pixel_x: dd 0
    129                                  draw_z_pixel_x$next:
    130                                  ;param
-   131 000000FC EB04                    jmp draw_z_pixel_y$next
-   132 000000FE 00000000                draw_z_pixel_y: dd 0
+   131 000000FF EB04                    jmp draw_z_pixel_y$next
+   132 00000101 00000000                draw_z_pixel_y: dd 0
    133                                  draw_z_pixel_y$next:
    134                                  ;param
-   135 00000102 EB04                    jmp draw_z_pixel_color$next
-   136 00000104 00000000                draw_z_pixel_color: dd 0
+   135 00000105 EB04                    jmp draw_z_pixel_color$next
+   136 00000107 00000000                draw_z_pixel_color: dd 0
    137                                  draw_z_pixel_color$next:
    138                                  ;param
-   139 00000108 EB04                    jmp draw_z_pixel_screenWidth$next
-   140 0000010A 00000000                draw_z_pixel_screenWidth: dd 0
+   139 0000010B EB04                    jmp draw_z_pixel_screenWidth$next
+   140 0000010D 00000000                draw_z_pixel_screenWidth: dd 0
    141                                  draw_z_pixel_screenWidth$next:
    142                                  ;param
-   143 0000010E EB04                    jmp draw_z_pixel_vramAddr$next
-   144 00000110 00000000                draw_z_pixel_vramAddr: dd 0
+   143 00000111 EB04                    jmp draw_z_pixel_vramAddr$next
+   144 00000113 00000000                draw_z_pixel_vramAddr: dd 0
    145                                  draw_z_pixel_vramAddr$next:
-   146 00000114 5D                      pop ebp
-   147 00000115 58                      pop eax
-   148 00000116 A3[10010000]            mov [draw_z_pixel_vramAddr], eax
-   149 0000011B 58                      pop eax
-   150 0000011C A3[0A010000]            mov [draw_z_pixel_screenWidth], eax
-   151 00000121 58                      pop eax
-   152 00000122 A3[04010000]            mov [draw_z_pixel_color], eax
-   153 00000127 58                      pop eax
-   154 00000128 A3[FE000000]            mov [draw_z_pixel_y], eax
-   155 0000012D 58                      pop eax
-   156 0000012E A3[F8000000]            mov [draw_z_pixel_x], eax
-   157 00000133 55                      push ebp
-   158 00000134 A1[FE000000]            mov eax, [draw_z_pixel_y]
-   159 00000139 50                      push eax
-   160 0000013A A1[0A010000]            mov eax, [draw_z_pixel_screenWidth]
-   161 0000013F 5B                      pop ebx
-   162 00000140 F7E3                    mul ebx
-   163 00000142 50                      push eax
-   164 00000143 A1[F8000000]            mov eax, [draw_z_pixel_x]
-   165 00000148 5B                      pop ebx
-   166 00000149 01D8                    add eax, ebx
-   167 0000014B 50                      push eax
-   168 0000014C A1[10010000]            mov eax, [draw_z_pixel_vramAddr]
-   169 00000151 5B                      pop ebx
-   170 00000152 01D8                    add eax, ebx
-   171 00000154 50                      push eax
-   172 00000155 EB04                    jmp draw_z_pixel_addr$next
-   173 00000157 00000000                draw_z_pixel_addr: dd 0
-   174                                  draw_z_pixel_addr$next:
-   175 0000015B 58                      pop eax
-   176 0000015C A3[57010000]            mov [draw_z_pixel_addr], eax
-   177 00000161 A1[04010000]            mov eax, [draw_z_pixel_color]
-   178 00000166 50                      push eax
-   179 00000167 A1[57010000]            mov eax, [draw_z_pixel_addr]
-   180 0000016C 50                      push eax
-   181 0000016D E828FFFFFF              call memory_z_set_1byte
-   182 00000172 C3                      ret
-   183                                  draw_z_pixel$next:
-   184                                  
-   185                                  ;function
-   186 00000173 E9C4000000              jmp draw_z_hLine$next
-   187                                  draw_z_hLine:
-   188                                  ;param
-   189 00000178 EB04                    jmp draw_z_hLine_bx$next
-   190 0000017A 00000000                draw_z_hLine_bx: dd 0
-   191                                  draw_z_hLine_bx$next:
-   192                                  ;param
-   193 0000017E EB04                    jmp draw_z_hLine_by$next
-   194 00000180 00000000                draw_z_hLine_by: dd 0
-   195                                  draw_z_hLine_by$next:
-   196                                  ;param
-   197 00000184 EB04                    jmp draw_z_hLine_ex$next
-   198 00000186 00000000                draw_z_hLine_ex: dd 0
-   199                                  draw_z_hLine_ex$next:
-   200                                  ;param
-   201 0000018A EB04                    jmp draw_z_hLine_ey$next
-   202 0000018C 00000000                draw_z_hLine_ey: dd 0
-   203                                  draw_z_hLine_ey$next:
-   204                                  ;param
-   205 00000190 EB04                    jmp draw_z_hLine_color$next
-   206 00000192 00000000                draw_z_hLine_color: dd 0
-   207                                  draw_z_hLine_color$next:
-   208                                  ;param
-   209 00000196 EB04                    jmp draw_z_hLine_screenWidth$next
-   210 00000198 00000000                draw_z_hLine_screenWidth: dd 0
-   211                                  draw_z_hLine_screenWidth$next:
-   212                                  ;param
-   213 0000019C EB04                    jmp draw_z_hLine_vramAddr$next
-   214 0000019E 00000000                draw_z_hLine_vramAddr: dd 0
-   215                                  draw_z_hLine_vramAddr$next:
-   216 000001A2 5D                      pop ebp
-   217 000001A3 58                      pop eax
-   218 000001A4 A3[9E010000]            mov [draw_z_hLine_vramAddr], eax
-   219 000001A9 58                      pop eax
-   220 000001AA A3[98010000]            mov [draw_z_hLine_screenWidth], eax
-   221 000001AF 58                      pop eax
-   222 000001B0 A3[92010000]            mov [draw_z_hLine_color], eax
-   223 000001B5 58                      pop eax
-   224 000001B6 A3[8C010000]            mov [draw_z_hLine_ey], eax
-   225 000001BB 58                      pop eax
-   226 000001BC A3[86010000]            mov [draw_z_hLine_ex], eax
-   227 000001C1 58                      pop eax
-   228 000001C2 A3[80010000]            mov [draw_z_hLine_by], eax
-   229 000001C7 58                      pop eax
-   230 000001C8 A3[7A010000]            mov [draw_z_hLine_bx], eax
-   231 000001CD 55                      push ebp
-   232 000001CE A1[7A010000]            mov eax, [draw_z_hLine_bx]
-   233 000001D3 50                      push eax
-   234 000001D4 EB04                    jmp draw_z_hLine_i$next
-   235 000001D6 00000000                draw_z_hLine_i: dd 0
-   236                                  draw_z_hLine_i$next:
-   237 000001DA 58                      pop eax
-   238 000001DB A3[D6010000]            mov [draw_z_hLine_i], eax
-   239                                  ; while start
-   240                                  draw_z_hLine_while$1_start:
-   241 000001E0 A1[D6010000]            mov eax, [draw_z_hLine_i]
-   242 000001E5 50                      push eax
-   243 000001E6 A1[86010000]            mov eax, [draw_z_hLine_ex]
-   244 000001EB 50                      push eax
-   245 000001EC 5B                      pop ebx
-   246 000001ED 58                      pop eax
-   247 000001EE 39D8                    cmp eax, ebx
-   248 000001F0 7607                    jbe draw_z_hLine_while$1_lessequal@true$1
-   249 000001F2 B800000000              mov eax, 0
-   250 000001F7 EB05                    jmp draw_z_hLine_while$1_lessequal@false$1
-   251                                  draw_z_hLine_while$1_lessequal@true$1:
-   252 000001F9 B801000000              mov eax, 1
-   253                                  draw_z_hLine_while$1_lessequal@false$1:
-   254 000001FE 83F800                  cmp eax, 0
-   255 00000201 7438                    je draw_z_hLine_while$1_end
-   256 00000203 A1[D6010000]            mov eax, [draw_z_hLine_i]
-   257 00000208 50                      push eax
-   258 00000209 A1[80010000]            mov eax, [draw_z_hLine_by]
-   259 0000020E 50                      push eax
-   260 0000020F A1[92010000]            mov eax, [draw_z_hLine_color]
-   261 00000214 50                      push eax
-   262 00000215 A1[98010000]            mov eax, [draw_z_hLine_screenWidth]
-   263 0000021A 50                      push eax
-   264 0000021B A1[9E010000]            mov eax, [draw_z_hLine_vramAddr]
-   265 00000220 50                      push eax
-   266 00000221 E8D0FEFFFF              call draw_z_pixel
-   267 00000226 A1[D6010000]            mov eax, [draw_z_hLine_i]
-   268 0000022B 50                      push eax
-   269 0000022C B801000000              mov eax, 1
-   270 00000231 5B                      pop ebx
-   271 00000232 01D8                    add eax, ebx
-   272 00000234 A3[D6010000]            mov [draw_z_hLine_i], eax
-   273 00000239 EBA5                    jmp draw_z_hLine_while$1_start
-   274                                  draw_z_hLine_while$1_end:
-   275                                  ;while end
-   276 0000023B C3                      ret
-   277                                  draw_z_hLine$next:
-   278                                  
-   279                                  ;function
-   280 0000023C E90D010000              jmp draw_z_flush$next
-   281                                  draw_z_flush:
-   282                                  ;param
-   283 00000241 EB04                    jmp draw_z_flush_addrVram$next
-   284 00000243 00000000                draw_z_flush_addrVram: dd 0
-   285                                  draw_z_flush_addrVram$next:
-   286 00000247 5D                      pop ebp
-   287 00000248 58                      pop eax
-   288 00000249 A3[43020000]            mov [draw_z_flush_addrVram], eax
-   289 0000024E 55                      push ebp
-   290 0000024F B800000000              mov eax, 0
-   291 00000254 50                      push eax
-   292 00000255 EB04                    jmp draw_z_flush_i$next
-   293 00000257 00000000                draw_z_flush_i: dd 0
-   294                                  draw_z_flush_i$next:
-   295 0000025B 58                      pop eax
-   296 0000025C A3[57020000]            mov [draw_z_flush_i], eax
-   297 00000261 B800000000              mov eax, 0
-   298 00000266 50                      push eax
-   299 00000267 EB04                    jmp draw_z_flush_x$next
-   300 00000269 00000000                draw_z_flush_x: dd 0
-   301                                  draw_z_flush_x$next:
-   302 0000026D 58                      pop eax
-   303 0000026E A3[69020000]            mov [draw_z_flush_x], eax
-   304 00000273 B800000000              mov eax, 0
-   305 00000278 50                      push eax
-   306 00000279 EB04                    jmp draw_z_flush_y$next
-   307 0000027B 00000000                draw_z_flush_y: dd 0
-   308                                  draw_z_flush_y$next:
-   309 0000027F 58                      pop eax
-   310 00000280 A3[7B020000]            mov [draw_z_flush_y], eax
-   311                                  ; while start
-   312                                  draw_z_flush_while$2_start:
-   313 00000285 A1[7B020000]            mov eax, [draw_z_flush_y]
-   314 0000028A 50                      push eax
-   315 0000028B B8C8000000              mov eax, 200
-   316 00000290 50                      push eax
-   317 00000291 5B                      pop ebx
-   318 00000292 58                      pop eax
-   319 00000293 39D8                    cmp eax, ebx
-   320 00000295 7607                    jbe draw_z_flush_while$2_lessequal@true$2
-   321 00000297 B800000000              mov eax, 0
-   322 0000029C EB05                    jmp draw_z_flush_while$2_lessequal@false$2
-   323                                  draw_z_flush_while$2_lessequal@true$2:
-   324 0000029E B801000000              mov eax, 1
-   325                                  draw_z_flush_while$2_lessequal@false$2:
-   326 000002A3 83F800                  cmp eax, 0
-   327 000002A6 0F84A1000000            je draw_z_flush_while$2_end
-   328 000002AC B800000000              mov eax, 0
-   329 000002B1 A3[69020000]            mov [draw_z_flush_x], eax
-   330                                  ; while start
-   331                                  draw_z_flush_while$2_while$1_start:
-   332 000002B6 A1[69020000]            mov eax, [draw_z_flush_x]
-   333 000002BB 50                      push eax
-   334 000002BC B840010000              mov eax, 320
-   335 000002C1 50                      push eax
-   336 000002C2 5B                      pop ebx
-   337 000002C3 58                      pop eax
-   338 000002C4 39D8                    cmp eax, ebx
-   339 000002C6 7607                    jbe draw_z_flush_while$2_while$1_lessequal@true$3
-   340 000002C8 B800000000              mov eax, 0
-   341 000002CD EB05                    jmp draw_z_flush_while$2_while$1_lessequal@false$3
-   342                                  draw_z_flush_while$2_while$1_lessequal@true$3:
-   343 000002CF B801000000              mov eax, 1
-   344                                  draw_z_flush_while$2_while$1_lessequal@false$3:
-   345 000002D4 83F800                  cmp eax, 0
-   346 000002D7 745C                    je draw_z_flush_while$2_while$1_end
-   347 000002D9 A1[7B020000]            mov eax, [draw_z_flush_y]
-   348 000002DE 50                      push eax
-   349 000002DF B840010000              mov eax, 320
-   350 000002E4 5B                      pop ebx
-   351 000002E5 F7E3                    mul ebx
-   352 000002E7 50                      push eax
-   353 000002E8 A1[69020000]            mov eax, [draw_z_flush_x]
-   354 000002ED 5B                      pop ebx
-   355 000002EE 01D8                    add eax, ebx
-   356 000002F0 50                      push eax
-   357 000002F1 EB04                    jmp draw_z_flush_while$2_while$1_color$next
-   358 000002F3 00000000                draw_z_flush_while$2_while$1_color: dd 0
-   359                                  draw_z_flush_while$2_while$1_color$next:
-   360 000002F7 58                      pop eax
-   361 000002F8 A3[F3020000]            mov [draw_z_flush_while$2_while$1_color], eax
-   362 000002FD A1[69020000]            mov eax, [draw_z_flush_x]
-   363 00000302 50                      push eax
-   364 00000303 A1[7B020000]            mov eax, [draw_z_flush_y]
-   365 00000308 50                      push eax
-   366 00000309 A1[F3020000]            mov eax, [draw_z_flush_while$2_while$1_color]
-   367 0000030E 50                      push eax
-   368 0000030F B840010000              mov eax, 320
-   369 00000314 50                      push eax
-   370 00000315 A1[43020000]            mov eax, [draw_z_flush_addrVram]
-   371 0000031A 50                      push eax
-   372 0000031B E8D6FDFFFF              call draw_z_pixel
-   373 00000320 A1[69020000]            mov eax, [draw_z_flush_x]
-   374 00000325 50                      push eax
-   375 00000326 B801000000              mov eax, 1
-   376 0000032B 5B                      pop ebx
-   377 0000032C 01D8                    add eax, ebx
-   378 0000032E A3[69020000]            mov [draw_z_flush_x], eax
-   379 00000333 EB81                    jmp draw_z_flush_while$2_while$1_start
-   380                                  draw_z_flush_while$2_while$1_end:
-   381                                  ;while end
-   382 00000335 A1[7B020000]            mov eax, [draw_z_flush_y]
-   383 0000033A 50                      push eax
-   384 0000033B B801000000              mov eax, 1
-   385 00000340 5B                      pop ebx
-   386 00000341 01D8                    add eax, ebx
-   387 00000343 A3[7B020000]            mov [draw_z_flush_y], eax
-   388 00000348 E938FFFFFF              jmp draw_z_flush_while$2_start
-   389                                  draw_z_flush_while$2_end:
-   390                                  ;while end
-   391 0000034D C3                      ret
-   392                                  draw_z_flush$next:
-   393 0000034E EB40                    jmp font_z_font_A$next
-   394 00000350 000000000000000000-     font_z_font_A: db 0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-   394 00000359 000001010000000000-
-   394 00000362 010000010000000100-
-   394 0000036B 000000010000010101-
-   394 00000374 010101000001000000-
-   394 0000037D 000100000100000000-
-   394 00000386 010000000000000000-
-   394 0000038F 00                 
-   396                                  font_z_font_A$next:
-   397 00000390 EB40                    jmp font_z_font_B$next
-   398 00000392 000000000000000000-     font_z_font_B: db 0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
-   398 0000039B 010101010100000001-
-   398 000003A4 000000000100000101-
-   398 000003AD 010101000000010000-
-   398 000003B6 000001000001000000-
-   398 000003BF 000100000101010101-
-   398 000003C8 000000000000000000-
-   398 000003D1 00                 
-   400                                  font_z_font_B$next:
-   401 000003D2 EB40                    jmp font_z_font_C$next
-   402 000003D4 000000000000000000-     font_z_font_C: db 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
-   402 000003DD 000101010100000001-
-   402 000003E6 000000000100000100-
-   402 000003EF 000000000000010000-
-   402 000003F8 000000000001000000-
-   402 00000401 000100000001010101-
-   402 0000040A 000000000000000000-
-   402 00000413 00                 
-   404                                  font_z_font_C$next:
-   405 00000414 EB40                    jmp font_z_font_D$next
-   406 00000416 000000000000000000-     font_z_font_D: db 0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
-   406 0000041F 010101010100000001-
-   406 00000428 000000000100000100-
-   406 00000431 000000010000010000-
-   406 0000043A 000001000001000000-
-   406 00000443 000100000101010101-
-   406 0000044C 000000000000000000-
-   406 00000455 00                 
-   408                                  font_z_font_D$next:
-   409 00000456 EB40                    jmp font_z_font_E$next
-   410 00000458 000000000000000000-     font_z_font_E: db 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
-   410 00000461 010101010101000001-
-   410 0000046A 000000000000000101-
-   410 00000473 010101010000010000-
-   410 0000047C 000000000001000000-
-   410 00000485 000000000101010101-
-   410 0000048E 010000000000000000-
-   410 00000497 00                 
-   412                                  font_z_font_E$next:
-   413 00000498 EB40                    jmp font_z_font_F$next
-   414 0000049A 000000000000000000-     font_z_font_F: db 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-   414 000004A3 010101010101000001-
-   414 000004AC 000000000000000101-
-   414 000004B5 010101000000010000-
-   414 000004BE 000000000001000000-
-   414 000004C7 000000000100000000-
-   414 000004D0 000000000000000000-
-   414 000004D9 00                 
-   416                                  font_z_font_F$next:
-   417 000004DA EB40                    jmp font_z_font_G$next
-   418 000004DC 000000000000000000-     font_z_font_G: db 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
-   418 000004E5 000101010100000001-
-   418 000004EE 000000000100000100-
-   418 000004F7 000000000000010000-
-   418 00000500 000101000001000000-
-   418 00000509 000100000001010101-
-   418 00000512 010000000000000000-
-   418 0000051B 00                 
-   420                                  font_z_font_G$next:
-   421 0000051C EB40                    jmp font_z_font_H$next
-   422 0000051E 000000000000000000-     font_z_font_H: db 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-   422 00000527 010000000001000001-
-   422 00000530 000000000100000101-
-   422 00000539 010101010000010000-
-   422 00000542 000001000001000000-
-   422 0000054B 000100000100000000-
-   422 00000554 010000000000000000-
-   422 0000055D 00                 
-   424                                  font_z_font_H$next:
-   425 0000055E EB40                    jmp font_z_font_I$next
-   426 00000560 000000000000000000-     font_z_font_I: db 0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,
-   426 00000569 000101010000000000-
-   426 00000572 000100000000000000-
-   426 0000057B 010000000000000001-
-   426 00000584 000000000000000100-
-   426 0000058D 000000000001010100-
-   426 00000596 000000000000000000-
-   426 0000059F 00                 
-   428                                  font_z_font_I$next:
-   429 000005A0 EB40                    jmp font_z_font_J$next
-   430 000005A2 000000000000000000-     font_z_font_J: db 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,
-   430 000005AB 000101010100000000-
-   430 000005B4 000000010000000000-
-   430 000005BD 000001000000000000-
-   430 000005C6 000100000000000100-
-   430 000005CF 010000000000000100-
+   146 00000117 5D                      pop ebp
+   147 00000118 58                      pop eax
+   148 00000119 A3[13010000]            mov [draw_z_pixel_vramAddr], eax
+   149 0000011E 58                      pop eax
+   150 0000011F A3[0D010000]            mov [draw_z_pixel_screenWidth], eax
+   151 00000124 58                      pop eax
+   152 00000125 A3[07010000]            mov [draw_z_pixel_color], eax
+   153 0000012A 58                      pop eax
+   154 0000012B A3[01010000]            mov [draw_z_pixel_y], eax
+   155 00000130 58                      pop eax
+   156 00000131 A3[FB000000]            mov [draw_z_pixel_x], eax
+   157 00000136 55                      push ebp
+   158 00000137 A1[01010000]            mov eax, [draw_z_pixel_y]
+   159 0000013C 50                      push eax
+   160 0000013D A1[0D010000]            mov eax, [draw_z_pixel_screenWidth]
+   161 00000142 50                      push eax
+   162 00000143 58                      pop eax
+   163 00000144 5B                      pop ebx
+   164 00000145 F7E3                    mul ebx
+   165 00000147 50                      push eax
+   166 00000148 A1[FB000000]            mov eax, [draw_z_pixel_x]
+   167 0000014D 50                      push eax
+   168 0000014E 58                      pop eax
+   169 0000014F 5B                      pop ebx
+   170 00000150 01D8                    add eax, ebx
+   171 00000152 50                      push eax
+   172 00000153 A1[13010000]            mov eax, [draw_z_pixel_vramAddr]
+   173 00000158 50                      push eax
+   174 00000159 58                      pop eax
+   175 0000015A 5B                      pop ebx
+   176 0000015B 01D8                    add eax, ebx
+   177 0000015D 50                      push eax
+   178 0000015E EB04                    jmp draw_z_pixel_addr$next
+   179 00000160 00000000                draw_z_pixel_addr: dd 0
+   180                                  draw_z_pixel_addr$next:
+   181 00000164 58                      pop eax
+   182 00000165 A3[60010000]            mov [draw_z_pixel_addr], eax
+   183 0000016A A1[07010000]            mov eax, [draw_z_pixel_color]
+   184 0000016F 50                      push eax
+   185 00000170 A1[60010000]            mov eax, [draw_z_pixel_addr]
+   186 00000175 50                      push eax
+   187 00000176 E81FFFFFFF              call memory_z_set_1byte
+   188 0000017B C3                      ret
+   189                                  draw_z_pixel$next:
+   190                                  
+   191                                  ;function
+   192 0000017C E9CA000000              jmp draw_z_hLine$next
+   193                                  draw_z_hLine:
+   194                                  ;param
+   195 00000181 EB04                    jmp draw_z_hLine_bx$next
+   196 00000183 00000000                draw_z_hLine_bx: dd 0
+   197                                  draw_z_hLine_bx$next:
+   198                                  ;param
+   199 00000187 EB04                    jmp draw_z_hLine_by$next
+   200 00000189 00000000                draw_z_hLine_by: dd 0
+   201                                  draw_z_hLine_by$next:
+   202                                  ;param
+   203 0000018D EB04                    jmp draw_z_hLine_ex$next
+   204 0000018F 00000000                draw_z_hLine_ex: dd 0
+   205                                  draw_z_hLine_ex$next:
+   206                                  ;param
+   207 00000193 EB04                    jmp draw_z_hLine_ey$next
+   208 00000195 00000000                draw_z_hLine_ey: dd 0
+   209                                  draw_z_hLine_ey$next:
+   210                                  ;param
+   211 00000199 EB04                    jmp draw_z_hLine_color$next
+   212 0000019B 00000000                draw_z_hLine_color: dd 0
+   213                                  draw_z_hLine_color$next:
+   214                                  ;param
+   215 0000019F EB04                    jmp draw_z_hLine_screenWidth$next
+   216 000001A1 00000000                draw_z_hLine_screenWidth: dd 0
+   217                                  draw_z_hLine_screenWidth$next:
+   218                                  ;param
+   219 000001A5 EB04                    jmp draw_z_hLine_vramAddr$next
+   220 000001A7 00000000                draw_z_hLine_vramAddr: dd 0
+   221                                  draw_z_hLine_vramAddr$next:
+   222 000001AB 5D                      pop ebp
+   223 000001AC 58                      pop eax
+   224 000001AD A3[A7010000]            mov [draw_z_hLine_vramAddr], eax
+   225 000001B2 58                      pop eax
+   226 000001B3 A3[A1010000]            mov [draw_z_hLine_screenWidth], eax
+   227 000001B8 58                      pop eax
+   228 000001B9 A3[9B010000]            mov [draw_z_hLine_color], eax
+   229 000001BE 58                      pop eax
+   230 000001BF A3[95010000]            mov [draw_z_hLine_ey], eax
+   231 000001C4 58                      pop eax
+   232 000001C5 A3[8F010000]            mov [draw_z_hLine_ex], eax
+   233 000001CA 58                      pop eax
+   234 000001CB A3[89010000]            mov [draw_z_hLine_by], eax
+   235 000001D0 58                      pop eax
+   236 000001D1 A3[83010000]            mov [draw_z_hLine_bx], eax
+   237 000001D6 55                      push ebp
+   238 000001D7 A1[83010000]            mov eax, [draw_z_hLine_bx]
+   239 000001DC 50                      push eax
+   240 000001DD EB04                    jmp draw_z_hLine_i$next
+   241 000001DF 00000000                draw_z_hLine_i: dd 0
+   242                                  draw_z_hLine_i$next:
+   243 000001E3 58                      pop eax
+   244 000001E4 A3[DF010000]            mov [draw_z_hLine_i], eax
+   245                                  ; while start
+   246                                  draw_z_hLine_while$1_start:
+   247 000001E9 A1[DF010000]            mov eax, [draw_z_hLine_i]
+   248 000001EE 50                      push eax
+   249 000001EF A1[8F010000]            mov eax, [draw_z_hLine_ex]
+   250 000001F4 50                      push eax
+   251 000001F5 5B                      pop ebx
+   252 000001F6 58                      pop eax
+   253 000001F7 39D8                    cmp eax, ebx
+   254 000001F9 7607                    jbe draw_z_hLine_while$1_lessequal@true$1
+   255 000001FB B800000000              mov eax, 0
+   256 00000200 EB05                    jmp draw_z_hLine_while$1_lessequal@false$1
+   257                                  draw_z_hLine_while$1_lessequal@true$1:
+   258 00000202 B801000000              mov eax, 1
+   259                                  draw_z_hLine_while$1_lessequal@false$1:
+   260 00000207 50                      push eax
+   261 00000208 58                      pop eax
+   262 00000209 83F800                  cmp eax, 0
+   263 0000020C 743C                    je draw_z_hLine_while$1_end
+   264 0000020E A1[DF010000]            mov eax, [draw_z_hLine_i]
+   265 00000213 50                      push eax
+   266 00000214 A1[89010000]            mov eax, [draw_z_hLine_by]
+   267 00000219 50                      push eax
+   268 0000021A A1[9B010000]            mov eax, [draw_z_hLine_color]
+   269 0000021F 50                      push eax
+   270 00000220 A1[A1010000]            mov eax, [draw_z_hLine_screenWidth]
+   271 00000225 50                      push eax
+   272 00000226 A1[A7010000]            mov eax, [draw_z_hLine_vramAddr]
+   273 0000022B 50                      push eax
+   274 0000022C E8C8FEFFFF              call draw_z_pixel
+   275 00000231 A1[DF010000]            mov eax, [draw_z_hLine_i]
+   276 00000236 50                      push eax
+   277 00000237 B801000000              mov eax, 1
+   278 0000023C 50                      push eax
+   279 0000023D 58                      pop eax
+   280 0000023E 5B                      pop ebx
+   281 0000023F 01D8                    add eax, ebx
+   282 00000241 50                      push eax
+   283 00000242 58                      pop eax
+   284 00000243 A3[DF010000]            mov [draw_z_hLine_i], eax
+   285 00000248 EB9F                    jmp draw_z_hLine_while$1_start
+   286                                  draw_z_hLine_while$1_end:
+   287                                  ;while end
+   288 0000024A C3                      ret
+   289                                  draw_z_hLine$next:
+   290                                  
+   291                                  ;function
+   292 0000024B E91F010000              jmp draw_z_flush$next
+   293                                  draw_z_flush:
+   294                                  ;param
+   295 00000250 EB04                    jmp draw_z_flush_addrVram$next
+   296 00000252 00000000                draw_z_flush_addrVram: dd 0
+   297                                  draw_z_flush_addrVram$next:
+   298 00000256 5D                      pop ebp
+   299 00000257 58                      pop eax
+   300 00000258 A3[52020000]            mov [draw_z_flush_addrVram], eax
+   301 0000025D 55                      push ebp
+   302 0000025E B800000000              mov eax, 0
+   303 00000263 50                      push eax
+   304 00000264 EB04                    jmp draw_z_flush_x$next
+   305 00000266 00000000                draw_z_flush_x: dd 0
+   306                                  draw_z_flush_x$next:
+   307 0000026A 58                      pop eax
+   308 0000026B A3[66020000]            mov [draw_z_flush_x], eax
+   309 00000270 B800000000              mov eax, 0
+   310 00000275 50                      push eax
+   311 00000276 EB04                    jmp draw_z_flush_y$next
+   312 00000278 00000000                draw_z_flush_y: dd 0
+   313                                  draw_z_flush_y$next:
+   314 0000027C 58                      pop eax
+   315 0000027D A3[78020000]            mov [draw_z_flush_y], eax
+   316                                  ; while start
+   317                                  draw_z_flush_while$1_start:
+   318 00000282 A1[78020000]            mov eax, [draw_z_flush_y]
+   319 00000287 50                      push eax
+   320 00000288 B8C8000000              mov eax, 200
+   321 0000028D 50                      push eax
+   322 0000028E 5B                      pop ebx
+   323 0000028F 58                      pop eax
+   324 00000290 39D8                    cmp eax, ebx
+   325 00000292 7607                    jbe draw_z_flush_while$1_lessequal@true$2
+   326 00000294 B800000000              mov eax, 0
+   327 00000299 EB05                    jmp draw_z_flush_while$1_lessequal@false$2
+   328                                  draw_z_flush_while$1_lessequal@true$2:
+   329 0000029B B801000000              mov eax, 1
+   330                                  draw_z_flush_while$1_lessequal@false$2:
+   331 000002A0 50                      push eax
+   332 000002A1 58                      pop eax
+   333 000002A2 83F800                  cmp eax, 0
+   334 000002A5 0F84C3000000            je draw_z_flush_while$1_end
+   335 000002AB B800000000              mov eax, 0
+   336 000002B0 50                      push eax
+   337 000002B1 58                      pop eax
+   338 000002B2 A3[66020000]            mov [draw_z_flush_x], eax
+   339                                  ; while start
+   340                                  draw_z_flush_while$1_while$1_start:
+   341 000002B7 A1[66020000]            mov eax, [draw_z_flush_x]
+   342 000002BC 50                      push eax
+   343 000002BD B840010000              mov eax, 320
+   344 000002C2 50                      push eax
+   345 000002C3 5B                      pop ebx
+   346 000002C4 58                      pop eax
+   347 000002C5 39D8                    cmp eax, ebx
+   348 000002C7 7607                    jbe draw_z_flush_while$1_while$1_lessequal@true$3
+   349 000002C9 B800000000              mov eax, 0
+   350 000002CE EB05                    jmp draw_z_flush_while$1_while$1_lessequal@false$3
+   351                                  draw_z_flush_while$1_while$1_lessequal@true$3:
+   352 000002D0 B801000000              mov eax, 1
+   353                                  draw_z_flush_while$1_while$1_lessequal@false$3:
+   354 000002D5 50                      push eax
+   355 000002D6 58                      pop eax
+   356 000002D7 83F800                  cmp eax, 0
+   357 000002DA 7476                    je draw_z_flush_while$1_while$1_end
+   358 000002DC A1[78020000]            mov eax, [draw_z_flush_y]
+   359 000002E1 50                      push eax
+   360 000002E2 B840010000              mov eax, 320
+   361 000002E7 50                      push eax
+   362 000002E8 58                      pop eax
+   363 000002E9 5B                      pop ebx
+   364 000002EA F7E3                    mul ebx
+   365 000002EC 50                      push eax
+   366 000002ED A1[66020000]            mov eax, [draw_z_flush_x]
+   367 000002F2 50                      push eax
+   368 000002F3 58                      pop eax
+   369 000002F4 5B                      pop ebx
+   370 000002F5 01D8                    add eax, ebx
+   371 000002F7 50                      push eax
+   372 000002F8 58                      pop eax
+   373 000002F9 BB04000000              mov ebx, 4
+   374 000002FE F7E3                    mul ebx
+   375 00000300 8B98[0A220000]          mov ebx, [font_z_screen_buf+eax]
+   376 00000306 53                      push ebx
+   377 00000307 EB04                    jmp draw_z_flush_while$1_while$1_color$next
+   378 00000309 00000000                draw_z_flush_while$1_while$1_color: dd 0
+   379                                  draw_z_flush_while$1_while$1_color$next:
+   380 0000030D 58                      pop eax
+   381 0000030E A3[09030000]            mov [draw_z_flush_while$1_while$1_color], eax
+   382 00000313 A1[66020000]            mov eax, [draw_z_flush_x]
+   383 00000318 50                      push eax
+   384 00000319 A1[78020000]            mov eax, [draw_z_flush_y]
+   385 0000031E 50                      push eax
+   386 0000031F A1[09030000]            mov eax, [draw_z_flush_while$1_while$1_color]
+   387 00000324 50                      push eax
+   388 00000325 B840010000              mov eax, 320
+   389 0000032A 50                      push eax
+   390 0000032B A1[52020000]            mov eax, [draw_z_flush_addrVram]
+   391 00000330 50                      push eax
+   392 00000331 E8C3FDFFFF              call draw_z_pixel
+   393 00000336 A1[66020000]            mov eax, [draw_z_flush_x]
+   394 0000033B 50                      push eax
+   395 0000033C B801000000              mov eax, 1
+   396 00000341 50                      push eax
+   397 00000342 58                      pop eax
+   398 00000343 5B                      pop ebx
+   399 00000344 01D8                    add eax, ebx
+   400 00000346 50                      push eax
+   401 00000347 58                      pop eax
+   402 00000348 A3[66020000]            mov [draw_z_flush_x], eax
+   403 0000034D E965FFFFFF              jmp draw_z_flush_while$1_while$1_start
+   404                                  draw_z_flush_while$1_while$1_end:
+   405                                  ;while end
+   406 00000352 A1[78020000]            mov eax, [draw_z_flush_y]
+   407 00000357 50                      push eax
+   408 00000358 B801000000              mov eax, 1
+   409 0000035D 50                      push eax
+   410 0000035E 58                      pop eax
+   411 0000035F 5B                      pop ebx
+   412 00000360 01D8                    add eax, ebx
+   413 00000362 50                      push eax
+   414 00000363 58                      pop eax
+   415 00000364 A3[78020000]            mov [draw_z_flush_y], eax
+   416 00000369 E914FFFFFF              jmp draw_z_flush_while$1_start
+   417                                  draw_z_flush_while$1_end:
+   418                                  ;while end
+   419 0000036E C3                      ret
+   420                                  draw_z_flush$next:
+   421 0000036F E900010000              jmp font_z_font_A$next
+   422 00000374 000000000000000000-     font_z_font_A: dd 0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
+   422 0000037D 000000000000000000-
+   422 00000386 000000000000000000-
+   422 0000038F 000000000000000000-
+   422 00000398 000000000000000001-
+   422 000003A1 000000010000000000-
+   422 000003AA 000000000000000000-
+   422 000003B3 000000000000000000-
+   422 000003BC 010000000000000000-
+   422 000003C5 000000010000000000-
+   422 000003CE 000000000000000000-
+   422 000003D7 000100000000000000-
+   422 000003E0 000000000000000000-
+   422 000003E9 000000010000000000-
+   422 000003F2 000000000000010000-
+   422 000003FB 000100000001000000-
+   422 00000404 010000000100000001-
+   422 0000040D 000000000000000000-
+   422 00000416 000001000000000000-
+   422 0000041F 000000000000000000-
+   422 00000428 000000000100000000-
+   422 00000431 000000000000000100-
+   422 0000043A 000000000000000000-
+   422 00000443 000000000000000000-
+   422 0000044C 010000000000000000-
+   422 00000455 000000000000000000-
+   422 0000045E 000000000000000000-
+   422 00000467 000000000000000000-
+   422 00000470 00000000           
+   424                                  font_z_font_A$next:
+   425 00000474 E900010000              jmp font_z_font_B$next
+   426 00000479 000000000000000000-     font_z_font_B: dd 0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
+   426 00000482 000000000000000000-
+   426 0000048B 000000000000000000-
+   426 00000494 000000000000000000-
+   426 0000049D 010000000100000001-
+   426 000004A6 000000010000000100-
+   426 000004AF 000000000000000000-
+   426 000004B8 000000000001000000-
+   426 000004C1 000000000000000000-
+   426 000004CA 000000000000000100-
+   426 000004D3 000000000000000000-
+   426 000004DC 000100000001000000-
+   426 000004E5 010000000100000001-
+   426 000004EE 000000000000000000-
+   426 000004F7 000000000000010000-
+   426 00000500 000000000000000000-
+   426 00000509 000000000000000001-
+   426 00000512 000000000000000000-
+   426 0000051B 000001000000000000-
+   426 00000524 000000000000000000-
+   426 0000052D 000000000100000000-
+   426 00000536 000000000000000100-
+   426 0000053F 000001000000010000-
+   426 00000548 000100000001000000-
+   426 00000551 000000000000000000-
+   426 0000055A 000000000000000000-
+   426 00000563 000000000000000000-
+   426 0000056C 000000000000000000-
+   426 00000575 00000000           
+   428                                  font_z_font_B$next:
+   429 00000579 E900010000              jmp font_z_font_C$next
+   430 0000057E 000000000000000000-     font_z_font_C: dd 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
+   430 00000587 000000000000000000-
+   430 00000590 000000000000000000-
+   430 00000599 000000000000000000-
+   430 000005A2 000000000100000001-
+   430 000005AB 000000010000000100-
+   430 000005B4 000000000000000000-
+   430 000005BD 000000000001000000-
+   430 000005C6 000000000000000000-
+   430 000005CF 000000000000000100-
    430 000005D8 000000000000000000-
-   430 000005E1 00                 
-   432                                  font_z_font_J$next:
-   433 000005E2 EB40                    jmp font_z_font_K$next
-   434 000005E4 000000000000000000-     font_z_font_K: db 0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,1,0,1,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,1,1,0,0,0,0,1,0,0,1,1,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,
-   434 000005ED 010000010100000001-
-   434 000005F6 000101000000000101-
-   434 000005FF 010000000000010001-
-   434 00000608 010000000001000001-
-   434 00000611 010000000100000001-
-   434 0000061A 010000000000000000-
-   434 00000623 00                 
-   436                                  font_z_font_K$next:
-   437 00000624 EB40                    jmp font_z_font_L$next
-   438 00000626 000000000000000000-     font_z_font_L: db 0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
-   438 0000062F 000100000000000000-
-   438 00000638 010000000000000001-
-   438 00000641 000000000000000100-
-   438 0000064A 000000000000010000-
-   438 00000653 000000000001010101-
-   438 0000065C 000000000000000000-
-   438 00000665 00                 
-   440                                  font_z_font_L$next:
-   441 00000666 EB40                    jmp font_z_font_M$next
-   442 00000668 000000000000000000-     font_z_font_M: db 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,1,0,0,1,1,0,0,1,0,1,1,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-   442 00000671 010000000001000001-
-   442 0000067A 010000010100000100-
-   442 00000683 010100010000010000-
-   442 0000068C 000001000001000000-
-   442 00000695 000100000100000000-
-   442 0000069E 010000000000000000-
-   442 000006A7 00                 
-   444                                  font_z_font_M$next:
-   445 000006A8 EB40                    jmp font_z_font_N$next
-   446 000006AA 000000000000000000-     font_z_font_N: db 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,1,0,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-   446 000006B3 010000000001000001-
-   446 000006BC 010000000100000100-
-   446 000006C5 010000010000010000-
-   446 000006CE 010001000001000000-
-   446 000006D7 010100000100000000-
-   446 000006E0 010000000000000000-
-   446 000006E9 00                 
-   448                                  font_z_font_N$next:
-   449 000006EA EB40                    jmp font_z_font_O$next
-   450 000006EC 000000000000000000-     font_z_font_O: db 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
-   450 000006F5 010101010101000001-
-   450 000006FE 000000000100000100-
-   450 00000707 000000010000010000-
-   450 00000710 000001000001000000-
-   450 00000719 000100000101010101-
-   450 00000722 010000000000000000-
-   450 0000072B 00                 
-   452                                  font_z_font_O$next:
-   453 0000072C EB40                    jmp font_z_font_P$next
-   454 0000072E 000000000000000000-     font_z_font_P: db 0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,
-   454 00000737 000101010000000000-
-   454 00000740 010000010000000001-
-   454 00000749 000001000000000101-
-   454 00000752 010000000000010000-
-   454 0000075B 000000000001000000-
-   454 00000764 000000000000000000-
-   454 0000076D 00                 
-   456                                  font_z_font_P$next:
-   457 0000076E EB40                    jmp font_z_font_Q$next
-   458 00000770 000000000000000000-     font_z_font_Q: db 0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,
-   458 00000779 000001010000000000-
-   458 00000782 010000010000000100-
-   458 0000078B 000000010000010000-
-   458 00000794 010001000000010000-
-   458 0000079D 010000000000010100-
-   458 000007A6 010000000000000000-
-   458 000007AF 00                 
-   460                                  font_z_font_Q$next:
-   461 000007B0 EB40                    jmp font_z_font_R$next
-   462 000007B2 000000000000000000-     font_z_font_R: db 0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,
-   462 000007BB 000101010000000000-
-   462 000007C4 010000010000000001-
-   462 000007CD 000001000000000101-
-   462 000007D6 010000000000010000-
-   462 000007DF 010000000001000000-
-   462 000007E8 010000000000000000-
-   462 000007F1 00                 
-   464                                  font_z_font_R$next:
-   465 000007F2 EB40                    jmp font_z_font_S$next
-   466 000007F4 000000000000000000-     font_z_font_S: db 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
-   466 000007FD 000101010100000001-
-   466 00000806 000000000100000001-
-   466 0000080F 010000000000000000-
-   466 00000818 010100000001000000-
-   466 00000821 000100000001010101-
-   466 0000082A 000000000000000000-
-   466 00000833 00                 
-   468                                  font_z_font_S$next:
-   469 00000834 EB40                    jmp font_z_font_T$next
-   470 00000836 000000000000000000-     font_z_font_T: db 0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
-   470 0000083F 010101010100000000-
-   470 00000848 000100000000000000-
-   470 00000851 010000000000000001-
-   470 0000085A 000000000000000100-
-   470 00000863 000000000000010000-
-   470 0000086C 000000000000000000-
-   470 00000875 00                 
-   472                                  font_z_font_T$next:
-   473 00000876 EB40                    jmp font_z_font_U$next
-   474 00000878 000000000000000000-     font_z_font_U: db 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,
-   474 00000881 010000000001000001-
-   474 0000088A 000000000100000100-
-   474 00000893 000000010000010000-
-   474 0000089C 000001000000010000-
-   474 000008A5 010000000000010100-
-   474 000008AE 000000000000000000-
-   474 000008B7 00                 
-   476                                  font_z_font_U$next:
-   477 000008B8 EB40                    jmp font_z_font_V$next
-   478 000008BA 000000000000000000-     font_z_font_V: db 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,
-   478 000008C3 010000000001000001-
-   478 000008CC 000000000100000001-
-   478 000008D5 000001000000000100-
-   478 000008DE 000100000000000101-
-   478 000008E7 000000000000010100-
-   478 000008F0 000000000000000000-
-   478 000008F9 00                 
-   480                                  font_z_font_V$next:
-   481 000008FA EB40                    jmp font_z_font_W$next
-   482 000008FC 000000000000000000-     font_z_font_W: db 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,1,1,0,1,0,0,1,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-   482 00000905 010000000001000001-
-   482 0000090E 000000000100000100-
-   482 00000917 000000010000010001-
-   482 00000920 010001000001010000-
-   482 00000929 010100000100000000-
-   482 00000932 010000000000000000-
-   482 0000093B 00                 
-   484                                  font_z_font_W$next:
-   485 0000093C EB40                    jmp font_z_font_X$next
-   486 0000093E 000000000000000000-     font_z_font_X: db 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-   486 00000947 010000000001000000-
-   486 00000950 010000010000000000-
-   486 00000959 010100000000000001-
-   486 00000962 010000000000010000-
-   486 0000096B 010000000100000000-
-   486 00000974 010000000000000000-
-   486 0000097D 00                 
-   488                                  font_z_font_X$next:
-   489 0000097E EB40                    jmp font_z_font_Y$next
-   490 00000980 000000000000000000-     font_z_font_Y: db 0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
-   490 00000989 010000000100000000-
-   490 00000992 010001000000000000-
-   490 0000099B 010000000000000001-
-   490 000009A4 000000000000000100-
-   490 000009AD 000000000000010000-
-   490 000009B6 000000000000000000-
-   490 000009BF 00                 
-   492                                  font_z_font_Y$next:
-   493 000009C0 EB40                    jmp font_z_font_Z$next
-   494 000009C2 000000000000000000-     font_z_font_Z: db 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
-   494 000009CB 010101010101000000-
-   494 000009D4 000000010000000000-
-   494 000009DD 000100000000000001-
-   494 000009E6 000000000000010000-
-   494 000009EF 000000000101010101-
-   494 000009F8 010000000000000000-
-   494 00000A01 00                 
-   496                                  font_z_font_Z$next:
-   497 00000A02 EB40                    jmp font_z_font_question$next
-   498 00000A04 000000000000000000-     font_z_font_question: db 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,
-   498 00000A0D 000101010100000001-
-   498 00000A16 000000000100000000-
-   498 00000A1F 000001000000000000-
-   498 00000A28 010000000000000001-
-   498 00000A31 000000000000000000-
-   498 00000A3A 000000000000010000-
-   498 00000A43 00                 
-   500                                  font_z_font_question$next:
-   501 00000A44 EB40                    jmp font_z_font_space$next
-   502 00000A46 000000000000000000-     font_z_font_space: db 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-   502 00000A4F 000000000000000000-
-   502 00000A58 000000000000000000-
-   502 00000A61 000000000000000000-
-   502 00000A6A 000000000000000000-
-   502 00000A73 000000000000000000-
-   502 00000A7C 000000000000000000-
-   502 00000A85 00                 
-   504                                  font_z_font_space$next:
-   505 00000A86 EB40                    jmp font_z_font_add$next
-   506 00000A88 000000000000000000-     font_z_font_add: db 0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,
-   506 00000A91 000001010000000000-
-   506 00000A9A 000101000000000101-
-   506 00000AA3 010101010000010101-
-   506 00000AAC 010101000000000101-
-   506 00000AB5 000000000000010100-
-   506 00000ABE 000000000000000000-
-   506 00000AC7 00                 
-   508                                  font_z_font_add$next:
-   509 00000AC8 EB40                    jmp font_z_font_sub$next
-   510 00000ACA 000000000000000000-     font_z_font_sub: db 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-   510 00000AD3 000000000000000000-
-   510 00000ADC 000000000000000101-
-   510 00000AE5 010101010000010101-
-   510 00000AEE 010101000000000000-
-   510 00000AF7 000000000000000000-
-   510 00000B00 000000000000000000-
-   510 00000B09 00                 
-   512                                  font_z_font_sub$next:
-   513 00000B0A E9E8030000              jmp font_z_screen_buf$next
-   514 00000B0F 202020202020202020-     font_z_screen_buf: db 32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32...
-   514 00000B18 202020202020202020-
-   514 00000B21 202020202020202020-
-   514 00000B2A 202020202020202020-
-   514 00000B33 202020202020202020-
-   514 00000B3C 202020202020202020-
-   514 00000B45 202020202020202020-
-   514 00000B4E 202020202020202020-
-   514 00000B57 202020202020202020-
-   514 00000B60 202020202020202020-
-   514 00000B69 202020202020202020-
-   514 00000B72 202020202020202020-
-   514 00000B7B 202020202020202020-
-   514 00000B84 202020202020202020-
-   514 00000B8D 202020202020202020-
-   514 00000B96 202020202020202020-
-   514 00000B9F 202020202020202020-
-   514 00000BA8 202020202020202020-
-   514 00000BB1 202020202020202020-
-   514 00000BBA 202020202020202020-
-   514 00000BC3 202020202020202020-
-   514 00000BCC 202020202020202020-
-   514 00000BD5 202020202020202020-
-   514 00000BDE 202020202020202020-
-   514 00000BE7 202020202020202020-
-   514 00000BF0 202020202020202020-
-   514 00000BF9 202020202020202020-
-   514 00000C02 202020202020202020-
-   514 00000C0B 202020202020202020-
-   514 00000C14 202020202020202020-
-   514 00000C1D 202020202020202020-
-   514 00000C26 202020202020202020-
-   514 00000C2F 202020202020202020-
-   514 00000C38 202020202020202020-
-   514 00000C41 202020202020202020-
-   514 00000C4A 202020202020202020-
-   514 00000C53 202020202020202020-
-   514 00000C5C 202020202020202020-
-   514 00000C65 202020202020202020-
-   514 00000C6E 202020202020202020-
-   514 00000C77 202020202020202020-
-   514 00000C80 202020202020202020-
-   514 00000C89 202020202020202020-
-   514 00000C92 202020202020202020-
-   514 00000C9B 202020202020202020-
-   514 00000CA4 202020202020202020-
-   514 00000CAD 202020202020202020-
-   514 00000CB6 202020202020202020-
-   514 00000CBF 202020202020202020-
-   514 00000CC8 202020202020202020-
-   514 00000CD1 202020202020202020-
-   514 00000CDA 202020202020202020-
-   514 00000CE3 202020202020202020-
-   514 00000CEC 202020202020202020-
-   514 00000CF5 202020202020202020-
-   514 00000CFE 202020202020202020-
-   514 00000D07 202020202020202020-
-   514 00000D10 202020202020202020-
-   514 00000D19 202020202020202020-
-   514 00000D22 202020202020202020-
-   514 00000D2B 202020202020202020-
-   514 00000D34 202020202020202020-
-   514 00000D3D 202020202020202020-
-   514 00000D46 202020202020202020-
-   514 00000D4F 202020202020202020-
-   514 00000D58 202020202020202020-
-   514 00000D61 202020202020202020-
-   514 00000D6A 202020202020202020-
-   514 00000D73 202020202020202020-
-   514 00000D7C 202020202020202020-
-   514 00000D85 202020202020202020-
-   514 00000D8E 202020202020202020-
-   514 00000D97 202020202020202020-
-   514 00000DA0 202020202020202020-
-   514 00000DA9 202020202020202020-
-   514 00000DB2 202020202020202020-
-   514 00000DBB 202020202020202020-
-   514 00000DC4 202020202020202020-
-   514 00000DCD 202020202020202020-
-   514 00000DD6 202020202020202020-
-   514 00000DDF 202020202020202020-
-   514 00000DE8 202020202020202020-
-   514 00000DF1 202020202020202020-
-   514 00000DFA 202020202020202020-
-   514 00000E03 202020202020202020-
-   514 00000E0C 202020202020202020-
-   514 00000E15 202020202020202020-
-   514 00000E1E 202020202020202020-
-   514 00000E27 202020202020202020-
-   514 00000E30 202020202020202020-
-   514 00000E39 202020202020202020-
-   514 00000E42 202020202020202020-
-   514 00000E4B 202020202020202020-
-   514 00000E54 202020202020202020-
-   514 00000E5D 202020202020202020-
-   514 00000E66 202020202020202020-
-   514 00000E6F 202020202020202020-
-   514 00000E78 202020202020202020-
-   514 00000E81 202020202020202020-
-   514 00000E8A 202020202020202020-
-   514 00000E93 202020202020202020-
-   514 00000E9C 202020202020202020-
-   514 00000EA5 202020202020202020-
-   514 00000EAE 202020202020202020-
-   514 00000EB7 202020202020202020-
-   514 00000EC0 202020202020202020-
-   514 00000EC9 202020202020202020-
-   514 00000ED2 202020202020202020-
-   514 00000EDB 202020202020202020-
-   514 00000EE4 202020202020202020-
-   514 00000EED 202020202020202020-
-   514 00000EF6 20                 
-   516                                  font_z_screen_buf$next:
-   517                                  
-   518                                  ;function
-   519 00000EF7 E940010000              jmp test_z_draw$next
-   520                                  test_z_draw:
-   521                                  ;param
-   522 00000EFC EB04                    jmp test_z_draw_addrVram$next
-   523 00000EFE 00000000                test_z_draw_addrVram: dd 0
-   524                                  test_z_draw_addrVram$next:
-   525 00000F02 5D                      pop ebp
-   526 00000F03 58                      pop eax
-   527 00000F04 A3[FE0E0000]            mov [test_z_draw_addrVram], eax
-   528 00000F09 55                      push ebp
-   529 00000F0A B800000000              mov eax, 0
-   530 00000F0F 50                      push eax
-   531 00000F10 EB04                    jmp test_z_draw_i$next
-   532 00000F12 00000000                test_z_draw_i: dd 0
-   533                                  test_z_draw_i$next:
-   534 00000F16 58                      pop eax
-   535 00000F17 A3[120F0000]            mov [test_z_draw_i], eax
-   536                                  ; while start
-   537                                  test_z_draw_while$1_start:
-   538 00000F1C A1[120F0000]            mov eax, [test_z_draw_i]
-   539 00000F21 50                      push eax
-   540 00000F22 B82C010000              mov eax, 300
-   541 00000F27 50                      push eax
-   542 00000F28 5B                      pop ebx
-   543 00000F29 58                      pop eax
-   544 00000F2A 39D8                    cmp eax, ebx
-   545 00000F2C 7207                    jb test_z_draw_while$1_less@true$1
-   546 00000F2E B800000000              mov eax, 0
-   547 00000F33 EB05                    jmp test_z_draw_while$1_less@false$1
-   548                                  test_z_draw_while$1_less@true$1:
-   549 00000F35 B801000000              mov eax, 1
-   550                                  test_z_draw_while$1_less@false$1:
-   551 00000F3A 83F800                  cmp eax, 0
-   552 00000F3D 7438                    je test_z_draw_while$1_end
-   553 00000F3F A1[120F0000]            mov eax, [test_z_draw_i]
-   554 00000F44 50                      push eax
-   555 00000F45 A1[120F0000]            mov eax, [test_z_draw_i]
-   556 00000F4A 50                      push eax
-   557 00000F4B A1[120F0000]            mov eax, [test_z_draw_i]
-   558 00000F50 50                      push eax
-   559 00000F51 B840010000              mov eax, 320
-   560 00000F56 50                      push eax
-   561 00000F57 A1[FE0E0000]            mov eax, [test_z_draw_addrVram]
-   562 00000F5C 50                      push eax
-   563 00000F5D E894F1FFFF              call draw_z_pixel
-   564 00000F62 A1[120F0000]            mov eax, [test_z_draw_i]
-   565 00000F67 50                      push eax
-   566 00000F68 B801000000              mov eax, 1
-   567 00000F6D 5B                      pop ebx
-   568 00000F6E 01D8                    add eax, ebx
-   569 00000F70 A3[120F0000]            mov [test_z_draw_i], eax
-   570 00000F75 EBA5                    jmp test_z_draw_while$1_start
-   571                                  test_z_draw_while$1_end:
-   572                                  ;while end
-   573 00000F77 B800000000              mov eax, 0
-   574 00000F7C 50                      push eax
-   575 00000F7D EB04                    jmp test_z_draw_x$next
-   576 00000F7F 00000000                test_z_draw_x: dd 0
-   577                                  test_z_draw_x$next:
-   578 00000F83 58                      pop eax
-   579 00000F84 A3[7F0F0000]            mov [test_z_draw_x], eax
-   580 00000F89 B800000000              mov eax, 0
-   581 00000F8E 50                      push eax
-   582 00000F8F EB04                    jmp test_z_draw_y$next
-   583 00000F91 00000000                test_z_draw_y: dd 0
-   584                                  test_z_draw_y$next:
-   585 00000F95 58                      pop eax
-   586 00000F96 A3[910F0000]            mov [test_z_draw_y], eax
-   587                                  ; while start
-   588                                  test_z_draw_while$2_start:
-   589 00000F9B A1[910F0000]            mov eax, [test_z_draw_y]
-   590 00000FA0 50                      push eax
-   591 00000FA1 B8C8000000              mov eax, 200
-   592 00000FA6 50                      push eax
-   593 00000FA7 5B                      pop ebx
-   594 00000FA8 58                      pop eax
-   595 00000FA9 39D8                    cmp eax, ebx
-   596 00000FAB 7607                    jbe test_z_draw_while$2_lessequal@true$2
-   597 00000FAD B800000000              mov eax, 0
-   598 00000FB2 EB05                    jmp test_z_draw_while$2_lessequal@false$2
-   599                                  test_z_draw_while$2_lessequal@true$2:
-   600 00000FB4 B801000000              mov eax, 1
-   601                                  test_z_draw_while$2_lessequal@false$2:
-   602 00000FB9 83F800                  cmp eax, 0
-   603 00000FBC 747D                    je test_z_draw_while$2_end
-   604 00000FBE B800000000              mov eax, 0
-   605 00000FC3 A3[7F0F0000]            mov [test_z_draw_x], eax
-   606                                  ; while start
-   607                                  test_z_draw_while$2_while$1_start:
-   608 00000FC8 A1[7F0F0000]            mov eax, [test_z_draw_x]
-   609 00000FCD 50                      push eax
-   610 00000FCE B840010000              mov eax, 320
-   611 00000FD3 50                      push eax
-   612 00000FD4 5B                      pop ebx
-   613 00000FD5 58                      pop eax
-   614 00000FD6 39D8                    cmp eax, ebx
-   615 00000FD8 7607                    jbe test_z_draw_while$2_while$1_lessequal@true$3
-   616 00000FDA B800000000              mov eax, 0
-   617 00000FDF EB05                    jmp test_z_draw_while$2_while$1_lessequal@false$3
-   618                                  test_z_draw_while$2_while$1_lessequal@true$3:
-   619 00000FE1 B801000000              mov eax, 1
-   620                                  test_z_draw_while$2_while$1_lessequal@false$3:
-   621 00000FE6 83F800                  cmp eax, 0
-   622 00000FE9 7438                    je test_z_draw_while$2_while$1_end
-   623 00000FEB A1[7F0F0000]            mov eax, [test_z_draw_x]
-   624 00000FF0 50                      push eax
-   625 00000FF1 A1[910F0000]            mov eax, [test_z_draw_y]
-   626 00000FF6 50                      push eax
-   627 00000FF7 A1[910F0000]            mov eax, [test_z_draw_y]
-   628 00000FFC 50                      push eax
-   629 00000FFD B840010000              mov eax, 320
-   630 00001002 50                      push eax
-   631 00001003 A1[FE0E0000]            mov eax, [test_z_draw_addrVram]
-   632 00001008 50                      push eax
-   633 00001009 E8E8F0FFFF              call draw_z_pixel
-   634 0000100E A1[7F0F0000]            mov eax, [test_z_draw_x]
-   635 00001013 50                      push eax
-   636 00001014 B801000000              mov eax, 1
-   637 00001019 5B                      pop ebx
-   638 0000101A 01D8                    add eax, ebx
-   639 0000101C A3[7F0F0000]            mov [test_z_draw_x], eax
-   640 00001021 EBA5                    jmp test_z_draw_while$2_while$1_start
-   641                                  test_z_draw_while$2_while$1_end:
-   642                                  ;while end
-   643 00001023 A1[910F0000]            mov eax, [test_z_draw_y]
-   644 00001028 50                      push eax
-   645 00001029 B801000000              mov eax, 1
-   646 0000102E 5B                      pop ebx
-   647 0000102F 01D8                    add eax, ebx
-   648 00001031 A3[910F0000]            mov [test_z_draw_y], eax
-   649 00001036 E960FFFFFF              jmp test_z_draw_while$2_start
-   650                                  test_z_draw_while$2_end:
-   651                                  ;while end
-   652 0000103B C3                      ret
-   653                                  test_z_draw$next:
-   654 0000103C EB18                    jmp main
-   655                                  
-   656                                  ; 读写内存
-   657                                  ; kernel.z\setMem.1byte(val:dword, addr:dword)
-   658                                  kernel_z_setMem_1byte:
-   659 0000103E 5D                        pop ebp
-   660 0000103F 5B                        pop ebx
-   661 00001040 58                        pop eax
-   662 00001041 55                        push ebp
-   663 00001042 8803                      mov [ebx], al
-   664 00001044 C3                      ret
-   665                                  
-   666                                  ; kernel.z\setMem.2byte(val:dword, addr:dword)
-   667                                  kernel_z_setMem_2byte:
-   668 00001045 5D                        pop ebp
-   669 00001046 5B                        pop ebx
-   670 00001047 58                        pop eax
-   671 00001048 55                        push ebp
-   672 00001049 668903                    mov [ebx], ax
-   673 0000104C C3                      ret
-   674                                  
-   675                                  ; kernel.z\setMem.4byte(val:dword, addr:dword)
-   676                                  kernel_z_setMem_4byte:
-   677 0000104D 5D                        pop ebp
-   678 0000104E 5B                        pop ebx
-   679 0000104F 58                        pop eax
-   680 00001050 55                        push ebp
-   681 00001051 8903                      mov [ebx], eax
-   682 00001053 C3                      ret
-   683                                  
-   684                                  ; kernel.z\halt()
-   685                                  kernel_z_halt:
-   686 00001054 F4                        hlt
-   687 00001055 C3                      ret
-   688                                  
-   689                                  main:
-   690 00001056 E825F0FFFF                call main_z_run_once
-   691                                    .loop:
-   692 0000105B E830F0FFFF                  call main_z_run_loop
-   693 00001060 EBF9                      jmp .loop
-   694                                  
+   430 000005E1 000100000000000000-
+   430 000005EA 000000000000000000-
+   430 000005F3 000000000000000000-
+   430 000005FC 000000000000010000-
+   430 00000605 000000000000000000-
+   430 0000060E 000000000000000000-
+   430 00000617 000000000000000000-
+   430 00000620 000001000000000000-
+   430 00000629 000000000000000000-
+   430 00000632 000000000100000000-
+   430 0000063B 000000000000000000-
+   430 00000644 000001000000010000-
+   430 0000064D 000100000001000000-
+   430 00000656 000000000000000000-
+   430 0000065F 000000000000000000-
+   430 00000668 000000000000000000-
+   430 00000671 000000000000000000-
+   430 0000067A 00000000           
+   432                                  font_z_font_C$next:
+   433 0000067E E900010000              jmp font_z_font_D$next
+   434 00000683 000000000000000000-     font_z_font_D: dd 0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
+   434 0000068C 000000000000000000-
+   434 00000695 000000000000000000-
+   434 0000069E 000000000000000000-
+   434 000006A7 010000000100000001-
+   434 000006B0 000000010000000100-
+   434 000006B9 000000000000000000-
+   434 000006C2 000000000001000000-
+   434 000006CB 000000000000000000-
+   434 000006D4 000000000000000100-
+   434 000006DD 000000000000000000-
+   434 000006E6 000100000000000000-
+   434 000006EF 000000000000000000-
+   434 000006F8 000000010000000000-
+   434 00000701 000000000000010000-
+   434 0000070A 000000000000000000-
+   434 00000713 000000000000000001-
+   434 0000071C 000000000000000000-
+   434 00000725 000001000000000000-
+   434 0000072E 000000000000000000-
+   434 00000737 000000000100000000-
+   434 00000740 000000000000000100-
+   434 00000749 000001000000010000-
+   434 00000752 000100000001000000-
+   434 0000075B 000000000000000000-
+   434 00000764 000000000000000000-
+   434 0000076D 000000000000000000-
+   434 00000776 000000000000000000-
+   434 0000077F 00000000           
+   436                                  font_z_font_D$next:
+   437 00000783 E900010000              jmp font_z_font_E$next
+   438 00000788 000000000000000000-     font_z_font_E: dd 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
+   438 00000791 000000000000000000-
+   438 0000079A 000000000000000000-
+   438 000007A3 000000000000000000-
+   438 000007AC 010000000100000001-
+   438 000007B5 000000010000000100-
+   438 000007BE 000001000000000000-
+   438 000007C7 000000000001000000-
+   438 000007D0 000000000000000000-
+   438 000007D9 000000000000000000-
+   438 000007E2 000000000000000000-
+   438 000007EB 000100000001000000-
+   438 000007F4 010000000100000001-
+   438 000007FD 000000010000000000-
+   438 00000806 000000000000010000-
+   438 0000080F 000000000000000000-
+   438 00000818 000000000000000000-
+   438 00000821 000000000000000000-
+   438 0000082A 000001000000000000-
+   438 00000833 000000000000000000-
+   438 0000083C 000000000000000000-
+   438 00000845 000000000000000100-
+   438 0000084E 000001000000010000-
+   438 00000857 000100000001000000-
+   438 00000860 010000000000000000-
+   438 00000869 000000000000000000-
+   438 00000872 000000000000000000-
+   438 0000087B 000000000000000000-
+   438 00000884 00000000           
+   440                                  font_z_font_E$next:
+   441 00000888 E900010000              jmp font_z_font_F$next
+   442 0000088D 000000000000000000-     font_z_font_F: dd 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+   442 00000896 000000000000000000-
+   442 0000089F 000000000000000000-
+   442 000008A8 000000000000000000-
+   442 000008B1 010000000100000001-
+   442 000008BA 000000010000000100-
+   442 000008C3 000001000000000000-
+   442 000008CC 000000000001000000-
+   442 000008D5 000000000000000000-
+   442 000008DE 000000000000000000-
+   442 000008E7 000000000000000000-
+   442 000008F0 000100000001000000-
+   442 000008F9 010000000100000001-
+   442 00000902 000000000000000000-
+   442 0000090B 000000000000010000-
+   442 00000914 000000000000000000-
+   442 0000091D 000000000000000000-
+   442 00000926 000000000000000000-
+   442 0000092F 000001000000000000-
+   442 00000938 000000000000000000-
+   442 00000941 000000000000000000-
+   442 0000094A 000000000000000100-
+   442 00000953 000000000000000000-
+   442 0000095C 000000000000000000-
+   442 00000965 000000000000000000-
+   442 0000096E 000000000000000000-
+   442 00000977 000000000000000000-
+   442 00000980 000000000000000000-
+   442 00000989 00000000           
+   444                                  font_z_font_F$next:
+   445 0000098D E900010000              jmp font_z_font_G$next
+   446 00000992 000000000000000000-     font_z_font_G: dd 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
+   446 0000099B 000000000000000000-
+   446 000009A4 000000000000000000-
+   446 000009AD 000000000000000000-
+   446 000009B6 000000000100000001-
+   446 000009BF 000000010000000100-
+   446 000009C8 000000000000000000-
+   446 000009D1 000000000001000000-
+   446 000009DA 000000000000000000-
+   446 000009E3 000000000000000100-
+   446 000009EC 000000000000000000-
+   446 000009F5 000100000000000000-
+   446 000009FE 000000000000000000-
+   446 00000A07 000000000000000000-
+   446 00000A10 000000000000010000-
+   446 00000A19 000000000000000000-
+   446 00000A22 000000000100000001-
+   446 00000A2B 000000000000000000-
+   446 00000A34 000001000000000000-
+   446 00000A3D 000000000000000000-
+   446 00000A46 000000000100000000-
+   446 00000A4F 000000000000000000-
+   446 00000A58 000001000000010000-
+   446 00000A61 000100000001000000-
+   446 00000A6A 010000000000000000-
+   446 00000A73 000000000000000000-
+   446 00000A7C 000000000000000000-
+   446 00000A85 000000000000000000-
+   446 00000A8E 00000000           
+   448                                  font_z_font_G$next:
+   449 00000A92 E900010000              jmp font_z_font_H$next
+   450 00000A97 000000000000000000-     font_z_font_H: dd 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
+   450 00000AA0 000000000000000000-
+   450 00000AA9 000000000000000000-
+   450 00000AB2 000000000000000000-
+   450 00000ABB 010000000000000000-
+   450 00000AC4 000000000000000000-
+   450 00000ACD 000001000000000000-
+   450 00000AD6 000000000001000000-
+   450 00000ADF 000000000000000000-
+   450 00000AE8 000000000000000100-
+   450 00000AF1 000000000000000000-
+   450 00000AFA 000100000001000000-
+   450 00000B03 010000000100000001-
+   450 00000B0C 000000010000000000-
+   450 00000B15 000000000000010000-
+   450 00000B1E 000000000000000000-
+   450 00000B27 000000000000000001-
+   450 00000B30 000000000000000000-
+   450 00000B39 000001000000000000-
+   450 00000B42 000000000000000000-
+   450 00000B4B 000000000100000000-
+   450 00000B54 000000000000000100-
+   450 00000B5D 000000000000000000-
+   450 00000B66 000000000000000000-
+   450 00000B6F 010000000000000000-
+   450 00000B78 000000000000000000-
+   450 00000B81 000000000000000000-
+   450 00000B8A 000000000000000000-
+   450 00000B93 00000000           
+   452                                  font_z_font_H$next:
+   453 00000B97 E900010000              jmp font_z_font_I$next
+   454 00000B9C 000000000000000000-     font_z_font_I: dd 0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,
+   454 00000BA5 000000000000000000-
+   454 00000BAE 000000000000000000-
+   454 00000BB7 000000000000000000-
+   454 00000BC0 000000000100000001-
+   454 00000BC9 000000010000000000-
+   454 00000BD2 000000000000000000-
+   454 00000BDB 000000000000000000-
+   454 00000BE4 000000000100000000-
+   454 00000BED 000000000000000000-
+   454 00000BF6 000000000000000000-
+   454 00000BFF 000000000000000000-
+   454 00000C08 010000000000000000-
+   454 00000C11 000000000000000000-
+   454 00000C1A 000000000000000000-
+   454 00000C23 000000000001000000-
+   454 00000C2C 000000000000000000-
+   454 00000C35 000000000000000000-
+   454 00000C3E 000000000000000000-
+   454 00000C47 000100000000000000-
+   454 00000C50 000000000000000000-
+   454 00000C59 000000000000000000-
+   454 00000C62 000001000000010000-
+   454 00000C6B 000100000000000000-
+   454 00000C74 000000000000000000-
+   454 00000C7D 000000000000000000-
+   454 00000C86 000000000000000000-
+   454 00000C8F 000000000000000000-
+   454 00000C98 00000000           
+   456                                  font_z_font_I$next:
+   457 00000C9C E900010000              jmp font_z_font_J$next
+   458 00000CA1 000000000000000000-     font_z_font_J: dd 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,
+   458 00000CAA 000000000000000000-
+   458 00000CB3 000000000000000000-
+   458 00000CBC 000000000000000000-
+   458 00000CC5 000000000100000001-
+   458 00000CCE 000000010000000100-
+   458 00000CD7 000000000000000000-
+   458 00000CE0 000000000000000000-
+   458 00000CE9 000000000000000000-
+   458 00000CF2 000000010000000000-
+   458 00000CFB 000000000000000000-
+   458 00000D04 000000000000000000-
+   458 00000D0D 000000000000000001-
+   458 00000D16 000000000000000000-
+   458 00000D1F 000000000000000000-
+   458 00000D28 000000000000000000-
+   458 00000D31 000000000100000000-
+   458 00000D3A 000000000000000000-
+   458 00000D43 000000000000000000-
+   458 00000D4C 000100000000000000-
+   458 00000D55 010000000000000000-
+   458 00000D5E 000000000000000000-
+   458 00000D67 000000000000000000-
+   458 00000D70 000100000000000000-
+   458 00000D79 000000000000000000-
+   458 00000D82 000000000000000000-
+   458 00000D8B 000000000000000000-
+   458 00000D94 000000000000000000-
+   458 00000D9D 00000000           
+   460                                  font_z_font_J$next:
+   461 00000DA1 E900010000              jmp font_z_font_K$next
+   462 00000DA6 000000000000000000-     font_z_font_K: dd 0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,1,0,1,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,1,1,0,0,0,0,1,0,0,1,1,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,
+   462 00000DAF 000000000000000000-
+   462 00000DB8 000000000000000000-
+   462 00000DC1 000000000000000000-
+   462 00000DCA 010000000000000000-
+   462 00000DD3 000000010000000100-
+   462 00000DDC 000000000000000000-
+   462 00000DE5 000000000001000000-
+   462 00000DEE 000000000100000001-
+   462 00000DF7 000000000000000000-
+   462 00000E00 000000000000000000-
+   462 00000E09 000100000001000000-
+   462 00000E12 010000000000000000-
+   462 00000E1B 000000000000000000-
+   462 00000E24 000000000000010000-
+   462 00000E2D 000000000001000000-
+   462 00000E36 010000000000000000-
+   462 00000E3F 000000000000000000-
+   462 00000E48 000001000000000000-
+   462 00000E51 000000000001000000-
+   462 00000E5A 010000000000000000-
+   462 00000E63 000000000000000100-
+   462 00000E6C 000000000000000000-
+   462 00000E75 000000000001000000-
+   462 00000E7E 010000000000000000-
+   462 00000E87 000000000000000000-
+   462 00000E90 000000000000000000-
+   462 00000E99 000000000000000000-
+   462 00000EA2 00000000           
+   464                                  font_z_font_K$next:
+   465 00000EA6 E900010000              jmp font_z_font_L$next
+   466 00000EAB 000000000000000000-     font_z_font_L: dd 0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
+   466 00000EB4 000000000000000000-
+   466 00000EBD 000000000000000000-
+   466 00000EC6 000000000000000000-
+   466 00000ECF 000000000100000000-
+   466 00000ED8 000000000000000000-
+   466 00000EE1 000000000000000000-
+   466 00000EEA 000000000000000000-
+   466 00000EF3 010000000000000000-
+   466 00000EFC 000000000000000000-
+   466 00000F05 000000000000000000-
+   466 00000F0E 000000000001000000-
+   466 00000F17 000000000000000000-
+   466 00000F20 000000000000000000-
+   466 00000F29 000000000000000000-
+   466 00000F32 000100000000000000-
+   466 00000F3B 000000000000000000-
+   466 00000F44 000000000000000000-
+   466 00000F4D 000000000000010000-
+   466 00000F56 000000000000000000-
+   466 00000F5F 000000000000000000-
+   466 00000F68 000000000000000000-
+   466 00000F71 000001000000010000-
+   466 00000F7A 000100000001000000-
+   466 00000F83 000000000000000000-
+   466 00000F8C 000000000000000000-
+   466 00000F95 000000000000000000-
+   466 00000F9E 000000000000000000-
+   466 00000FA7 00000000           
+   468                                  font_z_font_L$next:
+   469 00000FAB E900010000              jmp font_z_font_M$next
+   470 00000FB0 000000000000000000-     font_z_font_M: dd 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,1,0,0,1,1,0,0,1,0,1,1,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
+   470 00000FB9 000000000000000000-
+   470 00000FC2 000000000000000000-
+   470 00000FCB 000000000000000000-
+   470 00000FD4 010000000000000000-
+   470 00000FDD 000000000000000000-
+   470 00000FE6 000001000000000000-
+   470 00000FEF 000000000001000000-
+   470 00000FF8 010000000000000000-
+   470 00001001 000000010000000100-
+   470 0000100A 000000000000000000-
+   470 00001013 000100000000000000-
+   470 0000101C 010000000100000000-
+   470 00001025 000000010000000000-
+   470 0000102E 000000000000010000-
+   470 00001037 000000000000000000-
+   470 00001040 000000000000000001-
+   470 00001049 000000000000000000-
+   470 00001052 000001000000000000-
+   470 0000105B 000000000000000000-
+   470 00001064 000000000100000000-
+   470 0000106D 000000000000000100-
+   470 00001076 000000000000000000-
+   470 0000107F 000000000000000000-
+   470 00001088 010000000000000000-
+   470 00001091 000000000000000000-
+   470 0000109A 000000000000000000-
+   470 000010A3 000000000000000000-
+   470 000010AC 00000000           
+   472                                  font_z_font_M$next:
+   473 000010B0 E900010000              jmp font_z_font_N$next
+   474 000010B5 000000000000000000-     font_z_font_N: dd 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,1,0,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
+   474 000010BE 000000000000000000-
+   474 000010C7 000000000000000000-
+   474 000010D0 000000000000000000-
+   474 000010D9 010000000000000000-
+   474 000010E2 000000000000000000-
+   474 000010EB 000001000000000000-
+   474 000010F4 000000000001000000-
+   474 000010FD 010000000000000000-
+   474 00001106 000000000000000100-
+   474 0000110F 000000000000000000-
+   474 00001118 000100000000000000-
+   474 00001121 010000000000000000-
+   474 0000112A 000000010000000000-
+   474 00001133 000000000000010000-
+   474 0000113C 000000000000000000-
+   474 00001145 010000000000000001-
+   474 0000114E 000000000000000000-
+   474 00001157 000001000000000000-
+   474 00001160 000000000000000000-
+   474 00001169 010000000100000000-
+   474 00001172 000000000000000100-
+   474 0000117B 000000000000000000-
+   474 00001184 000000000000000000-
+   474 0000118D 010000000000000000-
+   474 00001196 000000000000000000-
+   474 0000119F 000000000000000000-
+   474 000011A8 000000000000000000-
+   474 000011B1 00000000           
+   476                                  font_z_font_N$next:
+   477 000011B5 E900010000              jmp font_z_font_O$next
+   478 000011BA 000000000000000000-     font_z_font_O: dd 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
+   478 000011C3 000000000000000000-
+   478 000011CC 000000000000000000-
+   478 000011D5 000000000000000000-
+   478 000011DE 010000000100000001-
+   478 000011E7 000000010000000100-
+   478 000011F0 000001000000000000-
+   478 000011F9 000000000001000000-
+   478 00001202 000000000000000000-
+   478 0000120B 000000000000000100-
+   478 00001214 000000000000000000-
+   478 0000121D 000100000000000000-
+   478 00001226 000000000000000000-
+   478 0000122F 000000010000000000-
+   478 00001238 000000000000010000-
+   478 00001241 000000000000000000-
+   478 0000124A 000000000000000001-
+   478 00001253 000000000000000000-
+   478 0000125C 000001000000000000-
+   478 00001265 000000000000000000-
+   478 0000126E 000000000100000000-
+   478 00001277 000000000000000100-
+   478 00001280 000001000000010000-
+   478 00001289 000100000001000000-
+   478 00001292 010000000000000000-
+   478 0000129B 000000000000000000-
+   478 000012A4 000000000000000000-
+   478 000012AD 000000000000000000-
+   478 000012B6 00000000           
+   480                                  font_z_font_O$next:
+   481 000012BA E900010000              jmp font_z_font_P$next
+   482 000012BF 000000000000000000-     font_z_font_P: dd 0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,
+   482 000012C8 000000000000000000-
+   482 000012D1 000000000000000000-
+   482 000012DA 000000000000000000-
+   482 000012E3 000000000100000001-
+   482 000012EC 000000010000000000-
+   482 000012F5 000000000000000000-
+   482 000012FE 000000000000000000-
+   482 00001307 010000000000000000-
+   482 00001310 000000010000000000-
+   482 00001319 000000000000000000-
+   482 00001322 000000000001000000-
+   482 0000132B 000000000000000001-
+   482 00001334 000000000000000000-
+   482 0000133D 000000000000000000-
+   482 00001346 000100000001000000-
+   482 0000134F 010000000000000000-
+   482 00001358 000000000000000000-
+   482 00001361 000000000000010000-
+   482 0000136A 000000000000000000-
+   482 00001373 000000000000000000-
+   482 0000137C 000000000000000000-
+   482 00001385 000001000000000000-
+   482 0000138E 000000000000000000-
+   482 00001397 000000000000000000-
+   482 000013A0 000000000000000000-
+   482 000013A9 000000000000000000-
+   482 000013B2 000000000000000000-
+   482 000013BB 00000000           
+   484                                  font_z_font_P$next:
+   485 000013BF E900010000              jmp font_z_font_Q$next
+   486 000013C4 000000000000000000-     font_z_font_Q: dd 0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,
+   486 000013CD 000000000000000000-
+   486 000013D6 000000000000000000-
+   486 000013DF 000000000000000000-
+   486 000013E8 000000000000000001-
+   486 000013F1 000000010000000000-
+   486 000013FA 000000000000000000-
+   486 00001403 000000000000000000-
+   486 0000140C 010000000000000000-
+   486 00001415 000000010000000000-
+   486 0000141E 000000000000000000-
+   486 00001427 000100000000000000-
+   486 00001430 000000000000000000-
+   486 00001439 000000010000000000-
+   486 00001442 000000000000010000-
+   486 0000144B 000000000000000000-
+   486 00001454 010000000000000001-
+   486 0000145D 000000000000000000-
+   486 00001466 000000000000010000-
+   486 0000146F 000000000000000000-
+   486 00001478 010000000000000000-
+   486 00001481 000000000000000000-
+   486 0000148A 000000000000010000-
+   486 00001493 000100000000000000-
+   486 0000149C 010000000000000000-
+   486 000014A5 000000000000000000-
+   486 000014AE 000000000000000000-
+   486 000014B7 000000000000000000-
+   486 000014C0 00000000           
+   488                                  font_z_font_Q$next:
+   489 000014C4 E900010000              jmp font_z_font_R$next
+   490 000014C9 000000000000000000-     font_z_font_R: dd 0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,
+   490 000014D2 000000000000000000-
+   490 000014DB 000000000000000000-
+   490 000014E4 000000000000000000-
+   490 000014ED 000000000100000001-
+   490 000014F6 000000010000000000-
+   490 000014FF 000000000000000000-
+   490 00001508 000000000000000000-
+   490 00001511 010000000000000000-
+   490 0000151A 000000010000000000-
+   490 00001523 000000000000000000-
+   490 0000152C 000000000001000000-
+   490 00001535 000000000000000001-
+   490 0000153E 000000000000000000-
+   490 00001547 000000000000000000-
+   490 00001550 000100000001000000-
+   490 00001559 010000000000000000-
+   490 00001562 000000000000000000-
+   490 0000156B 000000000000010000-
+   490 00001574 000000000000000000-
+   490 0000157D 010000000000000000-
+   490 00001586 000000000000000000-
+   490 0000158F 000001000000000000-
+   490 00001598 000000000000000000-
+   490 000015A1 010000000000000000-
+   490 000015AA 000000000000000000-
+   490 000015B3 000000000000000000-
+   490 000015BC 000000000000000000-
+   490 000015C5 00000000           
+   492                                  font_z_font_R$next:
+   493 000015C9 E900010000              jmp font_z_font_S$next
+   494 000015CE 000000000000000000-     font_z_font_S: dd 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
+   494 000015D7 000000000000000000-
+   494 000015E0 000000000000000000-
+   494 000015E9 000000000000000000-
+   494 000015F2 000000000100000001-
+   494 000015FB 000000010000000100-
+   494 00001604 000000000000000000-
+   494 0000160D 000000000001000000-
+   494 00001616 000000000000000000-
+   494 0000161F 000000000000000100-
+   494 00001628 000000000000000000-
+   494 00001631 000000000001000000-
+   494 0000163A 010000000000000000-
+   494 00001643 000000000000000000-
+   494 0000164C 000000000000000000-
+   494 00001655 000000000000000000-
+   494 0000165E 010000000100000000-
+   494 00001667 000000000000000000-
+   494 00001670 000001000000000000-
+   494 00001679 000000000000000000-
+   494 00001682 000000000100000000-
+   494 0000168B 000000000000000000-
+   494 00001694 000001000000010000-
+   494 0000169D 000100000001000000-
+   494 000016A6 000000000000000000-
+   494 000016AF 000000000000000000-
+   494 000016B8 000000000000000000-
+   494 000016C1 000000000000000000-
+   494 000016CA 00000000           
+   496                                  font_z_font_S$next:
+   497 000016CE E900010000              jmp font_z_font_T$next
+   498 000016D3 000000000000000000-     font_z_font_T: dd 0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
+   498 000016DC 000000000000000000-
+   498 000016E5 000000000000000000-
+   498 000016EE 000000000000000000-
+   498 000016F7 010000000100000001-
+   498 00001700 000000010000000100-
+   498 00001709 000000000000000000-
+   498 00001712 000000000000000000-
+   498 0000171B 000000000100000000-
+   498 00001724 000000000000000000-
+   498 0000172D 000000000000000000-
+   498 00001736 000000000000000000-
+   498 0000173F 010000000000000000-
+   498 00001748 000000000000000000-
+   498 00001751 000000000000000000-
+   498 0000175A 000000000001000000-
+   498 00001763 000000000000000000-
+   498 0000176C 000000000000000000-
+   498 00001775 000000000000000000-
+   498 0000177E 000100000000000000-
+   498 00001787 000000000000000000-
+   498 00001790 000000000000000000-
+   498 00001799 000000000000010000-
+   498 000017A2 000000000000000000-
+   498 000017AB 000000000000000000-
+   498 000017B4 000000000000000000-
+   498 000017BD 000000000000000000-
+   498 000017C6 000000000000000000-
+   498 000017CF 00000000           
+   500                                  font_z_font_T$next:
+   501 000017D3 E900010000              jmp font_z_font_U$next
+   502 000017D8 000000000000000000-     font_z_font_U: dd 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,
+   502 000017E1 000000000000000000-
+   502 000017EA 000000000000000000-
+   502 000017F3 000000000000000000-
+   502 000017FC 010000000000000000-
+   502 00001805 000000000000000000-
+   502 0000180E 000001000000000000-
+   502 00001817 000000000001000000-
+   502 00001820 000000000000000000-
+   502 00001829 000000000000000100-
+   502 00001832 000000000000000000-
+   502 0000183B 000100000000000000-
+   502 00001844 000000000000000000-
+   502 0000184D 000000010000000000-
+   502 00001856 000000000000010000-
+   502 0000185F 000000000000000000-
+   502 00001868 000000000000000001-
+   502 00001871 000000000000000000-
+   502 0000187A 000000000000010000-
+   502 00001883 000000000000000000-
+   502 0000188C 010000000000000000-
+   502 00001895 000000000000000000-
+   502 0000189E 000000000000010000-
+   502 000018A7 000100000000000000-
+   502 000018B0 000000000000000000-
+   502 000018B9 000000000000000000-
+   502 000018C2 000000000000000000-
+   502 000018CB 000000000000000000-
+   502 000018D4 00000000           
+   504                                  font_z_font_U$next:
+   505 000018D8 E900010000              jmp font_z_font_V$next
+   506 000018DD 000000000000000000-     font_z_font_V: dd 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,
+   506 000018E6 000000000000000000-
+   506 000018EF 000000000000000000-
+   506 000018F8 000000000000000000-
+   506 00001901 010000000000000000-
+   506 0000190A 000000000000000000-
+   506 00001913 000001000000000000-
+   506 0000191C 000000000001000000-
+   506 00001925 000000000000000000-
+   506 0000192E 000000000000000100-
+   506 00001937 000000000000000000-
+   506 00001940 000000000001000000-
+   506 00001949 000000000000000001-
+   506 00001952 000000000000000000-
+   506 0000195B 000000000000000000-
+   506 00001964 000100000000000000-
+   506 0000196D 000000000100000000-
+   506 00001976 000000000000000000-
+   506 0000197F 000000000000000000-
+   506 00001988 000100000001000000-
+   506 00001991 000000000000000000-
+   506 0000199A 000000000000000000-
+   506 000019A3 000000000000010000-
+   506 000019AC 000100000000000000-
+   506 000019B5 000000000000000000-
+   506 000019BE 000000000000000000-
+   506 000019C7 000000000000000000-
+   506 000019D0 000000000000000000-
+   506 000019D9 00000000           
+   508                                  font_z_font_V$next:
+   509 000019DD E900010000              jmp font_z_font_W$next
+   510 000019E2 000000000000000000-     font_z_font_W: dd 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,1,1,0,1,0,0,1,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
+   510 000019EB 000000000000000000-
+   510 000019F4 000000000000000000-
+   510 000019FD 000000000000000000-
+   510 00001A06 010000000000000000-
+   510 00001A0F 000000000000000000-
+   510 00001A18 000001000000000000-
+   510 00001A21 000000000001000000-
+   510 00001A2A 000000000000000000-
+   510 00001A33 000000000000000100-
+   510 00001A3C 000000000000000000-
+   510 00001A45 000100000000000000-
+   510 00001A4E 000000000000000000-
+   510 00001A57 000000010000000000-
+   510 00001A60 000000000000010000-
+   510 00001A69 000000000001000000-
+   510 00001A72 010000000000000001-
+   510 00001A7B 000000000000000000-
+   510 00001A84 000001000000010000-
+   510 00001A8D 000000000000000000-
+   510 00001A96 010000000100000000-
+   510 00001A9F 000000000000000100-
+   510 00001AA8 000000000000000000-
+   510 00001AB1 000000000000000000-
+   510 00001ABA 010000000000000000-
+   510 00001AC3 000000000000000000-
+   510 00001ACC 000000000000000000-
+   510 00001AD5 000000000000000000-
+   510 00001ADE 00000000           
+   512                                  font_z_font_W$next:
+   513 00001AE2 E900010000              jmp font_z_font_X$next
+   514 00001AE7 000000000000000000-     font_z_font_X: dd 0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
+   514 00001AF0 000000000000000000-
+   514 00001AF9 000000000000000000-
+   514 00001B02 000000000000000000-
+   514 00001B0B 010000000000000000-
+   514 00001B14 000000000000000000-
+   514 00001B1D 000001000000000000-
+   514 00001B26 000000000000000000-
+   514 00001B2F 010000000000000000-
+   514 00001B38 000000010000000000-
+   514 00001B41 000000000000000000-
+   514 00001B4A 000000000000000000-
+   514 00001B53 010000000100000000-
+   514 00001B5C 000000000000000000-
+   514 00001B65 000000000000000000-
+   514 00001B6E 000000000001000000-
+   514 00001B77 010000000000000000-
+   514 00001B80 000000000000000000-
+   514 00001B89 000000000000010000-
+   514 00001B92 000000000000000000-
+   514 00001B9B 010000000000000000-
+   514 00001BA4 000000000000000100-
+   514 00001BAD 000000000000000000-
+   514 00001BB6 000000000000000000-
+   514 00001BBF 010000000000000000-
+   514 00001BC8 000000000000000000-
+   514 00001BD1 000000000000000000-
+   514 00001BDA 000000000000000000-
+   514 00001BE3 00000000           
+   516                                  font_z_font_X$next:
+   517 00001BE7 E900010000              jmp font_z_font_Y$next
+   518 00001BEC 000000000000000000-     font_z_font_Y: dd 0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
+   518 00001BF5 000000000000000000-
+   518 00001BFE 000000000000000000-
+   518 00001C07 000000000000000000-
+   518 00001C10 010000000000000000-
+   518 00001C19 000000000000000100-
+   518 00001C22 000000000000000000-
+   518 00001C2B 000000000000000000-
+   518 00001C34 010000000000000001-
+   518 00001C3D 000000000000000000-
+   518 00001C46 000000000000000000-
+   518 00001C4F 000000000000000000-
+   518 00001C58 010000000000000000-
+   518 00001C61 000000000000000000-
+   518 00001C6A 000000000000000000-
+   518 00001C73 000000000001000000-
+   518 00001C7C 000000000000000000-
+   518 00001C85 000000000000000000-
+   518 00001C8E 000000000000000000-
+   518 00001C97 000100000000000000-
+   518 00001CA0 000000000000000000-
+   518 00001CA9 000000000000000000-
+   518 00001CB2 000000000000010000-
+   518 00001CBB 000000000000000000-
+   518 00001CC4 000000000000000000-
+   518 00001CCD 000000000000000000-
+   518 00001CD6 000000000000000000-
+   518 00001CDF 000000000000000000-
+   518 00001CE8 00000000           
+   520                                  font_z_font_Y$next:
+   521 00001CEC E900010000              jmp font_z_font_Z$next
+   522 00001CF1 000000000000000000-     font_z_font_Z: dd 0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
+   522 00001CFA 000000000000000000-
+   522 00001D03 000000000000000000-
+   522 00001D0C 000000000000000000-
+   522 00001D15 010000000100000001-
+   522 00001D1E 000000010000000100-
+   522 00001D27 000001000000000000-
+   522 00001D30 000000000000000000-
+   522 00001D39 000000000000000000-
+   522 00001D42 000000010000000000-
+   522 00001D4B 000000000000000000-
+   522 00001D54 000000000000000000-
+   522 00001D5D 000000000100000000-
+   522 00001D66 000000000000000000-
+   522 00001D6F 000000000000000000-
+   522 00001D78 000000000001000000-
+   522 00001D81 000000000000000000-
+   522 00001D8A 000000000000000000-
+   522 00001D93 000000000000010000-
+   522 00001D9C 000000000000000000-
+   522 00001DA5 000000000000000000-
+   522 00001DAE 000000000000000100-
+   522 00001DB7 000001000000010000-
+   522 00001DC0 000100000001000000-
+   522 00001DC9 010000000000000000-
+   522 00001DD2 000000000000000000-
+   522 00001DDB 000000000000000000-
+   522 00001DE4 000000000000000000-
+   522 00001DED 00000000           
+   524                                  font_z_font_Z$next:
+   525 00001DF1 E900010000              jmp font_z_font_question$next
+   526 00001DF6 000000000000000000-     font_z_font_question: dd 0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,
+   526 00001DFF 000000000000000000-
+   526 00001E08 000000000000000000-
+   526 00001E11 000000000000000000-
+   526 00001E1A 000000000100000001-
+   526 00001E23 000000010000000100-
+   526 00001E2C 000000000000000000-
+   526 00001E35 000000000001000000-
+   526 00001E3E 000000000000000000-
+   526 00001E47 000000000000000100-
+   526 00001E50 000000000000000000-
+   526 00001E59 000000000000000000-
+   526 00001E62 000000000000000001-
+   526 00001E6B 000000000000000000-
+   526 00001E74 000000000000000000-
+   526 00001E7D 000000000000000000-
+   526 00001E86 010000000000000000-
+   526 00001E8F 000000000000000000-
+   526 00001E98 000000000000000000-
+   526 00001EA1 000000000001000000-
+   526 00001EAA 000000000000000000-
+   526 00001EB3 000000000000000000-
+   526 00001EBC 000000000000000000-
+   526 00001EC5 000000000000000000-
+   526 00001ECE 000000000000000000-
+   526 00001ED7 000000000000000000-
+   526 00001EE0 000000000000010000-
+   526 00001EE9 000000000000000000-
+   526 00001EF2 00000000           
+   528                                  font_z_font_question$next:
+   529 00001EF6 E900010000              jmp font_z_font_space$next
+   530 00001EFB 000000000000000000-     font_z_font_space: dd 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+   530 00001F04 000000000000000000-
+   530 00001F0D 000000000000000000-
+   530 00001F16 000000000000000000-
+   530 00001F1F 000000000000000000-
+   530 00001F28 000000000000000000-
+   530 00001F31 000000000000000000-
+   530 00001F3A 000000000000000000-
+   530 00001F43 000000000000000000-
+   530 00001F4C 000000000000000000-
+   530 00001F55 000000000000000000-
+   530 00001F5E 000000000000000000-
+   530 00001F67 000000000000000000-
+   530 00001F70 000000000000000000-
+   530 00001F79 000000000000000000-
+   530 00001F82 000000000000000000-
+   530 00001F8B 000000000000000000-
+   530 00001F94 000000000000000000-
+   530 00001F9D 000000000000000000-
+   530 00001FA6 000000000000000000-
+   530 00001FAF 000000000000000000-
+   530 00001FB8 000000000000000000-
+   530 00001FC1 000000000000000000-
+   530 00001FCA 000000000000000000-
+   530 00001FD3 000000000000000000-
+   530 00001FDC 000000000000000000-
+   530 00001FE5 000000000000000000-
+   530 00001FEE 000000000000000000-
+   530 00001FF7 00000000           
+   532                                  font_z_font_space$next:
+   533 00001FFB E900010000              jmp font_z_font_add$next
+   534 00002000 000000000000000000-     font_z_font_add: dd 0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,
+   534 00002009 000000000000000000-
+   534 00002012 000000000000000000-
+   534 0000201B 000000000000000000-
+   534 00002024 000000000000000001-
+   534 0000202D 000000010000000000-
+   534 00002036 000000000000000000-
+   534 0000203F 000000000000000000-
+   534 00002048 000000000100000001-
+   534 00002051 000000000000000000-
+   534 0000205A 000000000000000000-
+   534 00002063 000100000001000000-
+   534 0000206C 010000000100000001-
+   534 00002075 000000010000000000-
+   534 0000207E 000000000000010000-
+   534 00002087 000100000001000000-
+   534 00002090 010000000100000001-
+   534 00002099 000000000000000000-
+   534 000020A2 000000000000000000-
+   534 000020AB 000100000001000000-
+   534 000020B4 000000000000000000-
+   534 000020BD 000000000000000000-
+   534 000020C6 000000000000010000-
+   534 000020CF 000100000000000000-
+   534 000020D8 000000000000000000-
+   534 000020E1 000000000000000000-
+   534 000020EA 000000000000000000-
+   534 000020F3 000000000000000000-
+   534 000020FC 00000000           
+   536                                  font_z_font_add$next:
+   537 00002100 E900010000              jmp font_z_font_sub$next
+   538 00002105 000000000000000000-     font_z_font_sub: dd 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+   538 0000210E 000000000000000000-
+   538 00002117 000000000000000000-
+   538 00002120 000000000000000000-
+   538 00002129 000000000000000000-
+   538 00002132 000000000000000000-
+   538 0000213B 000000000000000000-
+   538 00002144 000000000000000000-
+   538 0000214D 000000000000000000-
+   538 00002156 000000000000000000-
+   538 0000215F 000000000000000000-
+   538 00002168 000100000001000000-
+   538 00002171 010000000100000001-
+   538 0000217A 000000010000000000-
+   538 00002183 000000000000010000-
+   538 0000218C 000100000001000000-
+   538 00002195 010000000100000001-
+   538 0000219E 000000000000000000-
+   538 000021A7 000000000000000000-
+   538 000021B0 000000000000000000-
+   538 000021B9 000000000000000000-
+   538 000021C2 000000000000000000-
+   538 000021CB 000000000000000000-
+   538 000021D4 000000000000000000-
+   538 000021DD 000000000000000000-
+   538 000021E6 000000000000000000-
+   538 000021EF 000000000000000000-
+   538 000021F8 000000000000000000-
+   538 00002201 00000000           
+   540                                  font_z_font_sub$next:
+   541 00002205 E9A00F0000              jmp font_z_screen_buf$next
+   542 0000220A 200000002000000020-     font_z_screen_buf: dd 32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32...
+   542 00002213 000000200000002000-
+   542 0000221C 000020000000200000-
+   542 00002225 002000000020000000-
+   542 0000222E 200000002000000020-
+   542 00002237 000000200000002000-
+   542 00002240 000020000000200000-
+   542 00002249 002000000020000000-
+   542 00002252 200000002000000020-
+   542 0000225B 000000200000002000-
+   542 00002264 000020000000200000-
+   542 0000226D 002000000020000000-
+   542 00002276 200000002000000020-
+   542 0000227F 000000200000002000-
+   542 00002288 000020000000200000-
+   542 00002291 002000000020000000-
+   542 0000229A 200000002000000020-
+   542 000022A3 000000200000002000-
+   542 000022AC 000020000000200000-
+   542 000022B5 002000000020000000-
+   542 000022BE 200000002000000020-
+   542 000022C7 000000200000002000-
+   542 000022D0 000020000000200000-
+   542 000022D9 002000000020000000-
+   542 000022E2 200000002000000020-
+   542 000022EB 000000200000002000-
+   542 000022F4 000020000000200000-
+   542 000022FD 002000000020000000-
+   542 00002306 200000002000000020-
+   542 0000230F 000000200000002000-
+   542 00002318 000020000000200000-
+   542 00002321 002000000020000000-
+   542 0000232A 200000002000000020-
+   542 00002333 000000200000002000-
+   542 0000233C 000020000000200000-
+   542 00002345 002000000020000000-
+   542 0000234E 200000002000000020-
+   542 00002357 000000200000002000-
+   542 00002360 000020000000200000-
+   542 00002369 002000000020000000-
+   542 00002372 200000002000000020-
+   542 0000237B 000000200000002000-
+   542 00002384 000020000000200000-
+   542 0000238D 002000000020000000-
+   542 00002396 200000002000000020-
+   542 0000239F 000000200000002000-
+   542 000023A8 000020000000200000-
+   542 000023B1 002000000020000000-
+   542 000023BA 200000002000000020-
+   542 000023C3 000000200000002000-
+   542 000023CC 000020000000200000-
+   542 000023D5 002000000020000000-
+   542 000023DE 200000002000000020-
+   542 000023E7 000000200000002000-
+   542 000023F0 000020000000200000-
+   542 000023F9 002000000020000000-
+   542 00002402 200000002000000020-
+   542 0000240B 000000200000002000-
+   542 00002414 000020000000200000-
+   542 0000241D 002000000020000000-
+   542 00002426 200000002000000020-
+   542 0000242F 000000200000002000-
+   542 00002438 000020000000200000-
+   542 00002441 002000000020000000-
+   542 0000244A 200000002000000020-
+   542 00002453 000000200000002000-
+   542 0000245C 000020000000200000-
+   542 00002465 002000000020000000-
+   542 0000246E 200000002000000020-
+   542 00002477 000000200000002000-
+   542 00002480 000020000000200000-
+   542 00002489 002000000020000000-
+   542 00002492 200000002000000020-
+   542 0000249B 000000200000002000-
+   542 000024A4 000020000000200000-
+   542 000024AD 002000000020000000-
+   542 000024B6 200000002000000020-
+   542 000024BF 000000200000002000-
+   542 000024C8 000020000000200000-
+   542 000024D1 002000000020000000-
+   542 000024DA 200000002000000020-
+   542 000024E3 000000200000002000-
+   542 000024EC 000020000000200000-
+   542 000024F5 002000000020000000-
+   542 000024FE 200000002000000020-
+   542 00002507 000000200000002000-
+   542 00002510 000020000000200000-
+   542 00002519 002000000020000000-
+   542 00002522 200000002000000020-
+   542 0000252B 000000200000002000-
+   542 00002534 000020000000200000-
+   542 0000253D 002000000020000000-
+   542 00002546 200000002000000020-
+   542 0000254F 000000200000002000-
+   542 00002558 000020000000200000-
+   542 00002561 002000000020000000-
+   542 0000256A 200000002000000020-
+   542 00002573 000000200000002000-
+   542 0000257C 000020000000200000-
+   542 00002585 002000000020000000-
+   542 0000258E 200000002000000020-
+   542 00002597 000000200000002000-
+   542 000025A0 000020000000200000-
+   542 000025A9 002000000020000000-
+   542 000025B2 200000002000000020-
+   542 000025BB 000000200000002000-
+   542 000025C4 000020000000200000-
+   542 000025CD 002000000020000000-
+   542 000025D6 200000002000000020-
+   542 000025DF 000000200000002000-
+   542 000025E8 000020000000200000-
+   542 000025F1 002000000020000000-
+   542 000025FA 200000002000000020-
+   542 00002603 000000200000002000-
+   542 0000260C 000020000000200000-
+   542 00002615 002000000020000000-
+   542 0000261E 200000002000000020-
+   542 00002627 000000200000002000-
+   542 00002630 000020000000200000-
+   542 00002639 002000000020000000-
+   542 00002642 200000002000000020-
+   542 0000264B 000000200000002000-
+   542 00002654 000020000000200000-
+   542 0000265D 002000000020000000-
+   542 00002666 200000002000000020-
+   542 0000266F 000000200000002000-
+   542 00002678 000020000000200000-
+   542 00002681 002000000020000000-
+   542 0000268A 200000002000000020-
+   542 00002693 000000200000002000-
+   542 0000269C 000020000000200000-
+   542 000026A5 002000000020000000-
+   542 000026AE 200000002000000020-
+   542 000026B7 000000200000002000-
+   542 000026C0 000020000000200000-
+   542 000026C9 002000000020000000-
+   542 000026D2 200000002000000020-
+   542 000026DB 000000200000002000-
+   542 000026E4 000020000000200000-
+   542 000026ED 002000000020000000-
+   542 000026F6 200000002000000020-
+   542 000026FF 000000200000002000-
+   542 00002708 000020000000200000-
+   542 00002711 002000000020000000-
+   542 0000271A 200000002000000020-
+   542 00002723 000000200000002000-
+   542 0000272C 000020000000200000-
+   542 00002735 002000000020000000-
+   542 0000273E 200000002000000020-
+   542 00002747 000000200000002000-
+   542 00002750 000020000000200000-
+   542 00002759 002000000020000000-
+   542 00002762 200000002000000020-
+   542 0000276B 000000200000002000-
+   542 00002774 000020000000200000-
+   542 0000277D 002000000020000000-
+   542 00002786 200000002000000020-
+   542 0000278F 000000200000002000-
+   542 00002798 000020000000200000-
+   542 000027A1 002000000020000000-
+   542 000027AA 200000002000000020-
+   542 000027B3 000000200000002000-
+   542 000027BC 000020000000200000-
+   542 000027C5 002000000020000000-
+   542 000027CE 200000002000000020-
+   542 000027D7 000000200000002000-
+   542 000027E0 000020000000200000-
+   542 000027E9 002000000020000000-
+   542 000027F2 200000002000000020-
+   542 000027FB 000000200000002000-
+   542 00002804 000020000000200000-
+   542 0000280D 002000000020000000-
+   542 00002816 200000002000000020-
+   542 0000281F 000000200000002000-
+   542 00002828 000020000000200000-
+   542 00002831 002000000020000000-
+   542 0000283A 200000002000000020-
+   542 00002843 000000200000002000-
+   542 0000284C 000020000000200000-
+   542 00002855 002000000020000000-
+   542 0000285E 200000002000000020-
+   542 00002867 000000200000002000-
+   542 00002870 000020000000200000-
+   542 00002879 002000000020000000-
+   542 00002882 200000002000000020-
+   542 0000288B 000000200000002000-
+   542 00002894 000020000000200000-
+   542 0000289D 002000000020000000-
+   542 000028A6 200000002000000020-
+   542 000028AF 000000200000002000-
+   542 000028B8 000020000000200000-
+   542 000028C1 002000000020000000-
+   542 000028CA 200000002000000020-
+   542 000028D3 000000200000002000-
+   542 000028DC 000020000000200000-
+   542 000028E5 002000000020000000-
+   542 000028EE 200000002000000020-
+   542 000028F7 000000200000002000-
+   542 00002900 000020000000200000-
+   542 00002909 002000000020000000-
+   542 00002912 200000002000000020-
+   542 0000291B 000000200000002000-
+   542 00002924 000020000000200000-
+   542 0000292D 002000000020000000-
+   542 00002936 200000002000000020-
+   542 0000293F 000000200000002000-
+   542 00002948 000020000000200000-
+   542 00002951 002000000020000000-
+   542 0000295A 200000002000000020-
+   542 00002963 000000200000002000-
+   542 0000296C 000020000000200000-
+   542 00002975 002000000020000000-
+   542 0000297E 200000002000000020-
+   542 00002987 000000200000002000-
+   542 00002990 000020000000200000-
+   542 00002999 002000000020000000-
+   542 000029A2 200000002000000020-
+   542 000029AB 000000200000002000-
+   542 000029B4 000020000000200000-
+   542 000029BD 002000000020000000-
+   542 000029C6 200000002000000020-
+   542 000029CF 000000200000002000-
+   542 000029D8 000020000000200000-
+   542 000029E1 002000000020000000-
+   542 000029EA 200000002000000020-
+   542 000029F3 000000200000002000-
+   542 000029FC 000020000000200000-
+   542 00002A05 002000000020000000-
+   542 00002A0E 200000002000000020-
+   542 00002A17 000000200000002000-
+   542 00002A20 000020000000200000-
+   542 00002A29 002000000020000000-
+   542 00002A32 200000002000000020-
+   542 00002A3B 000000200000002000-
+   542 00002A44 000020000000200000-
+   542 00002A4D 002000000020000000-
+   542 00002A56 200000002000000020-
+   542 00002A5F 000000200000002000-
+   542 00002A68 000020000000200000-
+   542 00002A71 002000000020000000-
+   542 00002A7A 200000002000000020-
+   542 00002A83 000000200000002000-
+   542 00002A8C 000020000000200000-
+   542 00002A95 002000000020000000-
+   542 00002A9E 200000002000000020-
+   542 00002AA7 000000200000002000-
+   542 00002AB0 000020000000200000-
+   542 00002AB9 002000000020000000-
+   542 00002AC2 200000002000000020-
+   542 00002ACB 000000200000002000-
+   542 00002AD4 000020000000200000-
+   542 00002ADD 002000000020000000-
+   542 00002AE6 200000002000000020-
+   542 00002AEF 000000200000002000-
+   542 00002AF8 000020000000200000-
+   542 00002B01 002000000020000000-
+   542 00002B0A 200000002000000020-
+   542 00002B13 000000200000002000-
+   542 00002B1C 000020000000200000-
+   542 00002B25 002000000020000000-
+   542 00002B2E 200000002000000020-
+   542 00002B37 000000200000002000-
+   542 00002B40 000020000000200000-
+   542 00002B49 002000000020000000-
+   542 00002B52 200000002000000020-
+   542 00002B5B 000000200000002000-
+   542 00002B64 000020000000200000-
+   542 00002B6D 002000000020000000-
+   542 00002B76 200000002000000020-
+   542 00002B7F 000000200000002000-
+   542 00002B88 000020000000200000-
+   542 00002B91 002000000020000000-
+   542 00002B9A 200000002000000020-
+   542 00002BA3 000000200000002000-
+   542 00002BAC 000020000000200000-
+   542 00002BB5 002000000020000000-
+   542 00002BBE 200000002000000020-
+   542 00002BC7 000000200000002000-
+   542 00002BD0 000020000000200000-
+   542 00002BD9 002000000020000000-
+   542 00002BE2 200000002000000020-
+   542 00002BEB 000000200000002000-
+   542 00002BF4 000020000000200000-
+   542 00002BFD 002000000020000000-
+   542 00002C06 200000002000000020-
+   542 00002C0F 000000200000002000-
+   542 00002C18 000020000000200000-
+   542 00002C21 002000000020000000-
+   542 00002C2A 200000002000000020-
+   542 00002C33 000000200000002000-
+   542 00002C3C 000020000000200000-
+   542 00002C45 002000000020000000-
+   542 00002C4E 200000002000000020-
+   542 00002C57 000000200000002000-
+   542 00002C60 000020000000200000-
+   542 00002C69 002000000020000000-
+   542 00002C72 200000002000000020-
+   542 00002C7B 000000200000002000-
+   542 00002C84 000020000000200000-
+   542 00002C8D 002000000020000000-
+   542 00002C96 200000002000000020-
+   542 00002C9F 000000200000002000-
+   542 00002CA8 000020000000200000-
+   542 00002CB1 002000000020000000-
+   542 00002CBA 200000002000000020-
+   542 00002CC3 000000200000002000-
+   542 00002CCC 000020000000200000-
+   542 00002CD5 002000000020000000-
+   542 00002CDE 200000002000000020-
+   542 00002CE7 000000200000002000-
+   542 00002CF0 000020000000200000-
+   542 00002CF9 002000000020000000-
+   542 00002D02 200000002000000020-
+   542 00002D0B 000000200000002000-
+   542 00002D14 000020000000200000-
+   542 00002D1D 002000000020000000-
+   542 00002D26 200000002000000020-
+   542 00002D2F 000000200000002000-
+   542 00002D38 000020000000200000-
+   542 00002D41 002000000020000000-
+   542 00002D4A 200000002000000020-
+   542 00002D53 000000200000002000-
+   542 00002D5C 000020000000200000-
+   542 00002D65 002000000020000000-
+   542 00002D6E 200000002000000020-
+   542 00002D77 000000200000002000-
+   542 00002D80 000020000000200000-
+   542 00002D89 002000000020000000-
+   542 00002D92 200000002000000020-
+   542 00002D9B 000000200000002000-
+   542 00002DA4 000020000000200000-
+   542 00002DAD 002000000020000000-
+   542 00002DB6 200000002000000020-
+   542 00002DBF 000000200000002000-
+   542 00002DC8 000020000000200000-
+   542 00002DD1 002000000020000000-
+   542 00002DDA 200000002000000020-
+   542 00002DE3 000000200000002000-
+   542 00002DEC 000020000000200000-
+   542 00002DF5 002000000020000000-
+   542 00002DFE 200000002000000020-
+   542 00002E07 000000200000002000-
+   542 00002E10 000020000000200000-
+   542 00002E19 002000000020000000-
+   542 00002E22 200000002000000020-
+   542 00002E2B 000000200000002000-
+   542 00002E34 000020000000200000-
+   542 00002E3D 002000000020000000-
+   542 00002E46 200000002000000020-
+   542 00002E4F 000000200000002000-
+   542 00002E58 000020000000200000-
+   542 00002E61 002000000020000000-
+   542 00002E6A 200000002000000020-
+   542 00002E73 000000200000002000-
+   542 00002E7C 000020000000200000-
+   542 00002E85 002000000020000000-
+   542 00002E8E 200000002000000020-
+   542 00002E97 000000200000002000-
+   542 00002EA0 000020000000200000-
+   542 00002EA9 002000000020000000-
+   542 00002EB2 200000002000000020-
+   542 00002EBB 000000200000002000-
+   542 00002EC4 000020000000200000-
+   542 00002ECD 002000000020000000-
+   542 00002ED6 200000002000000020-
+   542 00002EDF 000000200000002000-
+   542 00002EE8 000020000000200000-
+   542 00002EF1 002000000020000000-
+   542 00002EFA 200000002000000020-
+   542 00002F03 000000200000002000-
+   542 00002F0C 000020000000200000-
+   542 00002F15 002000000020000000-
+   542 00002F1E 200000002000000020-
+   542 00002F27 000000200000002000-
+   542 00002F30 000020000000200000-
+   542 00002F39 002000000020000000-
+   542 00002F42 200000002000000020-
+   542 00002F4B 000000200000002000-
+   542 00002F54 000020000000200000-
+   542 00002F5D 002000000020000000-
+   542 00002F66 200000002000000020-
+   542 00002F6F 000000200000002000-
+   542 00002F78 000020000000200000-
+   542 00002F81 002000000020000000-
+   542 00002F8A 200000002000000020-
+   542 00002F93 000000200000002000-
+   542 00002F9C 000020000000200000-
+   542 00002FA5 002000000020000000-
+   542 00002FAE 200000002000000020-
+   542 00002FB7 000000200000002000-
+   542 00002FC0 000020000000200000-
+   542 00002FC9 002000000020000000-
+   542 00002FD2 200000002000000020-
+   542 00002FDB 000000200000002000-
+   542 00002FE4 000020000000200000-
+   542 00002FED 002000000020000000-
+   542 00002FF6 200000002000000020-
+   542 00002FFF 000000200000002000-
+   542 00003008 000020000000200000-
+   542 00003011 002000000020000000-
+   542 0000301A 200000002000000020-
+   542 00003023 000000200000002000-
+   542 0000302C 000020000000200000-
+   542 00003035 002000000020000000-
+   542 0000303E 200000002000000020-
+   542 00003047 000000200000002000-
+   542 00003050 000020000000200000-
+   542 00003059 002000000020000000-
+   542 00003062 200000002000000020-
+   542 0000306B 000000200000002000-
+   542 00003074 000020000000200000-
+   542 0000307D 002000000020000000-
+   542 00003086 200000002000000020-
+   542 0000308F 000000200000002000-
+   542 00003098 000020000000200000-
+   542 000030A1 002000000020000000-
+   542 000030AA 200000002000000020-
+   542 000030B3 000000200000002000-
+   542 000030BC 000020000000200000-
+   542 000030C5 002000000020000000-
+   542 000030CE 200000002000000020-
+   542 000030D7 000000200000002000-
+   542 000030E0 000020000000200000-
+   542 000030E9 002000000020000000-
+   542 000030F2 200000002000000020-
+   542 000030FB 000000200000002000-
+   542 00003104 000020000000200000-
+   542 0000310D 002000000020000000-
+   542 00003116 200000002000000020-
+   542 0000311F 000000200000002000-
+   542 00003128 000020000000200000-
+   542 00003131 002000000020000000-
+   542 0000313A 200000002000000020-
+   542 00003143 000000200000002000-
+   542 0000314C 000020000000200000-
+   542 00003155 002000000020000000-
+   542 0000315E 200000002000000020-
+   542 00003167 000000200000002000-
+   542 00003170 000020000000200000-
+   542 00003179 002000000020000000-
+   542 00003182 200000002000000020-
+   542 0000318B 000000200000002000-
+   542 00003194 000020000000200000-
+   542 0000319D 002000000020000000-
+   542 000031A6 20000000           
+   544                                  font_z_screen_buf$next:
+   545                                  
+   546                                  ;function
+   547 000031AA E95D010000              jmp test_z_draw$next
+   548                                  test_z_draw:
+   549                                  ;param
+   550 000031AF EB04                    jmp test_z_draw_addrVram$next
+   551 000031B1 00000000                test_z_draw_addrVram: dd 0
+   552                                  test_z_draw_addrVram$next:
+   553 000031B5 5D                      pop ebp
+   554 000031B6 58                      pop eax
+   555 000031B7 A3[B1310000]            mov [test_z_draw_addrVram], eax
+   556 000031BC 55                      push ebp
+   557 000031BD B800000000              mov eax, 0
+   558 000031C2 50                      push eax
+   559 000031C3 EB04                    jmp test_z_draw_i$next
+   560 000031C5 00000000                test_z_draw_i: dd 0
+   561                                  test_z_draw_i$next:
+   562 000031C9 58                      pop eax
+   563 000031CA A3[C5310000]            mov [test_z_draw_i], eax
+   564                                  ; while start
+   565                                  test_z_draw_while$1_start:
+   566 000031CF A1[C5310000]            mov eax, [test_z_draw_i]
+   567 000031D4 50                      push eax
+   568 000031D5 B82C010000              mov eax, 300
+   569 000031DA 50                      push eax
+   570 000031DB 5B                      pop ebx
+   571 000031DC 58                      pop eax
+   572 000031DD 39D8                    cmp eax, ebx
+   573 000031DF 7207                    jb test_z_draw_while$1_less@true$1
+   574 000031E1 B800000000              mov eax, 0
+   575 000031E6 EB05                    jmp test_z_draw_while$1_less@false$1
+   576                                  test_z_draw_while$1_less@true$1:
+   577 000031E8 B801000000              mov eax, 1
+   578                                  test_z_draw_while$1_less@false$1:
+   579 000031ED 50                      push eax
+   580 000031EE 58                      pop eax
+   581 000031EF 83F800                  cmp eax, 0
+   582 000031F2 743C                    je test_z_draw_while$1_end
+   583 000031F4 A1[C5310000]            mov eax, [test_z_draw_i]
+   584 000031F9 50                      push eax
+   585 000031FA A1[C5310000]            mov eax, [test_z_draw_i]
+   586 000031FF 50                      push eax
+   587 00003200 A1[C5310000]            mov eax, [test_z_draw_i]
+   588 00003205 50                      push eax
+   589 00003206 B840010000              mov eax, 320
+   590 0000320B 50                      push eax
+   591 0000320C A1[B1310000]            mov eax, [test_z_draw_addrVram]
+   592 00003211 50                      push eax
+   593 00003212 E8E2CEFFFF              call draw_z_pixel
+   594 00003217 A1[C5310000]            mov eax, [test_z_draw_i]
+   595 0000321C 50                      push eax
+   596 0000321D B801000000              mov eax, 1
+   597 00003222 50                      push eax
+   598 00003223 58                      pop eax
+   599 00003224 5B                      pop ebx
+   600 00003225 01D8                    add eax, ebx
+   601 00003227 50                      push eax
+   602 00003228 58                      pop eax
+   603 00003229 A3[C5310000]            mov [test_z_draw_i], eax
+   604 0000322E EB9F                    jmp test_z_draw_while$1_start
+   605                                  test_z_draw_while$1_end:
+   606                                  ;while end
+   607 00003230 B800000000              mov eax, 0
+   608 00003235 50                      push eax
+   609 00003236 EB04                    jmp test_z_draw_x$next
+   610 00003238 00000000                test_z_draw_x: dd 0
+   611                                  test_z_draw_x$next:
+   612 0000323C 58                      pop eax
+   613 0000323D A3[38320000]            mov [test_z_draw_x], eax
+   614 00003242 B800000000              mov eax, 0
+   615 00003247 50                      push eax
+   616 00003248 EB04                    jmp test_z_draw_y$next
+   617 0000324A 00000000                test_z_draw_y: dd 0
+   618                                  test_z_draw_y$next:
+   619 0000324E 58                      pop eax
+   620 0000324F A3[4A320000]            mov [test_z_draw_y], eax
+   621                                  ; while start
+   622                                  test_z_draw_while$2_start:
+   623 00003254 A1[4A320000]            mov eax, [test_z_draw_y]
+   624 00003259 50                      push eax
+   625 0000325A B8C8000000              mov eax, 200
+   626 0000325F 50                      push eax
+   627 00003260 5B                      pop ebx
+   628 00003261 58                      pop eax
+   629 00003262 39D8                    cmp eax, ebx
+   630 00003264 7607                    jbe test_z_draw_while$2_lessequal@true$2
+   631 00003266 B800000000              mov eax, 0
+   632 0000326B EB05                    jmp test_z_draw_while$2_lessequal@false$2
+   633                                  test_z_draw_while$2_lessequal@true$2:
+   634 0000326D B801000000              mov eax, 1
+   635                                  test_z_draw_while$2_lessequal@false$2:
+   636 00003272 50                      push eax
+   637 00003273 58                      pop eax
+   638 00003274 83F800                  cmp eax, 0
+   639 00003277 0F8489000000            je test_z_draw_while$2_end
+   640 0000327D B800000000              mov eax, 0
+   641 00003282 50                      push eax
+   642 00003283 58                      pop eax
+   643 00003284 A3[38320000]            mov [test_z_draw_x], eax
+   644                                  ; while start
+   645                                  test_z_draw_while$2_while$1_start:
+   646 00003289 A1[38320000]            mov eax, [test_z_draw_x]
+   647 0000328E 50                      push eax
+   648 0000328F B840010000              mov eax, 320
+   649 00003294 50                      push eax
+   650 00003295 5B                      pop ebx
+   651 00003296 58                      pop eax
+   652 00003297 39D8                    cmp eax, ebx
+   653 00003299 7607                    jbe test_z_draw_while$2_while$1_lessequal@true$3
+   654 0000329B B800000000              mov eax, 0
+   655 000032A0 EB05                    jmp test_z_draw_while$2_while$1_lessequal@false$3
+   656                                  test_z_draw_while$2_while$1_lessequal@true$3:
+   657 000032A2 B801000000              mov eax, 1
+   658                                  test_z_draw_while$2_while$1_lessequal@false$3:
+   659 000032A7 50                      push eax
+   660 000032A8 58                      pop eax
+   661 000032A9 83F800                  cmp eax, 0
+   662 000032AC 743C                    je test_z_draw_while$2_while$1_end
+   663 000032AE A1[38320000]            mov eax, [test_z_draw_x]
+   664 000032B3 50                      push eax
+   665 000032B4 A1[4A320000]            mov eax, [test_z_draw_y]
+   666 000032B9 50                      push eax
+   667 000032BA A1[38320000]            mov eax, [test_z_draw_x]
+   668 000032BF 50                      push eax
+   669 000032C0 B840010000              mov eax, 320
+   670 000032C5 50                      push eax
+   671 000032C6 A1[B1310000]            mov eax, [test_z_draw_addrVram]
+   672 000032CB 50                      push eax
+   673 000032CC E828CEFFFF              call draw_z_pixel
+   674 000032D1 A1[38320000]            mov eax, [test_z_draw_x]
+   675 000032D6 50                      push eax
+   676 000032D7 B801000000              mov eax, 1
+   677 000032DC 50                      push eax
+   678 000032DD 58                      pop eax
+   679 000032DE 5B                      pop ebx
+   680 000032DF 01D8                    add eax, ebx
+   681 000032E1 50                      push eax
+   682 000032E2 58                      pop eax
+   683 000032E3 A3[38320000]            mov [test_z_draw_x], eax
+   684 000032E8 EB9F                    jmp test_z_draw_while$2_while$1_start
+   685                                  test_z_draw_while$2_while$1_end:
+   686                                  ;while end
+   687 000032EA A1[4A320000]            mov eax, [test_z_draw_y]
+   688 000032EF 50                      push eax
+   689 000032F0 B801000000              mov eax, 1
+   690 000032F5 50                      push eax
+   691 000032F6 58                      pop eax
+   692 000032F7 5B                      pop ebx
+   693 000032F8 01D8                    add eax, ebx
+   694 000032FA 50                      push eax
+   695 000032FB 58                      pop eax
+   696 000032FC A3[4A320000]            mov [test_z_draw_y], eax
+   697 00003301 E94EFFFFFF              jmp test_z_draw_while$2_start
+   698                                  test_z_draw_while$2_end:
+   699                                  ;while end
+   700 00003306 E845CFFFFF              call draw_z_flush
+   701 0000330B C3                      ret
+   702                                  test_z_draw$next:
+   703 0000330C EB18                    jmp main
+   704                                  
+   705                                  ; 读写内存
+   706                                  ; kernel.z\setMem.1byte(val:dword, addr:dword)
+   707                                  kernel_z_setMem_1byte:
+   708 0000330E 5D                        pop ebp
+   709 0000330F 5B                        pop ebx
+   710 00003310 58                        pop eax
+   711 00003311 55                        push ebp
+   712 00003312 8803                      mov [ebx], al
+   713 00003314 C3                      ret
+   714                                  
+   715                                  ; kernel.z\setMem.2byte(val:dword, addr:dword)
+   716                                  kernel_z_setMem_2byte:
+   717 00003315 5D                        pop ebp
+   718 00003316 5B                        pop ebx
+   719 00003317 58                        pop eax
+   720 00003318 55                        push ebp
+   721 00003319 668903                    mov [ebx], ax
+   722 0000331C C3                      ret
+   723                                  
+   724                                  ; kernel.z\setMem.4byte(val:dword, addr:dword)
+   725                                  kernel_z_setMem_4byte:
+   726 0000331D 5D                        pop ebp
+   727 0000331E 5B                        pop ebx
+   728 0000331F 58                        pop eax
+   729 00003320 55                        push ebp
+   730 00003321 8903                      mov [ebx], eax
+   731 00003323 C3                      ret
+   732                                  
+   733                                  ; kernel.z\halt()
+   734                                  kernel_z_halt:
+   735 00003324 F4                        hlt
+   736 00003325 C3                      ret
+   737                                  
+   738                                  main:
+   739 00003326 E855CDFFFF                call main_z_run_once
+   740                                    .loop:
+   741 0000332B E860CDFFFF                  call main_z_run_loop
+   742 00003330 EBF9                      jmp .loop
+   743                                  

@@ -153,6 +153,5 @@ mov [test_z_draw_y], eax
 jmp test_z_draw_while$2_start
 test_z_draw_while$2_end:
 ;while end
-call draw_z_flush
 ret
 test_z_draw$next:

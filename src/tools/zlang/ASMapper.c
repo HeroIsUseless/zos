@@ -107,6 +107,10 @@ void popEbx(){
 void pushEbx(){
   code_append("push ebx\n");
 }
+void push_Eax_(){
+  code_append("mov ebx, [eax]\n");
+  pushEbx();
+}
 // register
 void movVal2Eax(char val[]){
   code_append("mov eax, ");
@@ -296,12 +300,37 @@ void am_assign_arr(char var[]){
   code_append("+ebx], eax\n");
 }
 
+void am_assign_arl(char var[]){
+  popEax(); // var
+  popEbx(); // index
+  code_append("mov ecx, [");
+  int layer = funcVars_find(var);
+  if(layer == -1){
+    printf("unfind var:%s\n", var);
+  }
+  code_appendPartPrefixes(layer);
+  code_append(var);
+  code_append("]\n");
+  code_append("add ecx, ebx\n");
+  code_append("mov [ecx], eax\n");
+}
+
 void am_assign_prefixesArr(char prefixes_var[]){
   popEax(); // var
   popEbx(); // index
   code_append("mov [");
   code_append(prefixes_var);
   code_append("+ebx], eax\n");
+}
+
+void am_assign_prefixesArl(char prefixes_var[]){
+  popEax(); // var
+  popEbx(); // index
+  code_append("mov ecx, [");
+  code_append(prefixes_var);
+  code_append("]\n");
+  code_append("add ecx, ebx\n");
+  code_append("mov [ecx], eax\n");
 }
 
 void am_exec_prefixesFunc(char prefixes_var[]){
@@ -343,6 +372,24 @@ void am_exp_addr(char addr[]){
 void am_exp_prefixesAddr(char prefixesAddr[]){
   movVal2Eax(prefixesAddr);
   pushEax();
+}
+
+void am_exp_addl(char addr[]){
+  int layer = funcVars_find(addr);
+  if(layer == -1){
+    printf("unfind addr:%s\n", addr);
+  } 
+  movPartPrefixesVar2Eax(addr, layer);
+  popEbx();
+  addEbx2Eax();
+  push_Eax_();
+}
+
+void am_exp_prefixesAddl(char prefixesAddr[]){
+  movVar2Eax(prefixesAddr);
+  popEbx();
+  addEbx2Eax();
+  push_Eax_();
 }
 
 void am_exp_arr(char var[]){

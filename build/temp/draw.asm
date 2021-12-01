@@ -385,5 +385,59 @@ mov [draw_z_string_addrVram], eax
 pop eax
 mov [draw_z_string_strAddr], eax
 push ebp
+mov eax, 0
+push eax
+jmp draw_z_string_i$next
+draw_z_string_i: dd 0
+draw_z_string_i$next:
+pop eax
+mov [draw_z_string_i], eax
+; while start
+draw_z_string_while$1_start:
+mov eax, [draw_z_string_i]
+push eax
+mov eax, [draw_z_string_strAddr]
+pop ebx
+add eax, ebx
+mov ebx, [eax]
+push ebx
+mov eax, 0
+push eax
+pop ebx
+pop eax
+cmp eax, ebx
+jne draw_z_string_while$1_unequal@true$4
+mov eax, 0
+jmp draw_z_string_while$1_unequal@false$4
+draw_z_string_while$1_unequal@true$4:
+mov eax, 1
+draw_z_string_while$1_unequal@false$4:
+push eax
+pop eax
+cmp eax, 0
+je draw_z_string_while$1_end
+mov eax, [draw_z_string_i]
+push eax
+mov eax, [draw_z_string_strAddr]
+pop ebx
+add eax, ebx
+mov ebx, [eax]
+push ebx
+mov eax, [draw_z_string_addrVram]
+push eax
+call draw_z_char
+mov eax, [draw_z_string_i]
+push eax
+mov eax, 1
+push eax
+pop eax
+pop ebx
+add eax, ebx
+push eax
+pop eax
+mov [draw_z_string_i], eax
+jmp draw_z_string_while$1_start
+draw_z_string_while$1_end:
+;while end
 ret
 draw_z_string$next:

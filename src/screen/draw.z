@@ -46,5 +46,9 @@ char(ascii: dword, addrVram: dword):(
 );
 
 string(strAddr: dword, addrVram: dword):(
-
+  i: 0;
+  while(&strAddr\(i) # 0, (
+    char(&strAddr\(i), addrVram);
+    i <= i+1;
+  ));
 );

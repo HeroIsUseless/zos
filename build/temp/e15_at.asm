@@ -16,8 +16,29 @@ mov [e15_at_z_func_strAddr], eax
 push ebp
 mov eax, 0
 push eax
+jmp e15_at_z_func_a$next
+e15_at_z_func_a: dd 0
+e15_at_z_func_a$next:
 pop eax
-mov [e15_at_z_func_strAddr], eax
+mov [e15_at_z_func_a], eax
+mov eax, 1
+push eax
+mov eax, [e15_at_z_func_strAddr]
+pop ebx
+add eax, ebx
+mov ebx, [eax]
+push ebx
+pop eax
+mov [e15_at_z_func_a], eax
+mov eax, 1
+push eax
+mov eax, 123
+push eax
+pop eax
+pop ebx
+mov ecx, [e15_at_z_func_strAddr]
+add ecx, ebx
+mov [ecx], eax
 ret
 e15_at_z_func$next:
 mov eax, e15_at_z_str

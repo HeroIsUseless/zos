@@ -75,8 +75,10 @@ param_exec: exp
 
 exec: VAR '<' '=' exp {am_assign_var($1);}                  /*调用函数内定义的变量*/
     | PREFIXES_VAR '<' '=' exp {am_assign_prefixesVar($1);} /*调用函数外定义的变量，任何文件内都可以*/
-    | VAR '\\' '(' exp ')' '<' '=' exp {am_assign_arr($1);}                      /*调用函数内定义的数组*/
-    | PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am_assign_prefixesArr($1);}             /*调用函数外定义的数组*/
+    | VAR '\\' '(' exp ')' '<' '=' exp {am_assign_arr($1);}                  /*调用函数内定义的数组*/
+    | PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am_assign_prefixesArr($1);} /*调用函数外定义的数组*/
+    | '&' VAR '\\' '(' exp ')' '<' '=' exp {am_assign_arl($2);}                  /*调用函数内定义的数组*/
+    | '&' PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am_assign_prefixesArl($2);} /*调用函数外定义的数组*/
     | VAR params {am_exec_func($1);}                        /*调用文件内定义的函数*/
     | PREFIXES_VAR params {am_exec_prefixesFunc($1);}       /*调用文件外定义的函数*/
     | if_head ',' stmt ')' {am_if_end();}
@@ -110,6 +112,8 @@ term: INTEGER {am_exp_val($1);}
     | '@' PREFIXES_VAR {am_exp_prefixesAddr($2);}
     | VAR '\\' '(' exp ')' {am_exp_arr($1);}
     | PREFIXES_VAR '\\' '(' exp ')' {am_exp_chainArr($1);}
+    | '&' VAR '\\' '(' exp ')' {am_exp_addl($2);}
+    | '&' PREFIXES_VAR '\\' '(' exp ')' {am_exp_prefixesAddl($2);}
     ;
 %%
 int open(int argc, char **argv);

@@ -153,5 +153,17 @@ mov [test_z_draw_y], eax
 jmp test_z_draw_while$2_start
 test_z_draw_while$2_end:
 ;while end
+mov eax, [test_z_draw_addrVram]
+push eax
+call draw_z_flush
+jmp test_z_draw_tstr$next
+test_z_draw_tstr: dd \
+65, 66, 67, 68, 0
+test_z_draw_tstr$next:
+mov eax, test_z_draw_tstr
+push eax
+mov eax, [test_z_draw_addrVram]
+push eax
+call draw_z_string
 ret
 test_z_draw$next:

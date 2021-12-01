@@ -26,8 +26,15 @@ while {
 dword {
     return INTEGER;
 }
-
-@[\\a-zA-Z0-9\.]+ return PATH; 
+\".*\" {
+    yylval.s = strdup(yytext); 
+    return STRING;
+}
+@\\[\\a-zA-Z0-9\.]+ {
+    yylval.s = strdup(yytext); 
+    printf("path:%s\n", yylval.s);
+    return PATH;
+}
 [a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?(\\[a-zA-Z][a-zA-Z0-9]*(\.[a-zA-Z0-9]+)?)+ {
     yylval.s = strdup(yytext); 
     //printf("PREFIXES_VAR %s\n", yylval.s); 

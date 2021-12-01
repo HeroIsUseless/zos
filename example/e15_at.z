@@ -1,0 +1,5 @@
+str: "ABCD";
+func(strAddr: dword):(
+  strAddr <= 0;
+);
+func(@str);

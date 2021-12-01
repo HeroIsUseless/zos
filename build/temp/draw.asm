@@ -168,6 +168,44 @@ ret
 draw_z_hLine$next:
 
 ;function
+jmp draw_z_font$next
+draw_z_font:
+;param
+jmp draw_z_font_charAddr$next
+draw_z_font_charAddr: dd 0
+draw_z_font_charAddr$next:
+;param
+jmp draw_z_font_left$next
+draw_z_font_left: dd 0
+draw_z_font_left$next:
+;param
+jmp draw_z_font_top$next
+draw_z_font_top: dd 0
+draw_z_font_top$next:
+;param
+jmp draw_z_font_foreColor$next
+draw_z_font_foreColor: dd 0
+draw_z_font_foreColor$next:
+;param
+jmp draw_z_font_backColor$next
+draw_z_font_backColor: dd 0
+draw_z_font_backColor$next:
+pop ebp
+pop eax
+mov [draw_z_font_backColor], eax
+pop eax
+mov [draw_z_font_foreColor], eax
+pop eax
+mov [draw_z_font_top], eax
+pop eax
+mov [draw_z_font_left], eax
+pop eax
+mov [draw_z_font_charAddr], eax
+push ebp
+ret
+draw_z_font$next:
+
+;function
 jmp draw_z_flush$next
 draw_z_flush:
 ;param
@@ -180,23 +218,23 @@ mov [draw_z_flush_addrVram], eax
 push ebp
 mov eax, 0
 push eax
-jmp draw_z_flush_x$next
-draw_z_flush_x: dd 0
-draw_z_flush_x$next:
+jmp draw_z_flush_left$next
+draw_z_flush_left: dd 0
+draw_z_flush_left$next:
 pop eax
-mov [draw_z_flush_x], eax
+mov [draw_z_flush_left], eax
 mov eax, 0
 push eax
-jmp draw_z_flush_y$next
-draw_z_flush_y: dd 0
-draw_z_flush_y$next:
+jmp draw_z_flush_top$next
+draw_z_flush_top: dd 0
+draw_z_flush_top$next:
 pop eax
-mov [draw_z_flush_y], eax
+mov [draw_z_flush_top], eax
 ; while start
 draw_z_flush_while$1_start:
-mov eax, [draw_z_flush_y]
+mov eax, [draw_z_flush_top]
 push eax
-mov eax, 200
+mov eax, 25
 push eax
 pop ebx
 pop eax
@@ -214,12 +252,12 @@ je draw_z_flush_while$1_end
 mov eax, 0
 push eax
 pop eax
-mov [draw_z_flush_x], eax
+mov [draw_z_flush_left], eax
 ; while start
 draw_z_flush_while$1_while$1_start:
-mov eax, [draw_z_flush_x]
+mov eax, [draw_z_flush_left]
 push eax
-mov eax, 320
+mov eax, 40
 push eax
 pop ebx
 pop eax
@@ -234,15 +272,15 @@ push eax
 pop eax
 cmp eax, 0
 je draw_z_flush_while$1_while$1_end
-mov eax, [draw_z_flush_y]
+mov eax, [draw_z_flush_top]
 push eax
-mov eax, 320
+mov eax, 40
 push eax
 pop eax
 pop ebx
 mul ebx
 push eax
-mov eax, [draw_z_flush_x]
+mov eax, [draw_z_flush_left]
 push eax
 pop eax
 pop ebx
@@ -258,9 +296,21 @@ draw_z_flush_while$1_while$1_color: dd 0
 draw_z_flush_while$1_while$1_color$next:
 pop eax
 mov [draw_z_flush_while$1_while$1_color], eax
-mov eax, [draw_z_flush_x]
+mov eax, [draw_z_flush_left]
 push eax
-mov eax, [draw_z_flush_y]
+mov eax, 8
+push eax
+pop eax
+pop ebx
+mul ebx
+push eax
+mov eax, [draw_z_flush_top]
+push eax
+mov eax, 8
+push eax
+pop eax
+pop ebx
+mul ebx
 push eax
 mov eax, [draw_z_flush_while$1_while$1_color]
 push eax
@@ -269,7 +319,7 @@ push eax
 mov eax, [draw_z_flush_addrVram]
 push eax
 call draw_z_pixel
-mov eax, [draw_z_flush_x]
+mov eax, [draw_z_flush_left]
 push eax
 mov eax, 1
 push eax
@@ -278,11 +328,11 @@ pop ebx
 add eax, ebx
 push eax
 pop eax
-mov [draw_z_flush_x], eax
+mov [draw_z_flush_left], eax
 jmp draw_z_flush_while$1_while$1_start
 draw_z_flush_while$1_while$1_end:
 ;while end
-mov eax, [draw_z_flush_y]
+mov eax, [draw_z_flush_top]
 push eax
 mov eax, 1
 push eax
@@ -291,9 +341,49 @@ pop ebx
 add eax, ebx
 push eax
 pop eax
-mov [draw_z_flush_y], eax
+mov [draw_z_flush_top], eax
 jmp draw_z_flush_while$1_start
 draw_z_flush_while$1_end:
 ;while end
 ret
 draw_z_flush$next:
+
+;function
+jmp draw_z_char$next
+draw_z_char:
+;param
+jmp draw_z_char_ascii$next
+draw_z_char_ascii: dd 0
+draw_z_char_ascii$next:
+;param
+jmp draw_z_char_addrVram$next
+draw_z_char_addrVram: dd 0
+draw_z_char_addrVram$next:
+pop ebp
+pop eax
+mov [draw_z_char_addrVram], eax
+pop eax
+mov [draw_z_char_ascii], eax
+push ebp
+ret
+draw_z_char$next:
+
+;function
+jmp draw_z_string$next
+draw_z_string:
+;param
+jmp draw_z_string_strAddr$next
+draw_z_string_strAddr: dd 0
+draw_z_string_strAddr$next:
+;param
+jmp draw_z_string_addrVram$next
+draw_z_string_addrVram: dd 0
+draw_z_string_addrVram$next:
+pop ebp
+pop eax
+mov [draw_z_string_addrVram], eax
+pop eax
+mov [draw_z_string_strAddr], eax
+push ebp
+ret
+draw_z_string$next:

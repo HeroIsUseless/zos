@@ -20,6 +20,7 @@
 %left '+' '-'
 %left '*' '/'
 %token <s> INTEGER
+%token <s> STRING
 %token <s> VAR PATH PREFIXES_VAR
 %token IF WHILE
 %token EOL
@@ -41,6 +42,7 @@ def: def_var
 
 def_var: VAR ':' exp {am_def_var($1);}
        | VAR ':' PATH {}
+       | VAR ':' STRING {am_def_str($1, $3);} 
        ;
 
 def_arr: VAR ':' '{' {am_def_arr_start($1);} items '}' {am_def_arr_end($1);}
@@ -103,7 +105,9 @@ factor: term
 
 term: INTEGER {am_exp_val($1);}
     | VAR {am_exp_var($1);}
-    | PREFIXES_VAR
+    | PREFIXES_VAR {am_exp_prefixesVar($1);}
+    | '@' VAR {am_exp_addr($2);}
+    | '@' PREFIXES_VAR {am_exp_prefixesAddr($2);}
     | VAR '\\' '(' exp ')' {am_exp_arr($1);}
     | PREFIXES_VAR '\\' '(' exp ')' {am_exp_chainArr($1);}
     ;

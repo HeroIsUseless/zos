@@ -8,6 +8,12 @@ void int2str(int num, char num_str[]){
     num_str[strlen(num_str)] = mod + '0';
     num /= 10;
   }
+  int i;
+  for(i=0; i<strlen(num_str)/2; i++){
+     char t_c = num_str[i];
+     num_str[i] = num_str[strlen(num_str)-1-i];
+     num_str[strlen(num_str)-1-i] = t_c;
+  }
 }
 
 void Getnext(int next[], char t[])

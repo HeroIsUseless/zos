@@ -276,6 +276,14 @@ void am_def_fun_end(char var[]){
   tagNext(var);
 }
 
+void am_return(){
+  popEax();
+  popEbp();
+  pushEax();
+  pushEbp();
+  ret();
+}
+
 void am_assign_var(char var[]){
   popEax();
   int layer = funcVars_find(var);

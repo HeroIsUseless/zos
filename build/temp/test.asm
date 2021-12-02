@@ -160,6 +160,10 @@ jmp test_z_draw_tstr$next
 test_z_draw_tstr: dd \
 65, 66, 67, 68, 0
 test_z_draw_tstr$next:
+mov eax, 0
+push eax
+mov eax, 0
+push eax
 mov eax, test_z_draw_tstr
 push eax
 mov eax, [test_z_draw_addrVram]

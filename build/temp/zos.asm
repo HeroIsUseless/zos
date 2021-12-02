@@ -55,6 +55,9 @@ jmp main_z_run_once$next
 main_z_run_once:
 pop ebp
 push ebp
+mov eax, [main_z_addrVram]
+push eax
+call test_z_draw
 ret
 main_z_run_once$next:
 
@@ -470,6 +473,14 @@ draw_z_flush$next:
 jmp draw_z_char$next
 draw_z_char:
 ;param
+jmp draw_z_char_left$next
+draw_z_char_left: dd 0
+draw_z_char_left$next:
+;param
+jmp draw_z_char_top$next
+draw_z_char_top: dd 0
+draw_z_char_top$next:
+;param
 jmp draw_z_char_ascii$next
 draw_z_char_ascii: dd 0
 draw_z_char_ascii$next:
@@ -482,6 +493,10 @@ pop eax
 mov [draw_z_char_addrVram], eax
 pop eax
 mov [draw_z_char_ascii], eax
+pop eax
+mov [draw_z_char_top], eax
+pop eax
+mov [draw_z_char_left], eax
 push ebp
 ret
 draw_z_char$next:
@@ -489,6 +504,14 @@ draw_z_char$next:
 ;function
 jmp draw_z_string$next
 draw_z_string:
+;param
+jmp draw_z_string_left$next
+draw_z_string_left: dd 0
+draw_z_string_left$next:
+;param
+jmp draw_z_string_top$next
+draw_z_string_top: dd 0
+draw_z_string_top$next:
 ;param
 jmp draw_z_string_strAddr$next
 draw_z_string_strAddr: dd 0
@@ -502,6 +525,10 @@ pop eax
 mov [draw_z_string_addrVram], eax
 pop eax
 mov [draw_z_string_strAddr], eax
+pop eax
+mov [draw_z_string_top], eax
+pop eax
+mov [draw_z_string_left], eax
 push ebp
 mov eax, 0
 push eax
@@ -534,6 +561,10 @@ push eax
 pop eax
 cmp eax, 0
 je draw_z_string_while$1_end
+mov eax, [draw_z_string_left]
+push eax
+mov eax, [draw_z_string_top]
+push eax
 mov eax, [draw_z_string_i]
 push eax
 mov eax, [draw_z_string_strAddr]
@@ -559,10 +590,10 @@ draw_z_string_while$1_end:
 ;while end
 ret
 draw_z_string$next:
-jmp font_z_font_A$next
-font_z_font_A: dd \
+jmp font_z_A$next
+font_z_A: dd \
 0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-font_z_font_A$next:
+font_z_A$next:
 jmp font_z_font_B$next
 font_z_font_B: dd \
 0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
@@ -683,6 +714,51 @@ jmp font_z_screen_buf$next
 font_z_screen_buf: dd \
 32,32,32,32,33,34,35,36,37,38,39,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,
 font_z_screen_buf$next:
+
+;function
+jmp font_z_getAddrByAscii$next
+font_z_getAddrByAscii:
+;param
+jmp font_z_getAddrByAscii_ascii$next
+font_z_getAddrByAscii_ascii: dd 0
+font_z_getAddrByAscii_ascii$next:
+pop ebp
+pop eax
+mov [font_z_getAddrByAscii_ascii], eax
+push ebp
+; if start
+font_z_getAddrByAscii_if$1_start:
+mov eax, [font_z_getAddrByAscii_ascii]
+push eax
+mov eax, 65
+push eax
+pop ebx
+pop eax
+cmp eax, ebx
+je font_z_getAddrByAscii_if$1_equal@true$1
+mov eax, 0
+jmp font_z_getAddrByAscii_if$1_equal@false$1
+font_z_getAddrByAscii_if$1_equal@true$1:
+mov eax, 1
+font_z_getAddrByAscii_if$1_equal@false$1:
+push eax
+pop eax
+cmp eax, 0
+je font_z_getAddrByAscii_if$1_else
+font_z_getAddrByAscii_if$1_then:
+mov eax, font_z_A
+push eax
+pop eax
+pop ebp
+push eax
+push ebp
+ret
+jmp font_z_getAddrByAscii_if$1_end
+font_z_getAddrByAscii_if$1_else:
+font_z_getAddrByAscii_if$1_end:
+;if end
+ret
+font_z_getAddrByAscii$next:
 
 ;function
 jmp test_z_draw$next
@@ -845,6 +921,10 @@ jmp test_z_draw_tstr$next
 test_z_draw_tstr: dd \
 65, 66, 67, 68, 0
 test_z_draw_tstr$next:
+mov eax, 0
+push eax
+mov eax, 0
+push eax
 mov eax, test_z_draw_tstr
 push eax
 mov eax, [test_z_draw_addrVram]

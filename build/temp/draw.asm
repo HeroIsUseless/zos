@@ -352,6 +352,14 @@ draw_z_flush$next:
 jmp draw_z_char$next
 draw_z_char:
 ;param
+jmp draw_z_char_left$next
+draw_z_char_left: dd 0
+draw_z_char_left$next:
+;param
+jmp draw_z_char_top$next
+draw_z_char_top: dd 0
+draw_z_char_top$next:
+;param
 jmp draw_z_char_ascii$next
 draw_z_char_ascii: dd 0
 draw_z_char_ascii$next:
@@ -364,6 +372,10 @@ pop eax
 mov [draw_z_char_addrVram], eax
 pop eax
 mov [draw_z_char_ascii], eax
+pop eax
+mov [draw_z_char_top], eax
+pop eax
+mov [draw_z_char_left], eax
 push ebp
 ret
 draw_z_char$next:
@@ -371,6 +383,14 @@ draw_z_char$next:
 ;function
 jmp draw_z_string$next
 draw_z_string:
+;param
+jmp draw_z_string_left$next
+draw_z_string_left: dd 0
+draw_z_string_left$next:
+;param
+jmp draw_z_string_top$next
+draw_z_string_top: dd 0
+draw_z_string_top$next:
 ;param
 jmp draw_z_string_strAddr$next
 draw_z_string_strAddr: dd 0
@@ -384,6 +404,10 @@ pop eax
 mov [draw_z_string_addrVram], eax
 pop eax
 mov [draw_z_string_strAddr], eax
+pop eax
+mov [draw_z_string_top], eax
+pop eax
+mov [draw_z_string_left], eax
 push ebp
 mov eax, 0
 push eax
@@ -416,6 +440,10 @@ push eax
 pop eax
 cmp eax, 0
 je draw_z_string_while$1_end
+mov eax, [draw_z_string_left]
+push eax
+mov eax, [draw_z_string_top]
+push eax
 mov eax, [draw_z_string_i]
 push eax
 mov eax, [draw_z_string_strAddr]

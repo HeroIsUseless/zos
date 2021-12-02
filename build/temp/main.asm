@@ -53,6 +53,9 @@ jmp main_z_run_once$next
 main_z_run_once:
 pop ebp
 push ebp
+mov eax, [main_z_addrVram]
+push eax
+call test_z_draw
 ret
 main_z_run_once$next:
 

@@ -15,6 +15,6 @@ draw(addrVram: dword):(
   ));
   draw.z\flush(addrVram);
   tstr: "ABCD";
-  draw.z\string(@tstr, addrVram);
+  draw.z\string(0, 0, @tstr, addrVram);
 );
 

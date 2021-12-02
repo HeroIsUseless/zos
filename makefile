@@ -29,6 +29,7 @@ exam:
 	cd build && ./zlang ../example/e13_arr.z ./temp/e13_arr.asm
 	cd build && ./zlang ../example/e14_str.z ./temp/e14_str.asm
 	cd build && ./zlang ../example/e15_at.z ./temp/e15_at.asm
+	cd build && ./zlang ../example/e16_return.z ./temp/e16_return.asm
 
 test:
 	cd src/tools/zlang && gcc test.c -o test 

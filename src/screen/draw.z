@@ -41,14 +41,14 @@ flush(addrVram: dword):(
   ));
 );
 
-char(ascii: dword, addrVram: dword):(
+char(left: dword, top: dword, ascii: dword, addrVram: dword):(
 
 );
 
-string(strAddr: dword, addrVram: dword):(
+string(left: dword, top: dword, strAddr: dword, addrVram: dword):(
   i: 0;
   while(&strAddr\(i) # 0, (
-    char(&strAddr\(i), addrVram);
+    char(left, top, &strAddr\(i), addrVram);
     i <= i+1;
   ));
 );

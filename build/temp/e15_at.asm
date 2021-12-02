@@ -23,8 +23,11 @@ pop eax
 mov [e15_at_z_func_a], eax
 mov eax, 1
 push eax
+mov ebx, 4
+pop eax
+mul ebx
+mov ebx, eax
 mov eax, [e15_at_z_func_strAddr]
-pop ebx
 add eax, ebx
 mov ebx, [eax]
 push ebx

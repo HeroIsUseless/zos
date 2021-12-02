@@ -664,8 +664,11 @@ mov [draw_z_string_i], eax
 draw_z_string_while$1_start:
 mov eax, [draw_z_string_i]
 push eax
+mov ebx, 4
+pop eax
+mul ebx
+mov ebx, eax
 mov eax, [draw_z_string_strAddr]
-pop ebx
 add eax, ebx
 mov ebx, [eax]
 push ebx
@@ -706,8 +709,11 @@ mov eax, 2
 push eax
 mov eax, [draw_z_string_i]
 push eax
+mov ebx, 4
+pop eax
+mul ebx
+mov ebx, eax
 mov eax, [draw_z_string_strAddr]
-pop ebx
 add eax, ebx
 mov ebx, [eax]
 push ebx
@@ -1884,6 +1890,13 @@ push eax
 pop eax
 cmp eax, 0
 je test_z_block_while$1_while$1_end
+mov eax, font_z_A
+push eax
+jmp test_z_block_while$1_while$1_fontAddr$next
+test_z_block_while$1_while$1_fontAddr: dd 0
+test_z_block_while$1_while$1_fontAddr$next:
+pop eax
+mov [test_z_block_while$1_while$1_fontAddr], eax
 mov eax, [test_z_block_y]
 push eax
 mov eax, 8
@@ -1898,10 +1911,13 @@ pop eax
 pop ebx
 add eax, ebx
 push eax
-pop eax
 mov ebx, 4
+pop eax
 mul ebx
-mov ebx, [font_z_A+eax]
+mov ebx, eax
+mov eax, [test_z_block_while$1_while$1_fontAddr]
+add eax, ebx
+mov ebx, [eax]
 push ebx
 jmp test_z_block_while$1_while$1_color$next
 test_z_block_while$1_while$1_color: dd 0

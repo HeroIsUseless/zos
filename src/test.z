@@ -21,7 +21,9 @@ block(addrVram: dword):(
   while(y<8, (
     x <= 0;
     while(x<8, (
-      color: font.z\A\(y*8+x);
+      fontAddr: @font.z\A;
+      color: &fontAddr\(y*8+x);
+      [color: font.z\A\(y*8+x);
       draw.z\pixel(10+x, 10+y, color, 320, addrVram);
       x <= x+1;
     ));

@@ -543,8 +543,11 @@ mov [draw_z_string_i], eax
 draw_z_string_while$1_start:
 mov eax, [draw_z_string_i]
 push eax
+mov ebx, 4
+pop eax
+mul ebx
+mov ebx, eax
 mov eax, [draw_z_string_strAddr]
-pop ebx
 add eax, ebx
 mov ebx, [eax]
 push ebx
@@ -585,8 +588,11 @@ mov eax, 2
 push eax
 mov eax, [draw_z_string_i]
 push eax
+mov ebx, 4
+pop eax
+mul ebx
+mov ebx, eax
 mov eax, [draw_z_string_strAddr]
-pop ebx
 add eax, ebx
 mov ebx, [eax]
 push ebx

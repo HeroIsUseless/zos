@@ -383,19 +383,25 @@ void am_exp_prefixesAddr(char prefixesAddr[]){
 }
 
 void am_exp_addl(char addr[]){
+  code_append("mov ebx, 4\n");
+  popEax(); // 此为index
+  mulEbx2Eax();
+  code_append("mov ebx, eax\n");
   int layer = funcVars_find(addr);
   if(layer == -1){
     printf("unfind addr:%s\n", addr);
   } 
   movPartPrefixesVar2Eax(addr, layer);
-  popEbx();
   addEbx2Eax();
   push_Eax_();
 }
 
 void am_exp_prefixesAddl(char prefixesAddr[]){
+  code_append("mov ebx, 4\n");
+  popEax(); // 此为index
+  mulEbx2Eax();
+  code_append("mov ebx, eax\n");
   movVar2Eax(prefixesAddr);
-  popEbx();
   addEbx2Eax();
   push_Eax_();
 }

@@ -1,20 +1,39 @@
 draw.z: @\screen\draw.z;
 
-draw(addrVram: dword):(
-  i: 0;
-  while(i < 300, (draw.z\pixel(i, i, i, 320, addrVram);i<=i+1;));
+rect(left: dword, top: dword, addrVram: dword):(
   x: 0;
   y: 0;
-  while(y\<200, (
-    x <= 0;
-    while(x\<320, (
-      draw.z\pixel(x, y, x, 320, addrVram);
+  while(y\<8, (
+    while(x\<8, (
+      color: 3;
+      draw.z\pixel(left+x, top+y, color, 320, addrVram);
       x <= x+1;
     ));
     y <= y+1;
   ));
-  draw.z\flush(addrVram);
-  tstr: "ABCD";
-  draw.z\string(0, 0, @tstr, addrVram);
+);
+
+block(addrVram: dword):(
+  i: 0;
+  [while(i < 300, (draw.z\pixel(i, i, i, 320, addrVram);i<=i+1;));
+  x: 0;
+  y: 0;
+  while(y<8, (
+    x <= 0;
+    while(x<8, (
+      color: font.z\A\(y*8+x);
+      draw.z\pixel(10+x, 10+y, color, 320, addrVram);
+      x <= x+1;
+    ));
+    y <= y+1;
+  ));
+  [draw.z\flush(addrVram);
+);
+
+draw(addrVram: dword):(
+  block(addrVram);
+  [tstr: "ABCD";
+  [draw.z\string(0, 0, @tstr, 320, addrVram);
+  [rect(0, 0, addrVram);
 );
 

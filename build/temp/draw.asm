@@ -409,16 +409,20 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe draw_z_char_while$1_lessequal@true$4
+jb draw_z_char_while$1_less@true$4
 mov eax, 0
-jmp draw_z_char_while$1_lessequal@false$4
-draw_z_char_while$1_lessequal@true$4:
+jmp draw_z_char_while$1_less@false$4
+draw_z_char_while$1_less@true$4:
 mov eax, 1
-draw_z_char_while$1_lessequal@false$4:
+draw_z_char_while$1_less@false$4:
 push eax
 pop eax
 cmp eax, 0
 je draw_z_char_while$1_end
+mov eax, 0
+push eax
+pop eax
+mov [draw_z_char_x], eax
 ; while start
 draw_z_char_while$1_while$1_start:
 mov eax, [draw_z_char_x]
@@ -428,23 +432,95 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe draw_z_char_while$1_while$1_lessequal@true$5
+jb draw_z_char_while$1_while$1_less@true$5
 mov eax, 0
-jmp draw_z_char_while$1_while$1_lessequal@false$5
-draw_z_char_while$1_while$1_lessequal@true$5:
+jmp draw_z_char_while$1_while$1_less@false$5
+draw_z_char_while$1_while$1_less@true$5:
 mov eax, 1
-draw_z_char_while$1_while$1_lessequal@false$5:
+draw_z_char_while$1_while$1_less@false$5:
 push eax
 pop eax
 cmp eax, 0
 je draw_z_char_while$1_while$1_end
-mov eax, 3
+mov eax, [draw_z_char_y]
 push eax
+mov eax, 8
+push eax
+pop eax
+pop ebx
+mul ebx
+push eax
+mov eax, [draw_z_char_x]
+push eax
+pop eax
+pop ebx
+add eax, ebx
+push eax
+mov ebx, 4
+pop eax
+mul ebx
+mov ebx, eax
+mov eax, [draw_z_char_fontAddr]
+add eax, ebx
+mov ebx, [eax]
+push ebx
 jmp draw_z_char_while$1_while$1_color$next
 draw_z_char_while$1_while$1_color: dd 0
 draw_z_char_while$1_while$1_color$next:
 pop eax
 mov [draw_z_char_while$1_while$1_color], eax
+; if start
+draw_z_char_while$1_while$1_if$1_start:
+mov eax, [draw_z_char_y]
+push eax
+mov eax, 8
+push eax
+pop eax
+pop ebx
+mul ebx
+push eax
+mov eax, [draw_z_char_x]
+push eax
+pop eax
+pop ebx
+add eax, ebx
+push eax
+mov ebx, 4
+pop eax
+mul ebx
+mov ebx, eax
+mov eax, [draw_z_char_fontAddr]
+add eax, ebx
+mov ebx, [eax]
+push ebx
+mov eax, 0
+push eax
+pop ebx
+pop eax
+cmp eax, ebx
+jne draw_z_char_while$1_while$1_if$1_unequal@true$6
+mov eax, 0
+jmp draw_z_char_while$1_while$1_if$1_unequal@false$6
+draw_z_char_while$1_while$1_if$1_unequal@true$6:
+mov eax, 1
+draw_z_char_while$1_while$1_if$1_unequal@false$6:
+push eax
+pop eax
+cmp eax, 0
+je draw_z_char_while$1_while$1_if$1_else
+draw_z_char_while$1_while$1_if$1_then:
+mov eax, 15
+push eax
+pop eax
+mov [draw_z_char_while$1_while$1_color], eax
+jmp draw_z_char_while$1_while$1_if$1_end
+draw_z_char_while$1_while$1_if$1_else:
+mov eax, 0
+push eax
+pop eax
+mov [draw_z_char_while$1_while$1_color], eax
+draw_z_char_while$1_while$1_if$1_end:
+;if end
 mov eax, [draw_z_char_left]
 push eax
 mov eax, [draw_z_char_x]
@@ -463,7 +539,7 @@ add eax, ebx
 push eax
 mov eax, [draw_z_char_while$1_while$1_color]
 push eax
-mov eax, [draw_z_char_screenWidth]
+mov eax, 320
 push eax
 mov eax, [draw_z_char_addrVram]
 push eax
@@ -556,12 +632,12 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jne draw_z_string_while$1_unequal@true$6
+jne draw_z_string_while$1_unequal@true$7
 mov eax, 0
-jmp draw_z_string_while$1_unequal@false$6
-draw_z_string_while$1_unequal@true$6:
+jmp draw_z_string_while$1_unequal@false$7
+draw_z_string_while$1_unequal@true$7:
 mov eax, 1
-draw_z_string_while$1_unequal@false$6:
+draw_z_string_while$1_unequal@false$7:
 push eax
 pop eax
 cmp eax, 0

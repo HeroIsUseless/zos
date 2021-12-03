@@ -33,9 +33,9 @@ block(addrVram: dword):(
 );
 
 draw(addrVram: dword):(
-  block(addrVram);
-  [tstr: "ABCD";
-  [draw.z\string(0, 0, @tstr, 320, addrVram);
+  [block(addrVram);
+  tstr: "HELLO WORLD";
+  draw.z\string(8, 8, @tstr, 320, addrVram);
   [rect(0, 0, addrVram);
 );
 

@@ -438,6 +438,13 @@ void am_exp_add(){
   pushEax();
 }
 
+void am_exp_fadd(){
+  popEax();
+  popEbx();
+  addEbx2Eax();
+  pushEax();
+}
+
 void am_exp_sub(){
   popEax();
   popEbx();

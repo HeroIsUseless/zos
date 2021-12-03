@@ -304,8 +304,20 @@ pop ebp
 pop eax
 mov [test_z_draw_addrVram], eax
 push ebp
+jmp test_z_draw_tstr$next
+test_z_draw_tstr: dd \
+72, 69, 76, 76, 79, 32, 87, 79, 82, 76, 68, 0
+test_z_draw_tstr$next:
+mov eax, 8
+push eax
+mov eax, 8
+push eax
+mov eax, test_z_draw_tstr
+push eax
+mov eax, 320
+push eax
 mov eax, [test_z_draw_addrVram]
 push eax
-call test_z_block
+call draw_z_string
 ret
 test_z_draw$next:

@@ -90,6 +90,7 @@ if_head: IF {am_if_head();} '(' exp {am_if_then();} ',' stmt {am_if_else();}
 
 exp: factor 
    | exp '+' factor {am_exp_add();}
+   | exp '.' '+' factor {am_exp_fadd();}
    | exp '-' factor {am_exp_sub();}
    | exp '<' factor {am_exp_les();}
    | exp '>' factor {am_exp_mor();}

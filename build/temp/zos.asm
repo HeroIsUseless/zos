@@ -1941,25 +1941,11 @@ test_z_block_i: dd 0
 test_z_block_i$next:
 pop eax
 mov [test_z_block_i], eax
-mov eax, 0
-push eax
-jmp test_z_block_x$next
-test_z_block_x: dd 0
-test_z_block_x$next:
-pop eax
-mov [test_z_block_x], eax
-mov eax, 0
-push eax
-jmp test_z_block_y$next
-test_z_block_y: dd 0
-test_z_block_y$next:
-pop eax
-mov [test_z_block_y], eax
 ; while start
 test_z_block_while$1_start:
-mov eax, [test_z_block_y]
+mov eax, [test_z_block_i]
 push eax
-mov eax, 8
+mov eax, 300
 push eax
 pop ebx
 pop eax
@@ -1974,87 +1960,18 @@ push eax
 pop eax
 cmp eax, 0
 je test_z_block_while$1_end
-mov eax, 0
+mov eax, [test_z_block_i]
 push eax
-pop eax
-mov [test_z_block_x], eax
-; while start
-test_z_block_while$1_while$1_start:
-mov eax, [test_z_block_x]
+mov eax, [test_z_block_i]
 push eax
-mov eax, 8
-push eax
-pop ebx
-pop eax
-cmp eax, ebx
-jb test_z_block_while$1_while$1_less@true$4
-mov eax, 0
-jmp test_z_block_while$1_while$1_less@false$4
-test_z_block_while$1_while$1_less@true$4:
-mov eax, 1
-test_z_block_while$1_while$1_less@false$4:
-push eax
-pop eax
-cmp eax, 0
-je test_z_block_while$1_while$1_end
-mov eax, font_z_A
-push eax
-jmp test_z_block_while$1_while$1_fontAddr$next
-test_z_block_while$1_while$1_fontAddr: dd 0
-test_z_block_while$1_while$1_fontAddr$next:
-pop eax
-mov [test_z_block_while$1_while$1_fontAddr], eax
-mov eax, [test_z_block_y]
-push eax
-mov eax, 8
-push eax
-pop eax
-pop ebx
-mul ebx
-push eax
-mov eax, [test_z_block_x]
-push eax
-pop eax
-pop ebx
-add eax, ebx
-push eax
-mov ebx, 4
-pop eax
-mul ebx
-mov ebx, eax
-mov eax, [test_z_block_while$1_while$1_fontAddr]
-add eax, ebx
-mov ebx, [eax]
-push ebx
-jmp test_z_block_while$1_while$1_color$next
-test_z_block_while$1_while$1_color: dd 0
-test_z_block_while$1_while$1_color$next:
-pop eax
-mov [test_z_block_while$1_while$1_color], eax
-mov eax, 10
-push eax
-mov eax, [test_z_block_x]
-push eax
-pop eax
-pop ebx
-add eax, ebx
-push eax
-mov eax, 10
-push eax
-mov eax, [test_z_block_y]
-push eax
-pop eax
-pop ebx
-add eax, ebx
-push eax
-mov eax, [test_z_block_while$1_while$1_color]
+mov eax, [test_z_block_i]
 push eax
 mov eax, 320
 push eax
 mov eax, [test_z_block_addrVram]
 push eax
 call draw_z_pixel
-mov eax, [test_z_block_x]
+mov eax, [test_z_block_i]
 push eax
 mov eax, 1
 push eax
@@ -2063,20 +1980,7 @@ pop ebx
 add eax, ebx
 push eax
 pop eax
-mov [test_z_block_x], eax
-jmp test_z_block_while$1_while$1_start
-test_z_block_while$1_while$1_end:
-;while end
-mov eax, [test_z_block_y]
-push eax
-mov eax, 1
-push eax
-pop eax
-pop ebx
-add eax, ebx
-push eax
-pop eax
-mov [test_z_block_y], eax
+mov [test_z_block_i], eax
 jmp test_z_block_while$1_start
 test_z_block_while$1_end:
 ;while end
@@ -2094,21 +1998,13 @@ pop ebp
 pop eax
 mov [test_z_draw_addrVram], eax
 push ebp
+mov eax, [test_z_draw_addrVram]
+push eax
+call test_z_block
 jmp test_z_draw_tstr$next
 test_z_draw_tstr: dd \
 72, 69, 76, 76, 79, 32, 87, 79, 82, 76, 68, 0
 test_z_draw_tstr$next:
-mov eax, 8
-push eax
-mov eax, 8
-push eax
-mov eax, test_z_draw_tstr
-push eax
-mov eax, 320
-push eax
-mov eax, [test_z_draw_addrVram]
-push eax
-call draw_z_string
 ret
 test_z_draw$next:
 jmp main

@@ -57,7 +57,7 @@
     57 00000081 55                      push ebp
     58 00000082 A1[2C000000]            mov eax, [main_z_addrVram]
     59 00000087 50                      push eax
-    60 00000088 E8423C0000              call test_z_draw
+    60 00000088 E8623B0000              call test_z_draw
     61 0000008D C3                      ret
     62                                  main_z_run_once$next:
     63                                  
@@ -66,7 +66,7 @@
     66                                  main_z_run_loop:
     67 00000090 5D                      pop ebp
     68 00000091 55                      push ebp
-    69 00000092 E8B43C0000              call kernel_z_halt
+    69 00000092 E8BC3B0000              call kernel_z_halt
     70 00000097 C3                      ret
     71                                  main_z_run_loop$next:
     72                                  
@@ -91,7 +91,7 @@
     91 000000B9 50                      push eax
     92 000000BA A1[A2000000]            mov eax, [memory_z_set_1byte_addr]
     93 000000BF 50                      push eax
-    94 000000C0 E8703C0000              call kernel_z_setMem_1byte
+    94 000000C0 E8783B0000              call kernel_z_setMem_1byte
     95 000000C5 C3                      ret
     96                                  memory_z_set_1byte$next:
     97                                  
@@ -116,7 +116,7 @@
    116 000000E7 50                      push eax
    117 000000E8 A1[D0000000]            mov eax, [memory_z_set_2byte_addr]
    118 000000ED 50                      push eax
-   119 000000EE E8493C0000              call kernel_z_setMem_2byte
+   119 000000EE E8513B0000              call kernel_z_setMem_2byte
    120 000000F3 C3                      ret
    121                                  memory_z_set_2byte$next:
    122                                  
@@ -3177,7 +3177,7 @@
   1924                                  test_z_rect$next:
   1925                                  
   1926                                  ;function
-  1927 00003B66 E962010000              jmp test_z_block$next
+  1927 00003B66 E982000000              jmp test_z_block$next
   1928                                  test_z_block:
   1929                                  ;param
   1930 00003B6B EB04                    jmp test_z_block_addrVram$next
@@ -3194,218 +3194,114 @@
   1941                                  test_z_block_i$next:
   1942 00003B85 58                      pop eax
   1943 00003B86 A3[813B0000]            mov [test_z_block_i], eax
-  1944 00003B8B B800000000              mov eax, 0
-  1945 00003B90 50                      push eax
-  1946 00003B91 EB04                    jmp test_z_block_x$next
-  1947 00003B93 00000000                test_z_block_x: dd 0
-  1948                                  test_z_block_x$next:
-  1949 00003B97 58                      pop eax
-  1950 00003B98 A3[933B0000]            mov [test_z_block_x], eax
-  1951 00003B9D B800000000              mov eax, 0
-  1952 00003BA2 50                      push eax
-  1953 00003BA3 EB04                    jmp test_z_block_y$next
-  1954 00003BA5 00000000                test_z_block_y: dd 0
-  1955                                  test_z_block_y$next:
-  1956 00003BA9 58                      pop eax
-  1957 00003BAA A3[A53B0000]            mov [test_z_block_y], eax
-  1958                                  ; while start
-  1959                                  test_z_block_while$1_start:
-  1960 00003BAF A1[A53B0000]            mov eax, [test_z_block_y]
-  1961 00003BB4 50                      push eax
-  1962 00003BB5 B808000000              mov eax, 8
-  1963 00003BBA 50                      push eax
-  1964 00003BBB 5B                      pop ebx
-  1965 00003BBC 58                      pop eax
-  1966 00003BBD 39D8                    cmp eax, ebx
-  1967 00003BBF 7207                    jb test_z_block_while$1_less@true$3
-  1968 00003BC1 B800000000              mov eax, 0
-  1969 00003BC6 EB05                    jmp test_z_block_while$1_less@false$3
-  1970                                  test_z_block_while$1_less@true$3:
-  1971 00003BC8 B801000000              mov eax, 1
-  1972                                  test_z_block_while$1_less@false$3:
-  1973 00003BCD 50                      push eax
-  1974 00003BCE 58                      pop eax
-  1975 00003BCF 83F800                  cmp eax, 0
-  1976 00003BD2 0F84F4000000            je test_z_block_while$1_end
-  1977 00003BD8 B800000000              mov eax, 0
-  1978 00003BDD 50                      push eax
-  1979 00003BDE 58                      pop eax
-  1980 00003BDF A3[933B0000]            mov [test_z_block_x], eax
-  1981                                  ; while start
-  1982                                  test_z_block_while$1_while$1_start:
-  1983 00003BE4 A1[933B0000]            mov eax, [test_z_block_x]
-  1984 00003BE9 50                      push eax
-  1985 00003BEA B808000000              mov eax, 8
-  1986 00003BEF 50                      push eax
-  1987 00003BF0 5B                      pop ebx
-  1988 00003BF1 58                      pop eax
-  1989 00003BF2 39D8                    cmp eax, ebx
-  1990 00003BF4 7207                    jb test_z_block_while$1_while$1_less@true$4
-  1991 00003BF6 B800000000              mov eax, 0
-  1992 00003BFB EB05                    jmp test_z_block_while$1_while$1_less@false$4
-  1993                                  test_z_block_while$1_while$1_less@true$4:
-  1994 00003BFD B801000000              mov eax, 1
-  1995                                  test_z_block_while$1_while$1_less@false$4:
-  1996 00003C02 50                      push eax
-  1997 00003C03 58                      pop eax
-  1998 00003C04 83F800                  cmp eax, 0
-  1999 00003C07 0F84A3000000            je test_z_block_while$1_while$1_end
-  2000 00003C0D B8[B5060000]            mov eax, font_z_A
-  2001 00003C12 50                      push eax
-  2002 00003C13 EB04                    jmp test_z_block_while$1_while$1_fontAddr$next
-  2003 00003C15 00000000                test_z_block_while$1_while$1_fontAddr: dd 0
-  2004                                  test_z_block_while$1_while$1_fontAddr$next:
-  2005 00003C19 58                      pop eax
-  2006 00003C1A A3[153C0000]            mov [test_z_block_while$1_while$1_fontAddr], eax
-  2007 00003C1F A1[A53B0000]            mov eax, [test_z_block_y]
-  2008 00003C24 50                      push eax
-  2009 00003C25 B808000000              mov eax, 8
-  2010 00003C2A 50                      push eax
-  2011 00003C2B 58                      pop eax
-  2012 00003C2C 5B                      pop ebx
-  2013 00003C2D F7E3                    mul ebx
-  2014 00003C2F 50                      push eax
-  2015 00003C30 A1[933B0000]            mov eax, [test_z_block_x]
-  2016 00003C35 50                      push eax
-  2017 00003C36 58                      pop eax
-  2018 00003C37 5B                      pop ebx
-  2019 00003C38 01D8                    add eax, ebx
-  2020 00003C3A 50                      push eax
-  2021 00003C3B BB04000000              mov ebx, 4
-  2022 00003C40 58                      pop eax
-  2023 00003C41 F7E3                    mul ebx
-  2024 00003C43 89C3                    mov ebx, eax
-  2025 00003C45 A1[153C0000]            mov eax, [test_z_block_while$1_while$1_fontAddr]
-  2026 00003C4A 01D8                    add eax, ebx
-  2027 00003C4C 8B18                    mov ebx, [eax]
-  2028 00003C4E 53                      push ebx
-  2029 00003C4F EB04                    jmp test_z_block_while$1_while$1_color$next
-  2030 00003C51 00000000                test_z_block_while$1_while$1_color: dd 0
-  2031                                  test_z_block_while$1_while$1_color$next:
-  2032 00003C55 58                      pop eax
-  2033 00003C56 A3[513C0000]            mov [test_z_block_while$1_while$1_color], eax
-  2034 00003C5B B80A000000              mov eax, 10
-  2035 00003C60 50                      push eax
-  2036 00003C61 A1[933B0000]            mov eax, [test_z_block_x]
-  2037 00003C66 50                      push eax
-  2038 00003C67 58                      pop eax
-  2039 00003C68 5B                      pop ebx
-  2040 00003C69 01D8                    add eax, ebx
-  2041 00003C6B 50                      push eax
-  2042 00003C6C B80A000000              mov eax, 10
-  2043 00003C71 50                      push eax
-  2044 00003C72 A1[A53B0000]            mov eax, [test_z_block_y]
-  2045 00003C77 50                      push eax
-  2046 00003C78 58                      pop eax
-  2047 00003C79 5B                      pop ebx
-  2048 00003C7A 01D8                    add eax, ebx
-  2049 00003C7C 50                      push eax
-  2050 00003C7D A1[513C0000]            mov eax, [test_z_block_while$1_while$1_color]
-  2051 00003C82 50                      push eax
-  2052 00003C83 B840010000              mov eax, 320
-  2053 00003C88 50                      push eax
-  2054 00003C89 A1[6D3B0000]            mov eax, [test_z_block_addrVram]
-  2055 00003C8E 50                      push eax
-  2056 00003C8F E865C4FFFF              call draw_z_pixel
-  2057 00003C94 A1[933B0000]            mov eax, [test_z_block_x]
-  2058 00003C99 50                      push eax
-  2059 00003C9A B801000000              mov eax, 1
-  2060 00003C9F 50                      push eax
-  2061 00003CA0 58                      pop eax
-  2062 00003CA1 5B                      pop ebx
-  2063 00003CA2 01D8                    add eax, ebx
-  2064 00003CA4 50                      push eax
-  2065 00003CA5 58                      pop eax
-  2066 00003CA6 A3[933B0000]            mov [test_z_block_x], eax
-  2067 00003CAB E934FFFFFF              jmp test_z_block_while$1_while$1_start
-  2068                                  test_z_block_while$1_while$1_end:
-  2069                                  ;while end
-  2070 00003CB0 A1[A53B0000]            mov eax, [test_z_block_y]
-  2071 00003CB5 50                      push eax
-  2072 00003CB6 B801000000              mov eax, 1
-  2073 00003CBB 50                      push eax
-  2074 00003CBC 58                      pop eax
-  2075 00003CBD 5B                      pop ebx
-  2076 00003CBE 01D8                    add eax, ebx
-  2077 00003CC0 50                      push eax
-  2078 00003CC1 58                      pop eax
-  2079 00003CC2 A3[A53B0000]            mov [test_z_block_y], eax
-  2080 00003CC7 E9E3FEFFFF              jmp test_z_block_while$1_start
-  2081                                  test_z_block_while$1_end:
-  2082                                  ;while end
-  2083 00003CCC C3                      ret
-  2084                                  test_z_block$next:
-  2085                                  
-  2086                                  ;function
-  2087 00003CCD EB64                    jmp test_z_draw$next
-  2088                                  test_z_draw:
-  2089                                  ;param
-  2090 00003CCF EB04                    jmp test_z_draw_addrVram$next
-  2091 00003CD1 00000000                test_z_draw_addrVram: dd 0
-  2092                                  test_z_draw_addrVram$next:
-  2093 00003CD5 5D                      pop ebp
-  2094 00003CD6 58                      pop eax
-  2095 00003CD7 A3[D13C0000]            mov [test_z_draw_addrVram], eax
-  2096 00003CDC 55                      push ebp
-  2097 00003CDD EB30                    jmp test_z_draw_tstr$next
-  2098 00003CDF 48000000450000004C-     test_z_draw_tstr: dd 72, 69, 76, 76, 79, 32, 87, 79, 82, 76, 68, 0
-  2098 00003CE8 0000004C0000004F00-
-  2098 00003CF1 000020000000570000-
-  2098 00003CFA 004F00000052000000-
-  2098 00003D03 4C0000004400000000-
-  2098 00003D0C 000000             
-  2100                                  test_z_draw_tstr$next:
-  2101 00003D0F B808000000              mov eax, 8
-  2102 00003D14 50                      push eax
-  2103 00003D15 B808000000              mov eax, 8
-  2104 00003D1A 50                      push eax
-  2105 00003D1B B8[DF3C0000]            mov eax, test_z_draw_tstr
-  2106 00003D20 50                      push eax
-  2107 00003D21 B840010000              mov eax, 320
-  2108 00003D26 50                      push eax
-  2109 00003D27 A1[D13C0000]            mov eax, [test_z_draw_addrVram]
-  2110 00003D2C 50                      push eax
-  2111 00003D2D E87FC8FFFF              call draw_z_string
-  2112 00003D32 C3                      ret
-  2113                                  test_z_draw$next:
-  2114 00003D33 EB18                    jmp main
-  2115                                  
-  2116                                  ; 读写内存
-  2117                                  ; kernel.z\setMem.1byte(val:dword, addr:dword)
-  2118                                  kernel_z_setMem_1byte:
-  2119 00003D35 5D                        pop ebp
-  2120 00003D36 5B                        pop ebx
-  2121 00003D37 58                        pop eax
-  2122 00003D38 55                        push ebp
-  2123 00003D39 8803                      mov [ebx], al
-  2124 00003D3B C3                      ret
-  2125                                  
-  2126                                  ; kernel.z\setMem.2byte(val:dword, addr:dword)
-  2127                                  kernel_z_setMem_2byte:
-  2128 00003D3C 5D                        pop ebp
-  2129 00003D3D 5B                        pop ebx
-  2130 00003D3E 58                        pop eax
-  2131 00003D3F 55                        push ebp
-  2132 00003D40 668903                    mov [ebx], ax
-  2133 00003D43 C3                      ret
-  2134                                  
-  2135                                  ; kernel.z\setMem.4byte(val:dword, addr:dword)
-  2136                                  kernel_z_setMem_4byte:
-  2137 00003D44 5D                        pop ebp
-  2138 00003D45 5B                        pop ebx
-  2139 00003D46 58                        pop eax
-  2140 00003D47 55                        push ebp
-  2141 00003D48 8903                      mov [ebx], eax
-  2142 00003D4A C3                      ret
-  2143                                  
-  2144                                  ; kernel.z\halt()
-  2145                                  kernel_z_halt:
-  2146 00003D4B F4                        hlt
-  2147 00003D4C C3                      ret
-  2148                                  
-  2149                                  main:
-  2150 00003D4D E82EC3FFFF                call main_z_run_once
-  2151                                    .loop:
-  2152 00003D52 E839C3FFFF                  call main_z_run_loop
-  2153 00003D57 EBF9                      jmp .loop
-  2154                                  
+  1944                                  ; while start
+  1945                                  test_z_block_while$1_start:
+  1946 00003B8B A1[813B0000]            mov eax, [test_z_block_i]
+  1947 00003B90 50                      push eax
+  1948 00003B91 B82C010000              mov eax, 300
+  1949 00003B96 50                      push eax
+  1950 00003B97 5B                      pop ebx
+  1951 00003B98 58                      pop eax
+  1952 00003B99 39D8                    cmp eax, ebx
+  1953 00003B9B 7207                    jb test_z_block_while$1_less@true$3
+  1954 00003B9D B800000000              mov eax, 0
+  1955 00003BA2 EB05                    jmp test_z_block_while$1_less@false$3
+  1956                                  test_z_block_while$1_less@true$3:
+  1957 00003BA4 B801000000              mov eax, 1
+  1958                                  test_z_block_while$1_less@false$3:
+  1959 00003BA9 50                      push eax
+  1960 00003BAA 58                      pop eax
+  1961 00003BAB 83F800                  cmp eax, 0
+  1962 00003BAE 743C                    je test_z_block_while$1_end
+  1963 00003BB0 A1[813B0000]            mov eax, [test_z_block_i]
+  1964 00003BB5 50                      push eax
+  1965 00003BB6 A1[813B0000]            mov eax, [test_z_block_i]
+  1966 00003BBB 50                      push eax
+  1967 00003BBC A1[813B0000]            mov eax, [test_z_block_i]
+  1968 00003BC1 50                      push eax
+  1969 00003BC2 B840010000              mov eax, 320
+  1970 00003BC7 50                      push eax
+  1971 00003BC8 A1[6D3B0000]            mov eax, [test_z_block_addrVram]
+  1972 00003BCD 50                      push eax
+  1973 00003BCE E826C5FFFF              call draw_z_pixel
+  1974 00003BD3 A1[813B0000]            mov eax, [test_z_block_i]
+  1975 00003BD8 50                      push eax
+  1976 00003BD9 B801000000              mov eax, 1
+  1977 00003BDE 50                      push eax
+  1978 00003BDF 58                      pop eax
+  1979 00003BE0 5B                      pop ebx
+  1980 00003BE1 01D8                    add eax, ebx
+  1981 00003BE3 50                      push eax
+  1982 00003BE4 58                      pop eax
+  1983 00003BE5 A3[813B0000]            mov [test_z_block_i], eax
+  1984 00003BEA EB9F                    jmp test_z_block_while$1_start
+  1985                                  test_z_block_while$1_end:
+  1986                                  ;while end
+  1987 00003BEC C3                      ret
+  1988                                  test_z_block$next:
+  1989                                  
+  1990                                  ;function
+  1991 00003BED EB4C                    jmp test_z_draw$next
+  1992                                  test_z_draw:
+  1993                                  ;param
+  1994 00003BEF EB04                    jmp test_z_draw_addrVram$next
+  1995 00003BF1 00000000                test_z_draw_addrVram: dd 0
+  1996                                  test_z_draw_addrVram$next:
+  1997 00003BF5 5D                      pop ebp
+  1998 00003BF6 58                      pop eax
+  1999 00003BF7 A3[F13B0000]            mov [test_z_draw_addrVram], eax
+  2000 00003BFC 55                      push ebp
+  2001 00003BFD A1[F13B0000]            mov eax, [test_z_draw_addrVram]
+  2002 00003C02 50                      push eax
+  2003 00003C03 E863FFFFFF              call test_z_block
+  2004 00003C08 EB30                    jmp test_z_draw_tstr$next
+  2005 00003C0A 48000000450000004C-     test_z_draw_tstr: dd 72, 69, 76, 76, 79, 32, 87, 79, 82, 76, 68, 0
+  2005 00003C13 0000004C0000004F00-
+  2005 00003C1C 000020000000570000-
+  2005 00003C25 004F00000052000000-
+  2005 00003C2E 4C0000004400000000-
+  2005 00003C37 000000             
+  2007                                  test_z_draw_tstr$next:
+  2008 00003C3A C3                      ret
+  2009                                  test_z_draw$next:
+  2010 00003C3B EB18                    jmp main
+  2011                                  
+  2012                                  ; 读写内存
+  2013                                  ; kernel.z\setMem.1byte(val:dword, addr:dword)
+  2014                                  kernel_z_setMem_1byte:
+  2015 00003C3D 5D                        pop ebp
+  2016 00003C3E 5B                        pop ebx
+  2017 00003C3F 58                        pop eax
+  2018 00003C40 55                        push ebp
+  2019 00003C41 8803                      mov [ebx], al
+  2020 00003C43 C3                      ret
+  2021                                  
+  2022                                  ; kernel.z\setMem.2byte(val:dword, addr:dword)
+  2023                                  kernel_z_setMem_2byte:
+  2024 00003C44 5D                        pop ebp
+  2025 00003C45 5B                        pop ebx
+  2026 00003C46 58                        pop eax
+  2027 00003C47 55                        push ebp
+  2028 00003C48 668903                    mov [ebx], ax
+  2029 00003C4B C3                      ret
+  2030                                  
+  2031                                  ; kernel.z\setMem.4byte(val:dword, addr:dword)
+  2032                                  kernel_z_setMem_4byte:
+  2033 00003C4C 5D                        pop ebp
+  2034 00003C4D 5B                        pop ebx
+  2035 00003C4E 58                        pop eax
+  2036 00003C4F 55                        push ebp
+  2037 00003C50 8903                      mov [ebx], eax
+  2038 00003C52 C3                      ret
+  2039                                  
+  2040                                  ; kernel.z\halt()
+  2041                                  kernel_z_halt:
+  2042 00003C53 F4                        hlt
+  2043 00003C54 C3                      ret
+  2044                                  
+  2045                                  main:
+  2046 00003C55 E826C4FFFF                call main_z_run_once
+  2047                                    .loop:
+  2048 00003C5A E831C4FFFF                  call main_z_run_loop
+  2049 00003C5F EBF9                      jmp .loop
+  2050                                  

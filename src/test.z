@@ -15,27 +15,13 @@ rect(left: dword, top: dword, addrVram: dword):(
 
 block(addrVram: dword):(
   i: 0;
-  [while(i < 300, (draw.z\pixel(i, i, i, 320, addrVram);i<=i+1;));
-  x: 0;
-  y: 0;
-  while(y<8, (
-    x <= 0;
-    while(x<8, (
-      fontAddr: @font.z\A;
-      color: &fontAddr\(y*8+x);
-      [color: font.z\A\(y*8+x);
-      draw.z\pixel(10+x, 10+y, color, 320, addrVram);
-      x <= x+1;
-    ));
-    y <= y+1;
-  ));
-  [draw.z\flush(addrVram);
+  while(i < 300, (draw.z\pixel(i, i, i, 320, addrVram);i<=i+1;));
 );
 
 draw(addrVram: dword):(
-  [block(addrVram);
+  block(addrVram);
   tstr: "HELLO WORLD";
-  draw.z\string(8, 8, @tstr, 320, addrVram);
+  [draw.z\string(8, 8, @tstr, 320, addrVram);
   [rect(0, 0, addrVram);
 );
 

@@ -69,7 +69,7 @@ def: def_var
    | def_fun
    ;
 
-def_var: VAR ':' exp {am_def_var($1);}
+def_var: VAR ':' exp {am_def_var($1); }
        | VAR ':' PATH {}
        | VAR ':' STRING {am_def_str($1, $3);} 
        ;

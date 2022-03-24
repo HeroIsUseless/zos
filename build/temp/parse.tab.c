@@ -1526,7 +1526,7 @@ yyreduce:
 
   case 11:
 #line 72 "parse.y"
-    {am_def_var((yyvsp[(1) - (3)].s));;}
+    {am_def_var((yyvsp[(1) - (3)].s)); ;}
     break;
 
   case 12:

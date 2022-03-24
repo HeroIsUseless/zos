@@ -7,7 +7,7 @@
 #include "astree.cpp"
 using namespace std;
 
-AsmMapper* AsmMapper::m_pInstance = NULL;
+AsmMapper *AsmMapper::m_pInstance = NULL;
 
 AsmMapper::AsmMapper(Code *code)
 {
@@ -15,53 +15,32 @@ AsmMapper::AsmMapper(Code *code)
   m_astree = ASTree::GetInstance();
 }
 
-AsmMapper* AsmMapper::GetInstance(Code *code)
+AsmMapper *AsmMapper::GetInstance(Code *code)
 {
   if (m_pInstance == NULL)
     m_pInstance = new AsmMapper(code);
   return m_pInstance;
 }
 
-
-void AsmMapper::nasm(string val){
+void AsmMapper::nasm(string val)
+{
   m_code->append(val);
 }
 
-void AsmMapper::prefixes(){
-
+string AsmMapper::prefixes()
+{
 }
 
-void AsmMapper::tag(string val){
-  prefixes();
-  nasm(val);
+void AsmMapper::defTag(string tagName)
+{
+  nasm(prefixes() + tagName + ":\n");
 }
 
-void AsmMapper::number(string val){
-  nasm(val);
-}
-
-void AsmMapper::addr(string val){
-  prefixes();
-  nasm(val);
-}
-
-void AsmMapper::var(string val){
-  nasm("[");
-  nasm(val);
-  nasm("]");
-}
-
-void AsmMapper::defTag(string val){
-  tag(val);
-  nasm(":\n");
-}
-
-void AsmMapper::defVarWithNumber(char val1[], char val2[]){
-  prefixes();
-  tag(val1);
-  nasm(": ");
-  number(val2);
-  nasm("\n");
+void AsmMapper::defVarWithNumber(string varName, string num)
+{
+  nasm("jmp " + prefixes() + varName + "_pass\n");
+  nasm(prefixes() + varName + ": " + num + "\n");
+  nasm(prefixes() + varName + "_pass:\n");
 }
 
 #endif

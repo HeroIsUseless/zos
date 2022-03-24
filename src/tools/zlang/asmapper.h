@@ -15,16 +15,11 @@ private:
   AsmMapper(Code *code);
 
   void nasm(string val);
-  void prefixes();
-  void tag(string val);
-  void number(string val);
-  void addr(string val);
-  void var(string val);
-
+  string prefixes();
 public:
   static AsmMapper *GetInstance(Code *code);
   
   void defTag(string val);
-  void defVarWithNumber(char val1[], char val2[]);
+  void defVarWithNumber(string val1, string val2);
 };
 #endif

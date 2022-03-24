@@ -17,6 +17,15 @@ var是变量，转换到code就是[var]
 am：asm mapper
 at：asm atom，理论上一行汇编代码一个函数
 在defined里的code是所有的代码集合
+所有的变量名必然都有前缀
+只能使用同域的，
+
+AsmMapper am
+Code是AsmMapper的变量
+
+Code code
+Code.append
+原材料->机器->成品
 # 语法
 ## 基本语法
 按照回车分割语句，如果多条语句在一行，用逗号分割，如果需要多行，则需要在特定的地方断开才行

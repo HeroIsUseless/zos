@@ -3299,9 +3299,10 @@
   2042 00003C53 F4                        hlt
   2043 00003C54 C3                      ret
   2044                                  
-  2045                                  main:
-  2046 00003C55 E826C4FFFF                call main_z_run_once
-  2047                                    .loop:
-  2048 00003C5A E831C4FFFF                  call main_z_run_loop
-  2049 00003C5F EBF9                      jmp .loop
-  2050                                  
+  2045                                  ; 主进程入口
+  2046                                  main:
+  2047 00003C55 E826C4FFFF                call main_z_run_once
+  2048                                    .loop:
+  2049 00003C5A E831C4FFFF                  call main_z_run_loop
+  2050 00003C5F EBF9                      jmp .loop
+  2051                                  

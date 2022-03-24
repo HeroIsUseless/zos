@@ -2042,6 +2042,7 @@ kernel_z_halt:
   hlt
 ret
 
+; 主进程入口
 main:
   call main_z_run_once
   .loop:

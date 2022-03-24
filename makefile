@@ -1,12 +1,12 @@
 tools: src/tools/makeImg.c
-	gcc src/tools/makeImg.c -o build/makeImg
-	gcc src/tools/zlink.c -o build/zlink
+	g++ src/tools/makeImg.c -o build/makeImg
+	g++ src/tools/zlink.c -o build/zlink
 	make zlang
 
 zlang:
 	cd src/tools/zlang && flex lex.l
 	cd src/tools/zlang && bison -d parse.y -v
-	cd src/tools/zlang && cc lex.yy.c parse.tab.c -ll -o zlang
+	cd src/tools/zlang && g++ lex.yy.c parse.tab.c -ll -o zlang
 	mv src/tools/zlang/parse.output log
 	mv src/tools/zlang/lex.yy.c build/temp
 	mv src/tools/zlang/parse.tab.* build/temp
@@ -33,7 +33,7 @@ exam:
 	cd build && ./zlang ../example/e17_float.z ./temp/e17_float.asm
 
 test:
-	cd src/tools/zlang && gcc test.c -o test 
+	cd src/tools/zlang && g++ test.c -o test 
 	mv src/tools/zlang/test build/test
 	build/test
 

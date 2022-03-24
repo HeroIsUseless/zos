@@ -12,5 +12,6 @@
     "string_view": "c",
     "unordered_map": "c",
     "vector": "c"
-  }
+  },
+  "C_Cpp.errorSquiggles": "Enabled"
 }

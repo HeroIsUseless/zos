@@ -2,13 +2,42 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    extern FILE* yyin;
-    FILE *out_asm;
-    void yyerror(char *s);
-    extern int yylex();
-    extern int yylineno;
     #include "define.c"
     #include "asmapper.c"
+    #include "code.cpp"
+    #include "asmapper.h"
+    #include "asmapper.cpp"
+
+    extern FILE* yyin;
+    FILE *out_asm;
+    extern int yylex();
+    extern int yylineno;
+
+    Code* c = new Code();
+    AsmMapper* am = AsmMapper::GetInstance(c);
+
+    void yyerror(char *s){
+        fprintf(stderr, "[error]line %d: %s\n", yylineno, s);
+    }
+
+    int open(int argc, char **argv){
+        if(argc > 1){
+            if(!(yyin = fopen(argv[1], "r"))){
+                printf("[error] infile open failed\n");
+                return 0;
+            }
+            else {
+                if(!(out_asm = fopen(argv[2], "w"))){
+                    printf("[error] outfile open failed\n");
+                    return 0;
+                }
+            }
+        }
+        else{
+            yyin = stdin;
+        }
+        return 1;
+    }
 %}
 %union {
     int i;
@@ -118,7 +147,6 @@ term: INTEGER {am_exp_val($1);}
     | PREFIXES_VAR params {am_exec_prefixesFunc($1);}       /*调用文件外定义的函数*/
     ;
 %%
-int open(int argc, char **argv);
 int main(int argc, char **argv){
     if(!open(argc, argv)) return 1;
     prefixes_push(argv[1]);
@@ -129,27 +157,4 @@ int main(int argc, char **argv){
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);
     return 0;
-}
-
-void yyerror(char *s){
-    fprintf(stderr, "[error]line %d: %s\n", yylineno, s);
-}
-
-int open(int argc, char **argv){
-    if(argc > 1){
-        if(!(yyin = fopen(argv[1], "r"))){
-            printf("[error] infile open failed\n");
-            return 0;
-        }
-        else {
-            if(!(out_asm = fopen(argv[2], "w"))){
-                printf("[error] outfile open failed\n");
-                return 0;
-            }
-        }
-    }
-    else{
-        yyin = stdin;
-    }
-    return 1;
 }

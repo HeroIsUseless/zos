@@ -69,7 +69,7 @@ def: def_var
    | def_fun
    ;
 
-def_var: VAR ':' exp {am_def_var($1); }
+def_var: VAR ':' exp {am_def_var($1); am->defVarWithNumber($1, "0");}
        | VAR ':' PATH {}
        | VAR ':' STRING {am_def_str($1, $3);} 
        ;
@@ -152,6 +152,7 @@ int main(int argc, char **argv){
     prefixes_push(argv[1]);
     yylineno = 1;
     yyparse();
+    c->print();
     //code_cut("push eax\npop eax\n");
     code_cut("push ebp\npop ebp\n");
     fwrite(code, strlen(code), 1, out_asm);

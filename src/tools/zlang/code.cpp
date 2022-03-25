@@ -1,6 +1,7 @@
 #ifndef CODE_CPP
 #define CODE_CPP
 #include <stdio.h>
+#include <iostream>
 #include <string>
 using namespace std;
 
@@ -16,6 +17,9 @@ public:
   }
   void append(string snippet){
     m_asm->append(snippet);
+  }
+  void print(){
+    cout << "++++++++++++output++++++++++++\n"<<*m_asm<<"---------------end---------------"<<endl;
   }
 };
 #endif

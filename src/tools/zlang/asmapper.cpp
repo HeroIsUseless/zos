@@ -2,6 +2,7 @@
 #define ASMMAPPER_CPP
 #include <stdio.h>
 #include <string>
+#include <iostream>
 #include "asmapper.h"
 #include "code.cpp"
 #include "astree.cpp"
@@ -22,6 +23,21 @@ AsmMapper *AsmMapper::GetInstance(Code *code)
   return m_pInstance;
 }
 
+void AsmMapper::test()
+{
+  cout << "==============test================" <<endl;
+}
+
+void AsmMapper::jumpVarPass(string varName)
+{
+  nasm("jmp " + prefixes() + varName + "_pass\n");
+}
+
+void AsmMapper::defVarPass(string varName)
+{
+  nasm(prefixes() + varName + "_pass:\n");
+}
+
 void AsmMapper::nasm(string val)
 {
   m_code->append(val);
@@ -29,6 +45,7 @@ void AsmMapper::nasm(string val)
 
 string AsmMapper::prefixes()
 {
+  return "";
 }
 
 void AsmMapper::defTag(string tagName)
@@ -38,9 +55,16 @@ void AsmMapper::defTag(string tagName)
 
 void AsmMapper::defVarWithNumber(string varName, string num)
 {
-  nasm("jmp " + prefixes() + varName + "_pass\n");
+  jumpVarPass(varName);
   nasm(prefixes() + varName + ": " + num + "\n");
-  nasm(prefixes() + varName + "_pass:\n");
+  defVarPass(varName);
+}
+
+void AsmMapper::defVarWithString(string varName, string str)
+{
+  jumpVarPass(varName);
+  nasm(prefixes() + varName + ": " + str + "\n");
+  defVarPass(varName);
 }
 
 #endif

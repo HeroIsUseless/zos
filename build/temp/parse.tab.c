@@ -1526,7 +1526,7 @@ yyreduce:
 
   case 11:
 #line 72 "parse.y"
-    {am_def_var((yyvsp[(1) - (3)].s)); ;}
+    {am_def_var((yyvsp[(1) - (3)].s)); am->defVarWithNumber((yyvsp[(1) - (3)].s), "0");;}
     break;
 
   case 12:
@@ -1982,6 +1982,7 @@ int main(int argc, char **argv){
     prefixes_push(argv[1]);
     yylineno = 1;
     yyparse();
+    c->print();
     //code_cut("push eax\npop eax\n");
     code_cut("push ebp\npop ebp\n");
     fwrite(code, strlen(code), 1, out_asm);

@@ -14,12 +14,15 @@ private:
   ASTree *m_astree;
   AsmMapper(Code *code);
 
-  void nasm(string val);
+  void nasm(string snippet);
   string prefixes();
+  void jumpVarPass(string varName);
+  void defVarPass(string varName);
 public:
   static AsmMapper *GetInstance(Code *code);
-  
-  void defTag(string val);
-  void defVarWithNumber(string val1, string val2);
+  void test();
+  void defTag(string tagName);
+  void defVarWithNumber(string varName, string num);
+  void defVarWithString(string varName, string str);
 };
 #endif

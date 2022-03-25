@@ -1536,22 +1536,22 @@ yyreduce:
 
   case 13:
 #line 74 "parse.y"
-    {am_def_str((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s));;}
+    {am_def_str((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s)); am->defVarWithNumber((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s));;}
     break;
 
   case 14:
 #line 77 "parse.y"
-    {am_def_arr_start((yyvsp[(1) - (3)].s));;}
+    {am_def_arr_start((yyvsp[(1) - (3)].s)); am->defArrayStart((yyvsp[(1) - (3)].s));;}
     break;
 
   case 15:
 #line 77 "parse.y"
-    {am_def_arr_end((yyvsp[(1) - (6)].s));;}
+    {am_def_arr_end((yyvsp[(1) - (6)].s)); am->defArrayEnd((yyvsp[(1) - (6)].s));;}
     break;
 
   case 16:
 #line 80 "parse.y"
-    {am_def_arr_item((yyvsp[(3) - (3)].s));;}
+    {am_def_arr_item((yyvsp[(3) - (3)].s)); am->defArrayItem((yyvsp[(3) - (3)].s));;}
     break;
 
   case 17:
@@ -1561,7 +1561,7 @@ yyreduce:
 
   case 19:
 #line 85 "parse.y"
-    {am_def_fun_head((yyvsp[(1) - (3)].s));;}
+    {am_def_fun_head((yyvsp[(1) - (3)].s)); am->defFunctionStart((yyvsp[(1) - (3)].s));;}
     break;
 
   case 20:
@@ -1571,7 +1571,7 @@ yyreduce:
 
   case 26:
 #line 96 "parse.y"
-    {am_def_param((yyvsp[(1) - (3)].s));;}
+    {am_def_param((yyvsp[(1) - (3)].s)); am->defParam((yyvsp[(1) - (3)].s));;}
     break;
 
   case 30:

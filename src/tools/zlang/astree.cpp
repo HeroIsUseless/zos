@@ -36,6 +36,11 @@ public:
     return m_pInstance;
   }
 
+  void up(){
+    if(pNode == root) return;
+    pNode = pNode->parent;
+  }
+
   void down(string name){
     ASNode* tNode = new ASNode(name);
     tNode->parent = pNode;
@@ -43,9 +48,9 @@ public:
     pNode = tNode;
   }
 
-  void up(){
-    if(pNode == root) return;
-    pNode = pNode->parent;
+  void addChild(string name){
+    //ASNode* tNode = new ASNode(name);
+    //pNode->children.push_back(tNode);
   }
 
   string getPrefix(){

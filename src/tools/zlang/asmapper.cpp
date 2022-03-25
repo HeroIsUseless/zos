@@ -67,4 +67,36 @@ void AsmMapper::defVarWithString(string varName, string str)
   defVarPass(varName);
 }
 
+void AsmMapper::defArrayStart(string arrName)
+{
+  jumpVarPass(arrName);
+  nasm(prefixes() + arrName + ": ");
+}
+
+void AsmMapper::defArrayEnd(string arrName)
+{
+  nasm("\n");
+  defVarPass(arrName);
+}
+
+void AsmMapper::defArrayItem(string num){
+  nasm(num + ", ");
+}
+void AsmMapper::defParam(string varName){
+  m_params.push_back(varName);
+}
+void AsmMapper::defFunctionStart(string funName){
+  nasm("\n;========[fun]"+funName+"========\n");
+  jumpVarPass(funName);
+  defTag(funName);
+  m_astree->down(funName);
+  nasm("pop ebp\n");
+  for(int i=m_params.size()-1; i>=0; i--){
+    m_astree->addChild(m_params[i]);
+    nasm("pop eax\n");
+    nasm("mv "+prefixes()+m_params[i]+", eax");
+  }
+  nasm("push ebp\n");
+  m_params.clear();
+}
 #endif

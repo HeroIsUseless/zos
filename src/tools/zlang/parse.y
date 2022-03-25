@@ -71,18 +71,18 @@ def: def_var
 
 def_var: VAR ':' exp {am_def_var($1); am->defVarWithNumber($1, "0");}
        | VAR ':' PATH {}
-       | VAR ':' STRING {am_def_str($1, $3);} 
+       | VAR ':' STRING {am_def_str($1, $3); am->defVarWithNumber($1, $3);} 
        ;
 
-def_arr: VAR ':' '{' {am_def_arr_start($1);} items '}' {am_def_arr_end($1);}
+def_arr: VAR ':' '{' {am_def_arr_start($1); am->defArrayStart($1);} items '}' {am_def_arr_end($1); am->defArrayEnd($1);}
        ;
 
-items: items ',' INTEGER {am_def_arr_item($3);}
+items: items ',' INTEGER {am_def_arr_item($3); am->defArrayItem($3);}
      | INTEGER {am_def_arr_item($1);}
      | /* empty */
      ;
 
-def_fun: VAR params ':' {am_def_fun_head($1);} '(' stmts ')' {am_def_fun_end($1);}
+def_fun: VAR params ':' {am_def_fun_head($1); am->defFunctionStart($1);} '(' stmts ')' {am_def_fun_end($1);}
 
 params: '(' ')'
       | '(' params_def ')'
@@ -93,7 +93,7 @@ params_def: param_def
           | param_def ',' params_def
           ;
 
-param_def: VAR ':' INTEGER {am_def_param($1);}
+param_def: VAR ':' INTEGER {am_def_param($1); am->defParam($1);}
          ;
 
 params_exec: param_exec

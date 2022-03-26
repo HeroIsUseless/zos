@@ -28,15 +28,6 @@ void AsmMapper::test()
   cout << "==============test================" <<endl;
 }
 
-void AsmMapper::jumpVarPass(string varName)
-{
-  nasm("jmp ", prefixes(), varName, "_pass\n");
-}
-
-void AsmMapper::defVarPass(string varName)
-{
-  nasm(prefixes(), varName, "_pass:\n");
-}
 template <class T, class ...Args>
 void AsmMapper::nasm(T head, Args... rest)
 {
@@ -53,14 +44,6 @@ string AsmMapper::prefixes()
   return "";
 }
 
-void AsmMapper::pushEbx(){
-  nasm("push ebx\n");
-}
-
-void AsmMapper::popEbx(){
-  nasm("pop ebx\n");
-}
-
 void AsmMapper::defTag(string tagName)
 {
   nasm(prefixes(), tagName, ":\n");
@@ -68,28 +51,28 @@ void AsmMapper::defTag(string tagName)
 
 void AsmMapper::defVarWithNumber(string varName, string num)
 {
-  jumpVarPass(varName);
+  nasm("jmp ", prefixes(), varName, "_pass\n");
   nasm(prefixes(), varName, ": ", num, "\n");
-  defVarPass(varName);
+  nasm(prefixes(), varName, "_pass:\n");
 }
 
 void AsmMapper::defVarWithString(string varName, string str)
 {
-  jumpVarPass(varName);
+  nasm("jmp ", prefixes(), varName, "_pass\n");
   nasm(prefixes(), varName, ": ", str, "\n");
-  defVarPass(varName);
+  nasm(prefixes(), varName, "_pass:\n");
 }
 
 void AsmMapper::defArrayStart(string arrName)
 {
-  jumpVarPass(arrName);
+  nasm("jmp ", prefixes(), arrName, "_pass\n");
   nasm(prefixes(), arrName, ": ");
 }
 
 void AsmMapper::defArrayEnd(string arrName)
 {
   nasm("\n");
-  defVarPass(arrName);
+  nasm(prefixes(), arrName, "_pass:\n");
 }
 
 void AsmMapper::defArrayItem(string num){
@@ -100,7 +83,7 @@ void AsmMapper::defParam(string varName){
 }
 void AsmMapper::defFunctionStart(string funName){
   nasm("\n;############[fun begin]"+funName+"############\n");
-  jumpVarPass(funName);
+  nasm("jmp ", prefixes(), funName, "_pass\n");
   defTag(funName);
   m_astree->down(funName);
   nasm("pop ebp\n");
@@ -117,7 +100,7 @@ void AsmMapper::defFunctionEnd(string funName){
   m_astree->up();
   nasm("ret\n");
   nasm(";========[fun end]", funName, "========\n");
-  defVarPass(funName);
+  nasm(prefixes(), funName, "_pass:\n");
 }
 
 void AsmMapper::defReturn(){

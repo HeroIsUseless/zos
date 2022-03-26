@@ -26,15 +26,6 @@ private:
   void nasm(T head, Args... rest);
   void nasm();
   string prefixes();
-  void popEax(){nasm("pop eax\n");}
-  void pushEax(){nasm("push eax\n");}
-  void popEbx();
-  void pushEbx();
-  void popEbp(){nasm("pop ebp\n");}
-  void pushEbp(){nasm("push ebp\n");}
-  void jumpVarPass(string varName);
-  void defVarPass(string varName);
-  void ret(){nasm("ret\n");}
 public:
   static AsmMapper *GetInstance(Code *code);
   void test();

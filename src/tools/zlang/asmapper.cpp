@@ -8,7 +8,7 @@
 #include "astree.cpp"
 using namespace std;
 
-AsmMapper *AsmMapper::m_pInstance = NULL;
+AsmMapper *AsmMapper::m_pInstance = nullptr;
 
 AsmMapper::AsmMapper(Code *code)
 {
@@ -18,7 +18,7 @@ AsmMapper::AsmMapper(Code *code)
 
 AsmMapper *AsmMapper::GetInstance(Code *code)
 {
-  if (m_pInstance == NULL)
+  if (m_pInstance == nullptr)
     m_pInstance = new AsmMapper(code);
   return m_pInstance;
 }

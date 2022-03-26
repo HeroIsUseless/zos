@@ -73,9 +73,11 @@ void AsmMapper::defArrayEnd(string arrName)
 void AsmMapper::defArrayItem(string num){
   nasm(num + ", ");
 }
+
 void AsmMapper::defParam(string varName){
   m_params.push_back(varName);
 }
+
 void AsmMapper::defFunctionStart(string funName){
   nasm("\n;############[fun begin]"+funName+"############\n");
   nasm("jmp ", prefixes(), funName, "_pass\n");

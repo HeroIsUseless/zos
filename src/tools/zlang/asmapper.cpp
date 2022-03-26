@@ -23,11 +23,6 @@ AsmMapper *AsmMapper::GetInstance(Code *code)
   return m_pInstance;
 }
 
-void AsmMapper::test()
-{
-  cout << "==============test================" <<endl;
-}
-
 template <class T, class ...Args>
 void AsmMapper::nasm(T head, Args... rest)
 {

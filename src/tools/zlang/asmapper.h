@@ -28,7 +28,6 @@ private:
   string prefixes();
 public:
   static AsmMapper *GetInstance(Code *code);
-  void test();
   void defTag(string tagName);
   void defVarWithNumber(string varName, string num);
   void defVarWithString(string varName, string str);

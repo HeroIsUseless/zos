@@ -82,7 +82,7 @@ items: items ',' INTEGER {am_def_arr_item($3); am->defArrayItem($3);}
      | /* empty */
      ;
 
-def_fun: VAR params ':' {am_def_fun_head($1); am->defFunctionStart($1);} '(' stmts ')' {am_def_fun_end($1);}
+def_fun: VAR params ':' {am_def_fun_head($1); am->defFunctionStart($1);} '(' stmts ')' {am_def_fun_end($1); am->defFunctionEnd($1);}
 
 params: '(' ')'
       | '(' params_def ')'
@@ -102,9 +102,9 @@ params_exec: param_exec
 param_exec: exp
           ;
 
-exec: '.' '<' '=' exp {am_return();} 
-    | VAR '<' '=' exp {am_assign_var($1);}                  /*调用函数内定义的变量*/
-    | PREFIXES_VAR '<' '=' exp {am_assign_prefixesVar($1);} /*调用函数外定义的变量，任何文件内都可以*/
+exec: '.' '<' '=' exp {am_return(); am->defReturn();} 
+    | VAR '<' '=' exp {am_assign_var($1); am->assginVar($1);}                  /*调用函数内定义的变量*/
+    | PREFIXES_VAR '<' '=' exp {am_assign_prefixesVar($1); am->assginPrefixesVar($1);} /*调用函数外定义的变量，任何文件内都可以*/
     | VAR '\\' '(' exp ')' '<' '=' exp {am_assign_arr($1);}                  /*调用函数内定义的数组*/
     | PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am_assign_prefixesArr($1);} /*调用函数外定义的数组*/
     | '&' VAR '\\' '(' exp ')' '<' '=' exp {am_assign_arl($2);}                  /*调用函数内定义的数组*/
@@ -153,8 +153,8 @@ int main(int argc, char **argv){
     yylineno = 1;
     yyparse();
     c->print();
-    //code_cut("push eax\npop eax\n");
-    code_cut("push ebp\npop ebp\n");
+    // code_cut("push eax\npop eax\n");
+    // code_cut("push ebp\npop ebp\n");
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);
     return 0;

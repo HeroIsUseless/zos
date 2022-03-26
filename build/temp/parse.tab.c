@@ -1566,7 +1566,7 @@ yyreduce:
 
   case 20:
 #line 85 "parse.y"
-    {am_def_fun_end((yyvsp[(1) - (7)].s));;}
+    {am_def_fun_end((yyvsp[(1) - (7)].s)); am->defFunctionEnd((yyvsp[(1) - (7)].s));;}
     break;
 
   case 26:
@@ -1576,17 +1576,17 @@ yyreduce:
 
   case 30:
 #line 105 "parse.y"
-    {am_return();;}
+    {am_return(); am->defReturn();;}
     break;
 
   case 31:
 #line 106 "parse.y"
-    {am_assign_var((yyvsp[(1) - (4)].s));;}
+    {am_assign_var((yyvsp[(1) - (4)].s)); am->assginVar((yyvsp[(1) - (4)].s));;}
     break;
 
   case 32:
 #line 107 "parse.y"
-    {am_assign_prefixesVar((yyvsp[(1) - (4)].s));;}
+    {am_assign_prefixesVar((yyvsp[(1) - (4)].s)); am->assginPrefixesVar((yyvsp[(1) - (4)].s));;}
     break;
 
   case 33:
@@ -1983,8 +1983,8 @@ int main(int argc, char **argv){
     yylineno = 1;
     yyparse();
     c->print();
-    //code_cut("push eax\npop eax\n");
-    code_cut("push ebp\npop ebp\n");
+    // code_cut("push eax\npop eax\n");
+    // code_cut("push ebp\npop ebp\n");
     fwrite(code, strlen(code), 1, out_asm);
     fclose(out_asm);
     return 0;

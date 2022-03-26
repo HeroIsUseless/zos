@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
+#include "stdarg.h"
 #include "asmapper.h"
 #include "code.cpp"
 #include "astree.cpp"
@@ -37,15 +38,48 @@ void AsmMapper::defVarPass(string varName)
 {
   nasm(prefixes() + varName + "_pass:\n");
 }
-
-void AsmMapper::nasm(string val)
+template <class T, class ...Args>
+void AsmMapper::nasm(T head, Args... rest)
 {
-  m_code->append(val);
+  m_code->append(head);
+  nasm(rest...);
+}
+
+void AsmMapper::nasm()
+{
 }
 
 string AsmMapper::prefixes()
 {
   return "";
+}
+
+void AsmMapper::popEax(){
+  nasm("pop eax\n");
+}
+
+void AsmMapper::pushEbx(){
+  nasm("push ebx\n");
+}
+
+void AsmMapper::popEbx(){
+  nasm("pop ebx\n");
+}
+
+void AsmMapper::pushEax(){
+  nasm("push eax\n");
+}
+
+void AsmMapper::popEbp(){
+  nasm("pop ebp\n");
+}
+
+void AsmMapper::pushEbp(){
+  nasm("push ebp\n");
+}
+
+void AsmMapper::ret(){
+  nasm("ret\n");
 }
 
 void AsmMapper::defTag(string tagName)
@@ -86,7 +120,7 @@ void AsmMapper::defParam(string varName){
   m_params.push_back(varName);
 }
 void AsmMapper::defFunctionStart(string funName){
-  nasm("\n;========[fun]"+funName+"========\n");
+  nasm("\n;############[fun begin]"+funName+"############\n");
   jumpVarPass(funName);
   defTag(funName);
   m_astree->down(funName);
@@ -98,5 +132,40 @@ void AsmMapper::defFunctionStart(string funName){
   }
   nasm("push ebp\n");
   m_params.clear();
+}
+
+void AsmMapper::defFunctionEnd(string funName){
+  m_astree->up();
+  nasm("ret\n");
+  nasm(";========[fun end]"+funName+"========\n");
+  defVarPass(funName);
+}
+
+void AsmMapper::defReturn(){
+  popEax();
+  popEbp();
+  pushEax();
+  pushEbp();
+  ret();
+}
+
+void AsmMapper::assginVar(string varName){
+  popEax();
+  nasm("mov ["+prefixes()+varName+"], eax\n");
+}
+
+void AsmMapper::assginPrefixesVar(string prefixesVarName){
+  popEax();
+  nasm("mov ["+prefixesVarName+"], eax\n");
+}
+
+void AsmMapper::assginArray(string arrName){
+  popEax(); // var
+  popEbx(); // index
+  nasm("mov [", prefixes(), arrName, "+ebx], eax\n");
+}
+
+void AsmMapper::assginPrefixesArray(string prefixesArrName){
+
 }
 #endif

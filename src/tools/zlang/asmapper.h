@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include "stdarg.h"
 #include "code.cpp"
 #include "astree.cpp"
 using namespace std;
@@ -15,11 +16,19 @@ private:
   ASTree *m_astree;
   vector<string> m_params;
   AsmMapper(Code *code);
-
-  void nasm(string snippet);
+  template <class T, class ...Args>
+  void nasm(T head, Args... rest);
+  void nasm();
   string prefixes();
+  void popEax();
+  void pushEax();
+  void popEbx();
+  void pushEbx();
+  void popEbp();
+  void pushEbp();
   void jumpVarPass(string varName);
   void defVarPass(string varName);
+  void ret();
 public:
   static AsmMapper *GetInstance(Code *code);
   void test();
@@ -31,5 +40,11 @@ public:
   void defArrayItem(string num);
   void defParam(string varName);
   void defFunctionStart(string funName);
+  void defFunctionEnd(string funName);
+  void defReturn();
+  void assginVar(string varName);
+  void assginPrefixesVar(string prefixesVarName);
+  void assginArray(string arrName);
+  void assginPrefixesArray(string prefixesArrName);
 };
 #endif

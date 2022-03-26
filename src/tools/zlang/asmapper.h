@@ -3,9 +3,15 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include "stdarg.h"
 #include "code.cpp"
 #include "astree.cpp"
+#define PopEax nasm("pop eax\n");
+#define PushEax nasm("push eax\n");
+#define PopEbx nasm("pop ebx\n");
+#define PushEbx nasm("push ebx\n");
+#define PopEbp nasm("pop ebp\n");
+#define PushEbp nasm("push ebp\n");
+#define Ret nasm("ret\n");
 using namespace std;
 
 class AsmMapper
@@ -20,15 +26,15 @@ private:
   void nasm(T head, Args... rest);
   void nasm();
   string prefixes();
-  void popEax();
-  void pushEax();
+  void popEax(){nasm("pop eax\n");}
+  void pushEax(){nasm("push eax\n");}
   void popEbx();
   void pushEbx();
-  void popEbp();
-  void pushEbp();
+  void popEbp(){nasm("pop ebp\n");}
+  void pushEbp(){nasm("push ebp\n");}
   void jumpVarPass(string varName);
   void defVarPass(string varName);
-  void ret();
+  void ret(){nasm("ret\n");}
 public:
   static AsmMapper *GetInstance(Code *code);
   void test();

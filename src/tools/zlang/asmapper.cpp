@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
-#include "stdarg.h"
 #include "asmapper.h"
 #include "code.cpp"
 #include "astree.cpp"
@@ -31,12 +30,12 @@ void AsmMapper::test()
 
 void AsmMapper::jumpVarPass(string varName)
 {
-  nasm("jmp " + prefixes() + varName + "_pass\n");
+  nasm("jmp ", prefixes(), varName, "_pass\n");
 }
 
 void AsmMapper::defVarPass(string varName)
 {
-  nasm(prefixes() + varName + "_pass:\n");
+  nasm(prefixes(), varName, "_pass:\n");
 }
 template <class T, class ...Args>
 void AsmMapper::nasm(T head, Args... rest)
@@ -54,10 +53,6 @@ string AsmMapper::prefixes()
   return "";
 }
 
-void AsmMapper::popEax(){
-  nasm("pop eax\n");
-}
-
 void AsmMapper::pushEbx(){
   nasm("push ebx\n");
 }
@@ -66,45 +61,29 @@ void AsmMapper::popEbx(){
   nasm("pop ebx\n");
 }
 
-void AsmMapper::pushEax(){
-  nasm("push eax\n");
-}
-
-void AsmMapper::popEbp(){
-  nasm("pop ebp\n");
-}
-
-void AsmMapper::pushEbp(){
-  nasm("push ebp\n");
-}
-
-void AsmMapper::ret(){
-  nasm("ret\n");
-}
-
 void AsmMapper::defTag(string tagName)
 {
-  nasm(prefixes() + tagName + ":\n");
+  nasm(prefixes(), tagName, ":\n");
 }
 
 void AsmMapper::defVarWithNumber(string varName, string num)
 {
   jumpVarPass(varName);
-  nasm(prefixes() + varName + ": " + num + "\n");
+  nasm(prefixes(), varName, ": ", num, "\n");
   defVarPass(varName);
 }
 
 void AsmMapper::defVarWithString(string varName, string str)
 {
   jumpVarPass(varName);
-  nasm(prefixes() + varName + ": " + str + "\n");
+  nasm(prefixes(), varName, ": ", str, "\n");
   defVarPass(varName);
 }
 
 void AsmMapper::defArrayStart(string arrName)
 {
   jumpVarPass(arrName);
-  nasm(prefixes() + arrName + ": ");
+  nasm(prefixes(), arrName, ": ");
 }
 
 void AsmMapper::defArrayEnd(string arrName)
@@ -128,7 +107,7 @@ void AsmMapper::defFunctionStart(string funName){
   for(int i=m_params.size()-1; i>=0; i--){
     m_astree->addChild(m_params[i]);
     nasm("pop eax\n");
-    nasm("mv "+prefixes()+m_params[i]+", eax");
+    nasm("mv ", prefixes(), m_params[i], ", eax");
   }
   nasm("push ebp\n");
   m_params.clear();
@@ -137,31 +116,31 @@ void AsmMapper::defFunctionStart(string funName){
 void AsmMapper::defFunctionEnd(string funName){
   m_astree->up();
   nasm("ret\n");
-  nasm(";========[fun end]"+funName+"========\n");
+  nasm(";========[fun end]", funName, "========\n");
   defVarPass(funName);
 }
 
 void AsmMapper::defReturn(){
-  popEax();
-  popEbp();
-  pushEax();
-  pushEbp();
-  ret();
+  PopEax
+  PopEbp
+  PushEax
+  PushEbp
+  Ret
 }
 
 void AsmMapper::assginVar(string varName){
-  popEax();
-  nasm("mov ["+prefixes()+varName+"], eax\n");
+  PopEax
+  nasm("mov [", prefixes(), varName, "], eax\n");
 }
 
 void AsmMapper::assginPrefixesVar(string prefixesVarName){
-  popEax();
-  nasm("mov ["+prefixesVarName+"], eax\n");
+  PopEax
+  nasm("mov [", prefixesVarName, "], eax\n");
 }
 
 void AsmMapper::assginArray(string arrName){
-  popEax(); // var
-  popEbx(); // index
+  PopEax // var
+  PopEbx // index
   nasm("mov [", prefixes(), arrName, "+ebx], eax\n");
 }
 

@@ -1591,12 +1591,12 @@ yyreduce:
 
   case 33:
 #line 108 "parse.y"
-    {am_assign_arr((yyvsp[(1) - (8)].s));;}
+    {am_assign_arr((yyvsp[(1) - (8)].s)); am->assginArray((yyvsp[(1) - (8)].s));;}
     break;
 
   case 34:
 #line 109 "parse.y"
-    {am_assign_prefixesArr((yyvsp[(1) - (8)].s));;}
+    {am_assign_prefixesArr((yyvsp[(1) - (8)].s)); am->assginPrefixesArray((yyvsp[(1) - (8)].s));;}
     break;
 
   case 35:
@@ -1611,7 +1611,7 @@ yyreduce:
 
   case 37:
 #line 112 "parse.y"
-    {am_if_end();;}
+    {am_if_end(); am->ifEnd();;}
     break;
 
   case 38:

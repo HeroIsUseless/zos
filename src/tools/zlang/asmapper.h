@@ -42,5 +42,6 @@ public:
   void assginPrefixesVar(string prefixesVarName);
   void assginArray(string arrName);
   void assginPrefixesArray(string prefixesArrName);
+  void ifEnd();
 };
 #endif

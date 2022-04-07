@@ -66,12 +66,11 @@ void AsmMapper::defArrayStart(string arrName)
 
 void AsmMapper::defArrayEnd(string arrName)
 {
-  nasm("\n");
-  nasm(prefixes(), arrName, "_pass:\n");
+  nasm("\n", prefixes(), arrName, "_pass:\n");
 }
 
 void AsmMapper::defArrayItem(string num){
-  nasm(num + ", ");
+  nasm(num, ", ");
 }
 
 void AsmMapper::defParam(string varName){
@@ -79,7 +78,7 @@ void AsmMapper::defParam(string varName){
 }
 
 void AsmMapper::defFunctionStart(string funName){
-  nasm("\n;############[fun begin]"+funName+"############\n");
+  nasm("\n;############[fun begin]", funName, "############\n");
   nasm("jmp ", prefixes(), funName, "_pass\n");
   defTag(funName);
   m_astree->down(funName);
@@ -125,6 +124,13 @@ void AsmMapper::assginArray(string arrName){
 }
 
 void AsmMapper::assginPrefixesArray(string prefixesArrName){
+  PopEax // var
+  PopEbx // index
+  nasm("mov [", prefixesArrName, "+ebx], eax\n");
+}
 
+void AsmMapper::ifEnd(){
+  defTag("end");
+  nasm(";if end\n");
 }
 #endif

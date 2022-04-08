@@ -44,4 +44,20 @@ public:
   void assginPrefixesArray(string prefixesArrName);
   void ifEnd();
 };
+
+AsmMapper *AsmMapper::m_pInstance = nullptr;
+
+AsmMapper::AsmMapper(Code *code)
+{
+  m_code = code;
+  m_astree = ASTree::GetInstance();
+}
+
+AsmMapper *AsmMapper::GetInstance(Code *code)
+{
+  if (m_pInstance == nullptr)
+    m_pInstance = new AsmMapper(code);
+  return m_pInstance;
+}
+
 #endif

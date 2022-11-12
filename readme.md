@@ -1,10 +1,17 @@
 # ZOS
-## 组成原理
-多个文件的，首先单个文件编译成asm，然后zl组合成一个文件main.asm，然后用nasm编译成main.bin
-先导的也叫main.asm吧，只不过不在build文件夹里
-进入32位系统后，会执行 kernel\kernel.asm 这个文件，这个文件在编译时放到最后确保所有代码都会初始化
-这里就执行了 main.z 的 run.once 和 run.loop，这是放到最后的，确保之前的代码都被初始化
-GDT，IDT的初始化就放在 run.once 这里
+## 特色功能
+zlang的基本单位为zos的基本单位
+真正适合程序员的操作系统
+## 编译原理
+多个.z文件的，首先单个文件编译成asm，
+然后zl组合成一个文件zos.asm，
+然后用nasm编译成zos.bin，
+然后混合ipl.bin，boot.bin，制成zos.img
+## 执行原理
+开机启动后，先进入IPL.asm，boot.asm，跳转到32位系统
+进入32位系统后，由于zos.img中，main.asm在最开始，kernel.asm在最后
+代码会全部初始化后执行到kernel.asm，然后执行main.asm的once和loop
+注：kernel.asm为什么没有被zlang化，可能是因为懒吧。。
 ## 下一步计划
 添加浮点数功能
 添加内存

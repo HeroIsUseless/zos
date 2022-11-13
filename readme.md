@@ -12,6 +12,26 @@ zlang的基本单位为zos的基本单位
 进入32位系统后，由于zos.img中，main.asm在最开始，kernel.asm在最后
 代码会全部初始化后执行到kernel.asm，然后执行main.asm的once和loop
 注：kernel.asm为什么没有被zlang化，可能是因为懒吧。。
+## 文件结构
+-build/
+-doc/
+-example/
+-log/
+-src/
+--boot/
+---boot.asm
+---IPL.asm
+--kernel/
+---GDT.z
+---IDT.z
+---kernel.asm
+---memory.z
+---PDT.z
+--lib/
+--screen/
+--tools/
+--main.z
+--test.z
 ## 下一步计划
 添加浮点数功能
 添加内存

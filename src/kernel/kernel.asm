@@ -32,9 +32,12 @@ ret
 kernel_z_halt:
   hlt
 ret
-
+TESTA: DW 0x1234
 ; 主进程入口
 main:
+  finit
+  fld DWORD [TESTA]
+  fadd to st1
   call main_z_run_once
   .loop:
     call main_z_run_loop

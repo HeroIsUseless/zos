@@ -3264,7 +3264,7 @@
   2007                                  test_z_draw_tstr$next:
   2008 00003C3A C3                      ret
   2009                                  test_z_draw$next:
-  2010 00003C3B EB18                    jmp main
+  2010 00003C3B EB1A                    jmp main
   2011                                  
   2012                                  ; 读写内存
   2013                                  ; kernel.z\setMem.1byte(val:dword, addr:dword)
@@ -3298,11 +3298,15 @@
   2041                                  kernel_z_halt:
   2042 00003C53 F4                        hlt
   2043 00003C54 C3                      ret
-  2044                                  
+  2044 00003C55 5634                    TESTA: DW 0x123456
+  2044          ******************       warning: word data exceeds bounds [-w+number-overflow]
   2045                                  ; 主进程入口
   2046                                  main:
-  2047 00003C55 E826C4FFFF                call main_z_run_once
-  2048                                    .loop:
-  2049 00003C5A E831C4FFFF                  call main_z_run_loop
-  2050 00003C5F EBF9                      jmp .loop
-  2051                                  
+  2047 00003C57 9BDBE3                    finit
+  2048 00003C5A D905[553C0000]            fld DWORD [TESTA]
+  2049 00003C60 DCC1                      fadd to st1
+  2050 00003C62 E819C4FFFF                call main_z_run_once
+  2051                                    .loop:
+  2052 00003C67 E824C4FFFF                  call main_z_run_loop
+  2053 00003C6C EBF9                      jmp .loop
+  2054                                  

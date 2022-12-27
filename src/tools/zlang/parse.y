@@ -45,7 +45,7 @@
     char c;
     double f;
 }
-%left '<' '>' '=' '#' LEQ MEQ
+%left '<' '>' '=' '#' LEQ MEQ LMO RMO
 %left '+' '-'
 %left '*' '/'
 %token <s> INTEGER
@@ -125,6 +125,8 @@ exp: factor
    | exp '>' factor {am_exp_mor();}
    | exp LEQ factor {am_exp_leq();}
    | exp MEQ factor {am_exp_meq();}
+   | exp LMO factor {am_exp_lmo();}
+   | exp RMO factor {am_exp_rmo();}
    | exp '=' factor {am_exp_equ();}
    | exp '#' factor {am_exp_neq();}
    ;

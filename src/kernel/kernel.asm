@@ -37,6 +37,7 @@ TESTA: DW 0x1234
 main:
   finit
   fld DWORD [TESTA]
+  fld DWORD [eax]
   fadd to st1
   call main_z_run_once
   .loop:

@@ -17,6 +17,12 @@
 >\/ {
     return MEQ;
 }
+\<\< {
+    return LMO;
+}
+\>\> {
+    return RMO;
+}
 if {
     return IF;
 }

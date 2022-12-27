@@ -1,8 +1,16 @@
+# 编译zlang和ZOS的工具
 tools: src/tools/makeImg.c
 	g++ src/tools/makeImg.c -o build/makeImg
 	g++ src/tools/zlink.c -o build/zlink
 	make zlang
 
+# 编译器的单元测试
+test:
+	cd src/tools/zlang && g++ test.c -o test 
+	mv src/tools/zlang/test build/test
+	build/test
+
+# 仅编译zlang部分，并运行单元测试
 zlang:
 	cd src/tools/zlang && flex lex.l
 	cd src/tools/zlang && bison -d parse.y -v
@@ -13,6 +21,7 @@ zlang:
 	mv src/tools/zlang/zlang build
 	make exam
 
+# zlang单元测试
 exam:
 	cd build && ./zlang ../example/e1_var.z ./temp/e1_var.asm
 	cd build && ./zlang ../example/e2_var.z ./temp/e2_var.asm
@@ -32,11 +41,7 @@ exam:
 	cd build && ./zlang ../example/e16_return.z ./temp/e16_return.asm
 	cd build && ./zlang ../example/e17_float.z ./temp/e17_float.asm
 
-test:
-	cd src/tools/zlang && g++ test.c -o test 
-	mv src/tools/zlang/test build/test
-	build/test
-
+# 仅编译ZOS所有代码，并运行
 compile:
 	cd build && ./zlang ../src/main.z ./temp/main.asm
 	cd build && ./zlang ../src/kernel/memory.z ./temp/memory.asm
@@ -55,14 +60,17 @@ compile:
 	nasm -f bin build/temp/zos.asm -o build/temp/zos.bin -l log/zos.log
 	cd build && ./makeImg ./temp/IPL.bin ./temp/boot.bin ./temp/zos.bin ZOS.img
 
+# 仅从中间代码(汇编)开始编译，并运行
 debug:
 	nasm -f bin build/temp/zos.asm -o build/temp/zos.bin -l log/zos.log
 	cd build && ./makeImg ./temp/IPL.bin ./temp/boot.bin ./temp/zos.bin ZOS.img
 	make run
 
+# 没有任何编译，仅运行
 run:
 	cd build && qemu-system-x86_64 -m 128M  -fda ZOS.img -vnc :1 -monitor stdio
 
+# 编译所有东西，从zlang编译器，连接器开始编译，到单元测试，到ZOS编译，最后运行
 all:
 	make test
 	make tools

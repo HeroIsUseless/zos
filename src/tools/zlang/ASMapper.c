@@ -164,6 +164,10 @@ void movEax2Var(char var[]){
   code_append(var);
   code_append("], eax\n");
 }
+
+void movBl2Cl(){
+  code_append("mov cl, bl\n");
+}
 // operator
 void addEbx2Eax(){
   code_append("add eax, ebx\n");
@@ -179,6 +183,12 @@ void divEbx2Eax(){
 }
 void cmpEaxEbx(){
   code_append("cmp eax, ebx\n");
+}
+void shlEax(){
+  code_append("shl eax, cl\n");
+}
+void shrEax(){
+  code_append("shr eax, cl\n");
 }
 // func
 void ret(){
@@ -548,6 +558,23 @@ void am_exp_neq(){
   tagCount("unequal@false", jmp_count);
   pushEax();
 }
+
+void am_exp_lmo(){
+  popEbx();
+  popEax();
+  movBl2Cl();
+  shlEax();
+  pushEax();
+}
+
+void am_exp_rmo(){
+  popEbx();
+  popEax();
+  movBl2Cl();
+  shrEax();
+  pushEax();
+}
+
 ////////////////if////////////////
 void am_if_head(){
   if(isIfOpens[if_layer] == TRUE)

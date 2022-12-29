@@ -11,12 +11,11 @@ class AsmMapper
 private:
   // 最后的asm代码
   string *m_asm;
-  // AST树，用来条件循环语句的计数
-  ASTree *m_astree;
   // 用来暂时记录函数的参数
   vector<string> m_funcParams;
-  // 用来暂返回变量名的前缀 TODO: del
-  string prefixes();
+protected:
+  // AST树，用来条件循环语句的计数
+  ASTree *m_astree;
   // lang转asm的函数
   template <class T, class ...Args>
   void map2Asm(T head, Args... rest);

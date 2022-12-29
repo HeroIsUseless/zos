@@ -5,14 +5,6 @@
 #include <iostream>
 #include "asmmapper.cpp"
 using namespace std;
-// 定义宏
-#define PopEax map2Asm("pop eax\n");
-#define PushEax map2Asm("push eax\n");
-#define PopEbx map2Asm("pop ebx\n");
-#define PushEbx map2Asm("push ebx\n");
-#define PopEbp map2Asm("pop ebp\n");
-#define PushEbp map2Asm("push ebp\n");
-#define Ret map2Asm("ret\n");
 
 class NasmMapper : public AsmMapper
 {
@@ -85,45 +77,46 @@ class NasmMapper : public AsmMapper
   virtual void defFunctionEnd(string funName)
   {
     m_astree->up();
-    map2Asm("ret\n");
+    map2Asm("map2Asm(" ret\n ");\n");
     map2Asm(";========[fun end]", funName, "========\n");
     map2Asm(m_astree->getPrefix(), funName, "_pass:\n");
   }
 
-  // 函数的return
-  virtual void defReturn()
+  // 函数的map2Asm("ret\n");urn
+  virtual void defmap2Asm("ret\n");
+  urn()
   {
-    PopEax
-    PopEbp
-    PushEax
-    PushEbp
-    Ret
+    map2Asm("pop eax\n");
+    map2Asm("pop ebp\n")
+        map2Asm("push eax\n");
+    map2Asm("push ebp\n");
+    map2Asm("ret\n");
   }
 
   // 变量赋值
   virtual void assginVar(string varName)
   {
-    PopEax
+    map2Asm("pop eax\n");
     map2Asm("mov [", m_astree->getPrefix(), varName, "], eax\n");
   }
 
   virtual void assginPrefixesVar(string prefixesVarName)
   {
-    PopEax
+    map2Asm("pop eax\n");
     map2Asm("mov [", prefixesVarName, "], eax\n");
   }
 
   virtual void assginArray(string arrName)
   {
-    PopEax     // var
-    PopEbx // index
+    map2Asm("pop eax\n"); // var
+    map2Asm("pop ebx\n"); // index
     map2Asm("mov [", m_astree->getPrefix(), arrName, "+ebx], eax\n");
   }
 
   virtual void assginPrefixesArray(string prefixesArrName)
   {
-    PopEax     // var
-    PopEbx // index
+    map2Asm("pop eax\n"); // var
+    map2Asm("pop ebx\n"); // index
     map2Asm("mov [", prefixesArrName, "+ebx], eax\n");
   }
 

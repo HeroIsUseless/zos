@@ -11,7 +11,8 @@
     "string": "c",
     "string_view": "c",
     "unordered_map": "c",
-    "vector": "c"
+    "vector": "c",
+    "iosfwd": "cpp"
   },
   "C_Cpp.errorSquiggles": "Enabled"
 }

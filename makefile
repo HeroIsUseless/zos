@@ -45,11 +45,13 @@ exam:
 compile:
 	cd build && ./zlang ../src/main.z ./temp/main.asm
 	cd build && ./zlang ../src/kernel/memory.z ./temp/memory.asm
+	cd build && ./zlang ../src/kernel/GDT.z ./temp/GDT.asm
 	cd build && ./zlang ../src/screen/draw.z ./temp/draw.asm
 	cd build && ./zlang ../src/screen/font.z ./temp/font.asm
 	cd build && ./zlang ../src/test.z ./temp/test.asm
 	cd build && ./zlink  ./temp/main.asm \
 											 ./temp/memory.asm \
+											 ./temp/GDT.asm \
 											 ./temp/draw.asm \
 											 ./temp/font.asm \
 											 ./temp/test.asm \

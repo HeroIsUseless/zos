@@ -2,131 +2,94 @@
 #define ASMMAPPER_CPP
 #include <stdio.h>
 #include <string>
-#include <iostream>
-#include "asmapper.h"
-#include "code.cpp"
+#include <vector>
 #include "astree.cpp"
 using namespace std;
 
+class AsmMapper
+{
+private:
+  // 单例模式
+  static AsmMapper *m_pInstance;
+  // 最后的asm代码
+  string *m_asm;
+  // AST树，用来条件循环语句的计数
+  ASTree *m_astree;
+  // 用来暂时记录函数的参数
+  vector<string> m_funcParams;
+  // 用来暂返回变量名的前缀 TODO: del
+  string prefixes();
+  // 单例模式（asm是C++关键字）
+  AsmMapper();
+  // lang转asm的函数
+  template <class T, class ...Args>
+  void map2Asm(T head, Args... rest);
+  void map2Asm();
+public:
+  static AsmMapper *GetInstance();
+  string* getAsm();
+  // 定义一个tag
+  virtual void defTag(string tagName) const;
+  // 用数值定义一个4字节内存变量
+  virtual void defVarWithNumber(string varName, string num) const;
+  // 用字符串定义一个内存变量
+  virtual void defVarWithString(string varName, string str) const;
+  // 定义数组头部部分
+  virtual void defArrayStart(string arrName) const;
+  // 定义数组尾部部分
+  virtual void defArrayEnd(string arrName) const;
+  // 定义数组中的元素
+  virtual void defArrayItem(string num) const;
+  // 定义函数参数
+  virtual void defParam(string varName) const;
+  // 定义函数头部部分
+  virtual void defFunctionStart(string funName) const;
+  // 定义函数尾部部分
+  virtual void defFunctionEnd(string funName) const;
+  // 定义函数的return
+  virtual void defReturn() const;
+  // 给变量赋值
+  virtual void assginVar(string varName) const;
+  // 给自带前缀的变量赋值
+  virtual void assginPrefixesVar(string prefixesVarName) const;
+  // 给数组赋值
+  virtual void assginArray(string arrName) const;
+  // 给自带前缀的数组赋值
+  virtual void assginPrefixesArray(string prefixesArrName) const;
+  // 定义条件判断的尾部部分
+  virtual void ifEnd() const;
+};
+
+AsmMapper *AsmMapper::m_pInstance = nullptr;
+
+AsmMapper *AsmMapper::GetInstance()
+{
+  if (m_pInstance == nullptr)
+    m_pInstance = new AsmMapper();
+  return m_pInstance;
+}
+
+AsmMapper::AsmMapper()
+{
+  m_asm = new string("");
+  m_astree = ASTree::GetInstance();
+}
+
+string* AsmMapper::getAsm() 
+{
+  return this->m_asm;
+}
+
 template <class T, class ...Args>
-void AsmMapper::nasm(T head, Args... rest)
+void AsmMapper::map2Asm(T head, Args... rest)
 {
   m_code->append(head);
-  nasm(rest...);
+  map2Asm(rest...);
 }
+
 // 上面函数的最终递归
-void AsmMapper::nasm()
+void AsmMapper::map2Asm()
 {
 }
 
-string AsmMapper::prefixes()
-{
-  return "";
-}
-
-// 定义tag
-void AsmMapper::defTag(string tagName)
-{
-  nasm(prefixes(), tagName, ":\n");
-}
-
-// 定义整型4字节变量
-void AsmMapper::defVarWithNumber(string varName, string num)
-{
-  nasm("jmp ", prefixes(), varName, "_pass\n");
-  nasm(prefixes(), varName, ": dd ", num, "\n");
-  nasm(prefixes(), varName, "_pass:\n");
-}
-
-// 定义字符串
-void AsmMapper::defVarWithString(string varName, string str)
-{
-  nasm("jmp ", prefixes(), varName, "_pass\n");
-  nasm(prefixes(), varName, ": dd ", str, "\n");
-  nasm(prefixes(), varName, "_pass:\n");
-}
-
-// 定义数组前半部分
-void AsmMapper::defArrayStart(string arrName)
-{
-  nasm("jmp ", prefixes(), arrName, "_pass\n");
-  nasm(prefixes(), arrName, ": dd ");
-}
-
-// 定义数组的元素
-void AsmMapper::defArrayItem(string num){
-  nasm(num, ", ");
-}
-
-// 定义数组后半部分
-void AsmMapper::defArrayEnd(string arrName)
-{
-  nasm("\n", prefixes(), arrName, "_pass:\n");
-}
-
-// 接收函数参数，在后面输出
-void AsmMapper::defParam(string varName){
-  m_params.push_back(varName);
-}
-
-// 定义函数前半部分
-void AsmMapper::defFunctionStart(string funName){
-  nasm("\n;############[fun begin]", funName, "############\n");
-  nasm("jmp ", prefixes(), funName, "_pass\n");
-  defTag(funName);
-  m_astree->down(funName);
-  nasm("pop ebp\n");
-  for(int i=m_params.size()-1; i>=0; i--){
-    m_astree->addChild(m_params[i]);
-    nasm("pop eax\n");
-    nasm("mv ", prefixes(), m_params[i], ", eax");
-  }
-  nasm("push ebp\n");
-  m_params.clear();
-}
-
-// 定义函数后半部分
-void AsmMapper::defFunctionEnd(string funName){
-  m_astree->up();
-  nasm("ret\n");
-  nasm(";========[fun end]", funName, "========\n");
-  nasm(prefixes(), funName, "_pass:\n");
-}
-
-// 函数的return
-void AsmMapper::defReturn(){
-  PopEax
-  PopEbp
-  PushEax
-  PushEbp
-  Ret
-}
-
-// 变量赋值
-void AsmMapper::assginVar(string varName){
-  PopEax
-  nasm("mov [", prefixes(), varName, "], eax\n");
-}
-
-void AsmMapper::assginPrefixesVar(string prefixesVarName){
-  PopEax
-  nasm("mov [", prefixesVarName, "], eax\n");
-}
-
-void AsmMapper::assginArray(string arrName){
-  PopEax // var
-  PopEbx // index
-  nasm("mov [", prefixes(), arrName, "+ebx], eax\n");
-}
-
-void AsmMapper::assginPrefixesArray(string prefixesArrName){
-  PopEax // var
-  PopEbx // index
-  nasm("mov [", prefixesArrName, "+ebx], eax\n");
-}
-
-void AsmMapper::ifEnd(){
-  defTag("end");
-  nasm(";if end\n");
-}
 #endif

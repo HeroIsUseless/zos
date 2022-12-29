@@ -58,6 +58,7 @@ push ebp
 mov eax, [main_z_addrVram]
 push eax
 call test_z_draw
+call GDT_z_init
 ret
 main_z_run_once$next:
 
@@ -144,6 +145,40 @@ push eax
 call kernel_z_setMem_4byte
 ret
 memory_z_set_4byte$next:
+
+;function
+jmp GDT_z_init$next
+GDT_z_init:
+pop ebp
+push ebp
+mov eax, 0
+push eax
+jmp GDT_z_init_i$next
+GDT_z_init_i: dd 0
+GDT_z_init_i$next:
+pop eax
+mov [GDT_z_init_i], eax
+; while start
+GDT_z_init_while$1_start:
+mov eax, [GDT_z_init_i]
+push eax
+mov eax, 8192
+push eax
+pop ebx
+pop eax
+cmp eax, ebx
+jb GDT_z_init_while$1_less@true$1
+mov eax, 0
+jmp GDT_z_init_while$1_less@false$1
+GDT_z_init_while$1_less@true$1:
+mov eax, 1
+GDT_z_init_while$1_less@false$1:
+push eax 
+pop eax
+cmp eax, 0
+je GDT_z_init_while$1_end
+mov eax, [GDT_z_init_while$1_main_z_Addr]
+push eax
 
 ;function
 jmp draw_z_pixel$next
@@ -2033,6 +2068,59 @@ test_z_draw_tstr$next:
 ret
 test_z_draw$next:
 jmp main
+
+limit_low equ 0
+base_low equ 2 
+base_mid equ 4 
+access_right equ 5
+limit_high equ 6 
+base_high equ 7 
+	
+ALIGNB	16
+GDTR:
+		DW 8*8192-1 ; 最后一个字节的偏移
+		DD 0x270000 ; 表的地址
+
+; esi是将要填入的地址，就是GDT表的地址，例如Addr_GDT+1*8, Addr_GDT+2*8
+; eax是基地址，是代码的
+; ebx是控制参数和限制 24+8 4位扩展(自动填上)20位限长8位参数
+;     高4位参数 高4位限制 低16位限制 8位参数 = 32位ebx
+; 实际上高4位参数被自己固定掉了
+; 因此用一个常量代替比较好
+; 设置GDT内容
+; kernel.z\setGDT(addr: dword, param1: dword, param2: dword)
+setGDT:
+  pop ebp
+  pop ebx
+  pop eax
+  pop esi
+  push ebp
+	mov [esi+base_low],  ax ; 基地址的低16位
+	shr eax, 16
+	mov [esi+base_mid], al ; 8位，1个字节
+	mov [esi+base_high], ah
+	; 下面是限制与权限设置
+	mov [esi+access_right], bl;8位参数
+	; 0x00 未使用的记录表
+	; 0x92 系统模式，可读写不可执行
+	; 0x9a 系统模式，可执行可读不可写
+	; 0xf2 应用模式，可读写不可执行
+	; 0xfa 应用模式，可执行可读不可写
+	shr ebx, 8
+	mov [esi+limit_low], bx ; 限制的低16位
+	shr ebx, 16
+	or  bl, 0xc0 ; 0xc0=11000000
+	and bl, 0xcf ; 规定好前4位为1100，0x11001111
+	mov [esi+limit_high], bl ; 4位参数+4位段限长，高4位被称为扩展访问权，参数固定为
+	; G=1(开启4K),D/B=1(32位段),0(固定),AVL=0(也是默认的)这4位在386前是没有的
+	; 因此注意limit在这里被规定为24位长，其中高四位是扩展访问权，是固定的
+ret 
+
+; 加载GDT
+; kernel.z\loadGDT()
+loadGDT:
+  lgdt [GDTR] ; 不加dword会警告，因为现在的标签的确从0开始的
+ret
 
 ; 读写内存
 ; kernel.z\setMem.1byte(val:dword, addr:dword)

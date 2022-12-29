@@ -14,7 +14,7 @@
     extern int yylineno;
 
     Code* c = new Code();
-    AsmMapper* am = AsmMapper::GetInstance(c);
+    AsmMapper* a2z = AsmMapper::GetInstance(c);
 
     void yyerror(char *s){
         fprintf(stderr, "[error]line %d: %s\n", yylineno, s);

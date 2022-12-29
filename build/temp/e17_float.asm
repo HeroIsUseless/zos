@@ -6,8 +6,14 @@ pop eax
 pop ebx
 add eax, ebx
 push eax
-jmp e17_float_z_a$next
-e17_float_z_a: dd 0
-e17_float_z_a$next:
+jmp e17_float_asm_a$next
+e17_float_asm_a: dd 0
+e17_float_asm_a$next:
 pop eax
-mov [e17_float_z_a], eax
+mov [e17_float_asm_a], eax
+
+#############新映射器效果############
+jmp _a_pass
+_a: dd 0
+_a_pass:
+

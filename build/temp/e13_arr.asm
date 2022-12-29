@@ -1,21 +1,21 @@
-jmp e13_arr_z_a$next
-e13_arr_z_a: dd \
+jmp e13_arr_asm_a$next
+e13_arr_asm_a: dd \
 1,2,3,4,5,6,
-e13_arr_z_a$next:
+e13_arr_asm_a$next:
 mov eax, 1
 push eax
 mov eax, 2
 push eax
 pop eax
 pop ebx
-mov [e13_arr_z_a+ebx], eax
+mov [e13_arr_asm_a+ebx], eax
 mov eax, 0
 push eax
-jmp e13_arr_z_c$next
-e13_arr_z_c: dd 0
-e13_arr_z_c$next:
+jmp e13_arr_asm_c$next
+e13_arr_asm_c: dd 0
+e13_arr_asm_c$next:
 pop eax
-mov [e13_arr_z_c], eax
+mov [e13_arr_asm_c], eax
 mov eax, 1
 push eax
 pop eax
@@ -24,4 +24,18 @@ mul ebx
 mov ebx, [mem_z_d+eax]
 push ebx
 pop eax
-mov [e13_arr_z_c], eax
+mov [e13_arr_asm_c], eax
+
+#############新映射器效果############
+jmp _a_pass
+_a: dd 2, 3, 4, 5, 6, 
+_a_pass:
+pop eax
+pop ebx
+mov [_a+ebx], eax
+jmp _c_pass
+_c: dd 0
+_c_pass:
+pop eax
+mov [_c], eax
+

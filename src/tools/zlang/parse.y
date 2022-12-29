@@ -2,10 +2,12 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include <fstream>
     #include "define.c"
     #include "asmmapper.c"
     #include "asmmapper.cpp"
     #include "nasmmapper.cpp"
+    using namespace std;
 
     extern FILE* yyin;
     extern FILE* yyout;
@@ -151,11 +153,16 @@ term: INTEGER {am_exp_val($1);}
 
 int main(int argc, char **argv){
     if(!open(argc, argv)) return 1;
-    prefixes_push(argv[1]);
+    prefixes_push(argv[2]);
     yylineno = 1;
     yyparse();
     // 此code是全局的
     fwrite(code, strlen(code), 1, yyout);
     fclose(yyout);
+    ofstream os;
+    os.open(argv[2], ios::app);
+    os << "\n#############新映射器效果############"<<endl;
+    os << *nm->getAsm() << endl;
+    os.close();
     return 0;
 }

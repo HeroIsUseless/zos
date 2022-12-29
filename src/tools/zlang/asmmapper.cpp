@@ -11,8 +11,6 @@ class AsmMapper
 private:
   // 最后的asm代码
   string *m_asm;
-  // 用来暂时记录函数的参数
-  vector<string> m_funcParams;
 protected:
   // AST树，用来条件循环语句的计数
   ASTree *m_astree;
@@ -20,8 +18,11 @@ protected:
   template <class T, class ...Args>
   void map2Asm(T head, Args... rest);
   void map2Asm();
+  // 用来暂时记录函数的参数
+  vector<string> m_funcParams;
 public:
   AsmMapper();
+  ~AsmMapper();
   string* getAsm();
   // 定义一个tag
   virtual void defTag(string tagName) = 0;
@@ -61,6 +62,12 @@ AsmMapper::AsmMapper()
   m_astree = ASTree::GetInstance();
 }
 
+AsmMapper::~AsmMapper()
+{
+  delete m_asm;
+  delete m_astree;
+}
+
 string* AsmMapper::getAsm() 
 {
   return this->m_asm;
@@ -69,13 +76,14 @@ string* AsmMapper::getAsm()
 template <class T, class ...Args>
 void AsmMapper::map2Asm(T head, Args... rest)
 {
-  m_code->append(head);
+  m_asm->append(head);
   map2Asm(rest...);
 }
 
 // 上面函数的最终递归
 void AsmMapper::map2Asm()
 {
+  // 可以打一些log
 }
 
 #endif

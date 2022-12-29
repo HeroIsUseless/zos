@@ -18,6 +18,7 @@
 [LDT是二级段表，当下快抛弃段表了，LDT不学了]
 
 main.z: @\main.z;
+kernel.z: @\kernel.z;
 
 init():(
 	[GDT全部清零]
@@ -28,59 +29,14 @@ init():(
     i<= i+1;
   ));
 	[GDT初始化]
-	; 第0个数据段全是0
-	; 第1个数据段的段地址为0，用作数据段
-	mov esi, Addr_GDT+1*8
-	mov eax, 0x00000000
-	mov ebx, 0x0fffff92 ; 前面4位是控制位，中间20位是限制，后面8位是控制位
-	call GDT_Set
-	set(Addr_GDT+1*8, 0x00000000, 0x0fffff92);
-	; 第2个数据段的段地址为280000，用作代码段
-	mov esi, Addr_GDT+2*8
-	mov eax, 0x00000000 ; 基地址 
-	mov ebx, 0x07ffff9a ; 的确与数据段不同
-	call GDT_Set
+	[第0个数据段全是0]
+	[empty]
+	[第1个数据段的段地址为0，用作数据段]
+	[基地址，共4字节]
+	[前面4位是控制位，中间20位是限制，后面8位是控制位，一共32位，4字节]
+	kernel.z\setGDT(Addr_GDT+1*8, 0x00000000, 0x0fffff92);
+	[第2个数据段的段地址为280000，用作代码段]
 	set(Addr_GDT+2*8, 0x00000000, 0x07ffff9a);
-	lgdt [GDTR] ; 不加dword会警告，因为现在的标签的确从0开始的
-	; 这样做后，一切不变，或者说，能够保证从0开始的标签不变
-	; 那么怎么转换成从0开始呢？
-	; 为什么code是第二段呢？
-	; 因为它jmp的就是第二段
+	kernel.z\loadGDT();
 	popad
 );
-
-set(addr: dword, param1: dword, param2: dword): (
-
-);
-
-; 这8个字节应该 0x00c79a28 0x0000ffff
-
-; esi是将要填入的地址，就是GDT表的地址，例如Addr_GDT+2*8
-; eax是基地址，是代码的
-; ebx是控制参数和限制 24+8 4位扩展(自动填上)20位限长8位参数
-;     高4位参数 高4位限制 低16位限制 8位参数 = 32位ebx
-; 实际上高4位参数被自己固定掉了
-; 因此用一个常量代替比较好
-GDT_Set:
-	pushad 
-	mov [esi+base_low],  ax ; 基地址的低16位
-	shr eax, 16
-	mov [esi+base_mid], al ; 8位，1个字节
-	mov [esi+base_high], ah
-	; 下面是限制与权限设置
-	mov [esi+access_right], bl;8位参数
-	; 0x00 未使用的记录表
-	; 0x92 系统模式，可读写不可执行
-	; 0x9a 系统模式，可执行可读不可写
-	; 0xf2 应用模式，可读写不可执行
-	; 0xfa 应用模式，可执行可读不可写
-	shr ebx, 8
-	mov [esi+limit_low], bx ; 限制的低16位
-	shr ebx, 16
-	or  bl, 0xc0 ; 0xc0=11000000
-	and bl, 0xcf ; 规定好前4位为1100，0x11001111
-	mov [esi+limit_high], bl ; 4位参数+4位段限长，高4位被称为扩展访问权，参数固定为
-	; G=1(开启4K),D/B=1(32位段),0(固定),AVL=0(也是默认的)这4位在386前是没有的
-	; 因此注意limit在这里被规定为24位长，其中高四位是扩展访问权，是固定的
-	popad 
-ret 

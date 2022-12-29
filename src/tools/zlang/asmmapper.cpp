@@ -9,8 +9,6 @@ using namespace std;
 class AsmMapper
 {
 private:
-  // 单例模式
-  static AsmMapper *m_pInstance;
   // 最后的asm代码
   string *m_asm;
   // AST树，用来条件循环语句的计数
@@ -19,55 +17,44 @@ private:
   vector<string> m_funcParams;
   // 用来暂返回变量名的前缀 TODO: del
   string prefixes();
-  // 单例模式（asm是C++关键字）
-  AsmMapper();
   // lang转asm的函数
   template <class T, class ...Args>
   void map2Asm(T head, Args... rest);
   void map2Asm();
 public:
-  static AsmMapper *GetInstance();
+  AsmMapper();
   string* getAsm();
   // 定义一个tag
-  virtual void defTag(string tagName) const;
+  virtual void defTag(string tagName) = 0;
   // 用数值定义一个4字节内存变量
-  virtual void defVarWithNumber(string varName, string num) const;
+  virtual void defVarWithNumber(string varName, string num) = 0;
   // 用字符串定义一个内存变量
-  virtual void defVarWithString(string varName, string str) const;
+  virtual void defVarWithString(string varName, string str) = 0;
   // 定义数组头部部分
-  virtual void defArrayStart(string arrName) const;
+  virtual void defArrayStart(string arrName) = 0;
   // 定义数组尾部部分
-  virtual void defArrayEnd(string arrName) const;
+  virtual void defArrayEnd(string arrName) = 0;
   // 定义数组中的元素
-  virtual void defArrayItem(string num) const;
+  virtual void defArrayItem(string num) = 0;
   // 定义函数参数
-  virtual void defParam(string varName) const;
+  virtual void defParam(string varName) = 0;
   // 定义函数头部部分
-  virtual void defFunctionStart(string funName) const;
+  virtual void defFunctionStart(string funName) = 0;
   // 定义函数尾部部分
-  virtual void defFunctionEnd(string funName) const;
+  virtual void defFunctionEnd(string funName) = 0;
   // 定义函数的return
-  virtual void defReturn() const;
+  virtual void defReturn() = 0;
   // 给变量赋值
-  virtual void assginVar(string varName) const;
+  virtual void assginVar(string varName) = 0;
   // 给自带前缀的变量赋值
-  virtual void assginPrefixesVar(string prefixesVarName) const;
+  virtual void assginPrefixesVar(string prefixesVarName) = 0;
   // 给数组赋值
-  virtual void assginArray(string arrName) const;
+  virtual void assginArray(string arrName) = 0;
   // 给自带前缀的数组赋值
-  virtual void assginPrefixesArray(string prefixesArrName) const;
+  virtual void assginPrefixesArray(string prefixesArrName) = 0;
   // 定义条件判断的尾部部分
-  virtual void ifEnd() const;
+  virtual void ifEnd() = 0;
 };
-
-AsmMapper *AsmMapper::m_pInstance = nullptr;
-
-AsmMapper *AsmMapper::GetInstance()
-{
-  if (m_pInstance == nullptr)
-    m_pInstance = new AsmMapper();
-  return m_pInstance;
-}
 
 AsmMapper::AsmMapper()
 {

@@ -77,18 +77,17 @@ class NasmMapper : public AsmMapper
   virtual void defFunctionEnd(string funName)
   {
     m_astree->up();
-    map2Asm("map2Asm(" ret\n ");\n");
+    map2Asm("ret\n");
     map2Asm(";========[fun end]", funName, "========\n");
     map2Asm(m_astree->getPrefix(), funName, "_pass:\n");
   }
 
-  // 函数的map2Asm("ret\n");urn
-  virtual void defmap2Asm("ret\n");
-  urn()
+  // 函数的return
+  virtual void defReturn()
   {
     map2Asm("pop eax\n");
-    map2Asm("pop ebp\n")
-        map2Asm("push eax\n");
+    map2Asm("pop ebp\n");
+    map2Asm("push eax\n");
     map2Asm("push ebp\n");
     map2Asm("ret\n");
   }
@@ -108,14 +107,14 @@ class NasmMapper : public AsmMapper
 
   virtual void assginArray(string arrName)
   {
-    map2Asm("pop eax\n"); // var
+    map2Asm("pop eax\n");     // var
     map2Asm("pop ebx\n"); // index
     map2Asm("mov [", m_astree->getPrefix(), arrName, "+ebx], eax\n");
   }
 
   virtual void assginPrefixesArray(string prefixesArrName)
   {
-    map2Asm("pop eax\n"); // var
+    map2Asm("pop eax\n");     // var
     map2Asm("pop ebx\n"); // index
     map2Asm("mov [", prefixesArrName, "+ebx], eax\n");
   }

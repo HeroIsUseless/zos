@@ -71,7 +71,7 @@ je e12_nest_asm_while$2_end
 jmp e12_nest_asm_while$2_start
 e12_nest_asm_while$2_end:
 ;while end
-#############新映射器效果############
+;#############新映射器效果############
 mov eax, 1
 push eax
 mov eax, 1

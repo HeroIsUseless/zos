@@ -10,7 +10,7 @@ push eax
 mov eax, 12
 push eax
 call memory_z_set_8bit
-#############新映射器效果############
+;#############新映射器效果############
 mov eax, 1
 push eax
 jmp e8_exec_param_z@a$pass

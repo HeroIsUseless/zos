@@ -33,7 +33,7 @@ e16_return_asm_b: dd 0
 e16_return_asm_b$next:
 pop eax
 mov [e16_return_asm_b], eax
-#############新映射器效果############
+;#############新映射器效果############
 
 ;############[fun begin]func############
 jmp e16_return_z@func$pass

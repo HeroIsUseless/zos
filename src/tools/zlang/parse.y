@@ -162,9 +162,8 @@ int main(int argc, char **argv){
     fclose(yyout);
     ofstream os;
     os.open(argv[2], ios::app);
-    os << "#############新映射器效果############"<<endl;
+    os << ";#############新映射器效果############"<<endl;
     os << *nm->getAsm() << endl;
     os.close();
-    printf("zws 2553 %s\n", argv[1]);
     return 0;
 }

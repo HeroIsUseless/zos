@@ -47,7 +47,7 @@ e15_at_asm_func$next:
 mov eax, e15_at_asm_str
 push eax
 call e15_at_asm_func
-#############新映射器效果############
+;#############新映射器效果############
 jmp e15_at_z@str$pass
 e15_at_z@str: dd "ABCD"
 e15_at_z@str$pass:
@@ -56,8 +56,13 @@ e15_at_z@str$pass:
 jmp e15_at_z@func$pass
 e15_at_z@func:
 pop ebp
+;param: strAddr
+e15_at_z@func@strAddr$pass
+e15_at_z@func@strAddr: dd 0
+e15_at_z@func@strAddr$pass:
 pop eax
-mv e15_at_z@func@strAddr, eaxpush ebp
+mv [e15_at_z@func@strAddr], eax
+push ebp
 mov eax, 0
 push eax
 jmp e15_at_z@func@a$pass

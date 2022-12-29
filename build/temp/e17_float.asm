@@ -11,7 +11,7 @@ e17_float_asm_a: dd 0
 e17_float_asm_a$next:
 pop eax
 mov [e17_float_asm_a], eax
-#############新映射器效果############
+;#############新映射器效果############
 mov eax, 1
 push eax
 mov eax, 2

@@ -9,7 +9,7 @@ mov eax, 5678
 push eax
 pop eax
 mov [e6_assgin_asm_a], eax
-#############新映射器效果############
+;#############新映射器效果############
 mov eax, 1234
 push eax
 jmp e6_assgin_z@a$pass

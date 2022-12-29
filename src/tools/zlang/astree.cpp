@@ -33,7 +33,6 @@ struct ASNode
     if(i != -1) {
       t_name = t_name.substr(i+1, t_name.size()-i);
     }
-    cout << "zws 4634 " << t_name << endl;
     this->name = t_name;
   }
 };

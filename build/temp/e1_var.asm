@@ -12,7 +12,7 @@ e1_var_asm_b: dd 0
 e1_var_asm_b$next:
 pop eax
 mov [e1_var_asm_b], eax
-#############新映射器效果############
+;#############新映射器效果############
 mov eax, 1
 push eax
 jmp e1_var_z@a$pass

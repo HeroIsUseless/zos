@@ -25,7 +25,7 @@ mov ebx, [mem_z_d+eax]
 push ebx
 pop eax
 mov [e13_arr_asm_c], eax
-#############新映射器效果############
+;#############新映射器效果############
 jmp e13_arr_z@a_pass
 e13_arr_z@a: dd 2, 3, 4, 5, 6, 
 e13_arr_z@a_pass:

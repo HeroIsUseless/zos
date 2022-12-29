@@ -88,7 +88,7 @@ e11_exp_asm_f: dd 0
 e11_exp_asm_f$next:
 pop eax
 mov [e11_exp_asm_f], eax
-#############新映射器效果############
+;#############新映射器效果############
 mov eax, 123
 push eax
 jmp e11_exp_z@a$pass

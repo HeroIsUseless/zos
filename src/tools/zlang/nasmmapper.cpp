@@ -57,6 +57,7 @@ public:
   virtual void defParam(string varName)
   {
     m_funcParams.push_back(varName);
+    cout << "zws 2847" << m_astree->getPrefix()<< varName << endl;
   }
 
   // 定义函数前半部分
@@ -69,9 +70,12 @@ public:
     map2Asm("pop ebp\n");
     for (int i = m_funcParams.size() - 1; i >= 0; i--)
     {
-      // m_astree->addChild(m_funcParams[i]);
+      map2Asm(";param: ", m_funcParams[i], "\n");
+      map2Asm(m_astree->getPrefix(), m_funcParams[i], "$pass\n");
+      map2Asm(m_astree->getPrefix(), m_funcParams[i], ": dd 0", "\n");
+      map2Asm(m_astree->getPrefix(), m_funcParams[i], "$pass:\n");
       map2Asm("pop eax\n");
-      map2Asm("mv ", m_astree->getPrefix(), m_funcParams[i], ", eax");
+      map2Asm("mv [", m_astree->getPrefix(), m_funcParams[i], "], eax\n");
     }
     map2Asm("push ebp\n");
     m_funcParams.clear();

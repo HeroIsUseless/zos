@@ -1,6 +1,7 @@
 #ifndef ASTREE_CPP
 #define ASTREE_CPP
 #include <stdio.h>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -17,6 +18,24 @@ struct ASNode
     init();
     this->name = name;
   }
+  ASNode(char* name){
+    string t_name = string(name);
+    int i;
+    for(i=t_name.size()-1; i>=0; i--) {
+      if(t_name[i] == '.') {
+        t_name[i] = '_';
+      }
+      if(t_name[i] == '\\' || t_name[i] == '/') {
+        break;
+      }
+    }
+    // 此时i应该在分隔线处或者为-1，表示没找到分隔线
+    if(i != -1) {
+      t_name = t_name.substr(i+1, t_name.size()-i);
+    }
+    cout << "zws 4634 " << t_name << endl;
+    this->name = t_name;
+  }
 };
 
 class ASTree
@@ -28,8 +47,8 @@ private:
   ASNode* m_nowNode;
 
 public:
-  ASTree() {
-    m_nowNode = m_root = new ASNode();
+  ASTree(char *fileName) {
+    m_nowNode = m_root = new ASNode(fileName);
   }
 
   void up(){
@@ -45,10 +64,10 @@ public:
   }
 
   string getPrefix(){
-    string prefix = "_";
+    string prefix = "";
     ASNode* tNode = m_nowNode;
-    while(tNode != m_root){
-      prefix = tNode->name + "_" + prefix;
+    while(tNode){
+      prefix = tNode->name + "@" + prefix;
       tNode = tNode->parent;
     }
     return prefix;

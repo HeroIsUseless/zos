@@ -21,13 +21,13 @@ protected:
   // 用来暂时记录函数的参数
   vector<string> m_funcParams;
 public:
-  AsmMapper();
+  AsmMapper(char *fileName);
   ~AsmMapper();
   string* getAsm();
   // 定义一个tag
   virtual void defTag(string tagName) = 0;
   // 用数值定义一个4字节内存变量
-  virtual void defVarWithNumber(string varName, string num) = 0;
+  virtual void defVarWithNumber(string varName) = 0;
   // 用字符串定义一个内存变量
   virtual void defVarWithString(string varName, string str) = 0;
   // 定义数组头部部分
@@ -54,12 +54,14 @@ public:
   virtual void assginPrefixesArray(string prefixesArrName) = 0;
   // 定义条件判断的尾部部分
   virtual void ifEnd() = 0;
+  // 表达式部分：将数字压入堆栈
+  virtual void pushInt(string integer) = 0;
 };
 
-AsmMapper::AsmMapper()
+AsmMapper::AsmMapper(char *fileName)
 {
   m_asm = new string("");
-  m_astree = new ASTree();
+  m_astree = new ASTree(fileName);
 }
 
 AsmMapper::~AsmMapper()

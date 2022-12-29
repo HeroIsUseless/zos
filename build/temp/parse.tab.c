@@ -114,14 +114,14 @@
     extern FILE* yyout;
     // 词法解析器
     extern int yylex();
+    // lang转asm代码映射器
+    NasmMapper* nm;
     // 正在解析第几行
     extern int yylineno;
     // 错误提醒
     void yyerror(char *s){
         fprintf(stderr, "[error]line %d: %s\n", yylineno, s);
     }
-    // lang转asm代码映射器
-    NasmMapper* nm = new NasmMapper();
     //  打开lang文件
     int open(int argc, char **argv){
         if(argc > 1){
@@ -1548,7 +1548,7 @@ yyreduce:
 
   case 11:
 #line 73 "parse.y"
-    {am_def_var((yyvsp[(1) - (3)].s)); nm->defVarWithNumber((yyvsp[(1) - (3)].s), "0");;}
+    {am_def_var((yyvsp[(1) - (3)].s)); nm->defVarWithNumber((yyvsp[(1) - (3)].s));;}
     break;
 
   case 12:
@@ -1558,7 +1558,7 @@ yyreduce:
 
   case 13:
 #line 75 "parse.y"
-    {am_def_str((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s)); nm->defVarWithNumber((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s));;}
+    {am_def_str((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s)); nm->defVarWithString((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s));;}
     break;
 
   case 14:
@@ -1738,7 +1738,7 @@ yyreduce:
 
   case 60:
 #line 140 "parse.y"
-    {am_exp_val((yyvsp[(1) - (1)].s));;}
+    {am_exp_val((yyvsp[(1) - (1)].s)); nm->pushInt((yyvsp[(1) - (1)].s));;}
     break;
 
   case 61:
@@ -2013,6 +2013,7 @@ yyreturn:
 int main(int argc, char **argv){
     if(!open(argc, argv)) return 1;
     prefixes_push(argv[2]);
+    nm = new NasmMapper(argv[1]);
     yylineno = 1;
     yyparse();
     // 此code是全局的
@@ -2020,9 +2021,10 @@ int main(int argc, char **argv){
     fclose(yyout);
     ofstream os;
     os.open(argv[2], ios::app);
-    os << "\n#############新映射器效果############"<<endl;
+    os << "#############新映射器效果############"<<endl;
     os << *nm->getAsm() << endl;
     os.close();
+    printf("zws 2553 %s\n", argv[1]);
     return 0;
 }
 

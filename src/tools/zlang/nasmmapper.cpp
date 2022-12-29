@@ -9,6 +9,7 @@ using namespace std;
 class NasmMapper : public AsmMapper
 {
 public:
+  NasmMapper(char* fileName) : AsmMapper(fileName) {}
   // 定义标签
   virtual void defTag(string tagName)
   {
@@ -16,19 +17,21 @@ public:
   }
 
   // 定义整型4字节变量
-  virtual void defVarWithNumber(string varName, string num)
+  virtual void defVarWithNumber(string varName)
   {
-    map2Asm("jmp ", m_astree->getPrefix(), varName, "_pass\n");
-    map2Asm(m_astree->getPrefix(), varName, ": dd ", num, "\n");
-    map2Asm(m_astree->getPrefix(), varName, "_pass:\n");
+    map2Asm("jmp ", m_astree->getPrefix(), varName, "$pass\n");
+    map2Asm(m_astree->getPrefix(), varName, ": dd 0", "\n");
+    map2Asm(m_astree->getPrefix(), varName, "$pass:\n");
+    map2Asm("pop eax\n");
+    map2Asm("mov [", m_astree->getPrefix(), varName, "], eax\n\n");
   }
 
   // 定义字符串
   virtual void defVarWithString(string varName, string str)
   {
-    map2Asm("jmp ", m_astree->getPrefix(), varName, "_pass\n");
+    map2Asm("jmp ", m_astree->getPrefix(), varName, "$pass\n");
     map2Asm(m_astree->getPrefix(), varName, ": dd ", str, "\n");
-    map2Asm(m_astree->getPrefix(), varName, "_pass:\n");
+    map2Asm(m_astree->getPrefix(), varName, "$pass:\n");
   }
 
   // 定义数组前半部分
@@ -60,7 +63,7 @@ public:
   virtual void defFunctionStart(string funName)
   {
     map2Asm("\n;############[fun begin]", funName, "############\n");
-    map2Asm("jmp ", m_astree->getPrefix(), funName, "_pass\n");
+    map2Asm("jmp ", m_astree->getPrefix(), funName, "$pass\n");
     defTag(funName);
     m_astree->down(funName);
     map2Asm("pop ebp\n");
@@ -79,8 +82,8 @@ public:
   {
     m_astree->up();
     map2Asm("ret\n");
-    map2Asm(";========[fun end]", funName, "========\n");
-    map2Asm(m_astree->getPrefix(), funName, "_pass:\n");
+    map2Asm(m_astree->getPrefix(), funName, "$pass:\n");
+    map2Asm(";============[fun end]", funName, "=============\n\n");
   }
 
   // 函数的return
@@ -125,6 +128,13 @@ public:
     defTag("end");
     map2Asm(";if end\n");
   }
+
+  virtual void pushInt(string integer)
+  {
+    map2Asm("mov eax, ", integer, "\n");
+    map2Asm("push eax\n");
+  }
+
 };
 
 #endif

@@ -47,24 +47,35 @@ e15_at_asm_func$next:
 mov eax, e15_at_asm_str
 push eax
 call e15_at_asm_func
-
 #############新映射器效果############
-jmp _str_pass
-_str: dd "ABCD"
-_str_pass:
+jmp e15_at_z@str$pass
+e15_at_z@str: dd "ABCD"
+e15_at_z@str$pass:
 
 ;############[fun begin]func############
-jmp _func_pass
-_func:
+jmp e15_at_z@func$pass
+e15_at_z@func:
 pop ebp
 pop eax
-mv func__strAddr, eaxpush ebp
-jmp func__a_pass
-func__a: dd 0
-func__a_pass:
+mv e15_at_z@func@strAddr, eaxpush ebp
+mov eax, 0
+push eax
+jmp e15_at_z@func@a$pass
+e15_at_z@func@a: dd 0
+e15_at_z@func@a$pass:
 pop eax
-mov [func__a], eax
+mov [e15_at_z@func@a], eax
+
+mov eax, 1
+push eax
+pop eax
+mov [e15_at_z@func@a], eax
+mov eax, 1
+push eax
+mov eax, 123
+push eax
 ret
-;========[fun end]func========
-_func_pass:
+e15_at_z@func$pass:
+;============[fun end]func=============
+
 

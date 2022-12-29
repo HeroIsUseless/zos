@@ -88,24 +88,45 @@ e11_exp_asm_f: dd 0
 e11_exp_asm_f$next:
 pop eax
 mov [e11_exp_asm_f], eax
-
 #############新映射器效果############
-jmp _a_pass
-_a: dd 0
-_a_pass:
-jmp _b_pass
-_b: dd 0
-_b_pass:
-jmp _d_pass
-_d: dd 0
-_d_pass:
-jmp _c_pass
-_c: dd 0
-_c_pass:
-jmp _e_pass
-_e: dd 0
-_e_pass:
-jmp _f_pass
-_f: dd 0
-_f_pass:
+mov eax, 123
+push eax
+jmp e11_exp_z@a$pass
+e11_exp_z@a: dd 0
+e11_exp_z@a$pass:
+pop eax
+mov [e11_exp_z@a], eax
+
+mov eax, 234
+push eax
+jmp e11_exp_z@b$pass
+e11_exp_z@b: dd 0
+e11_exp_z@b$pass:
+pop eax
+mov [e11_exp_z@b], eax
+
+jmp e11_exp_z@d$pass
+e11_exp_z@d: dd 0
+e11_exp_z@d$pass:
+pop eax
+mov [e11_exp_z@d], eax
+
+jmp e11_exp_z@c$pass
+e11_exp_z@c: dd 0
+e11_exp_z@c$pass:
+pop eax
+mov [e11_exp_z@c], eax
+
+jmp e11_exp_z@e$pass
+e11_exp_z@e: dd 0
+e11_exp_z@e$pass:
+pop eax
+mov [e11_exp_z@e], eax
+
+jmp e11_exp_z@f$pass
+e11_exp_z@f: dd 0
+e11_exp_z@f$pass:
+pop eax
+mov [e11_exp_z@f], eax
+
 

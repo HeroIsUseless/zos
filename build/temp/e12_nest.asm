@@ -71,11 +71,27 @@ je e12_nest_asm_while$2_end
 jmp e12_nest_asm_while$2_start
 e12_nest_asm_while$2_end:
 ;while end
-
 #############新映射器效果############
-jmp _a_pass
-_a: dd 0
-_a_pass:
-_end:
+mov eax, 1
+push eax
+mov eax, 1
+push eax
+mov eax, 1
+push eax
+jmp e12_nest_z@a$pass
+e12_nest_z@a: dd 0
+e12_nest_z@a$pass:
+pop eax
+mov [e12_nest_z@a], eax
+
+e12_nest_z@end:
 ;if end
+mov eax, 1
+push eax
+mov eax, 1
+push eax
+mov eax, 1
+push eax
+mov eax, 1
+push eax
 

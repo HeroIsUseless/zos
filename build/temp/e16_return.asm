@@ -33,29 +33,42 @@ e16_return_asm_b: dd 0
 e16_return_asm_b$next:
 pop eax
 mov [e16_return_asm_b], eax
-
 #############新映射器效果############
 
 ;############[fun begin]func############
-jmp _func_pass
-_func:
+jmp e16_return_z@func$pass
+e16_return_z@func:
 pop ebp
 push ebp
-jmp func__a_pass
-func__a: dd 0
-func__a_pass:
+mov eax, 0
+push eax
+jmp e16_return_z@func@a$pass
+e16_return_z@func@a: dd 0
+e16_return_z@func@a$pass:
+pop eax
+mov [e16_return_z@func@a], eax
+
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp func__b_pass
-func__b: dd 0
-func__b_pass:
+mov eax, 1
+push eax
+jmp e16_return_z@func@b$pass
+e16_return_z@func@b: dd 0
+e16_return_z@func@b$pass:
+pop eax
+mov [e16_return_z@func@b], eax
+
 ret
-;========[fun end]func========
-_func_pass:
-jmp _b_pass
-_b: dd 0
-_b_pass:
+e16_return_z@func$pass:
+;============[fun end]func=============
+
+jmp e16_return_z@b$pass
+e16_return_z@b: dd 0
+e16_return_z@b$pass:
+pop eax
+mov [e16_return_z@b], eax
+
 

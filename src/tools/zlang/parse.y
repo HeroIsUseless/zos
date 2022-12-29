@@ -13,14 +13,14 @@
     extern FILE* yyout;
     // 词法解析器
     extern int yylex();
+    // lang转asm代码映射器
+    NasmMapper* nm;
     // 正在解析第几行
     extern int yylineno;
     // 错误提醒
     void yyerror(char *s){
         fprintf(stderr, "[error]line %d: %s\n", yylineno, s);
     }
-    // lang转asm代码映射器
-    NasmMapper* nm = new NasmMapper();
     //  打开lang文件
     int open(int argc, char **argv){
         if(argc > 1){
@@ -70,9 +70,9 @@ def: def_var
    | def_fun
    ;
 
-def_var: VAR ':' exp {am_def_var($1); nm->defVarWithNumber($1, "0");}
+def_var: VAR ':' exp {am_def_var($1); nm->defVarWithNumber($1);}
        | VAR ':' PATH {}
-       | VAR ':' STRING {am_def_str($1, $3); nm->defVarWithNumber($1, $3);} 
+       | VAR ':' STRING {am_def_str($1, $3); nm->defVarWithString($1, $3);} 
        ;
 
 def_arr: VAR ':' '{' {am_def_arr_start($1); nm->defArrayStart($1);} items '}' {am_def_arr_end($1); nm->defArrayEnd($1);}
@@ -137,7 +137,7 @@ factor: term
       | factor '/' term {am_exp_div();} 
       ;
 
-term: INTEGER {am_exp_val($1);}
+term: INTEGER {am_exp_val($1); nm->pushInt($1);}
     | VAR {am_exp_var($1);}
     | PREFIXES_VAR {am_exp_prefixesVar($1);}
     | '@' VAR {am_exp_addr($2);}
@@ -154,6 +154,7 @@ term: INTEGER {am_exp_val($1);}
 int main(int argc, char **argv){
     if(!open(argc, argv)) return 1;
     prefixes_push(argv[2]);
+    nm = new NasmMapper(argv[1]);
     yylineno = 1;
     yyparse();
     // 此code是全局的
@@ -161,8 +162,9 @@ int main(int argc, char **argv){
     fclose(yyout);
     ofstream os;
     os.open(argv[2], ios::app);
-    os << "\n#############新映射器效果############"<<endl;
+    os << "#############新映射器效果############"<<endl;
     os << *nm->getAsm() << endl;
     os.close();
+    printf("zws 2553 %s\n", argv[1]);
     return 0;
 }

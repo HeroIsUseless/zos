@@ -18,17 +18,17 @@ mov [e5_param_asm_fun_a], eax
 push ebp
 ret
 e5_param_asm_fun$next:
-
 #############新映射器效果############
 
 ;############[fun begin]fun############
-jmp _fun_pass
-_fun:
+jmp e5_param_z@fun$pass
+e5_param_z@fun:
 pop ebp
 pop eax
-mv fun__b, eaxpop eax
-mv fun__a, eaxpush ebp
+mv e5_param_z@fun@b, eaxpop eax
+mv e5_param_z@fun@a, eaxpush ebp
 ret
-;========[fun end]fun========
-_fun_pass:
+e5_param_z@fun$pass:
+;============[fun end]fun=============
+
 

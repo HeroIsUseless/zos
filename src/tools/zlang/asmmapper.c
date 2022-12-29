@@ -1,5 +1,5 @@
-#ifndef ASMAPPER_C
-#define ASMAPPER_C
+#ifndef ASMMAPPER_C
+#define ASMMAPPER_C
 #include <string.h>
 #include "define.c"
 #include "algo.c"

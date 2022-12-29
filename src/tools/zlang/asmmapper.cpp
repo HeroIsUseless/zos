@@ -59,7 +59,7 @@ public:
 AsmMapper::AsmMapper()
 {
   m_asm = new string("");
-  m_astree = ASTree::GetInstance();
+  m_astree = new ASTree();
 }
 
 AsmMapper::~AsmMapper()

@@ -8,6 +8,7 @@ using namespace std;
 
 class NasmMapper : public AsmMapper
 {
+public:
   // 定义标签
   virtual void defTag(string tagName)
   {
@@ -65,7 +66,7 @@ class NasmMapper : public AsmMapper
     map2Asm("pop ebp\n");
     for (int i = m_funcParams.size() - 1; i >= 0; i--)
     {
-      m_astree->addChild(m_funcParams[i]);
+      // m_astree->addChild(m_funcParams[i]);
       map2Asm("pop eax\n");
       map2Asm("mv ", m_astree->getPrefix(), m_funcParams[i], ", eax");
     }

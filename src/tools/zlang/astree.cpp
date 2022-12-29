@@ -22,47 +22,38 @@ struct ASNode
 class ASTree
 {
 private:
-  static ASTree *m_pInstance;
-  ASNode* root;
-  ASNode* pNode;
-  ASTree() {
-    pNode = root = new ASNode();
-  }
+  // 根节点
+  ASNode* m_root;
+  // 当前所在节点
+  ASNode* m_nowNode;
+
 public:
-  static ASTree *GetInstance()
-  {
-    if (m_pInstance == NULL)
-      m_pInstance = new ASTree();
-    return m_pInstance;
+  ASTree() {
+    m_nowNode = m_root = new ASNode();
   }
 
   void up(){
-    if(pNode == root) return;
-    pNode = pNode->parent;
+    if(m_nowNode == m_root) return;
+    m_nowNode = m_nowNode->parent;
   }
 
   void down(string name){
     ASNode* tNode = new ASNode(name);
-    tNode->parent = pNode;
-    pNode->children.push_back(tNode);
-    pNode = tNode;
-  }
-
-  void addChild(string name){
-    //ASNode* tNode = new ASNode(name);
-    //pNode->children.push_back(tNode);
+    tNode->parent = m_nowNode;
+    m_nowNode->children.push_back(tNode);
+    m_nowNode = tNode;
   }
 
   string getPrefix(){
     string prefix = "_";
-    ASNode* tNode = pNode;
-    while(tNode != root){
+    ASNode* tNode = m_nowNode;
+    while(tNode != m_root){
       prefix = tNode->name + "_" + prefix;
       tNode = tNode->parent;
     }
     return prefix;
   }
+  
 };
-// init static member
-ASTree* ASTree::m_pInstance = NULL;
+
 #endif

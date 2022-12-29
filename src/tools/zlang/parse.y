@@ -3,37 +3,36 @@
     #include <stdlib.h>
     #include <string.h>
     #include "define.c"
-    #include "asmapper.c"
-    #include "code.cpp"
-    #include "asmapper.h"
-    #include "asmapper.cpp"
+    #include "asmmapper.c"
+    #include "asmmapper.cpp"
+    #include "nasmmapper.cpp"
 
     extern FILE* yyin;
-    FILE *out_asm;
+    extern FILE* yyout;
+    // 词法解析器
     extern int yylex();
+    // 正在解析第几行
     extern int yylineno;
-
-    Code* c = new Code();
-    AsmMapper* a2z = AsmMapper::GetInstance(c);
-
+    // 错误提醒
     void yyerror(char *s){
         fprintf(stderr, "[error]line %d: %s\n", yylineno, s);
     }
-
+    // lang转asm代码映射器
+    NasmMapper* nm = new NasmMapper();
+    //  打开lang文件
     int open(int argc, char **argv){
         if(argc > 1){
             if(!(yyin = fopen(argv[1], "r"))){
                 printf("[error] infile open failed\n");
                 return 0;
             }
-            else {
-                if(!(out_asm = fopen(argv[2], "w"))){
-                    printf("[error] outfile open failed\n");
-                    return 0;
-                }
+            if(!(yyout = fopen(argv[2], "w"))){
+                printf("[error] outfile open failed\n");
+                return 0;
             }
         }
         else{
+            // playgound模式
             yyin = stdin;
         }
         return 1;
@@ -69,20 +68,20 @@ def: def_var
    | def_fun
    ;
 
-def_var: VAR ':' exp {am_def_var($1); am->defVarWithNumber($1, "0");}
+def_var: VAR ':' exp {am_def_var($1); nm->defVarWithNumber($1, "0");}
        | VAR ':' PATH {}
-       | VAR ':' STRING {am_def_str($1, $3); am->defVarWithNumber($1, $3);} 
+       | VAR ':' STRING {am_def_str($1, $3); nm->defVarWithNumber($1, $3);} 
        ;
 
-def_arr: VAR ':' '{' {am_def_arr_start($1); am->defArrayStart($1);} items '}' {am_def_arr_end($1); am->defArrayEnd($1);}
+def_arr: VAR ':' '{' {am_def_arr_start($1); nm->defArrayStart($1);} items '}' {am_def_arr_end($1); nm->defArrayEnd($1);}
        ;
 
-items: items ',' INTEGER {am_def_arr_item($3); am->defArrayItem($3);}
+items: items ',' INTEGER {am_def_arr_item($3); nm->defArrayItem($3);}
      | INTEGER {am_def_arr_item($1);}
      | /* empty */
      ;
 
-def_fun: VAR params ':' {am_def_fun_head($1); am->defFunctionStart($1);} '(' stmts ')' {am_def_fun_end($1); am->defFunctionEnd($1);}
+def_fun: VAR params ':' {am_def_fun_head($1); nm->defFunctionStart($1);} '(' stmts ')' {am_def_fun_end($1); nm->defFunctionEnd($1);}
 
 params: '(' ')'
       | '(' params_def ')'
@@ -93,7 +92,7 @@ params_def: param_def
           | param_def ',' params_def
           ;
 
-param_def: VAR ':' INTEGER {am_def_param($1); am->defParam($1);}
+param_def: VAR ':' INTEGER {am_def_param($1); nm->defParam($1);}
          ;
 
 params_exec: param_exec
@@ -102,14 +101,14 @@ params_exec: param_exec
 param_exec: exp
           ;
 
-exec: '.' '<' '=' exp {am_return(); am->defReturn();} 
-    | VAR '<' '=' exp {am_assign_var($1); am->assginVar($1);}                  /*调用函数内定义的变量*/
-    | PREFIXES_VAR '<' '=' exp {am_assign_prefixesVar($1); am->assginPrefixesVar($1);} /*调用函数外定义的变量，任何文件内都可以*/
-    | VAR '\\' '(' exp ')' '<' '=' exp {am_assign_arr($1); am->assginArray($1);}                  /*调用函数内定义的数组*/
-    | PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am_assign_prefixesArr($1); am->assginPrefixesArray($1);} /*调用函数外定义的数组*/
+exec: '.' '<' '=' exp {am_return(); nm->defReturn();} 
+    | VAR '<' '=' exp {am_assign_var($1); nm->assginVar($1);}                  /*调用函数内定义的变量*/
+    | PREFIXES_VAR '<' '=' exp {am_assign_prefixesVar($1); nm->assginPrefixesVar($1);} /*调用函数外定义的变量，任何文件内都可以*/
+    | VAR '\\' '(' exp ')' '<' '=' exp {am_assign_arr($1); nm->assginArray($1);}                  /*调用函数内定义的数组*/
+    | PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am_assign_prefixesArr($1); nm->assginPrefixesArray($1);} /*调用函数外定义的数组*/
     | '&' VAR '\\' '(' exp ')' '<' '=' exp {am_assign_arl($2);}                  /*调用函数内定义的数组*/
     | '&' PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am_assign_prefixesArl($2);} /*调用函数外定义的数组*/
-    | if_head ',' stmt ')' {am_if_end(); am->ifEnd();}
+    | if_head ',' stmt ')' {am_if_end(); nm->ifEnd();}
     | if_head ')' {am_if_end();}
     | WHILE {am_while_head();} '(' exp ',' {am_while_mid();} stmt ')' {am_while_end();}
     ;
@@ -149,15 +148,14 @@ term: INTEGER {am_exp_val($1);}
     | PREFIXES_VAR params {am_exec_prefixesFunc($1);}       /*调用文件外定义的函数*/
     ;
 %%
+
 int main(int argc, char **argv){
     if(!open(argc, argv)) return 1;
     prefixes_push(argv[1]);
     yylineno = 1;
     yyparse();
-    c->print();
-    // code_cut("push eax\npop eax\n");
-    // code_cut("push ebp\npop ebp\n");
-    fwrite(code, strlen(code), 1, out_asm);
-    fclose(out_asm);
+    // 此code是全局的
+    fwrite(code, strlen(code), 1, yyout);
+    fclose(yyout);
     return 0;
 }

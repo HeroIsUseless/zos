@@ -104,37 +104,36 @@
     #include <stdlib.h>
     #include <string.h>
     #include "define.c"
-    #include "asmapper.c"
-    #include "code.cpp"
-    #include "asmapper.h"
-    #include "asmapper.cpp"
+    #include "asmmapper.c"
+    #include "asmmapper.cpp"
+    #include "nasmmapper.cpp"
 
     extern FILE* yyin;
-    FILE *out_asm;
+    extern FILE* yyout;
+    // 词法解析器
     extern int yylex();
+    // 正在解析第几行
     extern int yylineno;
-
-    Code* c = new Code();
-    AsmMapper* am = AsmMapper::GetInstance(c);
-
+    // 错误提醒
     void yyerror(char *s){
         fprintf(stderr, "[error]line %d: %s\n", yylineno, s);
     }
-
+    // lang转asm代码映射器
+    NasmMapper* nm = new NasmMapper();
+    //  打开lang文件
     int open(int argc, char **argv){
         if(argc > 1){
             if(!(yyin = fopen(argv[1], "r"))){
                 printf("[error] infile open failed\n");
                 return 0;
             }
-            else {
-                if(!(out_asm = fopen(argv[2], "w"))){
-                    printf("[error] outfile open failed\n");
-                    return 0;
-                }
+            if(!(yyout = fopen(argv[2], "w"))){
+                printf("[error] outfile open failed\n");
+                return 0;
             }
         }
         else{
+            // playgound模式
             yyin = stdin;
         }
         return 1;
@@ -161,7 +160,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 42 "parse.y"
+#line 41 "parse.y"
 {
     int i;
     char* s;
@@ -169,7 +168,7 @@ typedef union YYSTYPE
     double f;
 }
 /* Line 193 of yacc.c.  */
-#line 173 "parse.tab.c"
+#line 172 "parse.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -182,7 +181,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 186 "parse.tab.c"
+#line 185 "parse.tab.c"
 
 #ifdef short
 # undef short
@@ -498,14 +497,14 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    57,    57,    58,    61,    62,    63,    64,    67,    68,
-      69,    72,    73,    74,    77,    77,    80,    81,    82,    85,
-      85,    87,    88,    89,    92,    93,    96,    99,   100,   102,
-     105,   106,   107,   108,   109,   110,   111,   112,   113,   114,
-     114,   114,   117,   117,   117,   120,   121,   122,   123,   124,
-     125,   126,   127,   128,   129,   130,   131,   134,   135,   136,
-     139,   140,   141,   142,   143,   144,   145,   146,   147,   148,
-     149
+       0,    56,    56,    57,    60,    61,    62,    63,    66,    67,
+      68,    71,    72,    73,    76,    76,    79,    80,    81,    84,
+      84,    86,    87,    88,    91,    92,    95,    98,    99,   101,
+     104,   105,   106,   107,   108,   109,   110,   111,   112,   113,
+     113,   113,   116,   116,   116,   119,   120,   121,   122,   123,
+     124,   125,   126,   127,   128,   129,   130,   133,   134,   135,
+     138,   139,   140,   141,   142,   143,   144,   145,   146,   147,
+     148
 };
 #endif
 
@@ -1536,263 +1535,263 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 57 "parse.y"
+#line 56 "parse.y"
     {;}
     break;
 
   case 3:
-#line 58 "parse.y"
+#line 57 "parse.y"
     {/*printf("[line]%d:\n", yylineno);*/;}
     break;
 
   case 11:
-#line 72 "parse.y"
-    {am_def_var((yyvsp[(1) - (3)].s)); am->defVarWithNumber((yyvsp[(1) - (3)].s), "0");;}
+#line 71 "parse.y"
+    {am_def_var((yyvsp[(1) - (3)].s)); nm->defVarWithNumber((yyvsp[(1) - (3)].s), "0");;}
     break;
 
   case 12:
-#line 73 "parse.y"
+#line 72 "parse.y"
     {;}
     break;
 
   case 13:
-#line 74 "parse.y"
-    {am_def_str((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s)); am->defVarWithNumber((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s));;}
+#line 73 "parse.y"
+    {am_def_str((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s)); nm->defVarWithNumber((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s));;}
     break;
 
   case 14:
-#line 77 "parse.y"
-    {am_def_arr_start((yyvsp[(1) - (3)].s)); am->defArrayStart((yyvsp[(1) - (3)].s));;}
+#line 76 "parse.y"
+    {am_def_arr_start((yyvsp[(1) - (3)].s)); nm->defArrayStart((yyvsp[(1) - (3)].s));;}
     break;
 
   case 15:
-#line 77 "parse.y"
-    {am_def_arr_end((yyvsp[(1) - (6)].s)); am->defArrayEnd((yyvsp[(1) - (6)].s));;}
+#line 76 "parse.y"
+    {am_def_arr_end((yyvsp[(1) - (6)].s)); nm->defArrayEnd((yyvsp[(1) - (6)].s));;}
     break;
 
   case 16:
-#line 80 "parse.y"
-    {am_def_arr_item((yyvsp[(3) - (3)].s)); am->defArrayItem((yyvsp[(3) - (3)].s));;}
+#line 79 "parse.y"
+    {am_def_arr_item((yyvsp[(3) - (3)].s)); nm->defArrayItem((yyvsp[(3) - (3)].s));;}
     break;
 
   case 17:
-#line 81 "parse.y"
+#line 80 "parse.y"
     {am_def_arr_item((yyvsp[(1) - (1)].s));;}
     break;
 
   case 19:
-#line 85 "parse.y"
-    {am_def_fun_head((yyvsp[(1) - (3)].s)); am->defFunctionStart((yyvsp[(1) - (3)].s));;}
+#line 84 "parse.y"
+    {am_def_fun_head((yyvsp[(1) - (3)].s)); nm->defFunctionStart((yyvsp[(1) - (3)].s));;}
     break;
 
   case 20:
-#line 85 "parse.y"
-    {am_def_fun_end((yyvsp[(1) - (7)].s)); am->defFunctionEnd((yyvsp[(1) - (7)].s));;}
+#line 84 "parse.y"
+    {am_def_fun_end((yyvsp[(1) - (7)].s)); nm->defFunctionEnd((yyvsp[(1) - (7)].s));;}
     break;
 
   case 26:
-#line 96 "parse.y"
-    {am_def_param((yyvsp[(1) - (3)].s)); am->defParam((yyvsp[(1) - (3)].s));;}
+#line 95 "parse.y"
+    {am_def_param((yyvsp[(1) - (3)].s)); nm->defParam((yyvsp[(1) - (3)].s));;}
     break;
 
   case 30:
-#line 105 "parse.y"
-    {am_return(); am->defReturn();;}
+#line 104 "parse.y"
+    {am_return(); nm->defReturn();;}
     break;
 
   case 31:
-#line 106 "parse.y"
-    {am_assign_var((yyvsp[(1) - (4)].s)); am->assginVar((yyvsp[(1) - (4)].s));;}
+#line 105 "parse.y"
+    {am_assign_var((yyvsp[(1) - (4)].s)); nm->assginVar((yyvsp[(1) - (4)].s));;}
     break;
 
   case 32:
-#line 107 "parse.y"
-    {am_assign_prefixesVar((yyvsp[(1) - (4)].s)); am->assginPrefixesVar((yyvsp[(1) - (4)].s));;}
+#line 106 "parse.y"
+    {am_assign_prefixesVar((yyvsp[(1) - (4)].s)); nm->assginPrefixesVar((yyvsp[(1) - (4)].s));;}
     break;
 
   case 33:
-#line 108 "parse.y"
-    {am_assign_arr((yyvsp[(1) - (8)].s)); am->assginArray((yyvsp[(1) - (8)].s));;}
+#line 107 "parse.y"
+    {am_assign_arr((yyvsp[(1) - (8)].s)); nm->assginArray((yyvsp[(1) - (8)].s));;}
     break;
 
   case 34:
-#line 109 "parse.y"
-    {am_assign_prefixesArr((yyvsp[(1) - (8)].s)); am->assginPrefixesArray((yyvsp[(1) - (8)].s));;}
+#line 108 "parse.y"
+    {am_assign_prefixesArr((yyvsp[(1) - (8)].s)); nm->assginPrefixesArray((yyvsp[(1) - (8)].s));;}
     break;
 
   case 35:
-#line 110 "parse.y"
+#line 109 "parse.y"
     {am_assign_arl((yyvsp[(2) - (9)].s));;}
     break;
 
   case 36:
-#line 111 "parse.y"
+#line 110 "parse.y"
     {am_assign_prefixesArl((yyvsp[(2) - (9)].s));;}
     break;
 
   case 37:
-#line 112 "parse.y"
-    {am_if_end(); am->ifEnd();;}
+#line 111 "parse.y"
+    {am_if_end(); nm->ifEnd();;}
     break;
 
   case 38:
-#line 113 "parse.y"
+#line 112 "parse.y"
     {am_if_end();;}
     break;
 
   case 39:
-#line 114 "parse.y"
+#line 113 "parse.y"
     {am_while_head();;}
     break;
 
   case 40:
-#line 114 "parse.y"
+#line 113 "parse.y"
     {am_while_mid();;}
     break;
 
   case 41:
-#line 114 "parse.y"
+#line 113 "parse.y"
     {am_while_end();;}
     break;
 
   case 42:
-#line 117 "parse.y"
+#line 116 "parse.y"
     {am_if_head();;}
     break;
 
   case 43:
-#line 117 "parse.y"
+#line 116 "parse.y"
     {am_if_then();;}
     break;
 
   case 44:
-#line 117 "parse.y"
+#line 116 "parse.y"
     {am_if_else();;}
     break;
 
   case 46:
-#line 121 "parse.y"
+#line 120 "parse.y"
     {am_exp_add();;}
     break;
 
   case 47:
-#line 122 "parse.y"
+#line 121 "parse.y"
     {am_exp_fadd();;}
     break;
 
   case 48:
-#line 123 "parse.y"
+#line 122 "parse.y"
     {am_exp_sub();;}
     break;
 
   case 49:
-#line 124 "parse.y"
+#line 123 "parse.y"
     {am_exp_les();;}
     break;
 
   case 50:
-#line 125 "parse.y"
+#line 124 "parse.y"
     {am_exp_mor();;}
     break;
 
   case 51:
-#line 126 "parse.y"
+#line 125 "parse.y"
     {am_exp_leq();;}
     break;
 
   case 52:
-#line 127 "parse.y"
+#line 126 "parse.y"
     {am_exp_meq();;}
     break;
 
   case 53:
-#line 128 "parse.y"
+#line 127 "parse.y"
     {am_exp_lmo();;}
     break;
 
   case 54:
-#line 129 "parse.y"
+#line 128 "parse.y"
     {am_exp_rmo();;}
     break;
 
   case 55:
-#line 130 "parse.y"
+#line 129 "parse.y"
     {am_exp_equ();;}
     break;
 
   case 56:
-#line 131 "parse.y"
+#line 130 "parse.y"
     {am_exp_neq();;}
     break;
 
   case 58:
-#line 135 "parse.y"
+#line 134 "parse.y"
     {am_exp_mul();;}
     break;
 
   case 59:
-#line 136 "parse.y"
+#line 135 "parse.y"
     {am_exp_div();;}
     break;
 
   case 60:
-#line 139 "parse.y"
+#line 138 "parse.y"
     {am_exp_val((yyvsp[(1) - (1)].s));;}
     break;
 
   case 61:
-#line 140 "parse.y"
+#line 139 "parse.y"
     {am_exp_var((yyvsp[(1) - (1)].s));;}
     break;
 
   case 62:
-#line 141 "parse.y"
+#line 140 "parse.y"
     {am_exp_prefixesVar((yyvsp[(1) - (1)].s));;}
     break;
 
   case 63:
-#line 142 "parse.y"
+#line 141 "parse.y"
     {am_exp_addr((yyvsp[(2) - (2)].s));;}
     break;
 
   case 64:
-#line 143 "parse.y"
+#line 142 "parse.y"
     {am_exp_prefixesAddr((yyvsp[(2) - (2)].s));;}
     break;
 
   case 65:
-#line 144 "parse.y"
+#line 143 "parse.y"
     {am_exp_arr((yyvsp[(1) - (5)].s));;}
     break;
 
   case 66:
-#line 145 "parse.y"
+#line 144 "parse.y"
     {am_exp_chainArr((yyvsp[(1) - (5)].s));;}
     break;
 
   case 67:
-#line 146 "parse.y"
+#line 145 "parse.y"
     {am_exp_addl((yyvsp[(2) - (6)].s));;}
     break;
 
   case 68:
-#line 147 "parse.y"
+#line 146 "parse.y"
     {am_exp_prefixesAddl((yyvsp[(2) - (6)].s));;}
     break;
 
   case 69:
-#line 148 "parse.y"
+#line 147 "parse.y"
     {am_exec_func((yyvsp[(1) - (2)].s));;}
     break;
 
   case 70:
-#line 149 "parse.y"
+#line 148 "parse.y"
     {am_exec_prefixesFunc((yyvsp[(1) - (2)].s));;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1796 "parse.tab.c"
+#line 1795 "parse.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2006,18 +2005,17 @@ yyreturn:
 }
 
 
-#line 151 "parse.y"
+#line 150 "parse.y"
+
 
 int main(int argc, char **argv){
     if(!open(argc, argv)) return 1;
     prefixes_push(argv[1]);
     yylineno = 1;
     yyparse();
-    c->print();
-    // code_cut("push eax\npop eax\n");
-    // code_cut("push ebp\npop ebp\n");
-    fwrite(code, strlen(code), 1, out_asm);
-    fclose(out_asm);
+    // 此code是全局的
+    fwrite(code, strlen(code), 1, yyout);
+    fclose(yyout);
     return 0;
 }
 

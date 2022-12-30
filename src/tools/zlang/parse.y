@@ -119,22 +119,22 @@ if_head: IF {am_if_head(); am->defIfHead();} '(' exp {am_if_then(); am->defIfThe
        ;
 
 exp: factor 
-   | exp '+' factor {am_exp_add();}
-   | exp '.' '+' factor {am_exp_fadd();}
-   | exp '-' factor {am_exp_sub();}
-   | exp '<' factor {am_exp_les();}
-   | exp '>' factor {am_exp_mor();}
-   | exp LEQ factor {am_exp_leq();}
-   | exp MEQ factor {am_exp_meq();}
-   | exp LMO factor {am_exp_lmo();}
-   | exp RMO factor {am_exp_rmo();}
-   | exp '=' factor {am_exp_equ();}
-   | exp '#' factor {am_exp_neq();}
+   | exp '+' factor {am_exp_add(); am->add();}
+   | exp '.' '+' factor {am_exp_fadd(); am->floatAdd();}
+   | exp '-' factor {am_exp_sub(); am->sub();}
+   | exp '<' factor {am_exp_les(); am->les();}
+   | exp '>' factor {am_exp_mor(); am->mor();}
+   | exp LEQ factor {am_exp_leq(); am->leq();}
+   | exp MEQ factor {am_exp_meq(); am->meq();}
+   | exp LMO factor {am_exp_lmo(); am->lmo();}
+   | exp RMO factor {am_exp_rmo(); am->rmo();}
+   | exp '=' factor {am_exp_equ(); am->equ();}
+   | exp '#' factor {am_exp_neq(); am->neq();}
    ;
 
 factor: term 
-      | factor '*' term {am_exp_mul();}
-      | factor '/' term {am_exp_div();} 
+      | factor '*' term {am_exp_mul(); am->mul();}
+      | factor '/' term {am_exp_div(); am->div();} 
       ;
 
 term: INTEGER {am_exp_val($1); am->pushInt($1);}

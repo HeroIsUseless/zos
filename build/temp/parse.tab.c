@@ -1673,67 +1673,67 @@ yyreduce:
 
   case 46:
 #line 122 "parse.y"
-    {am_exp_add();;}
+    {am_exp_add(); am->add();;}
     break;
 
   case 47:
 #line 123 "parse.y"
-    {am_exp_fadd();;}
+    {am_exp_fadd(); am->floatAdd();;}
     break;
 
   case 48:
 #line 124 "parse.y"
-    {am_exp_sub();;}
+    {am_exp_sub(); am->sub();;}
     break;
 
   case 49:
 #line 125 "parse.y"
-    {am_exp_les();;}
+    {am_exp_les(); am->les();;}
     break;
 
   case 50:
 #line 126 "parse.y"
-    {am_exp_mor();;}
+    {am_exp_mor(); am->mor();;}
     break;
 
   case 51:
 #line 127 "parse.y"
-    {am_exp_leq();;}
+    {am_exp_leq(); am->leq();;}
     break;
 
   case 52:
 #line 128 "parse.y"
-    {am_exp_meq();;}
+    {am_exp_meq(); am->meq();;}
     break;
 
   case 53:
 #line 129 "parse.y"
-    {am_exp_lmo();;}
+    {am_exp_lmo(); am->lmo();;}
     break;
 
   case 54:
 #line 130 "parse.y"
-    {am_exp_rmo();;}
+    {am_exp_rmo(); am->rmo();;}
     break;
 
   case 55:
 #line 131 "parse.y"
-    {am_exp_equ();;}
+    {am_exp_equ(); am->equ();;}
     break;
 
   case 56:
 #line 132 "parse.y"
-    {am_exp_neq();;}
+    {am_exp_neq(); am->neq();;}
     break;
 
   case 58:
 #line 136 "parse.y"
-    {am_exp_mul();;}
+    {am_exp_mul(); am->mul();;}
     break;
 
   case 59:
 #line 137 "parse.y"
-    {am_exp_div();;}
+    {am_exp_div(); am->div();;}
     break;
 
   case 60:

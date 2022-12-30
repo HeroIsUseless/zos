@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "astree.cpp"
+#include "algorithm.cpp"
 using namespace std;
 
 class AsmMapper
@@ -64,6 +65,19 @@ public:
   virtual void defWhileHead() = 0;
   virtual void defWhileMid() = 0;
   virtual void defWhileEnd() = 0;
+  virtual void add() = 0;
+  virtual void floatAdd() = 0;
+  virtual void sub() = 0;
+  virtual void les() = 0;
+  virtual void mor() = 0;
+  virtual void leq() = 0;
+  virtual void meq() = 0;
+  virtual void lmo() = 0;
+  virtual void rmo() = 0;
+  virtual void equ() = 0;
+  virtual void neq() = 0;
+  virtual void mul() = 0;
+  virtual void div() = 0; 
 };
 
 AsmMapper::AsmMapper(char *fileName)

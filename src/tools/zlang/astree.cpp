@@ -60,7 +60,6 @@ public:
     if(name == "if") {
       int count = 0;
       for(int i=0; i<m_nowNode->children.size(); i++) {
-        cout << "zws 6342 " <<  m_nowNode->children[i]->name << endl;
         if(m_nowNode->children[i]->name.substr(0, 3) == "if#") {
           count ++;
         }

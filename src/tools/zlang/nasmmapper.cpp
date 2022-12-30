@@ -201,6 +201,87 @@ public:
     m_astree->up();
   }
 
+  virtual void add()
+  {
+    map2Asm("pop eax\n");
+    map2Asm("pop ebx\n");
+    map2Asm("add eax, ebx\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void floatAdd(){
+    map2Asm("pop eax\n");
+    map2Asm("pop ebx\n");
+    map2Asm("add eax, ebx\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void sub()
+  {
+    map2Asm("pop eax\n");
+    map2Asm("pop ebx\n");
+    map2Asm("sub eax, ebx\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void les()
+  {
+    string randomNum = getRandomNum();
+    map2Asm("pop ebx\n");
+    map2Asm("pop eax\n");
+    map2Asm("cmp eax, ebx\n");
+    map2Asm("jb ", m_astree->getPrefix(), "les#", randomNum, "@true\n");
+    map2Asm("mov eax, 0\n");
+    map2Asm("jmp ", m_astree->getPrefix(), "les#", randomNum, "@false\n");
+    map2Asm(m_astree->getPrefix(), "les#", randomNum, "@true:\n");
+    map2Asm("mov eax, 1\n");
+    map2Asm(m_astree->getPrefix(), "les#", randomNum, "@false:\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void mor()
+  {
+    string randomNum = getRandomNum();
+    map2Asm("pop ebx\n");
+    map2Asm("pop eax\n");
+    map2Asm("cmp eax, ebx\n");
+    map2Asm("ja ", m_astree->getPrefix(), "mor#", randomNum, "@true\n");
+    map2Asm("mov eax, 0\n");
+    map2Asm("jmp ", m_astree->getPrefix(), "mor#", randomNum, "@false\n");
+    map2Asm(m_astree->getPrefix(), "mor#", randomNum, "@true:\n");
+    map2Asm("mov eax, 1\n");
+    map2Asm(m_astree->getPrefix(), "mor#", randomNum, "@false:\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void leq(){}
+
+  virtual void meq(){}
+
+  virtual void lmo(){}
+
+  virtual void rmo(){}
+
+  virtual void equ(){}
+
+  virtual void neq(){}
+
+  virtual void mul()
+  {
+    map2Asm("pop eax\n");
+    map2Asm("pop ebx\n");
+    map2Asm("mul ebx\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void div()
+  {
+    map2Asm("pop eax\n");
+    map2Asm("pop ebx\n");
+    map2Asm("div ebx\n");
+    map2Asm("push eax\n");
+  }
+ 
 };
 
 #endif

@@ -1643,17 +1643,17 @@ yyreduce:
 
   case 39:
 #line 115 "parse.y"
-    {am_while_head();;}
+    {am_while_head(); am->defWhileHead();;}
     break;
 
   case 40:
 #line 115 "parse.y"
-    {am_while_mid();;}
+    {am_while_mid(); am->defWhileMid();;}
     break;
 
   case 41:
 #line 115 "parse.y"
-    {am_while_end();;}
+    {am_while_end(); am->defWhileEnd();;}
     break;
 
   case 42:

@@ -61,6 +61,9 @@ public:
   virtual void defIfThen() = 0;
   virtual void defIfElse() = 0;
   virtual void defIfEnd() = 0;
+  virtual void defWhileHead() = 0;
+  virtual void defWhileMid() = 0;
+  virtual void defWhileEnd() = 0;
 };
 
 AsmMapper::AsmMapper(char *fileName)

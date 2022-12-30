@@ -175,7 +175,30 @@ public:
   virtual void defIfEnd()
   {
     map2Asm(m_astree->getPrefix(), "$end:\n");
-    map2Asm(";========== ", m_astree->getPrefix(), "$end ==========\n");
+    map2Asm(";========== ", m_astree->getPrefix(), "$end ==========\n\n");
+    m_astree->up();
+  }
+
+  virtual void defWhileHead()
+  {
+    m_astree->down("while");
+    map2Asm(";########## ", m_astree->getPrefix(), "$start ##########\n");
+    map2Asm(m_astree->getPrefix(), "$start:\n");
+  }
+
+  virtual void defWhileMid()
+  {
+    map2Asm("pop eax\n");
+    map2Asm("cmp eax, 0\n");
+    map2Asm("je ", m_astree->getPrefix(), "$end\n");
+  }
+
+  virtual void defWhileEnd()
+  {
+    map2Asm("jmp ", m_astree->getPrefix(), "$start\n");
+    map2Asm(m_astree->getPrefix(), "$end:\n");
+    map2Asm(";========== ", m_astree->getPrefix(), "$end ==========\n\n");
+    m_astree->up();
   }
 
 };

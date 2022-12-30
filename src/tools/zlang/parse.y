@@ -112,7 +112,7 @@ exec: '.' '<' '=' exp {am_return(); am->defReturn();}
     | '&' PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am_assign_prefixesArl($2);} /*调用函数外定义的数组*/
     | if_head ',' stmt ')' {am_if_end(); am->defIfEnd();}
     | if_head ')' {am_if_end(); am->defIfEnd();}
-    | WHILE {am_while_head();} '(' exp ',' {am_while_mid();} stmt ')' {am_while_end();}
+    | WHILE {am_while_head(); am->defWhileHead();} '(' exp ',' {am_while_mid(); am->defWhileMid();} stmt ')' {am_while_end(); am->defWhileEnd();}
     ;
 
 if_head: IF {am_if_head(); am->defIfHead();} '(' exp {am_if_then(); am->defIfThen();} ',' stmt {am_if_else(); am->defIfElse();}

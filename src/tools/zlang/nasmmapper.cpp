@@ -37,7 +37,7 @@ public:
   // 定义数组前半部分
   virtual void defArrayStart(string arrName)
   {
-    map2Asm("jmp ", m_astree->getPrefix(), arrName, "_pass\n");
+    map2Asm("jmp ", m_astree->getPrefix(), arrName, "$pass\n");
     map2Asm(m_astree->getPrefix(), arrName, ": dd ");
   }
 
@@ -50,7 +50,7 @@ public:
   // 定义数组后半部分
   virtual void defArrayEnd(string arrName)
   {
-    map2Asm("\n", m_astree->getPrefix(), arrName, "_pass:\n");
+    map2Asm("\n", m_astree->getPrefix(), arrName, "$pass:\n");
   }
 
   // 接收函数参数，在后面输出
@@ -124,6 +124,15 @@ public:
     map2Asm("pop eax\n");     // var
     map2Asm("pop ebx\n"); // index
     map2Asm("mov [", prefixesArrName, "+ebx], eax\n");
+  }
+
+  virtual void pushArrayItem(string arrName)
+  {
+    map2Asm("pop eax\n");
+    map2Asm("mov ebx, 4\n");
+    map2Asm("mul ebx\n");
+    map2Asm("mov ebx, [", m_astree->getPrefix(), arrName, "+eax]\n");
+    map2Asm("push ebx\n");
   }
 
   virtual void pushInt(string integer)

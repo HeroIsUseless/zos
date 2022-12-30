@@ -1578,7 +1578,7 @@ yyreduce:
 
   case 17:
 #line 82 "parse.y"
-    {am_def_arr_item((yyvsp[(1) - (1)].s));;}
+    {am_def_arr_item((yyvsp[(1) - (1)].s)); am->defArrayItem((yyvsp[(1) - (1)].s));;}
     break;
 
   case 19:
@@ -1623,12 +1623,12 @@ yyreduce:
 
   case 35:
 #line 111 "parse.y"
-    {am_assign_arl((yyvsp[(2) - (9)].s));;}
+    {am_assign_arr((yyvsp[(2) - (9)].s)); am->assginArray((yyvsp[(2) - (9)].s));;}
     break;
 
   case 36:
 #line 112 "parse.y"
-    {am_assign_prefixesArl((yyvsp[(2) - (9)].s));;}
+    {am_assign_prefixesArr((yyvsp[(2) - (9)].s)); am->assginPrefixesArray((yyvsp[(2) - (9)].s));;}
     break;
 
   case 37:
@@ -1763,7 +1763,7 @@ yyreduce:
 
   case 65:
 #line 145 "parse.y"
-    {am_exp_arr((yyvsp[(1) - (5)].s));;}
+    {am_exp_arr((yyvsp[(1) - (5)].s)); am->pushArrayItem((yyvsp[(1) - (5)].s));;}
     break;
 
   case 66:

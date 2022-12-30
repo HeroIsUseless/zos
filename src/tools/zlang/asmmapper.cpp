@@ -53,6 +53,7 @@ public:
   virtual void assginArray(string arrName) = 0;
   // 给自带前缀的数组赋值
   virtual void assginPrefixesArray(string prefixesArrName) = 0;
+  virtual void pushArrayItem(string arrName) = 0;
   // 表达式部分：将数字压入堆栈
   virtual void pushInt(string integer) = 0;
   virtual void pushVar(string var) = 0;

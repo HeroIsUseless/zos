@@ -39,9 +39,7 @@ mov eax, 123
 push eax
 pop eax
 pop ebx
-mov ecx, [e15_at_asm_func_strAddr]
-add ecx, ebx
-mov [ecx], eax
+mov [e15_at_asm_func_strAddr+ebx], eax
 ret
 e15_at_asm_func$next:
 mov eax, e15_at_asm_str
@@ -79,6 +77,9 @@ mov eax, 1
 push eax
 mov eax, 123
 push eax
+pop eax
+pop ebx
+mov [e15_at_z@func@strAddr+ebx], eax
 ret
 e15_at_z@func$pass:
 ;============[fun end]func=============

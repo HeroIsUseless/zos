@@ -26,9 +26,9 @@ push ebx
 pop eax
 mov [e13_arr_asm_c], eax
 ;#############新映射器效果############
-jmp e13_arr_z@a_pass
-e13_arr_z@a: dd 2, 3, 4, 5, 6, 
-e13_arr_z@a_pass:
+jmp e13_arr_z@a$pass
+e13_arr_z@a: dd 1, 2, 3, 4, 5, 6, 
+e13_arr_z@a$pass:
 mov eax, 1
 push eax
 mov eax, 2

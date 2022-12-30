@@ -79,7 +79,7 @@ def_arr: VAR ':' '{' {am_def_arr_start($1); am->defArrayStart($1);} items '}' {a
        ;
 
 items: items ',' INTEGER {am_def_arr_item($3); am->defArrayItem($3);}
-     | INTEGER {am_def_arr_item($1);}
+     | INTEGER {am_def_arr_item($1); am->defArrayItem($1);}
      | /* empty */
      ;
 
@@ -108,8 +108,8 @@ exec: '.' '<' '=' exp {am_return(); am->defReturn();}
     | PREFIXES_VAR '<' '=' exp {am_assign_prefixesVar($1); am->assginPrefixesVar($1);} /*调用函数外定义的变量，任何文件内都可以*/
     | VAR '\\' '(' exp ')' '<' '=' exp {am_assign_arr($1); am->assginArray($1);}                  /*调用函数内定义的数组*/
     | PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am_assign_prefixesArr($1); am->assginPrefixesArray($1);} /*调用函数外定义的数组*/
-    | '&' VAR '\\' '(' exp ')' '<' '=' exp {am_assign_arl($2);}                  /*调用函数内定义的数组*/
-    | '&' PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am_assign_prefixesArl($2);} /*调用函数外定义的数组*/
+    | '&' VAR '\\' '(' exp ')' '<' '=' exp {am_assign_arr($2); am->assginArray($2);}                  /*调用函数内定义的数组*/
+    | '&' PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am_assign_prefixesArr($2); am->assginPrefixesArray($2);} /*调用函数外定义的数组*/
     | if_head ',' stmt ')' {am_if_end(); am->defIfEnd();}
     | if_head ')' {am_if_end(); am->defIfEnd();}
     | WHILE {am_while_head(); am->defWhileHead();} '(' exp ',' {am_while_mid(); am->defWhileMid();} stmt ')' {am_while_end(); am->defWhileEnd();}
@@ -142,7 +142,7 @@ term: INTEGER {am_exp_val($1); am->pushInt($1);}
     | PREFIXES_VAR {am_exp_prefixesVar($1);}
     | '@' VAR {am_exp_addr($2);}
     | '@' PREFIXES_VAR {am_exp_prefixesAddr($2);}
-    | VAR '\\' '(' exp ')' {am_exp_arr($1);}
+    | VAR '\\' '(' exp ')' {am_exp_arr($1); am->pushArrayItem($1);}
     | PREFIXES_VAR '\\' '(' exp ')' {am_exp_chainArr($1);}
     | '&' VAR '\\' '(' exp ')' {am_exp_addl($2);}
     | '&' PREFIXES_VAR '\\' '(' exp ')' {am_exp_prefixesAddl($2);}    

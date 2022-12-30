@@ -149,6 +149,16 @@ mov eax, [e11_exp_z@a]
 push eax
 mov eax, [e11_exp_z@b]
 push eax
+pop ebx
+pop eax
+cmp eax, ebx
+je e11_exp_z@equ#1@true
+mov eax, 0
+jmp e11_exp_z@equ#1@false
+e11_exp_z@equ#1@true:
+mov eax, 1
+e11_exp_z@equ#1@false:
+push eax
 jmp e11_exp_z@e$pass
 e11_exp_z@e: dd 0
 e11_exp_z@e$pass:
@@ -158,6 +168,16 @@ mov [e11_exp_z@e], eax
 mov eax, [e11_exp_z@a]
 push eax
 mov eax, [e11_exp_z@b]
+push eax
+pop ebx
+pop eax
+cmp eax, ebx
+jne e11_exp_z@neq#1@true
+mov eax, 0
+jmp e11_exp_z@neq#1@false
+e11_exp_z@neq#1@true:
+mov eax, 1
+e11_exp_z@neq#1@false:
 push eax
 jmp e11_exp_z@f$pass
 e11_exp_z@f: dd 0

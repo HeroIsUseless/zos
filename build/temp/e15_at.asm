@@ -71,6 +71,14 @@ mov [e15_at_z@func@a], eax
 
 mov eax, 1
 push eax
+mov ebx, 4
+pop eax
+mul ebx
+mov ebx, eax
+mov eax, [e15_at_z@func@strAddr]
+add eax, ebx
+mov ebx, [eax]
+push eax
 pop eax
 mov [e15_at_z@func@a], eax
 mov eax, 1
@@ -84,6 +92,8 @@ ret
 e15_at_z@func$pass:
 ;============[fun end]func=============
 
+mov eax, [e15_at_z@str]
+push eax
 call e15_at_z@func
 
 

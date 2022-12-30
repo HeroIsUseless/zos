@@ -1748,17 +1748,17 @@ yyreduce:
 
   case 62:
 #line 142 "parse.y"
-    {am_exp_prefixesVar((yyvsp[(1) - (1)].s));;}
+    {am_exp_prefixesVar((yyvsp[(1) - (1)].s)); am->pushPrefixesVar((yyvsp[(1) - (1)].s));;}
     break;
 
   case 63:
 #line 143 "parse.y"
-    {am_exp_addr((yyvsp[(2) - (2)].s));;}
+    {am_exp_addr((yyvsp[(2) - (2)].s)); am->pushAddress((yyvsp[(2) - (2)].s));;}
     break;
 
   case 64:
 #line 144 "parse.y"
-    {am_exp_prefixesAddr((yyvsp[(2) - (2)].s));;}
+    {am_exp_prefixesAddr((yyvsp[(2) - (2)].s)); am->pushPrefixedAddress((yyvsp[(2) - (2)].s));;}
     break;
 
   case 65:
@@ -1768,17 +1768,17 @@ yyreduce:
 
   case 66:
 #line 146 "parse.y"
-    {am_exp_chainArr((yyvsp[(1) - (5)].s));;}
+    {am_exp_chainArr((yyvsp[(1) - (5)].s)); am->pushPrefixedArrayItem((yyvsp[(1) - (5)].s));;}
     break;
 
   case 67:
 #line 147 "parse.y"
-    {am_exp_addl((yyvsp[(2) - (6)].s));;}
+    {am_exp_addl((yyvsp[(2) - (6)].s)); am->pushAddl((yyvsp[(2) - (6)].s));;}
     break;
 
   case 68:
 #line 148 "parse.y"
-    {am_exp_prefixesAddl((yyvsp[(2) - (6)].s));;}
+    {am_exp_prefixesAddl((yyvsp[(2) - (6)].s)); am->pushPrefixedAddl((yyvsp[(2) - (6)].s));;}
     break;
 
   case 69:

@@ -147,13 +147,61 @@ public:
     map2Asm("push eax\n");
   }
 
+  virtual void pushPrefixesVar(string prefixedVar)
+  {
+    prefixedVar = formatPrefixes(prefixedVar);
+    map2Asm("mov eax, [", prefixedVar, "]\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void pushAddress(string address) 
+  {
+    map2Asm("mov eax, [", m_astree->getPrefix(), address, "]\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void pushPrefixedAddress(string prefixedAddress)
+  {
+    map2Asm("mov eax, [", prefixedAddress, "]\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void pushPrefixedArrayItem(string prefixedAddress)
+  {
+    map2Asm("pop eax\n");
+    map2Asm("mov ebx, 4\n");
+    map2Asm("mov ebx, [", prefixedAddress, "+eax]\n");
+    map2Asm("push ebx\n");
+  }
+
+  virtual void pushAddl(string val) 
+  {
+    map2Asm("mov ebx, 4\n");
+    map2Asm("pop eax\n");
+    map2Asm("mul ebx\n");
+    map2Asm("mov ebx, eax\n");
+    map2Asm("mov eax, [", m_astree->getPrefix(), val, "]\n");
+    map2Asm("add eax, ebx\n");
+    map2Asm("mov ebx, [eax]\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void pushPrefixedAddl(string prefixedAddl)
+  {
+    prefixedAddl = formatPrefixes(prefixedAddl);
+    map2Asm("mov ebx, 4\n");
+    map2Asm("pop eax\n");
+    map2Asm("mul ebx\n");
+    map2Asm("mov ebx, eax\n");
+    map2Asm("mov eax, [", prefixedAddl, "]\n");
+    map2Asm("add eax, ebx\n");
+    map2Asm("mov ebx, [eax]\n");
+    map2Asm("push eax\n");
+  }
+
   virtual void callPrefixesFunction(string functionName)
   {
-    for(int i=0; i<functionName.size(); i++) {
-      if(functionName[i] == '.' || functionName[i] == '\\') {
-        functionName[i] = '_';
-      }
-    }
+    functionName = formatPrefixes(functionName);
     map2Asm("call ", functionName, "\n\n");
   }
 

@@ -139,13 +139,13 @@ factor: term
 
 term: INTEGER {am_exp_val($1); am->pushInt($1);}
     | VAR {am_exp_var($1); am->pushVar($1);}
-    | PREFIXES_VAR {am_exp_prefixesVar($1);}
-    | '@' VAR {am_exp_addr($2);}
-    | '@' PREFIXES_VAR {am_exp_prefixesAddr($2);}
+    | PREFIXES_VAR {am_exp_prefixesVar($1); am->pushPrefixesVar($1);}
+    | '@' VAR {am_exp_addr($2); am->pushAddress($2);}
+    | '@' PREFIXES_VAR {am_exp_prefixesAddr($2); am->pushPrefixedAddress($2);}
     | VAR '\\' '(' exp ')' {am_exp_arr($1); am->pushArrayItem($1);}
-    | PREFIXES_VAR '\\' '(' exp ')' {am_exp_chainArr($1);}
-    | '&' VAR '\\' '(' exp ')' {am_exp_addl($2);}
-    | '&' PREFIXES_VAR '\\' '(' exp ')' {am_exp_prefixesAddl($2);}    
+    | PREFIXES_VAR '\\' '(' exp ')' {am_exp_chainArr($1); am->pushPrefixedArrayItem($1);}
+    | '&' VAR '\\' '(' exp ')' {am_exp_addl($2); am->pushAddl($2);}
+    | '&' PREFIXES_VAR '\\' '(' exp ')' {am_exp_prefixesAddl($2); am->pushPrefixedAddl($2);}    
     | VAR params {am_exec_func($1); am->callFunction($1);}                        /*调用文件内定义的函数*/
     | PREFIXES_VAR params {am_exec_prefixesFunc($1); am->callPrefixesFunction($1);}       /*调用文件外定义的函数*/
     ;

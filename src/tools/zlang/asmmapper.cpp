@@ -57,6 +57,12 @@ public:
   // 表达式部分：将数字压入堆栈
   virtual void pushInt(string integer) = 0;
   virtual void pushVar(string var) = 0;
+  virtual void pushPrefixesVar(string prefixedVar) = 0;
+  virtual void pushAddress(string address) = 0;
+  virtual void pushPrefixedAddress(string prefixedAddress) = 0;
+  virtual void pushPrefixedArrayItem(string prefixedAddress) = 0;
+  virtual void pushAddl(string val) = 0;
+  virtual void pushPrefixedAddl(string prefixedAddl) = 0;
   virtual void callFunction(string functionName) = 0;
   virtual void callPrefixesFunction(string functionName) = 0;
   virtual void defIfHead() = 0;

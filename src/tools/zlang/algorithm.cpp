@@ -16,4 +16,13 @@ string getRandomNum() {
   return res;
 } 
 
+string formatPrefixes(string prefixesVar) {
+  string res = prefixesVar;
+  for(int i=0; i<res.size(); i++) {
+    if(res[i] == '.' || res[i] == '\\') {
+      res[i] = '_';
+    }
+  }
+  return res;
+}
 #endif

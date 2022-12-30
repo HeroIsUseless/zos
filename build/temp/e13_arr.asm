@@ -47,5 +47,9 @@ mov [e13_arr_z@c], eax
 mov eax, 1
 push eax
 pop eax
+mov ebx, 4
+mov ebx, [mem.z\d+eax]
+push ebx
+pop eax
 mov [e13_arr_z@c], eax
 

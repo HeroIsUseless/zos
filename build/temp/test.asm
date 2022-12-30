@@ -1,187 +1,197 @@
 
-;function
-jmp test_z_rect$next
-test_z_rect:
-;param
-jmp test_z_rect_left$next
-test_z_rect_left: dd 0
-test_z_rect_left$next:
-;param
-jmp test_z_rect_top$next
-test_z_rect_top: dd 0
-test_z_rect_top$next:
-;param
-jmp test_z_rect_addrVram$next
-test_z_rect_addrVram: dd 0
-test_z_rect_addrVram$next:
+;############[fun begin]rect############
+jmp test_z@rect$pass
+test_z@rect:
 pop ebp
+;param: addrVram
+test_z@rect@addrVram$pass
+test_z@rect@addrVram: dd 0
+test_z@rect@addrVram$pass:
 pop eax
-mov [test_z_rect_addrVram], eax
+mv [test_z@rect@addrVram], eax
+;param: top
+test_z@rect@top$pass
+test_z@rect@top: dd 0
+test_z@rect@top$pass:
 pop eax
-mov [test_z_rect_top], eax
+mv [test_z@rect@top], eax
+;param: left
+test_z@rect@left$pass
+test_z@rect@left: dd 0
+test_z@rect@left$pass:
 pop eax
-mov [test_z_rect_left], eax
+mv [test_z@rect@left], eax
 push ebp
 mov eax, 0
 push eax
-jmp test_z_rect_x$next
-test_z_rect_x: dd 0
-test_z_rect_x$next:
+jmp test_z@rect@x$pass
+test_z@rect@x: dd 0
+test_z@rect@x$pass:
 pop eax
-mov [test_z_rect_x], eax
+mov [test_z@rect@x], eax
+
 mov eax, 0
 push eax
-jmp test_z_rect_y$next
-test_z_rect_y: dd 0
-test_z_rect_y$next:
+jmp test_z@rect@y$pass
+test_z@rect@y: dd 0
+test_z@rect@y$pass:
 pop eax
-mov [test_z_rect_y], eax
-; while start
-test_z_rect_while$1_start:
-mov eax, [test_z_rect_y]
+mov [test_z@rect@y], eax
+
+;########## test_z@rect@while#1@$start ##########
+test_z@rect@while#1@$start:
+mov eax, [test_z@rect@while#1@y]
 push eax
 mov eax, 8
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe test_z_rect_while$1_lessequal@true$1
+jbe test_z@rect@while#1@leq#1@true
 mov eax, 0
-jmp test_z_rect_while$1_lessequal@false$1
-test_z_rect_while$1_lessequal@true$1:
+jmp test_z@rect@while#1@leq#1@false
+test_z@rect@while#1@leq#1@true:
 mov eax, 1
-test_z_rect_while$1_lessequal@false$1:
+test_z@rect@while#1@leq#1@false:
 push eax
 pop eax
 cmp eax, 0
-je test_z_rect_while$1_end
-; while start
-test_z_rect_while$1_while$1_start:
-mov eax, [test_z_rect_x]
+je test_z@rect@while#1@$end
+;########## test_z@rect@while#1@while#1@$start ##########
+test_z@rect@while#1@while#1@$start:
+mov eax, [test_z@rect@while#1@while#1@x]
 push eax
 mov eax, 8
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe test_z_rect_while$1_while$1_lessequal@true$2
+jbe test_z@rect@while#1@while#1@leq#1@true
 mov eax, 0
-jmp test_z_rect_while$1_while$1_lessequal@false$2
-test_z_rect_while$1_while$1_lessequal@true$2:
+jmp test_z@rect@while#1@while#1@leq#1@false
+test_z@rect@while#1@while#1@leq#1@true:
 mov eax, 1
-test_z_rect_while$1_while$1_lessequal@false$2:
+test_z@rect@while#1@while#1@leq#1@false:
 push eax
 pop eax
 cmp eax, 0
-je test_z_rect_while$1_while$1_end
+je test_z@rect@while#1@while#1@$end
 mov eax, 3
 push eax
-jmp test_z_rect_while$1_while$1_color$next
-test_z_rect_while$1_while$1_color: dd 0
-test_z_rect_while$1_while$1_color$next:
+jmp test_z@rect@while#1@while#1@color$pass
+test_z@rect@while#1@while#1@color: dd 0
+test_z@rect@while#1@while#1@color$pass:
 pop eax
-mov [test_z_rect_while$1_while$1_color], eax
-mov eax, [test_z_rect_left]
+mov [test_z@rect@while#1@while#1@color], eax
+
+mov eax, [test_z@rect@while#1@while#1@left]
 push eax
-mov eax, [test_z_rect_x]
-push eax
-pop eax
-pop ebx
-add eax, ebx
-push eax
-mov eax, [test_z_rect_top]
-push eax
-mov eax, [test_z_rect_y]
+mov eax, [test_z@rect@while#1@while#1@x]
 push eax
 pop eax
 pop ebx
 add eax, ebx
 push eax
-mov eax, [test_z_rect_while$1_while$1_color]
+mov eax, [test_z@rect@while#1@while#1@top]
+push eax
+mov eax, [test_z@rect@while#1@while#1@y]
+push eax
+pop eax
+pop ebx
+add eax, ebx
+push eax
+mov eax, [test_z@rect@while#1@while#1@color]
 push eax
 mov eax, 320
 push eax
-mov eax, [test_z_rect_addrVram]
+mov eax, [test_z@rect@while#1@while#1@addrVram]
 push eax
 call draw_z_pixel
-mov eax, [test_z_rect_x]
-push eax
-mov eax, 1
-push eax
-pop eax
-pop ebx
-add eax, ebx
-push eax
-pop eax
-mov [test_z_rect_x], eax
-jmp test_z_rect_while$1_while$1_start
-test_z_rect_while$1_while$1_end:
-;while end
-mov eax, [test_z_rect_y]
-push eax
-mov eax, 1
-push eax
-pop eax
-pop ebx
-add eax, ebx
-push eax
-pop eax
-mov [test_z_rect_y], eax
-jmp test_z_rect_while$1_start
-test_z_rect_while$1_end:
-;while end
-ret
-test_z_rect$next:
 
-;function
-jmp test_z_block$next
-test_z_block:
-;param
-jmp test_z_block_addrVram$next
-test_z_block_addrVram: dd 0
-test_z_block_addrVram$next:
-pop ebp
+mov eax, [test_z@rect@while#1@while#1@x]
+push eax
+mov eax, 1
+push eax
 pop eax
-mov [test_z_block_addrVram], eax
+pop ebx
+add eax, ebx
+push eax
+pop eax
+mov [test_z@rect@while#1@while#1@x], eax
+jmp test_z@rect@while#1@while#1@$start
+test_z@rect@while#1@while#1@$end:
+;========== test_z@rect@while#1@while#1@$end ==========
+
+mov eax, [test_z@rect@while#1@y]
+push eax
+mov eax, 1
+push eax
+pop eax
+pop ebx
+add eax, ebx
+push eax
+pop eax
+mov [test_z@rect@while#1@y], eax
+jmp test_z@rect@while#1@$start
+test_z@rect@while#1@$end:
+;========== test_z@rect@while#1@$end ==========
+
+ret
+test_z@rect$pass:
+;============[fun end]rect=============
+
+
+;############[fun begin]block############
+jmp test_z@block$pass
+test_z@block:
+pop ebp
+;param: addrVram
+test_z@block@addrVram$pass
+test_z@block@addrVram: dd 0
+test_z@block@addrVram$pass:
+pop eax
+mv [test_z@block@addrVram], eax
 push ebp
 mov eax, 0
 push eax
-jmp test_z_block_i$next
-test_z_block_i: dd 0
-test_z_block_i$next:
+jmp test_z@block@i$pass
+test_z@block@i: dd 0
+test_z@block@i$pass:
 pop eax
-mov [test_z_block_i], eax
-; while start
-test_z_block_while$1_start:
-mov eax, [test_z_block_i]
+mov [test_z@block@i], eax
+
+;########## test_z@block@while#1@$start ##########
+test_z@block@while#1@$start:
+mov eax, [test_z@block@while#1@i]
 push eax
 mov eax, 300
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jb test_z_block_while$1_less@true$3
+jb test_z@block@while#1@les#1@true
 mov eax, 0
-jmp test_z_block_while$1_less@false$3
-test_z_block_while$1_less@true$3:
+jmp test_z@block@while#1@les#1@false
+test_z@block@while#1@les#1@true:
 mov eax, 1
-test_z_block_while$1_less@false$3:
+test_z@block@while#1@les#1@false:
 push eax
 pop eax
 cmp eax, 0
-je test_z_block_while$1_end
-mov eax, [test_z_block_i]
+je test_z@block@while#1@$end
+mov eax, [test_z@block@while#1@i]
 push eax
-mov eax, [test_z_block_i]
+mov eax, [test_z@block@while#1@i]
 push eax
-mov eax, [test_z_block_i]
+mov eax, [test_z@block@while#1@i]
 push eax
 mov eax, 320
 push eax
-mov eax, [test_z_block_addrVram]
+mov eax, [test_z@block@while#1@addrVram]
 push eax
 call draw_z_pixel
-mov eax, [test_z_block_i]
+
+mov eax, [test_z@block@while#1@i]
 push eax
 mov eax, 1
 push eax
@@ -190,30 +200,36 @@ pop ebx
 add eax, ebx
 push eax
 pop eax
-mov [test_z_block_i], eax
-jmp test_z_block_while$1_start
-test_z_block_while$1_end:
-;while end
-ret
-test_z_block$next:
+mov [test_z@block@while#1@i], eax
+jmp test_z@block@while#1@$start
+test_z@block@while#1@$end:
+;========== test_z@block@while#1@$end ==========
 
-;function
-jmp test_z_draw$next
-test_z_draw:
-;param
-jmp test_z_draw_addrVram$next
-test_z_draw_addrVram: dd 0
-test_z_draw_addrVram$next:
-pop ebp
-pop eax
-mov [test_z_draw_addrVram], eax
-push ebp
-mov eax, [test_z_draw_addrVram]
-push eax
-call test_z_block
-jmp test_z_draw_tstr$next
-test_z_draw_tstr: dd \
-72, 69, 76, 76, 79, 32, 87, 79, 82, 76, 68, 0
-test_z_draw_tstr$next:
 ret
-test_z_draw$next:
+test_z@block$pass:
+;============[fun end]block=============
+
+
+;############[fun begin]draw############
+jmp test_z@draw$pass
+test_z@draw:
+pop ebp
+;param: addrVram
+test_z@draw@addrVram$pass
+test_z@draw@addrVram: dd 0
+test_z@draw@addrVram$pass:
+pop eax
+mv [test_z@draw@addrVram], eax
+push ebp
+mov eax, [test_z@draw@addrVram]
+push eax
+call test_z@draw@block
+
+jmp test_z@draw@tstr$pass
+test_z@draw@tstr: dd "HELLO WORLD"
+test_z@draw@tstr$pass:
+ret
+test_z@draw$pass:
+;============[fun end]draw=============
+
+

@@ -72,7 +72,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 43 "parse.y"
+#line 42 "parse.y"
 {
     int i;
     char* s;

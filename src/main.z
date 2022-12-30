@@ -13,8 +13,8 @@ addrIDT:  0x0026f800; [IDT一行8字节，一共256行，一共2048字节=2KB，
 addrGDT:  0x00270000; [GDT一行8字节，一共8192行，一共65536字节=65KB，到0x280000]
 [0x280000 说的粗略点就是下面了]
 run.once():(
-  test.z\draw(addrVram);
-  GDT.z\init();
+  [test.z\draw(addrVram);
+  [GDT.z\init();
 );
 
 run.loop():(

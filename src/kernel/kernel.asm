@@ -92,8 +92,8 @@ main:
   fld DWORD [TESTA]
   fld DWORD [eax]
   fadd to st1
-  call main_z_run_once
+  call main_z@run_once
   .loop:
-    call main_z_run_loop
+    call main_z@run_loop
   jmp .loop
 

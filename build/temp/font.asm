@@ -1,975 +1,920 @@
-jmp font_z_A$next
-font_z_A: dd \
-0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-font_z_A$next:
-jmp font_z_B$next
-font_z_B: dd \
-0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
-font_z_B$next:
-jmp font_z_C$next
-font_z_C: dd \
-0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
-font_z_C$next:
-jmp font_z_D$next
-font_z_D: dd \
-0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
-font_z_D$next:
-jmp font_z_E$next
-font_z_E: dd \
-0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
-font_z_E$next:
-jmp font_z_F$next
-font_z_F: dd \
-0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-font_z_F$next:
-jmp font_z_G$next
-font_z_G: dd \
-0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
-font_z_G$next:
-jmp font_z_H$next
-font_z_H: dd \
-0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-font_z_H$next:
-jmp font_z_I$next
-font_z_I: dd \
-0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,
-font_z_I$next:
-jmp font_z_J$next
-font_z_J: dd \
-0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,
-font_z_J$next:
-jmp font_z_K$next
-font_z_K: dd \
-0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,1,0,1,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,1,1,0,0,0,0,1,0,0,1,1,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,
-font_z_K$next:
-jmp font_z_L$next
-font_z_L: dd \
-0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
-font_z_L$next:
-jmp font_z_M$next
-font_z_M: dd \
-0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,1,0,0,1,1,0,0,1,0,1,1,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-font_z_M$next:
-jmp font_z_N$next
-font_z_N: dd \
-0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,1,0,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-font_z_N$next:
-jmp font_z_O$next
-font_z_O: dd \
-0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
-font_z_O$next:
-jmp font_z_P$next
-font_z_P: dd \
-0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,
-font_z_P$next:
-jmp font_z_Q$next
-font_z_Q: dd \
-0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,
-font_z_Q$next:
-jmp font_z_R$next
-font_z_R: dd \
-0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,1,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,
-font_z_R$next:
-jmp font_z_S$next
-font_z_S: dd \
-0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
-font_z_S$next:
-jmp font_z_T$next
-font_z_T: dd \
-0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
-font_z_T$next:
-jmp font_z_U$next
-font_z_U: dd \
-0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,
-font_z_U$next:
-jmp font_z_V$next
-font_z_V: dd \
-0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,
-font_z_V$next:
-jmp font_z_W$next
-font_z_W: dd \
-0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,1,1,0,1,0,0,1,1,0,0,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-font_z_W$next:
-jmp font_z_X$next
-font_z_X: dd \
-0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,
-font_z_X$next:
-jmp font_z_Y$next
-font_z_Y: dd \
-0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,
-font_z_Y$next:
-jmp font_z_Z$next
-font_z_Z: dd \
-0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,
-font_z_Z$next:
-jmp font_z_question$next
-font_z_question: dd \
-0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,
-font_z_question$next:
-jmp font_z_space$next
-font_z_space: dd \
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-font_z_space$next:
-jmp font_z_add$next
-font_z_add: dd \
-0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,
-font_z_add$next:
-jmp font_z_sub$next
-font_z_sub: dd \
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-font_z_sub$next:
-jmp font_z_screen_buf$next
-font_z_screen_buf: dd \
-32,32,32,32,33,34,35,36,37,38,39,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,
-font_z_screen_buf$next:
+jmp font_z@A$pass
+font_z@A: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@A$pass:
+jmp font_z@B$pass
+font_z@B: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@B$pass:
+jmp font_z@C$pass
+font_z@C: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@C$pass:
+jmp font_z@D$pass
+font_z@D: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@D$pass:
+jmp font_z@E$pass
+font_z@E: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@E$pass:
+jmp font_z@F$pass
+font_z@F: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@F$pass:
+jmp font_z@G$pass
+font_z@G: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@G$pass:
+jmp font_z@H$pass
+font_z@H: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@H$pass:
+jmp font_z@I$pass
+font_z@I: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@I$pass:
+jmp font_z@J$pass
+font_z@J: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@J$pass:
+jmp font_z@K$pass
+font_z@K: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@K$pass:
+jmp font_z@L$pass
+font_z@L: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@L$pass:
+jmp font_z@M$pass
+font_z@M: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@M$pass:
+jmp font_z@N$pass
+font_z@N: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@N$pass:
+jmp font_z@O$pass
+font_z@O: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@O$pass:
+jmp font_z@P$pass
+font_z@P: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@P$pass:
+jmp font_z@Q$pass
+font_z@Q: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@Q$pass:
+jmp font_z@R$pass
+font_z@R: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@R$pass:
+jmp font_z@S$pass
+font_z@S: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@S$pass:
+jmp font_z@T$pass
+font_z@T: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@T$pass:
+jmp font_z@U$pass
+font_z@U: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@U$pass:
+jmp font_z@V$pass
+font_z@V: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@V$pass:
+jmp font_z@W$pass
+font_z@W: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@W$pass:
+jmp font_z@X$pass
+font_z@X: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@X$pass:
+jmp font_z@Y$pass
+font_z@Y: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@Y$pass:
+jmp font_z@Z$pass
+font_z@Z: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@Z$pass:
+jmp font_z@question$pass
+font_z@question: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
+font_z@question$pass:
+jmp font_z@space$pass
+font_z@space: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@space$pass:
+jmp font_z@add$pass
+font_z@add: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@add$pass:
+jmp font_z@sub$pass
+font_z@sub: dd 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+font_z@sub$pass:
+jmp font_z@screen.buf$pass
+font_z@screen.buf: dd 32, 32, 32, 32, 33, 34, 35, 36, 37, 38, 39, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 
+font_z@screen.buf$pass:
 
-;function
-jmp font_z_getAddrByAscii$next
-font_z_getAddrByAscii:
-;param
-jmp font_z_getAddrByAscii_ascii$next
-font_z_getAddrByAscii_ascii: dd 0
-font_z_getAddrByAscii_ascii$next:
+;############[fun begin]getAddrByAscii############
+jmp font_z@getAddrByAscii$pass
+font_z@getAddrByAscii:
 pop ebp
+;param: ascii
+font_z@getAddrByAscii@ascii$pass
+font_z@getAddrByAscii@ascii: dd 0
+font_z@getAddrByAscii@ascii$pass:
 pop eax
-mov [font_z_getAddrByAscii_ascii], eax
+mv [font_z@getAddrByAscii@ascii], eax
 push ebp
-; if start
-font_z_getAddrByAscii_if$1_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+;########## font_z@getAddrByAscii@if#1@$start ##########
+mov eax, [font_z@getAddrByAscii@if#1@ascii]
 push eax
 mov eax, 32
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$1_equal@true$1
+je font_z@getAddrByAscii@if#1@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$1_equal@false$1
-font_z_getAddrByAscii_if$1_equal@true$1:
+jmp font_z@getAddrByAscii@if#1@equ#1@false
+font_z@getAddrByAscii@if#1@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$1_equal@false$1:
+font_z@getAddrByAscii@if#1@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$1_else
-font_z_getAddrByAscii_if$1_then:
-mov eax, font_z_space
+je font_z@getAddrByAscii@if#1@$else
+mov eax, [font_z@getAddrByAscii@if#1@space]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$1_end
-font_z_getAddrByAscii_if$1_else:
-font_z_getAddrByAscii_if$1_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$2_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#1@$end
+font_z@getAddrByAscii@if#1@$else:
+font_z@getAddrByAscii@if#1@$end:
+;========== font_z@getAddrByAscii@if#1@$end ==========
+
+;########## font_z@getAddrByAscii@if#2@$start ##########
+mov eax, [font_z@getAddrByAscii@if#2@ascii]
 push eax
 mov eax, 65
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$2_equal@true$2
+je font_z@getAddrByAscii@if#2@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$2_equal@false$2
-font_z_getAddrByAscii_if$2_equal@true$2:
+jmp font_z@getAddrByAscii@if#2@equ#1@false
+font_z@getAddrByAscii@if#2@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$2_equal@false$2:
+font_z@getAddrByAscii@if#2@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$2_else
-font_z_getAddrByAscii_if$2_then:
-mov eax, font_z_A
+je font_z@getAddrByAscii@if#2@$else
+mov eax, [font_z@getAddrByAscii@if#2@A]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$2_end
-font_z_getAddrByAscii_if$2_else:
-font_z_getAddrByAscii_if$2_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$3_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#2@$end
+font_z@getAddrByAscii@if#2@$else:
+font_z@getAddrByAscii@if#2@$end:
+;========== font_z@getAddrByAscii@if#2@$end ==========
+
+;########## font_z@getAddrByAscii@if#3@$start ##########
+mov eax, [font_z@getAddrByAscii@if#3@ascii]
 push eax
 mov eax, 66
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$3_equal@true$3
+je font_z@getAddrByAscii@if#3@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$3_equal@false$3
-font_z_getAddrByAscii_if$3_equal@true$3:
+jmp font_z@getAddrByAscii@if#3@equ#1@false
+font_z@getAddrByAscii@if#3@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$3_equal@false$3:
+font_z@getAddrByAscii@if#3@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$3_else
-font_z_getAddrByAscii_if$3_then:
-mov eax, font_z_B
+je font_z@getAddrByAscii@if#3@$else
+mov eax, [font_z@getAddrByAscii@if#3@B]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$3_end
-font_z_getAddrByAscii_if$3_else:
-font_z_getAddrByAscii_if$3_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$4_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#3@$end
+font_z@getAddrByAscii@if#3@$else:
+font_z@getAddrByAscii@if#3@$end:
+;========== font_z@getAddrByAscii@if#3@$end ==========
+
+;########## font_z@getAddrByAscii@if#4@$start ##########
+mov eax, [font_z@getAddrByAscii@if#4@ascii]
 push eax
 mov eax, 67
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$4_equal@true$4
+je font_z@getAddrByAscii@if#4@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$4_equal@false$4
-font_z_getAddrByAscii_if$4_equal@true$4:
+jmp font_z@getAddrByAscii@if#4@equ#1@false
+font_z@getAddrByAscii@if#4@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$4_equal@false$4:
+font_z@getAddrByAscii@if#4@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$4_else
-font_z_getAddrByAscii_if$4_then:
-mov eax, font_z_C
+je font_z@getAddrByAscii@if#4@$else
+mov eax, [font_z@getAddrByAscii@if#4@C]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$4_end
-font_z_getAddrByAscii_if$4_else:
-font_z_getAddrByAscii_if$4_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$5_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#4@$end
+font_z@getAddrByAscii@if#4@$else:
+font_z@getAddrByAscii@if#4@$end:
+;========== font_z@getAddrByAscii@if#4@$end ==========
+
+;########## font_z@getAddrByAscii@if#5@$start ##########
+mov eax, [font_z@getAddrByAscii@if#5@ascii]
 push eax
 mov eax, 68
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$5_equal@true$5
+je font_z@getAddrByAscii@if#5@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$5_equal@false$5
-font_z_getAddrByAscii_if$5_equal@true$5:
+jmp font_z@getAddrByAscii@if#5@equ#1@false
+font_z@getAddrByAscii@if#5@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$5_equal@false$5:
+font_z@getAddrByAscii@if#5@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$5_else
-font_z_getAddrByAscii_if$5_then:
-mov eax, font_z_D
+je font_z@getAddrByAscii@if#5@$else
+mov eax, [font_z@getAddrByAscii@if#5@D]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$5_end
-font_z_getAddrByAscii_if$5_else:
-font_z_getAddrByAscii_if$5_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$6_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#5@$end
+font_z@getAddrByAscii@if#5@$else:
+font_z@getAddrByAscii@if#5@$end:
+;========== font_z@getAddrByAscii@if#5@$end ==========
+
+;########## font_z@getAddrByAscii@if#6@$start ##########
+mov eax, [font_z@getAddrByAscii@if#6@ascii]
 push eax
 mov eax, 69
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$6_equal@true$6
+je font_z@getAddrByAscii@if#6@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$6_equal@false$6
-font_z_getAddrByAscii_if$6_equal@true$6:
+jmp font_z@getAddrByAscii@if#6@equ#1@false
+font_z@getAddrByAscii@if#6@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$6_equal@false$6:
+font_z@getAddrByAscii@if#6@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$6_else
-font_z_getAddrByAscii_if$6_then:
-mov eax, font_z_E
+je font_z@getAddrByAscii@if#6@$else
+mov eax, [font_z@getAddrByAscii@if#6@E]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$6_end
-font_z_getAddrByAscii_if$6_else:
-font_z_getAddrByAscii_if$6_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$7_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#6@$end
+font_z@getAddrByAscii@if#6@$else:
+font_z@getAddrByAscii@if#6@$end:
+;========== font_z@getAddrByAscii@if#6@$end ==========
+
+;########## font_z@getAddrByAscii@if#7@$start ##########
+mov eax, [font_z@getAddrByAscii@if#7@ascii]
 push eax
 mov eax, 70
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$7_equal@true$7
+je font_z@getAddrByAscii@if#7@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$7_equal@false$7
-font_z_getAddrByAscii_if$7_equal@true$7:
+jmp font_z@getAddrByAscii@if#7@equ#1@false
+font_z@getAddrByAscii@if#7@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$7_equal@false$7:
+font_z@getAddrByAscii@if#7@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$7_else
-font_z_getAddrByAscii_if$7_then:
-mov eax, font_z_F
+je font_z@getAddrByAscii@if#7@$else
+mov eax, [font_z@getAddrByAscii@if#7@F]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$7_end
-font_z_getAddrByAscii_if$7_else:
-font_z_getAddrByAscii_if$7_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$8_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#7@$end
+font_z@getAddrByAscii@if#7@$else:
+font_z@getAddrByAscii@if#7@$end:
+;========== font_z@getAddrByAscii@if#7@$end ==========
+
+;########## font_z@getAddrByAscii@if#8@$start ##########
+mov eax, [font_z@getAddrByAscii@if#8@ascii]
 push eax
 mov eax, 71
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$8_equal@true$8
+je font_z@getAddrByAscii@if#8@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$8_equal@false$8
-font_z_getAddrByAscii_if$8_equal@true$8:
+jmp font_z@getAddrByAscii@if#8@equ#1@false
+font_z@getAddrByAscii@if#8@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$8_equal@false$8:
+font_z@getAddrByAscii@if#8@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$8_else
-font_z_getAddrByAscii_if$8_then:
-mov eax, font_z_G
+je font_z@getAddrByAscii@if#8@$else
+mov eax, [font_z@getAddrByAscii@if#8@G]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$8_end
-font_z_getAddrByAscii_if$8_else:
-font_z_getAddrByAscii_if$8_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$9_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#8@$end
+font_z@getAddrByAscii@if#8@$else:
+font_z@getAddrByAscii@if#8@$end:
+;========== font_z@getAddrByAscii@if#8@$end ==========
+
+;########## font_z@getAddrByAscii@if#9@$start ##########
+mov eax, [font_z@getAddrByAscii@if#9@ascii]
 push eax
 mov eax, 72
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$9_equal@true$9
+je font_z@getAddrByAscii@if#9@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$9_equal@false$9
-font_z_getAddrByAscii_if$9_equal@true$9:
+jmp font_z@getAddrByAscii@if#9@equ#1@false
+font_z@getAddrByAscii@if#9@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$9_equal@false$9:
+font_z@getAddrByAscii@if#9@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$9_else
-font_z_getAddrByAscii_if$9_then:
-mov eax, font_z_H
+je font_z@getAddrByAscii@if#9@$else
+mov eax, [font_z@getAddrByAscii@if#9@H]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$9_end
-font_z_getAddrByAscii_if$9_else:
-font_z_getAddrByAscii_if$9_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$10_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#9@$end
+font_z@getAddrByAscii@if#9@$else:
+font_z@getAddrByAscii@if#9@$end:
+;========== font_z@getAddrByAscii@if#9@$end ==========
+
+;########## font_z@getAddrByAscii@if#:@$start ##########
+mov eax, [font_z@getAddrByAscii@if#:@ascii]
 push eax
 mov eax, 73
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$10_equal@true$10
+je font_z@getAddrByAscii@if#:@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$10_equal@false$10
-font_z_getAddrByAscii_if$10_equal@true$10:
+jmp font_z@getAddrByAscii@if#:@equ#1@false
+font_z@getAddrByAscii@if#:@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$10_equal@false$10:
+font_z@getAddrByAscii@if#:@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$10_else
-font_z_getAddrByAscii_if$10_then:
-mov eax, font_z_I
+je font_z@getAddrByAscii@if#:@$else
+mov eax, [font_z@getAddrByAscii@if#:@I]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$10_end
-font_z_getAddrByAscii_if$10_else:
-font_z_getAddrByAscii_if$10_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$11_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#:@$end
+font_z@getAddrByAscii@if#:@$else:
+font_z@getAddrByAscii@if#:@$end:
+;========== font_z@getAddrByAscii@if#:@$end ==========
+
+;########## font_z@getAddrByAscii@if#;@$start ##########
+mov eax, [font_z@getAddrByAscii@if#;@ascii]
 push eax
 mov eax, 74
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$11_equal@true$11
+je font_z@getAddrByAscii@if#;@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$11_equal@false$11
-font_z_getAddrByAscii_if$11_equal@true$11:
+jmp font_z@getAddrByAscii@if#;@equ#1@false
+font_z@getAddrByAscii@if#;@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$11_equal@false$11:
+font_z@getAddrByAscii@if#;@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$11_else
-font_z_getAddrByAscii_if$11_then:
-mov eax, font_z_G
+je font_z@getAddrByAscii@if#;@$else
+mov eax, [font_z@getAddrByAscii@if#;@G]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$11_end
-font_z_getAddrByAscii_if$11_else:
-font_z_getAddrByAscii_if$11_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$12_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#;@$end
+font_z@getAddrByAscii@if#;@$else:
+font_z@getAddrByAscii@if#;@$end:
+;========== font_z@getAddrByAscii@if#;@$end ==========
+
+;########## font_z@getAddrByAscii@if#<@$start ##########
+mov eax, [font_z@getAddrByAscii@if#<@ascii]
 push eax
 mov eax, 75
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$12_equal@true$12
+je font_z@getAddrByAscii@if#<@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$12_equal@false$12
-font_z_getAddrByAscii_if$12_equal@true$12:
+jmp font_z@getAddrByAscii@if#<@equ#1@false
+font_z@getAddrByAscii@if#<@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$12_equal@false$12:
+font_z@getAddrByAscii@if#<@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$12_else
-font_z_getAddrByAscii_if$12_then:
-mov eax, font_z_K
+je font_z@getAddrByAscii@if#<@$else
+mov eax, [font_z@getAddrByAscii@if#<@K]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$12_end
-font_z_getAddrByAscii_if$12_else:
-font_z_getAddrByAscii_if$12_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$13_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#<@$end
+font_z@getAddrByAscii@if#<@$else:
+font_z@getAddrByAscii@if#<@$end:
+;========== font_z@getAddrByAscii@if#<@$end ==========
+
+;########## font_z@getAddrByAscii@if#=@$start ##########
+mov eax, [font_z@getAddrByAscii@if#=@ascii]
 push eax
 mov eax, 76
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$13_equal@true$13
+je font_z@getAddrByAscii@if#=@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$13_equal@false$13
-font_z_getAddrByAscii_if$13_equal@true$13:
+jmp font_z@getAddrByAscii@if#=@equ#1@false
+font_z@getAddrByAscii@if#=@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$13_equal@false$13:
+font_z@getAddrByAscii@if#=@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$13_else
-font_z_getAddrByAscii_if$13_then:
-mov eax, font_z_L
+je font_z@getAddrByAscii@if#=@$else
+mov eax, [font_z@getAddrByAscii@if#=@L]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$13_end
-font_z_getAddrByAscii_if$13_else:
-font_z_getAddrByAscii_if$13_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$14_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#=@$end
+font_z@getAddrByAscii@if#=@$else:
+font_z@getAddrByAscii@if#=@$end:
+;========== font_z@getAddrByAscii@if#=@$end ==========
+
+;########## font_z@getAddrByAscii@if#>@$start ##########
+mov eax, [font_z@getAddrByAscii@if#>@ascii]
 push eax
 mov eax, 77
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$14_equal@true$14
+je font_z@getAddrByAscii@if#>@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$14_equal@false$14
-font_z_getAddrByAscii_if$14_equal@true$14:
+jmp font_z@getAddrByAscii@if#>@equ#1@false
+font_z@getAddrByAscii@if#>@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$14_equal@false$14:
+font_z@getAddrByAscii@if#>@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$14_else
-font_z_getAddrByAscii_if$14_then:
-mov eax, font_z_M
+je font_z@getAddrByAscii@if#>@$else
+mov eax, [font_z@getAddrByAscii@if#>@M]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$14_end
-font_z_getAddrByAscii_if$14_else:
-font_z_getAddrByAscii_if$14_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$15_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#>@$end
+font_z@getAddrByAscii@if#>@$else:
+font_z@getAddrByAscii@if#>@$end:
+;========== font_z@getAddrByAscii@if#>@$end ==========
+
+;########## font_z@getAddrByAscii@if#?@$start ##########
+mov eax, [font_z@getAddrByAscii@if#?@ascii]
 push eax
 mov eax, 78
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$15_equal@true$15
+je font_z@getAddrByAscii@if#?@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$15_equal@false$15
-font_z_getAddrByAscii_if$15_equal@true$15:
+jmp font_z@getAddrByAscii@if#?@equ#1@false
+font_z@getAddrByAscii@if#?@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$15_equal@false$15:
+font_z@getAddrByAscii@if#?@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$15_else
-font_z_getAddrByAscii_if$15_then:
-mov eax, font_z_N
+je font_z@getAddrByAscii@if#?@$else
+mov eax, [font_z@getAddrByAscii@if#?@N]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$15_end
-font_z_getAddrByAscii_if$15_else:
-font_z_getAddrByAscii_if$15_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$16_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#?@$end
+font_z@getAddrByAscii@if#?@$else:
+font_z@getAddrByAscii@if#?@$end:
+;========== font_z@getAddrByAscii@if#?@$end ==========
+
+;########## font_z@getAddrByAscii@if#@@$start ##########
+mov eax, [font_z@getAddrByAscii@if#@@ascii]
 push eax
 mov eax, 79
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$16_equal@true$16
+je font_z@getAddrByAscii@if#@@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$16_equal@false$16
-font_z_getAddrByAscii_if$16_equal@true$16:
+jmp font_z@getAddrByAscii@if#@@equ#1@false
+font_z@getAddrByAscii@if#@@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$16_equal@false$16:
+font_z@getAddrByAscii@if#@@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$16_else
-font_z_getAddrByAscii_if$16_then:
-mov eax, font_z_O
+je font_z@getAddrByAscii@if#@@$else
+mov eax, [font_z@getAddrByAscii@if#@@O]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$16_end
-font_z_getAddrByAscii_if$16_else:
-font_z_getAddrByAscii_if$16_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$17_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#@@$end
+font_z@getAddrByAscii@if#@@$else:
+font_z@getAddrByAscii@if#@@$end:
+;========== font_z@getAddrByAscii@if#@@$end ==========
+
+;########## font_z@getAddrByAscii@if#A@$start ##########
+mov eax, [font_z@getAddrByAscii@if#A@ascii]
 push eax
 mov eax, 80
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$17_equal@true$17
+je font_z@getAddrByAscii@if#A@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$17_equal@false$17
-font_z_getAddrByAscii_if$17_equal@true$17:
+jmp font_z@getAddrByAscii@if#A@equ#1@false
+font_z@getAddrByAscii@if#A@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$17_equal@false$17:
+font_z@getAddrByAscii@if#A@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$17_else
-font_z_getAddrByAscii_if$17_then:
-mov eax, font_z_P
+je font_z@getAddrByAscii@if#A@$else
+mov eax, [font_z@getAddrByAscii@if#A@P]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$17_end
-font_z_getAddrByAscii_if$17_else:
-font_z_getAddrByAscii_if$17_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$18_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#A@$end
+font_z@getAddrByAscii@if#A@$else:
+font_z@getAddrByAscii@if#A@$end:
+;========== font_z@getAddrByAscii@if#A@$end ==========
+
+;########## font_z@getAddrByAscii@if#B@$start ##########
+mov eax, [font_z@getAddrByAscii@if#B@ascii]
 push eax
 mov eax, 81
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$18_equal@true$18
+je font_z@getAddrByAscii@if#B@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$18_equal@false$18
-font_z_getAddrByAscii_if$18_equal@true$18:
+jmp font_z@getAddrByAscii@if#B@equ#1@false
+font_z@getAddrByAscii@if#B@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$18_equal@false$18:
+font_z@getAddrByAscii@if#B@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$18_else
-font_z_getAddrByAscii_if$18_then:
-mov eax, font_z_Q
+je font_z@getAddrByAscii@if#B@$else
+mov eax, [font_z@getAddrByAscii@if#B@Q]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$18_end
-font_z_getAddrByAscii_if$18_else:
-font_z_getAddrByAscii_if$18_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$19_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#B@$end
+font_z@getAddrByAscii@if#B@$else:
+font_z@getAddrByAscii@if#B@$end:
+;========== font_z@getAddrByAscii@if#B@$end ==========
+
+;########## font_z@getAddrByAscii@if#C@$start ##########
+mov eax, [font_z@getAddrByAscii@if#C@ascii]
 push eax
 mov eax, 82
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$19_equal@true$19
+je font_z@getAddrByAscii@if#C@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$19_equal@false$19
-font_z_getAddrByAscii_if$19_equal@true$19:
+jmp font_z@getAddrByAscii@if#C@equ#1@false
+font_z@getAddrByAscii@if#C@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$19_equal@false$19:
+font_z@getAddrByAscii@if#C@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$19_else
-font_z_getAddrByAscii_if$19_then:
-mov eax, font_z_R
+je font_z@getAddrByAscii@if#C@$else
+mov eax, [font_z@getAddrByAscii@if#C@R]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$19_end
-font_z_getAddrByAscii_if$19_else:
-font_z_getAddrByAscii_if$19_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$20_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#C@$end
+font_z@getAddrByAscii@if#C@$else:
+font_z@getAddrByAscii@if#C@$end:
+;========== font_z@getAddrByAscii@if#C@$end ==========
+
+;########## font_z@getAddrByAscii@if#D@$start ##########
+mov eax, [font_z@getAddrByAscii@if#D@ascii]
 push eax
 mov eax, 83
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$20_equal@true$20
+je font_z@getAddrByAscii@if#D@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$20_equal@false$20
-font_z_getAddrByAscii_if$20_equal@true$20:
+jmp font_z@getAddrByAscii@if#D@equ#1@false
+font_z@getAddrByAscii@if#D@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$20_equal@false$20:
+font_z@getAddrByAscii@if#D@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$20_else
-font_z_getAddrByAscii_if$20_then:
-mov eax, font_z_S
+je font_z@getAddrByAscii@if#D@$else
+mov eax, [font_z@getAddrByAscii@if#D@S]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$20_end
-font_z_getAddrByAscii_if$20_else:
-font_z_getAddrByAscii_if$20_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$21_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#D@$end
+font_z@getAddrByAscii@if#D@$else:
+font_z@getAddrByAscii@if#D@$end:
+;========== font_z@getAddrByAscii@if#D@$end ==========
+
+;########## font_z@getAddrByAscii@if#E@$start ##########
+mov eax, [font_z@getAddrByAscii@if#E@ascii]
 push eax
 mov eax, 84
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$21_equal@true$21
+je font_z@getAddrByAscii@if#E@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$21_equal@false$21
-font_z_getAddrByAscii_if$21_equal@true$21:
+jmp font_z@getAddrByAscii@if#E@equ#1@false
+font_z@getAddrByAscii@if#E@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$21_equal@false$21:
+font_z@getAddrByAscii@if#E@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$21_else
-font_z_getAddrByAscii_if$21_then:
-mov eax, font_z_T
+je font_z@getAddrByAscii@if#E@$else
+mov eax, [font_z@getAddrByAscii@if#E@T]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$21_end
-font_z_getAddrByAscii_if$21_else:
-font_z_getAddrByAscii_if$21_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$22_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#E@$end
+font_z@getAddrByAscii@if#E@$else:
+font_z@getAddrByAscii@if#E@$end:
+;========== font_z@getAddrByAscii@if#E@$end ==========
+
+;########## font_z@getAddrByAscii@if#F@$start ##########
+mov eax, [font_z@getAddrByAscii@if#F@ascii]
 push eax
 mov eax, 85
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$22_equal@true$22
+je font_z@getAddrByAscii@if#F@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$22_equal@false$22
-font_z_getAddrByAscii_if$22_equal@true$22:
+jmp font_z@getAddrByAscii@if#F@equ#1@false
+font_z@getAddrByAscii@if#F@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$22_equal@false$22:
+font_z@getAddrByAscii@if#F@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$22_else
-font_z_getAddrByAscii_if$22_then:
-mov eax, font_z_U
+je font_z@getAddrByAscii@if#F@$else
+mov eax, [font_z@getAddrByAscii@if#F@U]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$22_end
-font_z_getAddrByAscii_if$22_else:
-font_z_getAddrByAscii_if$22_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$23_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#F@$end
+font_z@getAddrByAscii@if#F@$else:
+font_z@getAddrByAscii@if#F@$end:
+;========== font_z@getAddrByAscii@if#F@$end ==========
+
+;########## font_z@getAddrByAscii@if#G@$start ##########
+mov eax, [font_z@getAddrByAscii@if#G@ascii]
 push eax
 mov eax, 86
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$23_equal@true$23
+je font_z@getAddrByAscii@if#G@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$23_equal@false$23
-font_z_getAddrByAscii_if$23_equal@true$23:
+jmp font_z@getAddrByAscii@if#G@equ#1@false
+font_z@getAddrByAscii@if#G@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$23_equal@false$23:
+font_z@getAddrByAscii@if#G@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$23_else
-font_z_getAddrByAscii_if$23_then:
-mov eax, font_z_V
+je font_z@getAddrByAscii@if#G@$else
+mov eax, [font_z@getAddrByAscii@if#G@V]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$23_end
-font_z_getAddrByAscii_if$23_else:
-font_z_getAddrByAscii_if$23_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$24_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#G@$end
+font_z@getAddrByAscii@if#G@$else:
+font_z@getAddrByAscii@if#G@$end:
+;========== font_z@getAddrByAscii@if#G@$end ==========
+
+;########## font_z@getAddrByAscii@if#H@$start ##########
+mov eax, [font_z@getAddrByAscii@if#H@ascii]
 push eax
 mov eax, 87
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$24_equal@true$24
+je font_z@getAddrByAscii@if#H@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$24_equal@false$24
-font_z_getAddrByAscii_if$24_equal@true$24:
+jmp font_z@getAddrByAscii@if#H@equ#1@false
+font_z@getAddrByAscii@if#H@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$24_equal@false$24:
+font_z@getAddrByAscii@if#H@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$24_else
-font_z_getAddrByAscii_if$24_then:
-mov eax, font_z_W
+je font_z@getAddrByAscii@if#H@$else
+mov eax, [font_z@getAddrByAscii@if#H@W]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$24_end
-font_z_getAddrByAscii_if$24_else:
-font_z_getAddrByAscii_if$24_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$25_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#H@$end
+font_z@getAddrByAscii@if#H@$else:
+font_z@getAddrByAscii@if#H@$end:
+;========== font_z@getAddrByAscii@if#H@$end ==========
+
+;########## font_z@getAddrByAscii@if#I@$start ##########
+mov eax, [font_z@getAddrByAscii@if#I@ascii]
 push eax
 mov eax, 88
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$25_equal@true$25
+je font_z@getAddrByAscii@if#I@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$25_equal@false$25
-font_z_getAddrByAscii_if$25_equal@true$25:
+jmp font_z@getAddrByAscii@if#I@equ#1@false
+font_z@getAddrByAscii@if#I@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$25_equal@false$25:
+font_z@getAddrByAscii@if#I@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$25_else
-font_z_getAddrByAscii_if$25_then:
-mov eax, font_z_X
+je font_z@getAddrByAscii@if#I@$else
+mov eax, [font_z@getAddrByAscii@if#I@X]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$25_end
-font_z_getAddrByAscii_if$25_else:
-font_z_getAddrByAscii_if$25_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$26_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#I@$end
+font_z@getAddrByAscii@if#I@$else:
+font_z@getAddrByAscii@if#I@$end:
+;========== font_z@getAddrByAscii@if#I@$end ==========
+
+;########## font_z@getAddrByAscii@if#J@$start ##########
+mov eax, [font_z@getAddrByAscii@if#J@ascii]
 push eax
 mov eax, 89
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$26_equal@true$26
+je font_z@getAddrByAscii@if#J@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$26_equal@false$26
-font_z_getAddrByAscii_if$26_equal@true$26:
+jmp font_z@getAddrByAscii@if#J@equ#1@false
+font_z@getAddrByAscii@if#J@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$26_equal@false$26:
+font_z@getAddrByAscii@if#J@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$26_else
-font_z_getAddrByAscii_if$26_then:
-mov eax, font_z_Y
+je font_z@getAddrByAscii@if#J@$else
+mov eax, [font_z@getAddrByAscii@if#J@Y]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$26_end
-font_z_getAddrByAscii_if$26_else:
-font_z_getAddrByAscii_if$26_end:
-;if end
-; if start
-font_z_getAddrByAscii_if$27_start:
-mov eax, [font_z_getAddrByAscii_ascii]
+jmp font_z@getAddrByAscii@if#J@$end
+font_z@getAddrByAscii@if#J@$else:
+font_z@getAddrByAscii@if#J@$end:
+;========== font_z@getAddrByAscii@if#J@$end ==========
+
+;########## font_z@getAddrByAscii@if#K@$start ##########
+mov eax, [font_z@getAddrByAscii@if#K@ascii]
 push eax
 mov eax, 90
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je font_z_getAddrByAscii_if$27_equal@true$27
+je font_z@getAddrByAscii@if#K@equ#1@true
 mov eax, 0
-jmp font_z_getAddrByAscii_if$27_equal@false$27
-font_z_getAddrByAscii_if$27_equal@true$27:
+jmp font_z@getAddrByAscii@if#K@equ#1@false
+font_z@getAddrByAscii@if#K@equ#1@true:
 mov eax, 1
-font_z_getAddrByAscii_if$27_equal@false$27:
+font_z@getAddrByAscii@if#K@equ#1@false:
 push eax
 pop eax
 cmp eax, 0
-je font_z_getAddrByAscii_if$27_else
-font_z_getAddrByAscii_if$27_then:
-mov eax, font_z_Z
+je font_z@getAddrByAscii@if#K@$else
+mov eax, [font_z@getAddrByAscii@if#K@Z]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z_getAddrByAscii_if$27_end
-font_z_getAddrByAscii_if$27_else:
-font_z_getAddrByAscii_if$27_end:
-;if end
+jmp font_z@getAddrByAscii@if#K@$end
+font_z@getAddrByAscii@if#K@$else:
+font_z@getAddrByAscii@if#K@$end:
+;========== font_z@getAddrByAscii@if#K@$end ==========
+
 ret
-font_z_getAddrByAscii$next:
+font_z@getAddrByAscii$pass:
+;============[fun end]getAddrByAscii=============
+
+

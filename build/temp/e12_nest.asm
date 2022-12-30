@@ -72,22 +72,44 @@ jmp e12_nest_asm_while$2_start
 e12_nest_asm_while$2_end:
 ;while end
 ;#############新映射器效果############
+;########## e12_nest_z@if#1@$start ##########
 mov eax, 1
 push eax
-mov eax, 1
-push eax
-mov eax, 1
-push eax
-jmp e12_nest_z@a$pass
-e12_nest_z@a: dd 0
-e12_nest_z@a$pass:
 pop eax
-mov [e12_nest_z@a], eax
-
-e12_nest_z@end:
-;if end
+cmp eax, 0
+je e12_nest_z@if#1@$else
+;########## e12_nest_z@if#1@if#1@$start ##########
 mov eax, 1
 push eax
+pop eax
+cmp eax, 0
+je e12_nest_z@if#1@if#1@$else
+jmp e12_nest_z@if#1@if#1@$end
+e12_nest_z@if#1@if#1@$else:
+mov eax, 1
+push eax
+jmp e12_nest_z@if#1@if#1@a$pass
+e12_nest_z@if#1@if#1@a: dd 0
+e12_nest_z@if#1@if#1@a$pass:
+pop eax
+mov [e12_nest_z@if#1@if#1@a], eax
+
+e12_nest_z@if#1@if#1@$end:
+;========== e12_nest_z@if#1@if#1@$end ==========
+jmp e12_nest_z@if#1@if#1@$end
+e12_nest_z@if#1@if#1@$else:
+e12_nest_z@if#1@if#1@$end:
+;========== e12_nest_z@if#1@if#1@$end ==========
+;########## e12_nest_z@if#1@if#1@if#1@$start ##########
+mov eax, 1
+push eax
+pop eax
+cmp eax, 0
+je e12_nest_z@if#1@if#1@if#1@$else
+jmp e12_nest_z@if#1@if#1@if#1@$end
+e12_nest_z@if#1@if#1@if#1@$else:
+e12_nest_z@if#1@if#1@if#1@$end:
+;========== e12_nest_z@if#1@if#1@if#1@$end ==========
 mov eax, 1
 push eax
 mov eax, 1

@@ -56,7 +56,27 @@ public:
   }
 
   void down(string name){
-    ASNode* tNode = new ASNode(name);
+    ASNode* tNode;
+    if(name == "if") {
+      int count = 0;
+      for(int i=0; i<m_nowNode->children.size(); i++) {
+        cout << "zws 6342 " <<  m_nowNode->children[i]->name << endl;
+        if(m_nowNode->children[i]->name.substr(0, 3) == "if#") {
+          count ++;
+        }
+      }
+      tNode = new ASNode(name + "#" + (char)(count+49));
+    }else if(name == "while") {
+      int count = 0;
+      for(int i=0; i<m_nowNode->children.size(); i++) {
+        if(m_nowNode->children[i]->name.substr(0, 6) == "while#") {
+          count ++;
+        }
+      }
+      tNode = new ASNode(name + "#" + (char)(count+49));
+    } else {
+      tNode = new ASNode(name);
+    }
     tNode->parent = m_nowNode;
     m_nowNode->children.push_back(tNode);
     m_nowNode = tNode;

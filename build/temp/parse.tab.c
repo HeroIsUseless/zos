@@ -115,7 +115,7 @@
     // 词法解析器
     extern int yylex();
     // lang转asm代码映射器
-    NasmMapper* nm;
+    AsmMapper* am;
     // 正在解析第几行
     extern int yylineno;
     // 错误提醒
@@ -1548,7 +1548,7 @@ yyreduce:
 
   case 11:
 #line 73 "parse.y"
-    {am_def_var((yyvsp[(1) - (3)].s)); nm->defVarWithNumber((yyvsp[(1) - (3)].s));;}
+    {am_def_var((yyvsp[(1) - (3)].s)); am->defVarWithNumber((yyvsp[(1) - (3)].s));;}
     break;
 
   case 12:
@@ -1558,22 +1558,22 @@ yyreduce:
 
   case 13:
 #line 75 "parse.y"
-    {am_def_str((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s)); nm->defVarWithString((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s));;}
+    {am_def_str((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s)); am->defVarWithString((yyvsp[(1) - (3)].s), (yyvsp[(3) - (3)].s));;}
     break;
 
   case 14:
 #line 78 "parse.y"
-    {am_def_arr_start((yyvsp[(1) - (3)].s)); nm->defArrayStart((yyvsp[(1) - (3)].s));;}
+    {am_def_arr_start((yyvsp[(1) - (3)].s)); am->defArrayStart((yyvsp[(1) - (3)].s));;}
     break;
 
   case 15:
 #line 78 "parse.y"
-    {am_def_arr_end((yyvsp[(1) - (6)].s)); nm->defArrayEnd((yyvsp[(1) - (6)].s));;}
+    {am_def_arr_end((yyvsp[(1) - (6)].s)); am->defArrayEnd((yyvsp[(1) - (6)].s));;}
     break;
 
   case 16:
 #line 81 "parse.y"
-    {am_def_arr_item((yyvsp[(3) - (3)].s)); nm->defArrayItem((yyvsp[(3) - (3)].s));;}
+    {am_def_arr_item((yyvsp[(3) - (3)].s)); am->defArrayItem((yyvsp[(3) - (3)].s));;}
     break;
 
   case 17:
@@ -1583,42 +1583,42 @@ yyreduce:
 
   case 19:
 #line 86 "parse.y"
-    {am_def_fun_head((yyvsp[(1) - (3)].s)); nm->defFunctionStart((yyvsp[(1) - (3)].s));;}
+    {am_def_fun_head((yyvsp[(1) - (3)].s)); am->defFunctionStart((yyvsp[(1) - (3)].s));;}
     break;
 
   case 20:
 #line 86 "parse.y"
-    {am_def_fun_end((yyvsp[(1) - (7)].s)); nm->defFunctionEnd((yyvsp[(1) - (7)].s));;}
+    {am_def_fun_end((yyvsp[(1) - (7)].s)); am->defFunctionEnd((yyvsp[(1) - (7)].s));;}
     break;
 
   case 26:
 #line 97 "parse.y"
-    {am_def_param((yyvsp[(1) - (3)].s)); nm->defParam((yyvsp[(1) - (3)].s));;}
+    {am_def_param((yyvsp[(1) - (3)].s)); am->defParam((yyvsp[(1) - (3)].s));;}
     break;
 
   case 30:
 #line 106 "parse.y"
-    {am_return(); nm->defReturn();;}
+    {am_return(); am->defReturn();;}
     break;
 
   case 31:
 #line 107 "parse.y"
-    {am_assign_var((yyvsp[(1) - (4)].s)); nm->assginVar((yyvsp[(1) - (4)].s));;}
+    {am_assign_var((yyvsp[(1) - (4)].s)); am->assginVar((yyvsp[(1) - (4)].s));;}
     break;
 
   case 32:
 #line 108 "parse.y"
-    {am_assign_prefixesVar((yyvsp[(1) - (4)].s)); nm->assginPrefixesVar((yyvsp[(1) - (4)].s));;}
+    {am_assign_prefixesVar((yyvsp[(1) - (4)].s)); am->assginPrefixesVar((yyvsp[(1) - (4)].s));;}
     break;
 
   case 33:
 #line 109 "parse.y"
-    {am_assign_arr((yyvsp[(1) - (8)].s)); nm->assginArray((yyvsp[(1) - (8)].s));;}
+    {am_assign_arr((yyvsp[(1) - (8)].s)); am->assginArray((yyvsp[(1) - (8)].s));;}
     break;
 
   case 34:
 #line 110 "parse.y"
-    {am_assign_prefixesArr((yyvsp[(1) - (8)].s)); nm->assginPrefixesArray((yyvsp[(1) - (8)].s));;}
+    {am_assign_prefixesArr((yyvsp[(1) - (8)].s)); am->assginPrefixesArray((yyvsp[(1) - (8)].s));;}
     break;
 
   case 35:
@@ -1633,12 +1633,12 @@ yyreduce:
 
   case 37:
 #line 113 "parse.y"
-    {am_if_end(); nm->ifEnd();;}
+    {am_if_end(); am->defIfEnd();;}
     break;
 
   case 38:
 #line 114 "parse.y"
-    {am_if_end();;}
+    {am_if_end(); am->defIfEnd();;}
     break;
 
   case 39:
@@ -1658,17 +1658,17 @@ yyreduce:
 
   case 42:
 #line 118 "parse.y"
-    {am_if_head();;}
+    {am_if_head(); am->defIfHead();;}
     break;
 
   case 43:
 #line 118 "parse.y"
-    {am_if_then();;}
+    {am_if_then(); am->defIfThen();;}
     break;
 
   case 44:
 #line 118 "parse.y"
-    {am_if_else();;}
+    {am_if_else(); am->defIfElse();;}
     break;
 
   case 46:
@@ -1738,12 +1738,12 @@ yyreduce:
 
   case 60:
 #line 140 "parse.y"
-    {am_exp_val((yyvsp[(1) - (1)].s)); nm->pushInt((yyvsp[(1) - (1)].s));;}
+    {am_exp_val((yyvsp[(1) - (1)].s)); am->pushInt((yyvsp[(1) - (1)].s));;}
     break;
 
   case 61:
 #line 141 "parse.y"
-    {am_exp_var((yyvsp[(1) - (1)].s)); nm->pushVar((yyvsp[(1) - (1)].s));;}
+    {am_exp_var((yyvsp[(1) - (1)].s)); am->pushVar((yyvsp[(1) - (1)].s));;}
     break;
 
   case 62:
@@ -1783,12 +1783,12 @@ yyreduce:
 
   case 69:
 #line 149 "parse.y"
-    {am_exec_func((yyvsp[(1) - (2)].s)); nm->callFunction((yyvsp[(1) - (2)].s));;}
+    {am_exec_func((yyvsp[(1) - (2)].s)); am->callFunction((yyvsp[(1) - (2)].s));;}
     break;
 
   case 70:
 #line 150 "parse.y"
-    {am_exec_prefixesFunc((yyvsp[(1) - (2)].s)); nm->callPrefixesFunction((yyvsp[(1) - (2)].s));;}
+    {am_exec_prefixesFunc((yyvsp[(1) - (2)].s)); am->callPrefixesFunction((yyvsp[(1) - (2)].s));;}
     break;
 
 
@@ -2013,7 +2013,7 @@ yyreturn:
 int main(int argc, char **argv){
     if(!open(argc, argv)) return 1;
     prefixes_push(argv[2]);
-    nm = new NasmMapper(argv[1]);
+    am = new NasmMapper(argv[1]);
     yylineno = 1;
     yyparse();
     // 此code是全局的
@@ -2022,7 +2022,7 @@ int main(int argc, char **argv){
     ofstream os;
     os.open(argv[2], ios::app);
     os << ";#############新映射器效果############"<<endl;
-    os << *nm->getAsm() << endl;
+    os << *am->getAsm() << endl;
     os.close();
     return 0;
 }

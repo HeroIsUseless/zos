@@ -57,7 +57,6 @@ public:
   virtual void defParam(string varName)
   {
     m_funcParams.push_back(varName);
-    cout << "zws 2847" << m_astree->getPrefix()<< varName << endl;
   }
 
   // 定义函数前半部分
@@ -127,12 +126,6 @@ public:
     map2Asm("mov [", prefixesArrName, "+ebx], eax\n");
   }
 
-  virtual void ifEnd()
-  {
-    defTag("end");
-    map2Asm(";if end\n");
-  }
-
   virtual void pushInt(string integer)
   {
     map2Asm("mov eax, ", integer, "\n");
@@ -158,6 +151,31 @@ public:
   virtual void callFunction(string functionName)
   {
     map2Asm("call ", m_astree->getPrefix(), functionName, "\n\n");
+  }
+
+  virtual void defIfHead()
+  {
+    m_astree->down("if");
+    map2Asm(";########## ",m_astree->getPrefix(), "$start ##########\n");
+  }
+
+  virtual void defIfThen()
+  {
+    map2Asm("pop eax\n");
+    map2Asm("cmp eax, 0\n");
+    map2Asm("je ", m_astree->getPrefix(), "$else\n");
+  }
+
+  virtual void defIfElse()
+  {
+    map2Asm("jmp ", m_astree->getPrefix(), "$end\n");
+    map2Asm(m_astree->getPrefix(), "$else:\n");
+  }
+
+  virtual void defIfEnd()
+  {
+    map2Asm(m_astree->getPrefix(), "$end:\n");
+    map2Asm(";========== ", m_astree->getPrefix(), "$end ==========\n");
   }
 
 };

@@ -1743,7 +1743,7 @@ yyreduce:
 
   case 61:
 #line 141 "parse.y"
-    {am_exp_var((yyvsp[(1) - (1)].s));;}
+    {am_exp_var((yyvsp[(1) - (1)].s)); nm->pushVar((yyvsp[(1) - (1)].s));;}
     break;
 
   case 62:
@@ -1783,12 +1783,12 @@ yyreduce:
 
   case 69:
 #line 149 "parse.y"
-    {am_exec_func((yyvsp[(1) - (2)].s));;}
+    {am_exec_func((yyvsp[(1) - (2)].s)); nm->callFunction((yyvsp[(1) - (2)].s));;}
     break;
 
   case 70:
 #line 150 "parse.y"
-    {am_exec_prefixesFunc((yyvsp[(1) - (2)].s));;}
+    {am_exec_prefixesFunc((yyvsp[(1) - (2)].s)); nm->callPrefixesFunction((yyvsp[(1) - (2)].s));;}
     break;
 
 

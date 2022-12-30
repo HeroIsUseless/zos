@@ -138,7 +138,7 @@ factor: term
       ;
 
 term: INTEGER {am_exp_val($1); nm->pushInt($1);}
-    | VAR {am_exp_var($1);}
+    | VAR {am_exp_var($1); nm->pushVar($1);}
     | PREFIXES_VAR {am_exp_prefixesVar($1);}
     | '@' VAR {am_exp_addr($2);}
     | '@' PREFIXES_VAR {am_exp_prefixesAddr($2);}
@@ -146,8 +146,8 @@ term: INTEGER {am_exp_val($1); nm->pushInt($1);}
     | PREFIXES_VAR '\\' '(' exp ')' {am_exp_chainArr($1);}
     | '&' VAR '\\' '(' exp ')' {am_exp_addl($2);}
     | '&' PREFIXES_VAR '\\' '(' exp ')' {am_exp_prefixesAddl($2);}    
-    | VAR params {am_exec_func($1);}                        /*调用文件内定义的函数*/
-    | PREFIXES_VAR params {am_exec_prefixesFunc($1);}       /*调用文件外定义的函数*/
+    | VAR params {am_exec_func($1); nm->callFunction($1);}                        /*调用文件内定义的函数*/
+    | PREFIXES_VAR params {am_exec_prefixesFunc($1); nm->callPrefixesFunction($1);}       /*调用文件外定义的函数*/
     ;
 %%
 

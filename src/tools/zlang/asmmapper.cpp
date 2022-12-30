@@ -56,6 +56,9 @@ public:
   virtual void ifEnd() = 0;
   // 表达式部分：将数字压入堆栈
   virtual void pushInt(string integer) = 0;
+  virtual void pushVar(string var) = 0;
+  virtual void callFunction(string functionName) = 0;
+  virtual void callPrefixesFunction(string functionName) = 0;
 };
 
 AsmMapper::AsmMapper(char *fileName)

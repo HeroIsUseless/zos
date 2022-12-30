@@ -139,6 +139,27 @@ public:
     map2Asm("push eax\n");
   }
 
+  virtual void pushVar(string var)
+  {
+    map2Asm("mov eax, [", m_astree->getPrefix(), var, "]\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void callPrefixesFunction(string functionName)
+  {
+    for(int i=0; i<functionName.size(); i++) {
+      if(functionName[i] == '.' || functionName[i] == '\\') {
+        functionName[i] = '_';
+      }
+    }
+    map2Asm("call ", functionName, "\n\n");
+  }
+
+  virtual void callFunction(string functionName)
+  {
+    map2Asm("call ", m_astree->getPrefix(), functionName, "\n\n");
+  }
+
 };
 
 #endif

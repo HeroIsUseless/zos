@@ -105,24 +105,40 @@ e11_exp_z@b$pass:
 pop eax
 mov [e11_exp_z@b], eax
 
+mov eax, [e11_exp_z@a]
+push eax
+mov eax, [e11_exp_z@b]
+push eax
 jmp e11_exp_z@d$pass
 e11_exp_z@d: dd 0
 e11_exp_z@d$pass:
 pop eax
 mov [e11_exp_z@d], eax
 
+mov eax, [e11_exp_z@a]
+push eax
+mov eax, [e11_exp_z@b]
+push eax
 jmp e11_exp_z@c$pass
 e11_exp_z@c: dd 0
 e11_exp_z@c$pass:
 pop eax
 mov [e11_exp_z@c], eax
 
+mov eax, [e11_exp_z@a]
+push eax
+mov eax, [e11_exp_z@b]
+push eax
 jmp e11_exp_z@e$pass
 e11_exp_z@e: dd 0
 e11_exp_z@e$pass:
 pop eax
 mov [e11_exp_z@e], eax
 
+mov eax, [e11_exp_z@a]
+push eax
+mov eax, [e11_exp_z@b]
+push eax
 jmp e11_exp_z@f$pass
 e11_exp_z@f: dd 0
 e11_exp_z@f$pass:

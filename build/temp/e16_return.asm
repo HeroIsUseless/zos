@@ -48,6 +48,8 @@ e16_return_z@func@a$pass:
 pop eax
 mov [e16_return_z@func@a], eax
 
+mov eax, [e16_return_z@func@a]
+push eax
 pop eax
 pop ebp
 push eax
@@ -64,6 +66,8 @@ mov [e16_return_z@func@b], eax
 ret
 e16_return_z@func$pass:
 ;============[fun end]func=============
+
+call e16_return_z@func
 
 jmp e16_return_z@b$pass
 e16_return_z@b: dd 0

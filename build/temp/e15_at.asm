@@ -83,4 +83,6 @@ ret
 e15_at_z@func$pass:
 ;============[fun end]func=============
 
+call e15_at_z@func
+
 

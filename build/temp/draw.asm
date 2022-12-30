@@ -8,31 +8,31 @@ draw_z@pixel@vramAddr$pass
 draw_z@pixel@vramAddr: dd 0
 draw_z@pixel@vramAddr$pass:
 pop eax
-mv [draw_z@pixel@vramAddr], eax
+mov [draw_z@pixel@vramAddr], eax
 ;param: screenWidth
 draw_z@pixel@screenWidth$pass
 draw_z@pixel@screenWidth: dd 0
 draw_z@pixel@screenWidth$pass:
 pop eax
-mv [draw_z@pixel@screenWidth], eax
+mov [draw_z@pixel@screenWidth], eax
 ;param: color
 draw_z@pixel@color$pass
 draw_z@pixel@color: dd 0
 draw_z@pixel@color$pass:
 pop eax
-mv [draw_z@pixel@color], eax
+mov [draw_z@pixel@color], eax
 ;param: y
 draw_z@pixel@y$pass
 draw_z@pixel@y: dd 0
 draw_z@pixel@y$pass:
 pop eax
-mv [draw_z@pixel@y], eax
+mov [draw_z@pixel@y], eax
 ;param: x
 draw_z@pixel@x$pass
 draw_z@pixel@x: dd 0
 draw_z@pixel@x$pass:
 pop eax
-mv [draw_z@pixel@x], eax
+mov [draw_z@pixel@x], eax
 push ebp
 mov eax, [draw_z@pixel@y]
 push eax
@@ -80,43 +80,43 @@ draw_z@hLine@vramAddr$pass
 draw_z@hLine@vramAddr: dd 0
 draw_z@hLine@vramAddr$pass:
 pop eax
-mv [draw_z@hLine@vramAddr], eax
+mov [draw_z@hLine@vramAddr], eax
 ;param: screenWidth
 draw_z@hLine@screenWidth$pass
 draw_z@hLine@screenWidth: dd 0
 draw_z@hLine@screenWidth$pass:
 pop eax
-mv [draw_z@hLine@screenWidth], eax
+mov [draw_z@hLine@screenWidth], eax
 ;param: color
 draw_z@hLine@color$pass
 draw_z@hLine@color: dd 0
 draw_z@hLine@color$pass:
 pop eax
-mv [draw_z@hLine@color], eax
+mov [draw_z@hLine@color], eax
 ;param: ey
 draw_z@hLine@ey$pass
 draw_z@hLine@ey: dd 0
 draw_z@hLine@ey$pass:
 pop eax
-mv [draw_z@hLine@ey], eax
+mov [draw_z@hLine@ey], eax
 ;param: ex
 draw_z@hLine@ex$pass
 draw_z@hLine@ex: dd 0
 draw_z@hLine@ex$pass:
 pop eax
-mv [draw_z@hLine@ex], eax
+mov [draw_z@hLine@ex], eax
 ;param: by
 draw_z@hLine@by$pass
 draw_z@hLine@by: dd 0
 draw_z@hLine@by$pass:
 pop eax
-mv [draw_z@hLine@by], eax
+mov [draw_z@hLine@by], eax
 ;param: bx
 draw_z@hLine@bx$pass
 draw_z@hLine@bx: dd 0
 draw_z@hLine@bx$pass:
 pop eax
-mv [draw_z@hLine@bx], eax
+mov [draw_z@hLine@bx], eax
 push ebp
 mov eax, [draw_z@hLine@bx]
 push eax
@@ -185,31 +185,31 @@ draw_z@font@backColor$pass
 draw_z@font@backColor: dd 0
 draw_z@font@backColor$pass:
 pop eax
-mv [draw_z@font@backColor], eax
+mov [draw_z@font@backColor], eax
 ;param: foreColor
 draw_z@font@foreColor$pass
 draw_z@font@foreColor: dd 0
 draw_z@font@foreColor$pass:
 pop eax
-mv [draw_z@font@foreColor], eax
+mov [draw_z@font@foreColor], eax
 ;param: top
 draw_z@font@top$pass
 draw_z@font@top: dd 0
 draw_z@font@top$pass:
 pop eax
-mv [draw_z@font@top], eax
+mov [draw_z@font@top], eax
 ;param: left
 draw_z@font@left$pass
 draw_z@font@left: dd 0
 draw_z@font@left$pass:
 pop eax
-mv [draw_z@font@left], eax
+mov [draw_z@font@left], eax
 ;param: charAddr
 draw_z@font@charAddr$pass
 draw_z@font@charAddr: dd 0
 draw_z@font@charAddr$pass:
 pop eax
-mv [draw_z@font@charAddr], eax
+mov [draw_z@font@charAddr], eax
 push ebp
 ret
 draw_z@font$pass:
@@ -225,7 +225,7 @@ draw_z@flush@addrVram$pass
 draw_z@flush@addrVram: dd 0
 draw_z@flush@addrVram$pass:
 pop eax
-mv [draw_z@flush@addrVram], eax
+mov [draw_z@flush@addrVram], eax
 push ebp
 mov eax, 0
 push eax
@@ -359,43 +359,43 @@ draw_z@char@addrVram$pass
 draw_z@char@addrVram: dd 0
 draw_z@char@addrVram$pass:
 pop eax
-mv [draw_z@char@addrVram], eax
+mov [draw_z@char@addrVram], eax
 ;param: screenWidth
 draw_z@char@screenWidth$pass
 draw_z@char@screenWidth: dd 0
 draw_z@char@screenWidth$pass:
 pop eax
-mv [draw_z@char@screenWidth], eax
+mov [draw_z@char@screenWidth], eax
 ;param: ascii
 draw_z@char@ascii$pass
 draw_z@char@ascii: dd 0
 draw_z@char@ascii$pass:
 pop eax
-mv [draw_z@char@ascii], eax
+mov [draw_z@char@ascii], eax
 ;param: backColor
 draw_z@char@backColor$pass
 draw_z@char@backColor: dd 0
 draw_z@char@backColor$pass:
 pop eax
-mv [draw_z@char@backColor], eax
+mov [draw_z@char@backColor], eax
 ;param: foreColor
 draw_z@char@foreColor$pass
 draw_z@char@foreColor: dd 0
 draw_z@char@foreColor$pass:
 pop eax
-mv [draw_z@char@foreColor], eax
+mov [draw_z@char@foreColor], eax
 ;param: top
 draw_z@char@top$pass
 draw_z@char@top: dd 0
 draw_z@char@top$pass:
 pop eax
-mv [draw_z@char@top], eax
+mov [draw_z@char@top], eax
 ;param: left
 draw_z@char@left$pass
 draw_z@char@left: dd 0
 draw_z@char@left$pass:
 pop eax
-mv [draw_z@char@left], eax
+mov [draw_z@char@left], eax
 push ebp
 mov eax, [draw_z@char@ascii]
 push eax
@@ -610,31 +610,31 @@ draw_z@string@addrVram$pass
 draw_z@string@addrVram: dd 0
 draw_z@string@addrVram$pass:
 pop eax
-mv [draw_z@string@addrVram], eax
+mov [draw_z@string@addrVram], eax
 ;param: screenWidth
 draw_z@string@screenWidth$pass
 draw_z@string@screenWidth: dd 0
 draw_z@string@screenWidth$pass:
 pop eax
-mv [draw_z@string@screenWidth], eax
+mov [draw_z@string@screenWidth], eax
 ;param: strAddr
 draw_z@string@strAddr$pass
 draw_z@string@strAddr: dd 0
 draw_z@string@strAddr$pass:
 pop eax
-mv [draw_z@string@strAddr], eax
+mov [draw_z@string@strAddr], eax
 ;param: top
 draw_z@string@top$pass
 draw_z@string@top: dd 0
 draw_z@string@top$pass:
 pop eax
-mv [draw_z@string@top], eax
+mov [draw_z@string@top], eax
 ;param: left
 draw_z@string@left$pass
 draw_z@string@left: dd 0
 draw_z@string@left$pass:
 pop eax
-mv [draw_z@string@left], eax
+mov [draw_z@string@left], eax
 push ebp
 mov eax, 0
 push eax

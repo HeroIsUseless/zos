@@ -101,7 +101,7 @@ font_z@getAddrByAscii@ascii$pass
 font_z@getAddrByAscii@ascii: dd 0
 font_z@getAddrByAscii@ascii$pass:
 pop eax
-mv [font_z@getAddrByAscii@ascii], eax
+mov [font_z@getAddrByAscii@ascii], eax
 push ebp
 ;########## font_z@getAddrByAscii@if#1@$start ##########
 mov eax, [font_z@getAddrByAscii@if#1@ascii]

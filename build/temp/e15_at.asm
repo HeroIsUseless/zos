@@ -11,7 +11,7 @@ e15_at_z@func@strAddr$pass
 e15_at_z@func@strAddr: dd 0
 e15_at_z@func@strAddr$pass:
 pop eax
-mv [e15_at_z@func@strAddr], eax
+mov [e15_at_z@func@strAddr], eax
 push ebp
 mov eax, 0
 push eax

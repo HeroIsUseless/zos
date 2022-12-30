@@ -62,6 +62,7 @@ public:
   // 定义函数前半部分
   virtual void defFunctionStart(string funName)
   {
+    funName = formatPrefixes(funName);
     map2Asm("\n;############[fun begin]", funName, "############\n");
     map2Asm("jmp ", m_astree->getPrefix(), funName, "$pass\n");
     defTag(funName);
@@ -74,7 +75,7 @@ public:
       map2Asm(m_astree->getPrefix(), m_funcParams[i], ": dd 0", "\n");
       map2Asm(m_astree->getPrefix(), m_funcParams[i], "$pass:\n");
       map2Asm("pop eax\n");
-      map2Asm("mv [", m_astree->getPrefix(), m_funcParams[i], "], eax\n");
+      map2Asm("mov [", m_astree->getPrefix(), m_funcParams[i], "], eax\n");
     }
     map2Asm("push ebp\n");
     m_funcParams.clear();
@@ -83,6 +84,7 @@ public:
   // 定义函数后半部分
   virtual void defFunctionEnd(string funName)
   {
+    funName = formatPrefixes(funName);
     m_astree->up();
     map2Asm("ret\n");
     map2Asm(m_astree->getPrefix(), funName, "$pass:\n");

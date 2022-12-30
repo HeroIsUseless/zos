@@ -1,0 +1,180 @@
+     1                                  [bits 32]
+     2                                  ORG 0x280000
+     3 00000000 B840010000              mov eax, 320
+     4 00000005 50                      push eax
+     5 00000006 EB04                    jmp main_z@screenWidth$pass
+     6 00000008 00000000                main_z@screenWidth: dd 0
+     7                                  main_z@screenWidth$pass:
+     8 0000000C 58                      pop eax
+     9 0000000D A3[08000000]            mov [main_z@screenWidth], eax
+    10                                  
+    11 00000012 B8C8000000              mov eax, 200
+    12 00000017 50                      push eax
+    13 00000018 EB04                    jmp main_z@screenHeight$pass
+    14 0000001A 00000000                main_z@screenHeight: dd 0
+    15                                  main_z@screenHeight$pass:
+    16 0000001E 58                      pop eax
+    17 0000001F A3[1A000000]            mov [main_z@screenHeight], eax
+    18                                  
+    19 00000024 B800000A00              mov eax, 0x000a0000
+    20 00000029 50                      push eax
+    21 0000002A EB04                    jmp main_z@addrVram$pass
+    22 0000002C 00000000                main_z@addrVram: dd 0
+    23                                  main_z@addrVram$pass:
+    24 00000030 58                      pop eax
+    25 00000031 A3[2C000000]            mov [main_z@addrVram], eax
+    26                                  
+    27 00000036 B800E02400              mov eax, 0x0024e000
+    28 0000003B 50                      push eax
+    29 0000003C EB04                    jmp main_z@addrPM$pass
+    30 0000003E 00000000                main_z@addrPM: dd 0
+    31                                  main_z@addrPM$pass:
+    32 00000042 58                      pop eax
+    33 00000043 A3[3E000000]            mov [main_z@addrPM], eax
+    34                                  
+    35 00000048 B800E02600              mov eax, 0x0026e000
+    36 0000004D 50                      push eax
+    37 0000004E EB04                    jmp main_z@addrPDT$pass
+    38 00000050 00000000                main_z@addrPDT: dd 0
+    39                                  main_z@addrPDT$pass:
+    40 00000054 58                      pop eax
+    41 00000055 A3[50000000]            mov [main_z@addrPDT], eax
+    42                                  
+    43 0000005A B800F82600              mov eax, 0x0026f800
+    44 0000005F 50                      push eax
+    45 00000060 EB04                    jmp main_z@addrIDT$pass
+    46 00000062 00000000                main_z@addrIDT: dd 0
+    47                                  main_z@addrIDT$pass:
+    48 00000066 58                      pop eax
+    49 00000067 A3[62000000]            mov [main_z@addrIDT], eax
+    50                                  
+    51 0000006C B800002700              mov eax, 0x00270000
+    52 00000071 50                      push eax
+    53 00000072 EB04                    jmp main_z@addrGDT$pass
+    54 00000074 00000000                main_z@addrGDT: dd 0
+    55                                  main_z@addrGDT$pass:
+    56 00000078 58                      pop eax
+    57 00000079 A3[74000000]            mov [main_z@addrGDT], eax
+    58                                  
+    59                                  
+    60                                  ;############[fun begin]run_once############
+    61 0000007E EB03                    jmp main_z@run_once$pass
+    62                                  main_z@run_once:
+    63 00000080 5D                      pop ebp
+    64 00000081 55                      push ebp
+    65 00000082 C3                      ret
+    66                                  main_z@run_once$pass:
+    67                                  ;============[fun end]run_once=============
+    68                                  
+    69                                  
+    70                                  ;############[fun begin]run_loop############
+    71 00000083 EB08                    jmp main_z@run_loop$pass
+    72                                  main_z@run_loop:
+    73 00000085 5D                      pop ebp
+    74 00000086 55                      push ebp
+    75 00000087 E850000000              call kernel_z_halt
+    76                                  
+    77 0000008C C3                      ret
+    78                                  main_z@run_loop$pass:
+    79                                  ;============[fun end]run_loop=============
+    80                                  
+    81                                  
+    82 0000008D EB51                    jmp main
+    83                                  
+    84                                  limit_low equ 0
+    85                                  base_low equ 2 
+    86                                  base_mid equ 4 
+    87                                  access_right equ 5
+    88                                  limit_high equ 6 
+    89                                  base_high equ 7 
+    90                                  	
+    91 0000008F ??                      ALIGNB	16
+    92                                  GDTR:
+    93 00000090 FFFF                    		DW 8*8192-1 ; 最后一个字节的偏移
+    94 00000092 00002700                		DD 0x270000 ; 表的地址
+    95                                  
+    96                                  ; esi是将要填入的地址，就是GDT表的地址，例如Addr_GDT+1*8, Addr_GDT+2*8
+    97                                  ; eax是基地址，是代码的
+    98                                  ; ebx是控制参数和限制 24+8 4位扩展(自动填上)20位限长8位参数
+    99                                  ;     高4位参数 高4位限制 低16位限制 8位参数 = 32位ebx
+   100                                  ; 实际上高4位参数被自己固定掉了
+   101                                  ; 因此用一个常量代替比较好
+   102                                  ; 设置GDT内容
+   103                                  ; kernel.z\setGDT(addr: dword, param1: dword, param2: dword)
+   104                                  setGDT:
+   105 00000096 5D                        pop ebp
+   106 00000097 5B                        pop ebx
+   107 00000098 58                        pop eax
+   108 00000099 5E                        pop esi
+   109 0000009A 55                        push ebp
+   110 0000009B 66894602                	mov [esi+base_low],  ax ; 基地址的低16位
+   111 0000009F C1E810                  	shr eax, 16
+   112 000000A2 884604                  	mov [esi+base_mid], al ; 8位，1个字节
+   113 000000A5 886607                  	mov [esi+base_high], ah
+   114                                  	; 下面是限制与权限设置
+   115 000000A8 885E05                  	mov [esi+access_right], bl;8位参数
+   116                                  	; 0x00 未使用的记录表
+   117                                  	; 0x92 系统模式，可读写不可执行
+   118                                  	; 0x9a 系统模式，可执行可读不可写
+   119                                  	; 0xf2 应用模式，可读写不可执行
+   120                                  	; 0xfa 应用模式，可执行可读不可写
+   121 000000AB C1EB08                  	shr ebx, 8
+   122 000000AE 66891E                  	mov [esi+limit_low], bx ; 限制的低16位
+   123 000000B1 C1EB10                  	shr ebx, 16
+   124 000000B4 80CBC0                  	or  bl, 0xc0 ; 0xc0=11000000
+   125 000000B7 80E3CF                  	and bl, 0xcf ; 规定好前4位为1100，0x11001111
+   126 000000BA 885E06                  	mov [esi+limit_high], bl ; 4位参数+4位段限长，高4位被称为扩展访问权，参数固定为
+   127                                  	; G=1(开启4K),D/B=1(32位段),0(固定),AVL=0(也是默认的)这4位在386前是没有的
+   128                                  	; 因此注意limit在这里被规定为24位长，其中高四位是扩展访问权，是固定的
+   129 000000BD C3                      ret 
+   130                                  
+   131                                  ; 加载GDT
+   132                                  ; kernel.z\loadGDT()
+   133                                  loadGDT:
+   134 000000BE 0F0115[90000000]          lgdt [GDTR] ; 不加dword会警告，因为现在的标签的确从0开始的
+   135 000000C5 C3                      ret
+   136                                  
+   137                                  ; 读写内存
+   138                                  ; kernel.z\setMem.1byte(val:dword, addr:dword)
+   139                                  kernel_z_setMem_1byte:
+   140 000000C6 5D                        pop ebp
+   141 000000C7 5B                        pop ebx
+   142 000000C8 58                        pop eax
+   143 000000C9 55                        push ebp
+   144 000000CA 8803                      mov [ebx], al
+   145 000000CC C3                      ret
+   146                                  
+   147                                  ; kernel.z\setMem.2byte(val:dword, addr:dword)
+   148                                  kernel_z_setMem_2byte:
+   149 000000CD 5D                        pop ebp
+   150 000000CE 5B                        pop ebx
+   151 000000CF 58                        pop eax
+   152 000000D0 55                        push ebp
+   153 000000D1 668903                    mov [ebx], ax
+   154 000000D4 C3                      ret
+   155                                  
+   156                                  ; kernel.z\setMem.4byte(val:dword, addr:dword)
+   157                                  kernel_z_setMem_4byte:
+   158 000000D5 5D                        pop ebp
+   159 000000D6 5B                        pop ebx
+   160 000000D7 58                        pop eax
+   161 000000D8 55                        push ebp
+   162 000000D9 8903                      mov [ebx], eax
+   163 000000DB C3                      ret
+   164                                  
+   165                                  ; kernel.z\halt()
+   166                                  kernel_z_halt:
+   167 000000DC F4                        hlt
+   168 000000DD C3                      ret
+   169 000000DE 3412                    TESTA: DW 0x1234
+   170                                  ; 主进程入口
+   171                                  main:
+   172 000000E0 9BDBE3                    finit
+   173 000000E3 D905[DE000000]            fld DWORD [TESTA]
+   174 000000E9 D900                      fld DWORD [eax]
+   175 000000EB DCC1                      fadd to st1
+   176 000000ED E88EFFFFFF                call main_z@run_once
+   177                                    .loop:
+   178 000000F2 E88EFFFFFF                  call main_z@run_loop
+   179 000000F7 EBF9                      jmp .loop
+   180                                  

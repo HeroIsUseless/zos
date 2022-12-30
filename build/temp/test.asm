@@ -8,19 +8,19 @@ test_z@rect@addrVram$pass
 test_z@rect@addrVram: dd 0
 test_z@rect@addrVram$pass:
 pop eax
-mv [test_z@rect@addrVram], eax
+mov [test_z@rect@addrVram], eax
 ;param: top
 test_z@rect@top$pass
 test_z@rect@top: dd 0
 test_z@rect@top$pass:
 pop eax
-mv [test_z@rect@top], eax
+mov [test_z@rect@top], eax
 ;param: left
 test_z@rect@left$pass
 test_z@rect@left: dd 0
 test_z@rect@left$pass:
 pop eax
-mv [test_z@rect@left], eax
+mov [test_z@rect@left], eax
 push ebp
 mov eax, 0
 push eax
@@ -150,7 +150,7 @@ test_z@block@addrVram$pass
 test_z@block@addrVram: dd 0
 test_z@block@addrVram$pass:
 pop eax
-mv [test_z@block@addrVram], eax
+mov [test_z@block@addrVram], eax
 push ebp
 mov eax, 0
 push eax
@@ -219,7 +219,7 @@ test_z@draw@addrVram$pass
 test_z@draw@addrVram: dd 0
 test_z@draw@addrVram$pass:
 pop eax
-mv [test_z@draw@addrVram], eax
+mov [test_z@draw@addrVram], eax
 push ebp
 mov eax, [test_z@draw@addrVram]
 push eax

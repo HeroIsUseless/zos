@@ -4,13 +4,13 @@ jmp e5_param_z@fun$pass
 e5_param_z@fun:
 pop ebp
 ;param: b
-e5_param_z@fun@b$pass
+jmp e5_param_z@fun@b$pass
 e5_param_z@fun@b: dd 0
 e5_param_z@fun@b$pass:
 pop eax
 mov [e5_param_z@fun@b], eax
 ;param: a
-e5_param_z@fun@a$pass
+jmp e5_param_z@fun@a$pass
 e5_param_z@fun@a: dd 0
 e5_param_z@fun@a$pass:
 pop eax

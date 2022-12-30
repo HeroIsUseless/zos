@@ -4,13 +4,13 @@ jmp memory_z@set_1byte$pass
 memory_z@set_1byte:
 pop ebp
 ;param: addr
-memory_z@set_1byte@addr$pass
+jmp memory_z@set_1byte@addr$pass
 memory_z@set_1byte@addr: dd 0
 memory_z@set_1byte@addr$pass:
 pop eax
 mov [memory_z@set_1byte@addr], eax
 ;param: val
-memory_z@set_1byte@val$pass
+jmp memory_z@set_1byte@val$pass
 memory_z@set_1byte@val: dd 0
 memory_z@set_1byte@val$pass:
 pop eax
@@ -32,13 +32,13 @@ jmp memory_z@set_2byte$pass
 memory_z@set_2byte:
 pop ebp
 ;param: addr
-memory_z@set_2byte@addr$pass
+jmp memory_z@set_2byte@addr$pass
 memory_z@set_2byte@addr: dd 0
 memory_z@set_2byte@addr$pass:
 pop eax
 mov [memory_z@set_2byte@addr], eax
 ;param: val
-memory_z@set_2byte@val$pass
+jmp memory_z@set_2byte@val$pass
 memory_z@set_2byte@val: dd 0
 memory_z@set_2byte@val$pass:
 pop eax
@@ -60,13 +60,13 @@ jmp memory_z@set_4byte$pass
 memory_z@set_4byte:
 pop ebp
 ;param: addr
-memory_z@set_4byte@addr$pass
+jmp memory_z@set_4byte@addr$pass
 memory_z@set_4byte@addr: dd 0
 memory_z@set_4byte@addr$pass:
 pop eax
 mov [memory_z@set_4byte@addr], eax
 ;param: val
-memory_z@set_4byte@val$pass
+jmp memory_z@set_4byte@val$pass
 memory_z@set_4byte@val: dd 0
 memory_z@set_4byte@val$pass:
 pop eax

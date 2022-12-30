@@ -50,6 +50,8 @@ compile:
 	cd build && ./zlang ../src/screen/font.z ./temp/font.asm
 	cd build && ./zlang ../src/test.z ./temp/test.asm
 	cd build && ./zlink  ./temp/main.asm \
+											 ./temp/memory.asm \
+											 ./temp/draw.asm \
 											 ../src/kernel/kernel.asm \
 											 ./temp/zos.asm
 	nasm -f bin src/boot/IPL.asm -o build/temp/IPL.bin -l log/IPL.log

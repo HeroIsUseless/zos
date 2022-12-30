@@ -72,109 +72,978 @@
     72                                  main_z@run_loop:
     73 00000085 5D                      pop ebp
     74 00000086 55                      push ebp
-    75 00000087 E850000000              call kernel_z_halt
+    75 00000087 E8A0060000              call kernel_z_halt
     76                                  
     77 0000008C C3                      ret
     78                                  main_z@run_loop$pass:
     79                                  ;============[fun end]run_loop=============
     80                                  
     81                                  
-    82 0000008D EB51                    jmp main
-    83                                  
-    84                                  limit_low equ 0
-    85                                  base_low equ 2 
-    86                                  base_mid equ 4 
-    87                                  access_right equ 5
-    88                                  limit_high equ 6 
-    89                                  base_high equ 7 
-    90                                  	
-    91 0000008F ??                      ALIGNB	16
-    92                                  GDTR:
-    93 00000090 FFFF                    		DW 8*8192-1 ; 最后一个字节的偏移
-    94 00000092 00002700                		DD 0x270000 ; 表的地址
-    95                                  
-    96                                  ; esi是将要填入的地址，就是GDT表的地址，例如Addr_GDT+1*8, Addr_GDT+2*8
-    97                                  ; eax是基地址，是代码的
-    98                                  ; ebx是控制参数和限制 24+8 4位扩展(自动填上)20位限长8位参数
-    99                                  ;     高4位参数 高4位限制 低16位限制 8位参数 = 32位ebx
-   100                                  ; 实际上高4位参数被自己固定掉了
-   101                                  ; 因此用一个常量代替比较好
-   102                                  ; 设置GDT内容
-   103                                  ; kernel.z\setGDT(addr: dword, param1: dword, param2: dword)
-   104                                  setGDT:
-   105 00000096 5D                        pop ebp
-   106 00000097 5B                        pop ebx
-   107 00000098 58                        pop eax
-   108 00000099 5E                        pop esi
-   109 0000009A 55                        push ebp
-   110 0000009B 66894602                	mov [esi+base_low],  ax ; 基地址的低16位
-   111 0000009F C1E810                  	shr eax, 16
-   112 000000A2 884604                  	mov [esi+base_mid], al ; 8位，1个字节
-   113 000000A5 886607                  	mov [esi+base_high], ah
-   114                                  	; 下面是限制与权限设置
-   115 000000A8 885E05                  	mov [esi+access_right], bl;8位参数
-   116                                  	; 0x00 未使用的记录表
-   117                                  	; 0x92 系统模式，可读写不可执行
-   118                                  	; 0x9a 系统模式，可执行可读不可写
-   119                                  	; 0xf2 应用模式，可读写不可执行
-   120                                  	; 0xfa 应用模式，可执行可读不可写
-   121 000000AB C1EB08                  	shr ebx, 8
-   122 000000AE 66891E                  	mov [esi+limit_low], bx ; 限制的低16位
-   123 000000B1 C1EB10                  	shr ebx, 16
-   124 000000B4 80CBC0                  	or  bl, 0xc0 ; 0xc0=11000000
-   125 000000B7 80E3CF                  	and bl, 0xcf ; 规定好前4位为1100，0x11001111
-   126 000000BA 885E06                  	mov [esi+limit_high], bl ; 4位参数+4位段限长，高4位被称为扩展访问权，参数固定为
-   127                                  	; G=1(开启4K),D/B=1(32位段),0(固定),AVL=0(也是默认的)这4位在386前是没有的
-   128                                  	; 因此注意limit在这里被规定为24位长，其中高四位是扩展访问权，是固定的
-   129 000000BD C3                      ret 
-   130                                  
-   131                                  ; 加载GDT
-   132                                  ; kernel.z\loadGDT()
-   133                                  loadGDT:
-   134 000000BE 0F0115[90000000]          lgdt [GDTR] ; 不加dword会警告，因为现在的标签的确从0开始的
-   135 000000C5 C3                      ret
-   136                                  
-   137                                  ; 读写内存
-   138                                  ; kernel.z\setMem.1byte(val:dword, addr:dword)
-   139                                  kernel_z_setMem_1byte:
-   140 000000C6 5D                        pop ebp
-   141 000000C7 5B                        pop ebx
-   142 000000C8 58                        pop eax
-   143 000000C9 55                        push ebp
-   144 000000CA 8803                      mov [ebx], al
-   145 000000CC C3                      ret
-   146                                  
-   147                                  ; kernel.z\setMem.2byte(val:dword, addr:dword)
-   148                                  kernel_z_setMem_2byte:
-   149 000000CD 5D                        pop ebp
-   150 000000CE 5B                        pop ebx
-   151 000000CF 58                        pop eax
-   152 000000D0 55                        push ebp
-   153 000000D1 668903                    mov [ebx], ax
-   154 000000D4 C3                      ret
-   155                                  
-   156                                  ; kernel.z\setMem.4byte(val:dword, addr:dword)
-   157                                  kernel_z_setMem_4byte:
-   158 000000D5 5D                        pop ebp
-   159 000000D6 5B                        pop ebx
-   160 000000D7 58                        pop eax
-   161 000000D8 55                        push ebp
-   162 000000D9 8903                      mov [ebx], eax
-   163 000000DB C3                      ret
-   164                                  
-   165                                  ; kernel.z\halt()
-   166                                  kernel_z_halt:
-   167 000000DC F4                        hlt
-   168 000000DD C3                      ret
-   169 000000DE 3412                    TESTA: DW 0x1234
-   170                                  ; 主进程入口
-   171                                  main:
-   172 000000E0 9BDBE3                    finit
-   173 000000E3 D905[DE000000]            fld DWORD [TESTA]
-   174 000000E9 D900                      fld DWORD [eax]
-   175 000000EB DCC1                      fadd to st1
-   176 000000ED E88EFFFFFF                call main_z@run_once
-   177                                    .loop:
-   178 000000F2 E88EFFFFFF                  call main_z@run_loop
-   179 000000F7 EBF9                      jmp .loop
-   180                                  
+    82                                  
+    83                                  ;############[fun begin]set_1byte############
+    84 0000008D EB2C                    jmp memory_z@set_1byte$pass
+    85                                  memory_z@set_1byte:
+    86 0000008F 5D                      pop ebp
+    87                                  ;param: addr
+    88 00000090 EB04                    jmp memory_z@set_1byte@addr$pass
+    89 00000092 00000000                memory_z@set_1byte@addr: dd 0
+    90                                  memory_z@set_1byte@addr$pass:
+    91 00000096 58                      pop eax
+    92 00000097 A3[92000000]            mov [memory_z@set_1byte@addr], eax
+    93                                  ;param: val
+    94 0000009C EB04                    jmp memory_z@set_1byte@val$pass
+    95 0000009E 00000000                memory_z@set_1byte@val: dd 0
+    96                                  memory_z@set_1byte@val$pass:
+    97 000000A2 58                      pop eax
+    98 000000A3 A3[9E000000]            mov [memory_z@set_1byte@val], eax
+    99 000000A8 55                      push ebp
+   100 000000A9 A1[9E000000]            mov eax, [memory_z@set_1byte@val]
+   101 000000AE 50                      push eax
+   102 000000AF A1[92000000]            mov eax, [memory_z@set_1byte@addr]
+   103 000000B4 50                      push eax
+   104 000000B5 E85C060000              call kernel_z_setMem_1byte
+   105                                  
+   106 000000BA C3                      ret
+   107                                  memory_z@set_1byte$pass:
+   108                                  ;============[fun end]set_1byte=============
+   109                                  
+   110                                  
+   111                                  ;############[fun begin]set_2byte############
+   112 000000BB EB2C                    jmp memory_z@set_2byte$pass
+   113                                  memory_z@set_2byte:
+   114 000000BD 5D                      pop ebp
+   115                                  ;param: addr
+   116 000000BE EB04                    jmp memory_z@set_2byte@addr$pass
+   117 000000C0 00000000                memory_z@set_2byte@addr: dd 0
+   118                                  memory_z@set_2byte@addr$pass:
+   119 000000C4 58                      pop eax
+   120 000000C5 A3[C0000000]            mov [memory_z@set_2byte@addr], eax
+   121                                  ;param: val
+   122 000000CA EB04                    jmp memory_z@set_2byte@val$pass
+   123 000000CC 00000000                memory_z@set_2byte@val: dd 0
+   124                                  memory_z@set_2byte@val$pass:
+   125 000000D0 58                      pop eax
+   126 000000D1 A3[CC000000]            mov [memory_z@set_2byte@val], eax
+   127 000000D6 55                      push ebp
+   128 000000D7 A1[CC000000]            mov eax, [memory_z@set_2byte@val]
+   129 000000DC 50                      push eax
+   130 000000DD A1[C0000000]            mov eax, [memory_z@set_2byte@addr]
+   131 000000E2 50                      push eax
+   132 000000E3 E835060000              call kernel_z_setMem_2byte
+   133                                  
+   134 000000E8 C3                      ret
+   135                                  memory_z@set_2byte$pass:
+   136                                  ;============[fun end]set_2byte=============
+   137                                  
+   138                                  
+   139                                  ;############[fun begin]set_4byte############
+   140 000000E9 EB2C                    jmp memory_z@set_4byte$pass
+   141                                  memory_z@set_4byte:
+   142 000000EB 5D                      pop ebp
+   143                                  ;param: addr
+   144 000000EC EB04                    jmp memory_z@set_4byte@addr$pass
+   145 000000EE 00000000                memory_z@set_4byte@addr: dd 0
+   146                                  memory_z@set_4byte@addr$pass:
+   147 000000F2 58                      pop eax
+   148 000000F3 A3[EE000000]            mov [memory_z@set_4byte@addr], eax
+   149                                  ;param: val
+   150 000000F8 EB04                    jmp memory_z@set_4byte@val$pass
+   151 000000FA 00000000                memory_z@set_4byte@val: dd 0
+   152                                  memory_z@set_4byte@val$pass:
+   153 000000FE 58                      pop eax
+   154 000000FF A3[FA000000]            mov [memory_z@set_4byte@val], eax
+   155 00000104 55                      push ebp
+   156 00000105 A1[FA000000]            mov eax, [memory_z@set_4byte@val]
+   157 0000010A 50                      push eax
+   158 0000010B A1[EE000000]            mov eax, [memory_z@set_4byte@addr]
+   159 00000110 50                      push eax
+   160 00000111 E80F060000              call kernel_z_setMem_4byte
+   161                                  
+   162 00000116 C3                      ret
+   163                                  memory_z@set_4byte$pass:
+   164                                  ;============[fun end]set_4byte=============
+   165                                  
+   166                                  
+   167                                  
+   168                                  ;############[fun begin]pixel############
+   169 00000117 E983000000              jmp draw_z@pixel$pass
+   170                                  draw_z@pixel:
+   171 0000011C 5D                      pop ebp
+   172                                  ;param: vramAddr
+   173 0000011D EB04                    jmp draw_z@pixel@vramAddr$pass
+   174 0000011F 00000000                draw_z@pixel@vramAddr: dd 0
+   175                                  draw_z@pixel@vramAddr$pass:
+   176 00000123 58                      pop eax
+   177 00000124 A3[1F010000]            mov [draw_z@pixel@vramAddr], eax
+   178                                  ;param: screenWidth
+   179 00000129 EB04                    jmp draw_z@pixel@screenWidth$pass
+   180 0000012B 00000000                draw_z@pixel@screenWidth: dd 0
+   181                                  draw_z@pixel@screenWidth$pass:
+   182 0000012F 58                      pop eax
+   183 00000130 A3[2B010000]            mov [draw_z@pixel@screenWidth], eax
+   184                                  ;param: color
+   185 00000135 EB04                    jmp draw_z@pixel@color$pass
+   186 00000137 00000000                draw_z@pixel@color: dd 0
+   187                                  draw_z@pixel@color$pass:
+   188 0000013B 58                      pop eax
+   189 0000013C A3[37010000]            mov [draw_z@pixel@color], eax
+   190                                  ;param: y
+   191 00000141 EB04                    jmp draw_z@pixel@y$pass
+   192 00000143 00000000                draw_z@pixel@y: dd 0
+   193                                  draw_z@pixel@y$pass:
+   194 00000147 58                      pop eax
+   195 00000148 A3[43010000]            mov [draw_z@pixel@y], eax
+   196                                  ;param: x
+   197 0000014D EB04                    jmp draw_z@pixel@x$pass
+   198 0000014F 00000000                draw_z@pixel@x: dd 0
+   199                                  draw_z@pixel@x$pass:
+   200 00000153 58                      pop eax
+   201 00000154 A3[4F010000]            mov [draw_z@pixel@x], eax
+   202 00000159 55                      push ebp
+   203 0000015A A1[43010000]            mov eax, [draw_z@pixel@y]
+   204 0000015F 50                      push eax
+   205 00000160 A1[2B010000]            mov eax, [draw_z@pixel@screenWidth]
+   206 00000165 50                      push eax
+   207 00000166 58                      pop eax
+   208 00000167 5B                      pop ebx
+   209 00000168 F7E3                    mul ebx
+   210 0000016A 50                      push eax
+   211 0000016B A1[4F010000]            mov eax, [draw_z@pixel@x]
+   212 00000170 50                      push eax
+   213 00000171 58                      pop eax
+   214 00000172 5B                      pop ebx
+   215 00000173 01D8                    add eax, ebx
+   216 00000175 50                      push eax
+   217 00000176 A1[1F010000]            mov eax, [draw_z@pixel@vramAddr]
+   218 0000017B 50                      push eax
+   219 0000017C 58                      pop eax
+   220 0000017D 5B                      pop ebx
+   221 0000017E 01D8                    add eax, ebx
+   222 00000180 50                      push eax
+   223 00000181 EB04                    jmp draw_z@pixel@addr$pass
+   224 00000183 00000000                draw_z@pixel@addr: dd 0
+   225                                  draw_z@pixel@addr$pass:
+   226 00000187 58                      pop eax
+   227 00000188 A3[83010000]            mov [draw_z@pixel@addr], eax
+   228                                  
+   229 0000018D A1[37010000]            mov eax, [draw_z@pixel@color]
+   230 00000192 50                      push eax
+   231 00000193 A1[83010000]            mov eax, [draw_z@pixel@addr]
+   232 00000198 50                      push eax
+   233                                  call memory_z_set_1byte
+   233          ******************       error: symbol `memory_z_set_1byte' not defined
+   234                                  
+   235 00000199 C3                      ret
+   236                                  draw_z@pixel$pass:
+   237                                  ;============[fun end]pixel=============
+   238                                  
+   239                                  
+   240                                  ;############[fun begin]hLine############
+   241 0000019A E9CF000000              jmp draw_z@hLine$pass
+   242                                  draw_z@hLine:
+   243 0000019F 5D                      pop ebp
+   244                                  ;param: vramAddr
+   245 000001A0 EB09                    jmp draw_z@hLine@vramAddr$pass
+   246 000001A2 00000000                draw_z@hLine@vramAddr: dd 0
+   247                                  draw_z@hLine@vramAddr$pass:
+   248 000001A6 58                      pop eax
+   249 000001A7 A3[A2010000]            mov [draw_z@hLine@vramAddr], eax
+   250                                  ;param: screenWidth
+   251 000001AC EB09                    jmp draw_z@hLine@screenWidth$pass
+   252 000001AE 00000000                draw_z@hLine@screenWidth: dd 0
+   253                                  draw_z@hLine@screenWidth$pass:
+   254 000001B2 58                      pop eax
+   255 000001B3 A3[AE010000]            mov [draw_z@hLine@screenWidth], eax
+   256                                  ;param: color
+   257 000001B8 EB09                    jmp draw_z@hLine@color$pass
+   258 000001BA 00000000                draw_z@hLine@color: dd 0
+   259                                  draw_z@hLine@color$pass:
+   260 000001BE 58                      pop eax
+   261 000001BF A3[BA010000]            mov [draw_z@hLine@color], eax
+   262                                  ;param: ey
+   263 000001C4 EB09                    jmp draw_z@hLine@ey$pass
+   264 000001C6 00000000                draw_z@hLine@ey: dd 0
+   265                                  draw_z@hLine@ey$pass:
+   266 000001CA 58                      pop eax
+   267 000001CB A3[C6010000]            mov [draw_z@hLine@ey], eax
+   268                                  ;param: ex
+   269 000001D0 EB09                    jmp draw_z@hLine@ex$pass
+   270 000001D2 00000000                draw_z@hLine@ex: dd 0
+   271                                  draw_z@hLine@ex$pass:
+   272 000001D6 58                      pop eax
+   273 000001D7 A3[D2010000]            mov [draw_z@hLine@ex], eax
+   274                                  ;param: by
+   275 000001DC EB09                    jmp draw_z@hLine@by$pass
+   276 000001DE 00000000                draw_z@hLine@by: dd 0
+   277                                  draw_z@hLine@by$pass:
+   278 000001E2 58                      pop eax
+   279 000001E3 A3[DE010000]            mov [draw_z@hLine@by], eax
+   280                                  ;param: bx
+   281 000001E8 EB09                    jmp draw_z@hLine@bx$pass
+   282 000001EA 00000000                draw_z@hLine@bx: dd 0
+   283                                  draw_z@hLine@bx$pass:
+   284 000001EE 58                      pop eax
+   285 000001EF A3[EA010000]            mov [draw_z@hLine@bx], eax
+   286 000001F4 55                      push ebp
+   287 000001F5 A1[EA010000]            mov eax, [draw_z@hLine@bx]
+   288 000001FA 50                      push eax
+   289 000001FB EB09                    jmp draw_z@hLine@i$pass
+   290 000001FD 00000000                draw_z@hLine@i: dd 0
+   291                                  draw_z@hLine@i$pass:
+   292 00000201 58                      pop eax
+   293 00000202 A3[FD010000]            mov [draw_z@hLine@i], eax
+   294                                  
+   295                                  ;########## draw_z@hLine@while#1@$start ##########
+   296                                  draw_z@hLine@while#1@$start:
+   297                                  mov eax, [draw_z@hLine@while#1@i]
+   297          ******************       error: symbol `draw_z@hLine@while#1@i' not defined
+   298 00000207 50                      push eax
+   299                                  mov eax, [draw_z@hLine@while#1@ex]
+   299          ******************       error: symbol `draw_z@hLine@while#1@ex' not defined
+   300 00000208 50                      push eax
+   301 00000209 5B                      pop ebx
+   302 0000020A 58                      pop eax
+   303 0000020B 39D8                    cmp eax, ebx
+   304 0000020D 7616                    jbe draw_z@hLine@while#1@leq#1@true
+   305 0000020F B800000000              mov eax, 0
+   306 00000214 EB14                    jmp draw_z@hLine@while#1@leq#1@false
+   307                                  draw_z@hLine@while#1@leq#1@true:
+   308 00000216 B801000000              mov eax, 1
+   309                                  draw_z@hLine@while#1@leq#1@false:
+   310 0000021B 50                      push eax
+   311 0000021C 58                      pop eax
+   312 0000021D 83F800                  cmp eax, 0
+   313 00000220 744B                    je draw_z@hLine@while#1@$end
+   314                                  mov eax, [draw_z@hLine@while#1@i]
+   314          ******************       error: symbol `draw_z@hLine@while#1@i' not defined
+   315 00000222 50                      push eax
+   316                                  mov eax, [draw_z@hLine@while#1@by]
+   316          ******************       error: symbol `draw_z@hLine@while#1@by' not defined
+   317 00000223 50                      push eax
+   318                                  mov eax, [draw_z@hLine@while#1@color]
+   318          ******************       error: symbol `draw_z@hLine@while#1@color' not defined
+   319 00000224 50                      push eax
+   320                                  mov eax, [draw_z@hLine@while#1@screenWidth]
+   320          ******************       error: symbol `draw_z@hLine@while#1@screenWidth' not defined
+   321 00000225 50                      push eax
+   322                                  mov eax, [draw_z@hLine@while#1@vramAddr]
+   322          ******************       error: symbol `draw_z@hLine@while#1@vramAddr' not defined
+   323 00000226 50                      push eax
+   324                                  call draw_z@hLine@while#1@pixel
+   324          ******************       error: symbol `draw_z@hLine@while#1@pixel' not defined
+   325                                  
+   326                                  mov eax, [draw_z@hLine@while#1@i]
+   326          ******************       error: symbol `draw_z@hLine@while#1@i' not defined
+   327 00000227 50                      push eax
+   328 00000228 B801000000              mov eax, 1
+   329 0000022D 50                      push eax
+   330 0000022E 58                      pop eax
+   331 0000022F 5B                      pop ebx
+   332 00000230 01D8                    add eax, ebx
+   333 00000232 50                      push eax
+   334 00000233 58                      pop eax
+   335                                  mov [draw_z@hLine@while#1@i], eax
+   335          ******************       error: symbol `draw_z@hLine@while#1@i' not defined
+   336 00000234 EBD1                    jmp draw_z@hLine@while#1@$start
+   337                                  draw_z@hLine@while#1@$end:
+   338                                  ;========== draw_z@hLine@while#1@$end ==========
+   339                                  
+   340 00000236 C3                      ret
+   341                                  draw_z@hLine$pass:
+   342                                  ;============[fun end]hLine=============
+   343                                  
+   344                                  
+   345                                  ;############[fun begin]font############
+   346 00000237 EB76                    jmp draw_z@font$pass
+   347                                  draw_z@font:
+   348 00000239 5D                      pop ebp
+   349                                  ;param: backColor
+   350 0000023A EB3B                    jmp draw_z@font@backColor$pass
+   351 0000023C 00000000                draw_z@font@backColor: dd 0
+   352                                  draw_z@font@backColor$pass:
+   353 00000240 58                      pop eax
+   354 00000241 A3[3C020000]            mov [draw_z@font@backColor], eax
+   355                                  ;param: foreColor
+   356 00000246 EB3B                    jmp draw_z@font@foreColor$pass
+   357 00000248 00000000                draw_z@font@foreColor: dd 0
+   358                                  draw_z@font@foreColor$pass:
+   359 0000024C 58                      pop eax
+   360 0000024D A3[48020000]            mov [draw_z@font@foreColor], eax
+   361                                  ;param: top
+   362 00000252 EB3B                    jmp draw_z@font@top$pass
+   363 00000254 00000000                draw_z@font@top: dd 0
+   364                                  draw_z@font@top$pass:
+   365 00000258 58                      pop eax
+   366 00000259 A3[54020000]            mov [draw_z@font@top], eax
+   367                                  ;param: left
+   368 0000025E EB3B                    jmp draw_z@font@left$pass
+   369 00000260 00000000                draw_z@font@left: dd 0
+   370                                  draw_z@font@left$pass:
+   371 00000264 58                      pop eax
+   372 00000265 A3[60020000]            mov [draw_z@font@left], eax
+   373                                  ;param: charAddr
+   374 0000026A EB3B                    jmp draw_z@font@charAddr$pass
+   375 0000026C 00000000                draw_z@font@charAddr: dd 0
+   376                                  draw_z@font@charAddr$pass:
+   377 00000270 58                      pop eax
+   378 00000271 A3[6C020000]            mov [draw_z@font@charAddr], eax
+   379 00000276 55                      push ebp
+   380 00000277 C3                      ret
+   381                                  draw_z@font$pass:
+   382                                  ;============[fun end]font=============
+   383                                  
+   384                                  
+   385                                  ;############[fun begin]flush############
+   386 00000278 E947010000              jmp draw_z@flush$pass
+   387                                  draw_z@flush:
+   388 0000027D 5D                      pop ebp
+   389                                  ;param: addrVram
+   390 0000027E EB3B                    jmp draw_z@flush@addrVram$pass
+   391 00000280 00000000                draw_z@flush@addrVram: dd 0
+   392                                  draw_z@flush@addrVram$pass:
+   393 00000284 58                      pop eax
+   394 00000285 A3[80020000]            mov [draw_z@flush@addrVram], eax
+   395 0000028A 55                      push ebp
+   396 0000028B B800000000              mov eax, 0
+   397 00000290 50                      push eax
+   398 00000291 EB3B                    jmp draw_z@flush@left$pass
+   399 00000293 00000000                draw_z@flush@left: dd 0
+   400                                  draw_z@flush@left$pass:
+   401 00000297 58                      pop eax
+   402 00000298 A3[93020000]            mov [draw_z@flush@left], eax
+   403                                  
+   404 0000029D B800000000              mov eax, 0
+   405 000002A2 50                      push eax
+   406 000002A3 EB3B                    jmp draw_z@flush@top$pass
+   407 000002A5 00000000                draw_z@flush@top: dd 0
+   408                                  draw_z@flush@top$pass:
+   409 000002A9 58                      pop eax
+   410 000002AA A3[A5020000]            mov [draw_z@flush@top], eax
+   411                                  
+   412                                  ;########## draw_z@flush@while#1@$start ##########
+   413                                  draw_z@flush@while#1@$start:
+   414                                  mov eax, [draw_z@flush@while#1@top]
+   414          ******************       error: symbol `draw_z@flush@while#1@top' not defined
+   415 000002AF 50                      push eax
+   416 000002B0 B819000000              mov eax, 25
+   417 000002B5 50                      push eax
+   418 000002B6 5B                      pop ebx
+   419 000002B7 58                      pop eax
+   420 000002B8 39D8                    cmp eax, ebx
+   421 000002BA 7243                    jb draw_z@flush@while#1@les#1@true
+   422 000002BC B800000000              mov eax, 0
+   423 000002C1 EB41                    jmp draw_z@flush@while#1@les#1@false
+   424                                  draw_z@flush@while#1@les#1@true:
+   425 000002C3 B801000000              mov eax, 1
+   426                                  draw_z@flush@while#1@les#1@false:
+   427 000002C8 50                      push eax
+   428 000002C9 58                      pop eax
+   429 000002CA 83F800                  cmp eax, 0
+   430 000002CD 0F84F0000000            je draw_z@flush@while#1@$end
+   431 000002D3 B800000000              mov eax, 0
+   432 000002D8 50                      push eax
+   433 000002D9 58                      pop eax
+   434                                  mov [draw_z@flush@while#1@left], eax
+   434          ******************       error: symbol `draw_z@flush@while#1@left' not defined
+   435                                  ;########## draw_z@flush@while#1@while#1@$start ##########
+   436                                  draw_z@flush@while#1@while#1@$start:
+   437                                  mov eax, [draw_z@flush@while#1@while#1@left]
+   437          ******************       error: symbol `draw_z@flush@while#1@while#1@left' not defined
+   438 000002DA 50                      push eax
+   439 000002DB B828000000              mov eax, 40
+   440 000002E0 50                      push eax
+   441 000002E1 5B                      pop ebx
+   442 000002E2 58                      pop eax
+   443 000002E3 39D8                    cmp eax, ebx
+   444 000002E5 724D                    jb draw_z@flush@while#1@while#1@les#1@true
+   445 000002E7 B800000000              mov eax, 0
+   446 000002EC EB4B                    jmp draw_z@flush@while#1@while#1@les#1@false
+   447                                  draw_z@flush@while#1@while#1@les#1@true:
+   448 000002EE B801000000              mov eax, 1
+   449                                  draw_z@flush@while#1@while#1@les#1@false:
+   450 000002F3 50                      push eax
+   451 000002F4 58                      pop eax
+   452 000002F5 83F800                  cmp eax, 0
+   453 000002F8 0F84A9000000            je draw_z@flush@while#1@while#1@$end
+   454 000002FE B80F000000              mov eax, 15
+   455 00000303 50                      push eax
+   456 00000304 EB46                    jmp draw_z@flush@while#1@while#1@color$pass
+   457 00000306 00000000                draw_z@flush@while#1@while#1@color: dd 0
+   458                                  draw_z@flush@while#1@while#1@color$pass:
+   459 0000030A 58                      pop eax
+   460 0000030B A3[06030000]            mov [draw_z@flush@while#1@while#1@color], eax
+   461                                  
+   462                                  mov eax, [draw_z@flush@while#1@while#1@left]
+   462          ******************       error: symbol `draw_z@flush@while#1@while#1@left' not defined
+   463 00000310 50                      push eax
+   464 00000311 B808000000              mov eax, 8
+   465 00000316 50                      push eax
+   466 00000317 58                      pop eax
+   467 00000318 5B                      pop ebx
+   468 00000319 F7E3                    mul ebx
+   469 0000031B 50                      push eax
+   470                                  mov eax, [draw_z@flush@while#1@while#1@top]
+   470          ******************       error: symbol `draw_z@flush@while#1@while#1@top' not defined
+   471 0000031C 50                      push eax
+   472 0000031D B808000000              mov eax, 8
+   473 00000322 50                      push eax
+   474 00000323 58                      pop eax
+   475 00000324 5B                      pop ebx
+   476 00000325 F7E3                    mul ebx
+   477 00000327 50                      push eax
+   478 00000328 A1[06030000]            mov eax, [draw_z@flush@while#1@while#1@color]
+   479 0000032D 50                      push eax
+   480 0000032E B840010000              mov eax, 320
+   481 00000333 50                      push eax
+   482                                  mov eax, [draw_z@flush@while#1@while#1@addrVram]
+   482          ******************       error: symbol `draw_z@flush@while#1@while#1@addrVram' not defined
+   483 00000334 50                      push eax
+   484                                  call draw_z_pixel
+   484          ******************       error: symbol `draw_z_pixel' not defined
+   485                                  
+   486                                  mov eax, [draw_z@flush@while#1@while#1@left]
+   486          ******************       error: symbol `draw_z@flush@while#1@while#1@left' not defined
+   487 00000335 50                      push eax
+   488 00000336 B801000000              mov eax, 1
+   489 0000033B 50                      push eax
+   490 0000033C 58                      pop eax
+   491 0000033D 5B                      pop ebx
+   492 0000033E 01D8                    add eax, ebx
+   493 00000340 50                      push eax
+   494 00000341 58                      pop eax
+   495                                  mov [draw_z@flush@while#1@while#1@left], eax
+   495          ******************       error: symbol `draw_z@flush@while#1@while#1@left' not defined
+   496 00000342 EB96                    jmp draw_z@flush@while#1@while#1@$start
+   497                                  draw_z@flush@while#1@while#1@$end:
+   498                                  ;========== draw_z@flush@while#1@while#1@$end ==========
+   499                                  
+   500                                  mov eax, [draw_z@flush@while#1@top]
+   500          ******************       error: symbol `draw_z@flush@while#1@top' not defined
+   501 00000344 50                      push eax
+   502 00000345 B801000000              mov eax, 1
+   503 0000034A 50                      push eax
+   504 0000034B 58                      pop eax
+   505 0000034C 5B                      pop ebx
+   506 0000034D 01D8                    add eax, ebx
+   507 0000034F 50                      push eax
+   508 00000350 58                      pop eax
+   509                                  mov [draw_z@flush@while#1@top], eax
+   509          ******************       error: symbol `draw_z@flush@while#1@top' not defined
+   510 00000351 E959FFFFFF              jmp draw_z@flush@while#1@$start
+   511                                  draw_z@flush@while#1@$end:
+   512                                  ;========== draw_z@flush@while#1@$end ==========
+   513                                  
+   514 00000356 C3                      ret
+   515                                  draw_z@flush$pass:
+   516                                  ;============[fun end]flush=============
+   517                                  
+   518                                  
+   519                                  ;############[fun begin]char############
+   520 00000357 E973020000              jmp draw_z@char$pass
+   521                                  draw_z@char:
+   522 0000035C 5D                      pop ebp
+   523                                  ;param: addrVram
+   524 0000035D EB71                    jmp draw_z@char@addrVram$pass
+   525 0000035F 00000000                draw_z@char@addrVram: dd 0
+   526                                  draw_z@char@addrVram$pass:
+   527 00000363 58                      pop eax
+   528 00000364 A3[5F030000]            mov [draw_z@char@addrVram], eax
+   529                                  ;param: screenWidth
+   530 00000369 EB71                    jmp draw_z@char@screenWidth$pass
+   531 0000036B 00000000                draw_z@char@screenWidth: dd 0
+   532                                  draw_z@char@screenWidth$pass:
+   533 0000036F 58                      pop eax
+   534 00000370 A3[6B030000]            mov [draw_z@char@screenWidth], eax
+   535                                  ;param: ascii
+   536 00000375 EB71                    jmp draw_z@char@ascii$pass
+   537 00000377 00000000                draw_z@char@ascii: dd 0
+   538                                  draw_z@char@ascii$pass:
+   539 0000037B 58                      pop eax
+   540 0000037C A3[77030000]            mov [draw_z@char@ascii], eax
+   541                                  ;param: backColor
+   542 00000381 EB71                    jmp draw_z@char@backColor$pass
+   543 00000383 00000000                draw_z@char@backColor: dd 0
+   544                                  draw_z@char@backColor$pass:
+   545 00000387 58                      pop eax
+   546 00000388 A3[83030000]            mov [draw_z@char@backColor], eax
+   547                                  ;param: foreColor
+   548 0000038D EB71                    jmp draw_z@char@foreColor$pass
+   549 0000038F 00000000                draw_z@char@foreColor: dd 0
+   550                                  draw_z@char@foreColor$pass:
+   551 00000393 58                      pop eax
+   552 00000394 A3[8F030000]            mov [draw_z@char@foreColor], eax
+   553                                  ;param: top
+   554 00000399 EB71                    jmp draw_z@char@top$pass
+   555 0000039B 00000000                draw_z@char@top: dd 0
+   556                                  draw_z@char@top$pass:
+   557 0000039F 58                      pop eax
+   558 000003A0 A3[9B030000]            mov [draw_z@char@top], eax
+   559                                  ;param: left
+   560 000003A5 EB71                    jmp draw_z@char@left$pass
+   561 000003A7 00000000                draw_z@char@left: dd 0
+   562                                  draw_z@char@left$pass:
+   563 000003AB 58                      pop eax
+   564 000003AC A3[A7030000]            mov [draw_z@char@left], eax
+   565 000003B1 55                      push ebp
+   566 000003B2 A1[77030000]            mov eax, [draw_z@char@ascii]
+   567 000003B7 50                      push eax
+   568                                  call font_z_getAddrByAscii
+   568          ******************       error: symbol `font_z_getAddrByAscii' not defined
+   569                                  
+   570 000003B8 EB76                    jmp draw_z@char@fontAddr$pass
+   571 000003BA 00000000                draw_z@char@fontAddr: dd 0
+   572                                  draw_z@char@fontAddr$pass:
+   573 000003BE 58                      pop eax
+   574 000003BF A3[BA030000]            mov [draw_z@char@fontAddr], eax
+   575                                  
+   576 000003C4 B800000000              mov eax, 0
+   577 000003C9 50                      push eax
+   578 000003CA EB76                    jmp draw_z@char@x$pass
+   579 000003CC 00000000                draw_z@char@x: dd 0
+   580                                  draw_z@char@x$pass:
+   581 000003D0 58                      pop eax
+   582 000003D1 A3[CC030000]            mov [draw_z@char@x], eax
+   583                                  
+   584 000003D6 B800000000              mov eax, 0
+   585 000003DB 50                      push eax
+   586 000003DC EB76                    jmp draw_z@char@y$pass
+   587 000003DE 00000000                draw_z@char@y: dd 0
+   588                                  draw_z@char@y$pass:
+   589 000003E2 58                      pop eax
+   590 000003E3 A3[DE030000]            mov [draw_z@char@y], eax
+   591                                  
+   592                                  ;########## draw_z@char@while#1@$start ##########
+   593                                  draw_z@char@while#1@$start:
+   594                                  mov eax, [draw_z@char@while#1@y]
+   594          ******************       error: symbol `draw_z@char@while#1@y' not defined
+   595 000003E8 50                      push eax
+   596 000003E9 B808000000              mov eax, 8
+   597 000003EE 50                      push eax
+   598 000003EF 5B                      pop ebx
+   599 000003F0 58                      pop eax
+   600 000003F1 39D8                    cmp eax, ebx
+   601 000003F3 727E                    jb draw_z@char@while#1@les#1@true
+   602 000003F5 B800000000              mov eax, 0
+   603 000003FA EB7C                    jmp draw_z@char@while#1@les#1@false
+   604                                  draw_z@char@while#1@les#1@true:
+   605 000003FC B801000000              mov eax, 1
+   606                                  draw_z@char@while#1@les#1@false:
+   607 00000401 50                      push eax
+   608 00000402 58                      pop eax
+   609 00000403 83F800                  cmp eax, 0
+   610 00000406 0F84C2010000            je draw_z@char@while#1@$end
+   611 0000040C B800000000              mov eax, 0
+   612 00000411 50                      push eax
+   613 00000412 58                      pop eax
+   614                                  mov [draw_z@char@while#1@x], eax
+   614          ******************       error: symbol `draw_z@char@while#1@x' not defined
+   615                                  ;########## draw_z@char@while#1@while#1@$start ##########
+   616                                  draw_z@char@while#1@while#1@$start:
+   617                                  mov eax, [draw_z@char@while#1@while#1@x]
+   617          ******************       error: symbol `draw_z@char@while#1@while#1@x' not defined
+   618 00000413 50                      push eax
+   619 00000414 B808000000              mov eax, 8
+   620 00000419 50                      push eax
+   621 0000041A 5B                      pop ebx
+   622 0000041B 58                      pop eax
+   623 0000041C 39D8                    cmp eax, ebx
+   624 0000041E 0F8284000000            jb draw_z@char@while#1@while#1@les#1@true
+   625 00000424 B800000000              mov eax, 0
+   626 00000429 E97F000000              jmp draw_z@char@while#1@while#1@les#1@false
+   627                                  draw_z@char@while#1@while#1@les#1@true:
+   628 0000042E B801000000              mov eax, 1
+   629                                  draw_z@char@while#1@while#1@les#1@false:
+   630 00000433 50                      push eax
+   631 00000434 58                      pop eax
+   632 00000435 83F800                  cmp eax, 0
+   633 00000438 0F8474010000            je draw_z@char@while#1@while#1@$end
+   634                                  mov eax, [draw_z@char@while#1@while#1@y]
+   634          ******************       error: symbol `draw_z@char@while#1@while#1@y' not defined
+   635 0000043E 50                      push eax
+   636 0000043F B808000000              mov eax, 8
+   637 00000444 50                      push eax
+   638 00000445 58                      pop eax
+   639 00000446 5B                      pop ebx
+   640 00000447 F7E3                    mul ebx
+   641 00000449 50                      push eax
+   642                                  mov eax, [draw_z@char@while#1@while#1@x]
+   642          ******************       error: symbol `draw_z@char@while#1@while#1@x' not defined
+   643 0000044A 50                      push eax
+   644 0000044B 58                      pop eax
+   645 0000044C 5B                      pop ebx
+   646 0000044D 01D8                    add eax, ebx
+   647 0000044F 50                      push eax
+   648 00000450 BB04000000              mov ebx, 4
+   649 00000455 58                      pop eax
+   650 00000456 F7E3                    mul ebx
+   651 00000458 89C3                    mov ebx, eax
+   652                                  mov eax, [draw_z@char@while#1@while#1@fontAddr]
+   652          ******************       error: symbol `draw_z@char@while#1@while#1@fontAddr' not defined
+   653 0000045A 01D8                    add eax, ebx
+   654 0000045C 8B18                    mov ebx, [eax]
+   655 0000045E 50                      push eax
+   656 0000045F E98A000000              jmp draw_z@char@while#1@while#1@color$pass
+   657 00000464 00000000                draw_z@char@while#1@while#1@color: dd 0
+   658                                  draw_z@char@while#1@while#1@color$pass:
+   659 00000468 58                      pop eax
+   660 00000469 A3[64040000]            mov [draw_z@char@while#1@while#1@color], eax
+   661                                  
+   662                                  ;########## draw_z@char@while#1@while#1@if#1@$start ##########
+   663                                  mov eax, [draw_z@char@while#1@while#1@if#1@y]
+   663          ******************       error: symbol `draw_z@char@while#1@while#1@if#1@y' not defined
+   664 0000046E 50                      push eax
+   665 0000046F B808000000              mov eax, 8
+   666 00000474 50                      push eax
+   667 00000475 58                      pop eax
+   668 00000476 5B                      pop ebx
+   669 00000477 F7E3                    mul ebx
+   670 00000479 50                      push eax
+   671                                  mov eax, [draw_z@char@while#1@while#1@if#1@x]
+   671          ******************       error: symbol `draw_z@char@while#1@while#1@if#1@x' not defined
+   672 0000047A 50                      push eax
+   673 0000047B 58                      pop eax
+   674 0000047C 5B                      pop ebx
+   675 0000047D 01D8                    add eax, ebx
+   676 0000047F 50                      push eax
+   677 00000480 BB04000000              mov ebx, 4
+   678 00000485 58                      pop eax
+   679 00000486 F7E3                    mul ebx
+   680 00000488 89C3                    mov ebx, eax
+   681                                  mov eax, [draw_z@char@while#1@while#1@if#1@fontAddr]
+   681          ******************       error: symbol `draw_z@char@while#1@while#1@if#1@fontAddr' not defined
+   682 0000048A 01D8                    add eax, ebx
+   683 0000048C 8B18                    mov ebx, [eax]
+   684 0000048E 50                      push eax
+   685 0000048F B800000000              mov eax, 0
+   686 00000494 50                      push eax
+   687 00000495 5B                      pop ebx
+   688 00000496 58                      pop eax
+   689 00000497 39D8                    cmp eax, ebx
+   690 00000499 0F8598000000            jne draw_z@char@while#1@while#1@if#1@neq#1@true
+   691 0000049F B800000000              mov eax, 0
+   692 000004A4 E993000000              jmp draw_z@char@while#1@while#1@if#1@neq#1@false
+   693                                  draw_z@char@while#1@while#1@if#1@neq#1@true:
+   694 000004A9 B801000000              mov eax, 1
+   695                                  draw_z@char@while#1@while#1@if#1@neq#1@false:
+   696 000004AE 50                      push eax
+   697 000004AF 58                      pop eax
+   698 000004B0 83F800                  cmp eax, 0
+   699 000004B3 0F8498000000            je draw_z@char@while#1@while#1@if#1@$else
+   700 000004B9 B80F000000              mov eax, 15
+   701 000004BE 50                      push eax
+   702 000004BF 58                      pop eax
+   703                                  mov [draw_z@char@while#1@while#1@if#1@color], eax
+   703          ******************       error: symbol `draw_z@char@while#1@while#1@if#1@color' not defined
+   704 000004C0 E998000000              jmp draw_z@char@while#1@while#1@if#1@$end
+   705                                  draw_z@char@while#1@while#1@if#1@$else:
+   706 000004C5 B800000000              mov eax, 0
+   707 000004CA 50                      push eax
+   708 000004CB 58                      pop eax
+   709                                  mov [draw_z@char@while#1@while#1@if#1@color], eax
+   709          ******************       error: symbol `draw_z@char@while#1@while#1@if#1@color' not defined
+   710                                  draw_z@char@while#1@while#1@if#1@$end:
+   711                                  ;========== draw_z@char@while#1@while#1@if#1@$end ==========
+   712                                  
+   713                                  mov eax, [draw_z@char@while#1@while#1@left]
+   713          ******************       error: symbol `draw_z@char@while#1@while#1@left' not defined
+   714 000004CC 50                      push eax
+   715                                  mov eax, [draw_z@char@while#1@while#1@x]
+   715          ******************       error: symbol `draw_z@char@while#1@while#1@x' not defined
+   716 000004CD 50                      push eax
+   717 000004CE 58                      pop eax
+   718 000004CF 5B                      pop ebx
+   719 000004D0 01D8                    add eax, ebx
+   720 000004D2 50                      push eax
+   721                                  mov eax, [draw_z@char@while#1@while#1@top]
+   721          ******************       error: symbol `draw_z@char@while#1@while#1@top' not defined
+   722 000004D3 50                      push eax
+   723                                  mov eax, [draw_z@char@while#1@while#1@y]
+   723          ******************       error: symbol `draw_z@char@while#1@while#1@y' not defined
+   724 000004D4 50                      push eax
+   725 000004D5 58                      pop eax
+   726 000004D6 5B                      pop ebx
+   727 000004D7 01D8                    add eax, ebx
+   728 000004D9 50                      push eax
+   729 000004DA A1[64040000]            mov eax, [draw_z@char@while#1@while#1@color]
+   730 000004DF 50                      push eax
+   731 000004E0 B840010000              mov eax, 320
+   732 000004E5 50                      push eax
+   733                                  mov eax, [draw_z@char@while#1@while#1@addrVram]
+   733          ******************       error: symbol `draw_z@char@while#1@while#1@addrVram' not defined
+   734 000004E6 50                      push eax
+   735                                  call draw_z_pixel
+   735          ******************       error: symbol `draw_z_pixel' not defined
+   736                                  
+   737                                  mov eax, [draw_z@char@while#1@while#1@x]
+   737          ******************       error: symbol `draw_z@char@while#1@while#1@x' not defined
+   738 000004E7 50                      push eax
+   739 000004E8 B801000000              mov eax, 1
+   740 000004ED 50                      push eax
+   741 000004EE 58                      pop eax
+   742 000004EF 5B                      pop ebx
+   743 000004F0 01D8                    add eax, ebx
+   744 000004F2 50                      push eax
+   745 000004F3 58                      pop eax
+   746                                  mov [draw_z@char@while#1@while#1@x], eax
+   746          ******************       error: symbol `draw_z@char@while#1@while#1@x' not defined
+   747 000004F4 E91AFFFFFF              jmp draw_z@char@while#1@while#1@$start
+   748                                  draw_z@char@while#1@while#1@$end:
+   749                                  ;========== draw_z@char@while#1@while#1@$end ==========
+   750                                  
+   751                                  mov eax, [draw_z@char@while#1@y]
+   751          ******************       error: symbol `draw_z@char@while#1@y' not defined
+   752 000004F9 50                      push eax
+   753 000004FA B801000000              mov eax, 1
+   754 000004FF 50                      push eax
+   755 00000500 58                      pop eax
+   756 00000501 5B                      pop ebx
+   757 00000502 01D8                    add eax, ebx
+   758 00000504 50                      push eax
+   759 00000505 58                      pop eax
+   760                                  mov [draw_z@char@while#1@y], eax
+   760          ******************       error: symbol `draw_z@char@while#1@y' not defined
+   761 00000506 E9DDFEFFFF              jmp draw_z@char@while#1@$start
+   762                                  draw_z@char@while#1@$end:
+   763                                  ;========== draw_z@char@while#1@$end ==========
+   764                                  
+   765 0000050B C3                      ret
+   766                                  draw_z@char$pass:
+   767                                  ;============[fun end]char=============
+   768                                  
+   769                                  
+   770                                  ;############[fun begin]string############
+   771 0000050C E9C2010000              jmp draw_z@string$pass
+   772                                  draw_z@string:
+   773 00000511 5D                      pop ebp
+   774                                  ;param: addrVram
+   775 00000512 E9C4000000              jmp draw_z@string@addrVram$pass
+   776 00000517 00000000                draw_z@string@addrVram: dd 0
+   777                                  draw_z@string@addrVram$pass:
+   778 0000051B 58                      pop eax
+   779 0000051C A3[17050000]            mov [draw_z@string@addrVram], eax
+   780                                  ;param: screenWidth
+   781 00000521 E9C1000000              jmp draw_z@string@screenWidth$pass
+   782 00000526 00000000                draw_z@string@screenWidth: dd 0
+   783                                  draw_z@string@screenWidth$pass:
+   784 0000052A 58                      pop eax
+   785 0000052B A3[26050000]            mov [draw_z@string@screenWidth], eax
+   786                                  ;param: strAddr
+   787 00000530 E9BE000000              jmp draw_z@string@strAddr$pass
+   788 00000535 00000000                draw_z@string@strAddr: dd 0
+   789                                  draw_z@string@strAddr$pass:
+   790 00000539 58                      pop eax
+   791 0000053A A3[35050000]            mov [draw_z@string@strAddr], eax
+   792                                  ;param: top
+   793 0000053F E9BB000000              jmp draw_z@string@top$pass
+   794 00000544 00000000                draw_z@string@top: dd 0
+   795                                  draw_z@string@top$pass:
+   796 00000548 58                      pop eax
+   797 00000549 A3[44050000]            mov [draw_z@string@top], eax
+   798                                  ;param: left
+   799 0000054E E9B8000000              jmp draw_z@string@left$pass
+   800 00000553 00000000                draw_z@string@left: dd 0
+   801                                  draw_z@string@left$pass:
+   802 00000557 58                      pop eax
+   803 00000558 A3[53050000]            mov [draw_z@string@left], eax
+   804 0000055D 55                      push ebp
+   805 0000055E B800000000              mov eax, 0
+   806 00000563 50                      push eax
+   807 00000564 E9B5000000              jmp draw_z@string@i$pass
+   808 00000569 00000000                draw_z@string@i: dd 0
+   809                                  draw_z@string@i$pass:
+   810 0000056D 58                      pop eax
+   811 0000056E A3[69050000]            mov [draw_z@string@i], eax
+   812                                  
+   813                                  ;########## draw_z@string@while#1@$start ##########
+   814                                  draw_z@string@while#1@$start:
+   815                                  mov eax, [draw_z@string@while#1@i]
+   815          ******************       error: symbol `draw_z@string@while#1@i' not defined
+   816 00000573 50                      push eax
+   817 00000574 BB04000000              mov ebx, 4
+   818 00000579 58                      pop eax
+   819 0000057A F7E3                    mul ebx
+   820 0000057C 89C3                    mov ebx, eax
+   821                                  mov eax, [draw_z@string@while#1@strAddr]
+   821          ******************       error: symbol `draw_z@string@while#1@strAddr' not defined
+   822 0000057E 01D8                    add eax, ebx
+   823 00000580 8B18                    mov ebx, [eax]
+   824 00000582 50                      push eax
+   825 00000583 B800000000              mov eax, 0
+   826 00000588 50                      push eax
+   827 00000589 5B                      pop ebx
+   828 0000058A 58                      pop eax
+   829 0000058B 39D8                    cmp eax, ebx
+   830 0000058D 0F85BE000000            jne draw_z@string@while#1@neq#1@true
+   831 00000593 B800000000              mov eax, 0
+   832 00000598 E9B9000000              jmp draw_z@string@while#1@neq#1@false
+   833                                  draw_z@string@while#1@neq#1@true:
+   834 0000059D B801000000              mov eax, 1
+   835                                  draw_z@string@while#1@neq#1@false:
+   836 000005A2 50                      push eax
+   837 000005A3 58                      pop eax
+   838 000005A4 83F800                  cmp eax, 0
+   839 000005A7 0F8425010000            je draw_z@string@while#1@$end
+   840                                  mov eax, [draw_z@string@while#1@left]
+   840          ******************       error: symbol `draw_z@string@while#1@left' not defined
+   841 000005AD 50                      push eax
+   842                                  mov eax, [draw_z@string@while#1@i]
+   842          ******************       error: symbol `draw_z@string@while#1@i' not defined
+   843 000005AE 50                      push eax
+   844 000005AF B808000000              mov eax, 8
+   845 000005B4 50                      push eax
+   846 000005B5 58                      pop eax
+   847 000005B6 5B                      pop ebx
+   848 000005B7 F7E3                    mul ebx
+   849 000005B9 50                      push eax
+   850 000005BA 58                      pop eax
+   851 000005BB 5B                      pop ebx
+   852 000005BC 01D8                    add eax, ebx
+   853 000005BE 50                      push eax
+   854                                  mov eax, [draw_z@string@while#1@top]
+   854          ******************       error: symbol `draw_z@string@while#1@top' not defined
+   855 000005BF 50                      push eax
+   856 000005C0 B801000000              mov eax, 1
+   857 000005C5 50                      push eax
+   858 000005C6 B802000000              mov eax, 2
+   859 000005CB 50                      push eax
+   860                                  mov eax, [draw_z@string@while#1@i]
+   860          ******************       error: symbol `draw_z@string@while#1@i' not defined
+   861 000005CC 50                      push eax
+   862 000005CD BB04000000              mov ebx, 4
+   863 000005D2 58                      pop eax
+   864 000005D3 F7E3                    mul ebx
+   865 000005D5 89C3                    mov ebx, eax
+   866                                  mov eax, [draw_z@string@while#1@strAddr]
+   866          ******************       error: symbol `draw_z@string@while#1@strAddr' not defined
+   867 000005D7 01D8                    add eax, ebx
+   868 000005D9 8B18                    mov ebx, [eax]
+   869 000005DB 50                      push eax
+   870                                  mov eax, [draw_z@string@while#1@screenWidth]
+   870          ******************       error: symbol `draw_z@string@while#1@screenWidth' not defined
+   871 000005DC 50                      push eax
+   872                                  mov eax, [draw_z@string@while#1@addrVram]
+   872          ******************       error: symbol `draw_z@string@while#1@addrVram' not defined
+   873 000005DD 50                      push eax
+   874                                  call draw_z@string@while#1@char
+   874          ******************       error: symbol `draw_z@string@while#1@char' not defined
+   875                                  
+   876                                  mov eax, [draw_z@string@while#1@i]
+   876          ******************       error: symbol `draw_z@string@while#1@i' not defined
+   877 000005DE 50                      push eax
+   878 000005DF B801000000              mov eax, 1
+   879 000005E4 50                      push eax
+   880 000005E5 58                      pop eax
+   881 000005E6 5B                      pop ebx
+   882 000005E7 01D8                    add eax, ebx
+   883 000005E9 50                      push eax
+   884 000005EA 58                      pop eax
+   885                                  mov [draw_z@string@while#1@i], eax
+   885          ******************       error: symbol `draw_z@string@while#1@i' not defined
+   886 000005EB EB86                    jmp draw_z@string@while#1@$start
+   887                                  draw_z@string@while#1@$end:
+   888                                  ;========== draw_z@string@while#1@$end ==========
+   889                                  
+   890 000005ED C3                      ret
+   891                                  draw_z@string$pass:
+   892                                  ;============[fun end]string=============
+   893                                  
+   894                                  
+   895 000005EE E93D010000              jmp main
+   896                                  
+   897                                  limit_low equ 0
+   898                                  base_low equ 2 
+   899                                  base_mid equ 4 
+   900                                  access_right equ 5
+   901                                  limit_high equ 6 
+   902                                  base_high equ 7 
+   903                                  	
+   904 000005F3 <res Dh>                ALIGNB	16
+   905                                  GDTR:
+   906 00000600 FFFF                    		DW 8*8192-1 ; 最后一个字节的偏移
+   907 00000602 00002700                		DD 0x270000 ; 表的地址
+   908                                  
+   909                                  ; esi是将要填入的地址，就是GDT表的地址，例如Addr_GDT+1*8, Addr_GDT+2*8
+   910                                  ; eax是基地址，是代码的
+   911                                  ; ebx是控制参数和限制 24+8 4位扩展(自动填上)20位限长8位参数
+   912                                  ;     高4位参数 高4位限制 低16位限制 8位参数 = 32位ebx
+   913                                  ; 实际上高4位参数被自己固定掉了
+   914                                  ; 因此用一个常量代替比较好
+   915                                  ; 设置GDT内容
+   916                                  ; kernel.z\setGDT(addr: dword, param1: dword, param2: dword)
+   917                                  setGDT:
+   918 00000606 5D                        pop ebp
+   919 00000607 5B                        pop ebx
+   920 00000608 58                        pop eax
+   921 00000609 5E                        pop esi
+   922 0000060A 55                        push ebp
+   923 0000060B 66894602                	mov [esi+base_low],  ax ; 基地址的低16位
+   924 0000060F C1E810                  	shr eax, 16
+   925 00000612 884604                  	mov [esi+base_mid], al ; 8位，1个字节
+   926 00000615 886607                  	mov [esi+base_high], ah
+   927                                  	; 下面是限制与权限设置
+   928 00000618 885E05                  	mov [esi+access_right], bl;8位参数
+   929                                  	; 0x00 未使用的记录表
+   930                                  	; 0x92 系统模式，可读写不可执行
+   931                                  	; 0x9a 系统模式，可执行可读不可写
+   932                                  	; 0xf2 应用模式，可读写不可执行
+   933                                  	; 0xfa 应用模式，可执行可读不可写
+   934 0000061B C1EB08                  	shr ebx, 8
+   935 0000061E 66891E                  	mov [esi+limit_low], bx ; 限制的低16位
+   936 00000621 C1EB10                  	shr ebx, 16
+   937 00000624 80CBC0                  	or  bl, 0xc0 ; 0xc0=11000000
+   938 00000627 80E3CF                  	and bl, 0xcf ; 规定好前4位为1100，0x11001111
+   939 0000062A 885E06                  	mov [esi+limit_high], bl ; 4位参数+4位段限长，高4位被称为扩展访问权，参数固定为
+   940                                  	; G=1(开启4K),D/B=1(32位段),0(固定),AVL=0(也是默认的)这4位在386前是没有的
+   941                                  	; 因此注意limit在这里被规定为24位长，其中高四位是扩展访问权，是固定的
+   942 0000062D C3                      ret 
+   943                                  
+   944                                  ; 加载GDT
+   945                                  ; kernel.z\loadGDT()
+   946                                  loadGDT:
+   947 0000062E 0F0115[00060000]          lgdt [GDTR] ; 不加dword会警告，因为现在的标签的确从0开始的
+   948 00000635 C3                      ret
+   949                                  
+   950                                  ; 读写内存
+   951                                  ; kernel.z\setMem.1byte(val:dword, addr:dword)
+   952                                  kernel_z_setMem_1byte:
+   953 00000636 5D                        pop ebp
+   954 00000637 5B                        pop ebx
+   955 00000638 58                        pop eax
+   956 00000639 55                        push ebp
+   957 0000063A 8803                      mov [ebx], al
+   958 0000063C C3                      ret
+   959                                  
+   960                                  ; kernel.z\setMem.2byte(val:dword, addr:dword)
+   961                                  kernel_z_setMem_2byte:
+   962 0000063D 5D                        pop ebp
+   963 0000063E 5B                        pop ebx
+   964 0000063F 58                        pop eax
+   965 00000640 55                        push ebp
+   966 00000641 668903                    mov [ebx], ax
+   967 00000644 C3                      ret
+   968                                  
+   969                                  ; kernel.z\setMem.4byte(val:dword, addr:dword)
+   970                                  kernel_z_setMem_4byte:
+   971 00000645 5D                        pop ebp
+   972 00000646 5B                        pop ebx
+   973 00000647 58                        pop eax
+   974 00000648 55                        push ebp
+   975 00000649 8903                      mov [ebx], eax
+   976 0000064B C3                      ret
+   977                                  
+   978                                  ; kernel.z\halt()
+   979                                  kernel_z_halt:
+   980 0000064C F4                        hlt
+   981 0000064D C3                      ret
+   982 0000064E 3412                    TESTA: DW 0x1234
+   983                                  ; 主进程入口
+   984                                  main:
+   985 00000650 9BDBE3                    finit
+   986 00000653 D905[4E060000]            fld DWORD [TESTA]
+   987 00000659 D900                      fld DWORD [eax]
+   988 0000065B DCC1                      fadd to st1
+   989 0000065D E81EFAFFFF                call main_z@run_once
+   990                                    .loop:
+   991 00000662 E81EFAFFFF                  call main_z@run_loop
+   992 00000667 EBF9                      jmp .loop
+   993                                  

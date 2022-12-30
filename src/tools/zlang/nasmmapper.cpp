@@ -71,7 +71,7 @@ public:
     for (int i = m_funcParams.size() - 1; i >= 0; i--)
     {
       map2Asm(";param: ", m_funcParams[i], "\n");
-      map2Asm(m_astree->getPrefix(), m_funcParams[i], "$pass\n");
+      map2Asm("jmp ", m_astree->getPrefix(), m_funcParams[i], "$pass\n");
       map2Asm(m_astree->getPrefix(), m_funcParams[i], ": dd 0", "\n");
       map2Asm(m_astree->getPrefix(), m_funcParams[i], "$pass:\n");
       map2Asm("pop eax\n");

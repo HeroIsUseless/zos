@@ -10,6 +10,7 @@ pixel(          x:dword,
   addr: y * screenWidth + x + vramAddr;
   memory.z\set.1byte(color, addr);
 );
+
 [画一条横直线]
 hLine(bx:dword, by:dword, 
       ex:dword, ey:dword, 
@@ -22,10 +23,12 @@ hLine(bx:dword, by:dword,
         i <= i+1;)
     );
 );
+
 [画一个8x8的字母]
 font(charAddr:dword, left:dword, top:dword, foreColor:dword, backColor:dword):(
 
 );
+
 [用缓存刷新]]
 flush(addrVram: dword):(
   left: 0;

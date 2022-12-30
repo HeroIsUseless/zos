@@ -7,7 +7,7 @@ jmp e15_at_z@func$pass
 e15_at_z@func:
 pop ebp
 ;param: strAddr
-e15_at_z@func@strAddr$pass
+jmp e15_at_z@func@strAddr$pass
 e15_at_z@func@strAddr: dd 0
 e15_at_z@func@strAddr$pass:
 pop eax

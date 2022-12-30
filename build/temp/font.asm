@@ -97,7 +97,7 @@ jmp font_z@getAddrByAscii$pass
 font_z@getAddrByAscii:
 pop ebp
 ;param: ascii
-font_z@getAddrByAscii@ascii$pass
+jmp font_z@getAddrByAscii@ascii$pass
 font_z@getAddrByAscii@ascii: dd 0
 font_z@getAddrByAscii@ascii$pass:
 pop eax

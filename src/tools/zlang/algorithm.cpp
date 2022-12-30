@@ -25,4 +25,5 @@ string formatPrefixes(string prefixesVar) {
   }
   return res;
 }
+
 #endif

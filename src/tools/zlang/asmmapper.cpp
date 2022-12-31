@@ -25,8 +25,6 @@ public:
   AsmMapper(char *fileName);
   ~AsmMapper();
   string* getAsm();
-  // 定义一个tag
-  virtual void defTag(string tagName) = 0;
   // 用数值定义一个4字节内存变量
   virtual void defVarWithNumber(string varName) = 0;
   // 用字符串定义一个内存变量
@@ -49,8 +47,8 @@ public:
   virtual void assginVar(string varName) = 0;
   // 给自带前缀的变量赋值
   virtual void assginPrefixesVar(string prefixesVarName) = 0;
-  // 给数组赋值
-  virtual void assginArray(string arrName) = 0;
+  // 给数组元素赋值
+  virtual void assginArrayItem(string arrName) = 0;
   // 给自带前缀的数组赋值
   virtual void assginPrefixesArray(string prefixesArrName) = 0;
   virtual void pushArrayItem(string arrName) = 0;
@@ -61,8 +59,8 @@ public:
   virtual void pushAddress(string address) = 0;
   virtual void pushPrefixedAddress(string prefixedAddress) = 0;
   virtual void pushPrefixedArrayItem(string prefixedAddress) = 0;
-  virtual void pushAddl(string val) = 0;
-  virtual void pushPrefixedAddl(string prefixedAddl) = 0;
+  virtual void pushArrayItemAddr(string arrayName) = 0;
+  virtual void pushPrefixedArrayItemAddr(string prefixedAddl) = 0;
   virtual void callFunction(string functionName) = 0;
   virtual void callPrefixesFunction(string functionName) = 0;
   virtual void defIfHead() = 0;

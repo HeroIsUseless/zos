@@ -8,12 +8,13 @@ string getRandomNum() {
   static long random = 0;
   random ++;
   string res = "";
-  while(random != 0) {
-    int k = random % 10;
+  int t_random = random;
+  while(t_random != 0) {
+    int k = t_random % 10;
     res = res + (char)(k + 48);
-    random = random / 10;
+    t_random = t_random / 10;
   }
-  return res;
+  return "r"+res;
 } 
 
 string formatPrefixes(string prefixesVar) {

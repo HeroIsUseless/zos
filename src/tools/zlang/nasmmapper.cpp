@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include "asmmapper.cpp"
+#include "algorithm.cpp"
 using namespace std;
 
 class NasmMapper : public AsmMapper
@@ -39,7 +40,7 @@ public:
     arrName = formatPrefixes(arrName);
     m_astree->addChild(arrName);
     map2Asm("jmp ", m_astree->getPrefix(arrName), arrName, "$pass\n");
-    map2Asm(m_astree->getPrefix(arrName), arrName, ": dd ");
+    map2Asm(m_astree->getPrefix(arrName), arrName, ": dd 0\n");
   }
 
   // 定义数组的元素
@@ -52,6 +53,8 @@ public:
   virtual void defArrayEnd(string arrName)
   {
     map2Asm("\n", m_astree->getPrefix(arrName), arrName, "$pass:\n");
+    map2Asm("mov eax, ", m_astree->getPrefix(arrName), arrName, "\n");
+    map2Asm("mov eax, [", m_astree->getPrefix(arrName), arrName, "+4]\n\n");
   }
 
   // 接收函数参数，在后面输出
@@ -68,8 +71,8 @@ public:
     m_astree->addChild(funName);
     map2Asm("\n;############[fun begin]", funName, "############\n");
     map2Asm("jmp ", m_astree->getPrefix(funName), funName, "$pass\n");
+    map2Asm(m_astree->getPrefix(funName), funName, ":\n");
     m_astree->down(funName);
-    map2Asm(funName, ":\n");
     map2Asm("pop ebp\n");
     for (int i = m_funcParams.size() - 1; i >= 0; i--)
     {
@@ -120,12 +123,15 @@ public:
     map2Asm("mov [", prefixesVarName, "], eax\n");
   }
 
-  virtual void assginArray(string arrName)
+  virtual void assginArrayItem(string arrName)
   {
     arrName = formatPrefixes(arrName);
-    map2Asm("pop eax\n");     // var
-    map2Asm("pop ebx\n"); // index
-    map2Asm("mov [", m_astree->getPrefix(arrName), arrName, "+ebx], eax\n");
+    map2Asm(";zws 2942\n");
+    map2Asm("pop edx\n");
+    map2Asm("pop eax\n");
+    map2Asm("mov ebx, 4\n");
+    map2Asm("mul ebx\n");
+    map2Asm("mov [", m_astree->getPrefix(arrName), arrName, "+eax], edx\n\n");
   }
 
   virtual void assginPrefixesArray(string prefixesArrName)
@@ -185,24 +191,29 @@ public:
     prefixedAddress = formatPrefixes(prefixedAddress);
     map2Asm("pop eax\n");
     map2Asm("mov ebx, 4\n");
+    map2Asm("mul ebx\n");
     map2Asm("mov ebx, [", prefixedAddress, "+eax]\n");
     map2Asm("push ebx\n");
   }
 
-  virtual void pushAddl(string val) 
+  virtual void pushArrayItemAddr(string arrayName) 
   {
-    val = formatPrefixes(val);
+    arrayName = formatPrefixes(arrayName);
     map2Asm("mov ebx, 4\n");
     map2Asm("pop eax\n");
     map2Asm("mul ebx\n");
+    map2Asm("mov edx, ", m_astree->getPrefix(arrayName), arrayName, "+eax\n");
+
+
+
     map2Asm("mov ebx, eax\n");
-    map2Asm("mov eax, [", m_astree->getPrefix(val), val, "]\n");
+    map2Asm("mov eax, [", m_astree->getPrefix(arrayName), arrayName, "]\n");
     map2Asm("add eax, ebx\n");
     map2Asm("mov ebx, [eax]\n");
     map2Asm("push eax\n");
   }
 
-  virtual void pushPrefixedAddl(string prefixedAddl)
+  virtual void pushPrefixedArrayItemAddr(string prefixedAddl)
   {
     prefixedAddl = formatPrefixes(prefixedAddl);
     map2Asm("mov ebx, 4\n");
@@ -256,6 +267,7 @@ public:
 
   virtual void defWhileHead()
   {
+    m_astree->addChild("while");
     m_astree->down("while");
     map2Asm(";########## ", m_astree->getPrefix("while"), "$start ##########\n");
     map2Asm(m_astree->getPrefix("while"), "$start:\n");

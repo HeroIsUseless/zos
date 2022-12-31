@@ -21,12 +21,12 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jb e11_exp_z@les#1@true
+jb les#r1@true
 mov eax, 0
-jmp e11_exp_z@les#1@false
-e11_exp_z@les#1@true:
+jmp les#r1@false
+les#r1@true:
 mov eax, 1
-e11_exp_z@les#1@false:
+les#r1@false:
 push eax
 jmp e11_exp_z@d$pass
 e11_exp_z@d: dd 0
@@ -41,12 +41,12 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-ja e11_exp_z@mor#1@true
+ja mor#r2@true
 mov eax, 0
-jmp e11_exp_z@mor#1@false
-e11_exp_z@mor#1@true:
+jmp mor#r2@false
+mor#r2@true:
 mov eax, 1
-e11_exp_z@mor#1@false:
+mor#r2@false:
 push eax
 jmp e11_exp_z@c$pass
 e11_exp_z@c: dd 0
@@ -61,12 +61,12 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je e11_exp_z@equ#1@true
+je equ#r3@true
 mov eax, 0
-jmp e11_exp_z@equ#1@false
-e11_exp_z@equ#1@true:
+jmp equ#r3@false
+equ#r3@true:
 mov eax, 1
-e11_exp_z@equ#1@false:
+equ#r3@false:
 push eax
 jmp e11_exp_z@e$pass
 e11_exp_z@e: dd 0
@@ -81,12 +81,12 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jne e11_exp_z@neq#1@true
+jne neq#r4@true
 mov eax, 0
-jmp e11_exp_z@neq#1@false
-e11_exp_z@neq#1@true:
+jmp neq#r4@false
+neq#r4@true:
 mov eax, 1
-e11_exp_z@neq#1@false:
+neq#r4@false:
 push eax
 jmp e11_exp_z@f$pass
 e11_exp_z@f: dd 0

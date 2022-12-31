@@ -19,6 +19,7 @@
     void yyerror(char *s){
         string str = string(s);
         cout << "[zlang error]line " << yylineno << ": " << str << endl;
+        assert(false);
     }
     //  打开lang文件
     int open(int argc, char **argv){
@@ -105,9 +106,9 @@ param_exec: exp
 exec: '.' '<' '=' exp {am->defReturn();} 
     | VAR '<' '=' exp {am->assginVar($1);}                  /*调用函数内定义的变量*/
     | PREFIXES_VAR '<' '=' exp {am->assginPrefixesVar($1);} /*调用函数外定义的变量，任何文件内都可以*/
-    | VAR '\\' '(' exp ')' '<' '=' exp {am->assginArray($1);}                  /*调用函数内定义的数组*/
+    | VAR '\\' '(' exp ')' '<' '=' exp {am->assginArrayItem($1);}                  /*调用函数内定义的数组*/
     | PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am->assginPrefixesArray($1);} /*调用函数外定义的数组*/
-    | '&' VAR '\\' '(' exp ')' '<' '=' exp {am->assginArray($2);}                  /*调用函数内定义的数组*/
+    | '&' VAR '\\' '(' exp ')' '<' '=' exp {am->assginArrayItem($2);}                  /*调用函数内定义的数组*/
     | '&' PREFIXES_VAR '\\' '(' exp ')' '<' '=' exp {am->assginPrefixesArray($2);} /*调用函数外定义的数组*/
     | if_head ',' stmt ')' {am->defIfEnd();}
     | if_head ')' {am->defIfEnd();}
@@ -141,10 +142,10 @@ term: INTEGER {am->pushInt($1);}
     | PREFIXES_VAR {am->pushPrefixesVar($1);}
     | '@' VAR {am->pushAddress($2);}
     | '@' PREFIXES_VAR {am->pushPrefixedAddress($2);}
+    | '@' VAR '\\' '(' exp ')' {am->pushArrayItemAddr($2);}
+    | '@' PREFIXES_VAR '\\' '(' exp ')' {am->pushPrefixedArrayItemAddr($2);}    
     | VAR '\\' '(' exp ')' {am->pushArrayItem($1);}
     | PREFIXES_VAR '\\' '(' exp ')' {am->pushPrefixedArrayItem($1);}
-    | '&' VAR '\\' '(' exp ')' {am->pushAddl($2);}
-    | '&' PREFIXES_VAR '\\' '(' exp ')' {am->pushPrefixedAddl($2);}    
     | VAR params {am->callFunction($1);}                        /*调用文件内定义的函数*/
     | PREFIXES_VAR params {am->callPrefixesFunction($1);}       /*调用文件外定义的函数*/
     ;

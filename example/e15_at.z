@@ -1,7 +1,7 @@
 str: "ABCD";
 func(strAddr: dword):(
   a: 0;
-  a <= &strAddr\(1);
-  &strAddr\(1) <= 123;
+  a <= strAddr\(1);
+  a <= @strAddr;
 );
-func(@str);
+func(strAddr);

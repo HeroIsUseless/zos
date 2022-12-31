@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <assert.h>
-
+#include "algorithm.cpp"
 using namespace std;
 
 struct ASNode

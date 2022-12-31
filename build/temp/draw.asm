@@ -1,7 +1,7 @@
 
 ;############[fun begin]pixel############
 jmp draw_z@pixel$pass
-draw_z@pixel:
+pixel:
 pop ebp
 ;param: vramAddr
 jmp draw_z@pixel@vramAddr$pass
@@ -73,7 +73,7 @@ draw_z@pixel$pass:
 
 ;############[fun begin]hLine############
 jmp draw_z@hLine$pass
-draw_z@hLine:
+hLine:
 pop ebp
 ;param: vramAddr
 jmp draw_z@hLine@vramAddr$pass
@@ -128,36 +128,36 @@ mov [draw_z@hLine@i], eax
 
 ;########## draw_z@hLine@while#1@$start ##########
 draw_z@hLine@while#1@$start:
-mov eax, [draw_z@hLine@while#1@i]
+mov eax, [draw_z@hLine@i]
 push eax
-mov eax, [draw_z@hLine@while#1@ex]
+mov eax, [draw_z@hLine@ex]
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jbe draw_z@hLine@while#1@leq#1@true
+jbe leq#1@true
 mov eax, 0
-jmp draw_z@hLine@while#1@leq#1@false
-draw_z@hLine@while#1@leq#1@true:
+jmp leq#1@false
+leq#1@true:
 mov eax, 1
-draw_z@hLine@while#1@leq#1@false:
+leq#1@false:
 push eax
 pop eax
 cmp eax, 0
 je draw_z@hLine@while#1@$end
-mov eax, [draw_z@hLine@while#1@i]
+mov eax, [draw_z@hLine@i]
 push eax
-mov eax, [draw_z@hLine@while#1@by]
+mov eax, [draw_z@hLine@by]
 push eax
-mov eax, [draw_z@hLine@while#1@color]
+mov eax, [draw_z@hLine@color]
 push eax
-mov eax, [draw_z@hLine@while#1@screenWidth]
+mov eax, [draw_z@hLine@screenWidth]
 push eax
-mov eax, [draw_z@hLine@while#1@vramAddr]
+mov eax, [draw_z@hLine@vramAddr]
 push eax
-call draw_z@hLine@while#1@pixel
+call draw_z@pixel
 
-mov eax, [draw_z@hLine@while#1@i]
+mov eax, [draw_z@hLine@i]
 push eax
 mov eax, 1
 push eax
@@ -166,7 +166,7 @@ pop ebx
 add eax, ebx
 push eax
 pop eax
-mov [draw_z@hLine@while#1@i], eax
+mov [draw_z@hLine@i], eax
 jmp draw_z@hLine@while#1@$start
 draw_z@hLine@while#1@$end:
 ;========== draw_z@hLine@while#1@$end ==========
@@ -178,7 +178,7 @@ draw_z@hLine$pass:
 
 ;############[fun begin]font############
 jmp draw_z@font$pass
-draw_z@font:
+font:
 pop ebp
 ;param: backColor
 jmp draw_z@font@backColor$pass
@@ -218,7 +218,7 @@ draw_z@font$pass:
 
 ;############[fun begin]flush############
 jmp draw_z@flush$pass
-draw_z@flush:
+flush:
 pop ebp
 ;param: addrVram
 jmp draw_z@flush@addrVram$pass
@@ -245,19 +245,19 @@ mov [draw_z@flush@top], eax
 
 ;########## draw_z@flush@while#1@$start ##########
 draw_z@flush@while#1@$start:
-mov eax, [draw_z@flush@while#1@top]
+mov eax, [draw_z@flush@top]
 push eax
 mov eax, 25
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jb draw_z@flush@while#1@les#1@true
+jb les#1@true
 mov eax, 0
-jmp draw_z@flush@while#1@les#1@false
-draw_z@flush@while#1@les#1@true:
+jmp les#1@false
+les#1@true:
 mov eax, 1
-draw_z@flush@while#1@les#1@false:
+les#1@false:
 push eax
 pop eax
 cmp eax, 0
@@ -265,22 +265,22 @@ je draw_z@flush@while#1@$end
 mov eax, 0
 push eax
 pop eax
-mov [draw_z@flush@while#1@left], eax
+mov [draw_z@flush@left], eax
 ;########## draw_z@flush@while#1@while#1@$start ##########
 draw_z@flush@while#1@while#1@$start:
-mov eax, [draw_z@flush@while#1@while#1@left]
+mov eax, [draw_z@flush@left]
 push eax
 mov eax, 40
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jb draw_z@flush@while#1@while#1@les#1@true
+jb les#1@true
 mov eax, 0
-jmp draw_z@flush@while#1@while#1@les#1@false
-draw_z@flush@while#1@while#1@les#1@true:
+jmp les#1@false
+les#1@true:
 mov eax, 1
-draw_z@flush@while#1@while#1@les#1@false:
+les#1@false:
 push eax
 pop eax
 cmp eax, 0
@@ -293,7 +293,7 @@ draw_z@flush@while#1@while#1@color$pass:
 pop eax
 mov [draw_z@flush@while#1@while#1@color], eax
 
-mov eax, [draw_z@flush@while#1@while#1@left]
+mov eax, [draw_z@flush@left]
 push eax
 mov eax, 8
 push eax
@@ -301,7 +301,7 @@ pop eax
 pop ebx
 mul ebx
 push eax
-mov eax, [draw_z@flush@while#1@while#1@top]
+mov eax, [draw_z@flush@top]
 push eax
 mov eax, 8
 push eax
@@ -313,11 +313,11 @@ mov eax, [draw_z@flush@while#1@while#1@color]
 push eax
 mov eax, 320
 push eax
-mov eax, [draw_z@flush@while#1@while#1@addrVram]
+mov eax, [draw_z@flush@addrVram]
 push eax
 call draw_z_pixel
 
-mov eax, [draw_z@flush@while#1@while#1@left]
+mov eax, [draw_z@flush@left]
 push eax
 mov eax, 1
 push eax
@@ -326,12 +326,12 @@ pop ebx
 add eax, ebx
 push eax
 pop eax
-mov [draw_z@flush@while#1@while#1@left], eax
+mov [draw_z@flush@left], eax
 jmp draw_z@flush@while#1@while#1@$start
 draw_z@flush@while#1@while#1@$end:
 ;========== draw_z@flush@while#1@while#1@$end ==========
 
-mov eax, [draw_z@flush@while#1@top]
+mov eax, [draw_z@flush@top]
 push eax
 mov eax, 1
 push eax
@@ -340,7 +340,7 @@ pop ebx
 add eax, ebx
 push eax
 pop eax
-mov [draw_z@flush@while#1@top], eax
+mov [draw_z@flush@top], eax
 jmp draw_z@flush@while#1@$start
 draw_z@flush@while#1@$end:
 ;========== draw_z@flush@while#1@$end ==========
@@ -352,7 +352,7 @@ draw_z@flush$pass:
 
 ;############[fun begin]char############
 jmp draw_z@char$pass
-draw_z@char:
+char:
 pop ebp
 ;param: addrVram
 jmp draw_z@char@addrVram$pass
@@ -425,19 +425,19 @@ mov [draw_z@char@y], eax
 
 ;########## draw_z@char@while#1@$start ##########
 draw_z@char@while#1@$start:
-mov eax, [draw_z@char@while#1@y]
+mov eax, [draw_z@char@y]
 push eax
 mov eax, 8
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jb draw_z@char@while#1@les#1@true
+jb les#1@true
 mov eax, 0
-jmp draw_z@char@while#1@les#1@false
-draw_z@char@while#1@les#1@true:
+jmp les#1@false
+les#1@true:
 mov eax, 1
-draw_z@char@while#1@les#1@false:
+les#1@false:
 push eax
 pop eax
 cmp eax, 0
@@ -445,27 +445,27 @@ je draw_z@char@while#1@$end
 mov eax, 0
 push eax
 pop eax
-mov [draw_z@char@while#1@x], eax
+mov [draw_z@char@x], eax
 ;########## draw_z@char@while#1@while#1@$start ##########
 draw_z@char@while#1@while#1@$start:
-mov eax, [draw_z@char@while#1@while#1@x]
+mov eax, [draw_z@char@x]
 push eax
 mov eax, 8
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jb draw_z@char@while#1@while#1@les#1@true
+jb les#1@true
 mov eax, 0
-jmp draw_z@char@while#1@while#1@les#1@false
-draw_z@char@while#1@while#1@les#1@true:
+jmp les#1@false
+les#1@true:
 mov eax, 1
-draw_z@char@while#1@while#1@les#1@false:
+les#1@false:
 push eax
 pop eax
 cmp eax, 0
 je draw_z@char@while#1@while#1@$end
-mov eax, [draw_z@char@while#1@while#1@y]
+mov eax, [draw_z@char@y]
 push eax
 mov eax, 8
 push eax
@@ -473,7 +473,7 @@ pop eax
 pop ebx
 mul ebx
 push eax
-mov eax, [draw_z@char@while#1@while#1@x]
+mov eax, [draw_z@char@x]
 push eax
 pop eax
 pop ebx
@@ -483,7 +483,7 @@ mov ebx, 4
 pop eax
 mul ebx
 mov ebx, eax
-mov eax, [draw_z@char@while#1@while#1@fontAddr]
+mov eax, [draw_z@char@fontAddr]
 add eax, ebx
 mov ebx, [eax]
 push eax
@@ -494,7 +494,7 @@ pop eax
 mov [draw_z@char@while#1@while#1@color], eax
 
 ;########## draw_z@char@while#1@while#1@if#1@$start ##########
-mov eax, [draw_z@char@while#1@while#1@if#1@y]
+mov eax, [draw_z@char@y]
 push eax
 mov eax, 8
 push eax
@@ -502,7 +502,7 @@ pop eax
 pop ebx
 mul ebx
 push eax
-mov eax, [draw_z@char@while#1@while#1@if#1@x]
+mov eax, [draw_z@char@x]
 push eax
 pop eax
 pop ebx
@@ -512,7 +512,7 @@ mov ebx, 4
 pop eax
 mul ebx
 mov ebx, eax
-mov eax, [draw_z@char@while#1@while#1@if#1@fontAddr]
+mov eax, [draw_z@char@fontAddr]
 add eax, ebx
 mov ebx, [eax]
 push eax
@@ -521,12 +521,12 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jne draw_z@char@while#1@while#1@if#1@neq#1@true
+jne neq#1@true
 mov eax, 0
-jmp draw_z@char@while#1@while#1@if#1@neq#1@false
-draw_z@char@while#1@while#1@if#1@neq#1@true:
+jmp neq#1@false
+neq#1@true:
 mov eax, 1
-draw_z@char@while#1@while#1@if#1@neq#1@false:
+neq#1@false:
 push eax
 pop eax
 cmp eax, 0
@@ -534,27 +534,27 @@ je draw_z@char@while#1@while#1@if#1@$else
 mov eax, 15
 push eax
 pop eax
-mov [draw_z@char@while#1@while#1@if#1@color], eax
+mov [draw_z@char@while#1@while#1@color], eax
 jmp draw_z@char@while#1@while#1@if#1@$end
 draw_z@char@while#1@while#1@if#1@$else:
 mov eax, 0
 push eax
 pop eax
-mov [draw_z@char@while#1@while#1@if#1@color], eax
+mov [draw_z@char@while#1@while#1@color], eax
 draw_z@char@while#1@while#1@if#1@$end:
 ;========== draw_z@char@while#1@while#1@if#1@$end ==========
 
-mov eax, [draw_z@char@while#1@while#1@left]
+mov eax, [draw_z@char@left]
 push eax
-mov eax, [draw_z@char@while#1@while#1@x]
+mov eax, [draw_z@char@x]
 push eax
 pop eax
 pop ebx
 add eax, ebx
 push eax
-mov eax, [draw_z@char@while#1@while#1@top]
+mov eax, [draw_z@char@top]
 push eax
-mov eax, [draw_z@char@while#1@while#1@y]
+mov eax, [draw_z@char@y]
 push eax
 pop eax
 pop ebx
@@ -564,11 +564,11 @@ mov eax, [draw_z@char@while#1@while#1@color]
 push eax
 mov eax, 320
 push eax
-mov eax, [draw_z@char@while#1@while#1@addrVram]
+mov eax, [draw_z@char@addrVram]
 push eax
 call draw_z_pixel
 
-mov eax, [draw_z@char@while#1@while#1@x]
+mov eax, [draw_z@char@x]
 push eax
 mov eax, 1
 push eax
@@ -577,12 +577,12 @@ pop ebx
 add eax, ebx
 push eax
 pop eax
-mov [draw_z@char@while#1@while#1@x], eax
+mov [draw_z@char@x], eax
 jmp draw_z@char@while#1@while#1@$start
 draw_z@char@while#1@while#1@$end:
 ;========== draw_z@char@while#1@while#1@$end ==========
 
-mov eax, [draw_z@char@while#1@y]
+mov eax, [draw_z@char@y]
 push eax
 mov eax, 1
 push eax
@@ -591,7 +591,7 @@ pop ebx
 add eax, ebx
 push eax
 pop eax
-mov [draw_z@char@while#1@y], eax
+mov [draw_z@char@y], eax
 jmp draw_z@char@while#1@$start
 draw_z@char@while#1@$end:
 ;========== draw_z@char@while#1@$end ==========
@@ -603,7 +603,7 @@ draw_z@char$pass:
 
 ;############[fun begin]string############
 jmp draw_z@string$pass
-draw_z@string:
+string:
 pop ebp
 ;param: addrVram
 jmp draw_z@string@addrVram$pass
@@ -646,13 +646,13 @@ mov [draw_z@string@i], eax
 
 ;########## draw_z@string@while#1@$start ##########
 draw_z@string@while#1@$start:
-mov eax, [draw_z@string@while#1@i]
+mov eax, [draw_z@string@i]
 push eax
 mov ebx, 4
 pop eax
 mul ebx
 mov ebx, eax
-mov eax, [draw_z@string@while#1@strAddr]
+mov eax, [draw_z@string@strAddr]
 add eax, ebx
 mov ebx, [eax]
 push eax
@@ -661,19 +661,19 @@ push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jne draw_z@string@while#1@neq#1@true
+jne neq#1@true
 mov eax, 0
-jmp draw_z@string@while#1@neq#1@false
-draw_z@string@while#1@neq#1@true:
+jmp neq#1@false
+neq#1@true:
 mov eax, 1
-draw_z@string@while#1@neq#1@false:
+neq#1@false:
 push eax
 pop eax
 cmp eax, 0
 je draw_z@string@while#1@$end
-mov eax, [draw_z@string@while#1@left]
+mov eax, [draw_z@string@left]
 push eax
-mov eax, [draw_z@string@while#1@i]
+mov eax, [draw_z@string@i]
 push eax
 mov eax, 8
 push eax
@@ -685,29 +685,29 @@ pop eax
 pop ebx
 add eax, ebx
 push eax
-mov eax, [draw_z@string@while#1@top]
+mov eax, [draw_z@string@top]
 push eax
 mov eax, 1
 push eax
 mov eax, 2
 push eax
-mov eax, [draw_z@string@while#1@i]
+mov eax, [draw_z@string@i]
 push eax
 mov ebx, 4
 pop eax
 mul ebx
 mov ebx, eax
-mov eax, [draw_z@string@while#1@strAddr]
+mov eax, [draw_z@string@strAddr]
 add eax, ebx
 mov ebx, [eax]
 push eax
-mov eax, [draw_z@string@while#1@screenWidth]
+mov eax, [draw_z@string@screenWidth]
 push eax
-mov eax, [draw_z@string@while#1@addrVram]
+mov eax, [draw_z@string@addrVram]
 push eax
-call draw_z@string@while#1@char
+call draw_z@char
 
-mov eax, [draw_z@string@while#1@i]
+mov eax, [draw_z@string@i]
 push eax
 mov eax, 1
 push eax
@@ -716,7 +716,7 @@ pop ebx
 add eax, ebx
 push eax
 pop eax
-mov [draw_z@string@while#1@i], eax
+mov [draw_z@string@i], eax
 jmp draw_z@string@while#1@$start
 draw_z@string@while#1@$end:
 ;========== draw_z@string@while#1@$end ==========

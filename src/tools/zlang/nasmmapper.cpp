@@ -54,6 +54,7 @@ public:
   // 定义数组后半部分
   virtual void defArrayEnd(string arrName)
   {
+    arrName = formatPrefixes(arrName);
     map2Asm("\n", m_astree->getPrefix(arrName), arrName, "$pass:\n");
     map2Asm("mov eax, ", m_astree->getPrefix(arrName), arrName, "\n");
     map2Asm("mov eax, [", m_astree->getPrefix(arrName), arrName, "+4]\n\n");

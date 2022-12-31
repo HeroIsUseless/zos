@@ -51,8 +51,8 @@ char(left: dword, top: dword, foreColor: dword, backColor: dword, ascii: dword, 
   while(y<8, (
     x <= 0;
     while(x<8, (
-      color: &fontAddr\(y*8+x);
-      if(&fontAddr\(y*8+x)#0, (color <= 15;), (color <= 0;));
+      color: fontAddr\(y*8+x);
+      if(fontAddr\(y*8+x)#0, (color <= 15;), (color <= 0;));
       draw.z\pixel(left+x, top+y, color, 320, addrVram);
       x <= x+1;
     ));
@@ -62,8 +62,8 @@ char(left: dword, top: dword, foreColor: dword, backColor: dword, ascii: dword, 
 
 string(left: dword, top: dword, strAddr: dword, screenWidth:dword, addrVram: dword):(
   i: 0;
-  while(&strAddr\(i) # 0, (
-    char(left+i*8, top, 1, 2, &strAddr\(i), screenWidth, addrVram);
+  while(strAddr\(i) # 0, (
+    char(left+i*8, top, 1, 2, strAddr\(i), screenWidth, addrVram);
     i <= i+1;
   ));
 );

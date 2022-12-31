@@ -1,17 +1,7 @@
 a: {1,2,3,4,5,6};
+e.f: 2;
+b.c: {1,2,3,4,5,6};
 a\(1) <= 2;
 a\(1+2) <= 2;
 c: 0;
 c <= mem.z\d\(1);
-
-main.z: @\main.z;
-kernel.z: @\kernel.z;
-
-init():(
-	[GDT全部清零]
-  i: 0;
-  while(i<8192, (
-    main.z\addr_GDT\(1) <= 0;
-    i<= i+1;
-  ));
-);

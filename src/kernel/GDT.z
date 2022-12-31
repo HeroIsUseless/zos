@@ -34,8 +34,8 @@ init():(
 	[第1个数据段的段地址为0，用作数据段]
 	[基地址，共4字节]
 	[前面4位是控制位，中间20位是限制，后面8位是控制位，一共32位，4字节]
-	kernel.z\setGDT(Addr_GDT+1*8, 0x00000000, 0x0fffff92);
+	kernel.z\setGDT(main.z\Addr_GDT+1*8, 0x00000000, 0x0fffff92);
 	[第2个数据段的段地址为280000，用作代码段]
-	kernel.z\setGDT(Addr_GDT+2*8, 0x00000000, 0x07ffff9a);
+	kernel.z\setGDT(main.z\Addr_GDT+2*8, 0x00000000, 0x07ffff9a);
 	kernel.z\loadGDT();
 );

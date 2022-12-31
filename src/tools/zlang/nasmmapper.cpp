@@ -10,35 +10,36 @@ class NasmMapper : public AsmMapper
 {
 public:
   NasmMapper(char* fileName) : AsmMapper(fileName) {}
-  // 定义标签
-  virtual void defTag(string tagName)
-  {
-    map2Asm(m_astree->getPrefix(), tagName, ":\n");
-  }
 
   // 定义整型4字节变量
   virtual void defVarWithNumber(string varName)
   {
-    map2Asm("jmp ", m_astree->getPrefix(), varName, "$pass\n");
-    map2Asm(m_astree->getPrefix(), varName, ": dd 0", "\n");
-    map2Asm(m_astree->getPrefix(), varName, "$pass:\n");
+    varName = formatPrefixes(varName);
+    m_astree->addChild(varName);
+    map2Asm("jmp ", m_astree->getPrefix(varName), varName, "$pass\n");
+    map2Asm(m_astree->getPrefix(varName), varName, ": dd 0", "\n");
+    map2Asm(m_astree->getPrefix(varName), varName, "$pass:\n");
     map2Asm("pop eax\n");
-    map2Asm("mov [", m_astree->getPrefix(), varName, "], eax\n\n");
+    map2Asm("mov [", m_astree->getPrefix(varName), varName, "], eax\n\n");
   }
 
   // 定义字符串
   virtual void defVarWithString(string varName, string str)
   {
-    map2Asm("jmp ", m_astree->getPrefix(), varName, "$pass\n");
-    map2Asm(m_astree->getPrefix(), varName, ": dd ", str, "\n");
-    map2Asm(m_astree->getPrefix(), varName, "$pass:\n");
+    varName = formatPrefixes(varName);
+    m_astree->addChild(varName);
+    map2Asm("jmp ", m_astree->getPrefix(varName), varName, "$pass\n");
+    map2Asm(m_astree->getPrefix(varName), varName, ": dd ", str, "\n");
+    map2Asm(m_astree->getPrefix(varName), varName, "$pass:\n");
   }
 
   // 定义数组前半部分
   virtual void defArrayStart(string arrName)
   {
-    map2Asm("jmp ", m_astree->getPrefix(), arrName, "$pass\n");
-    map2Asm(m_astree->getPrefix(), arrName, ": dd ");
+    arrName = formatPrefixes(arrName);
+    m_astree->addChild(arrName);
+    map2Asm("jmp ", m_astree->getPrefix(arrName), arrName, "$pass\n");
+    map2Asm(m_astree->getPrefix(arrName), arrName, ": dd ");
   }
 
   // 定义数组的元素
@@ -50,12 +51,13 @@ public:
   // 定义数组后半部分
   virtual void defArrayEnd(string arrName)
   {
-    map2Asm("\n", m_astree->getPrefix(), arrName, "$pass:\n");
+    map2Asm("\n", m_astree->getPrefix(arrName), arrName, "$pass:\n");
   }
 
   // 接收函数参数，在后面输出
   virtual void defParam(string varName)
   {
+    varName = formatPrefixes(varName);
     m_funcParams.push_back(varName);
   }
 
@@ -63,19 +65,21 @@ public:
   virtual void defFunctionStart(string funName)
   {
     funName = formatPrefixes(funName);
+    m_astree->addChild(funName);
     map2Asm("\n;############[fun begin]", funName, "############\n");
-    map2Asm("jmp ", m_astree->getPrefix(), funName, "$pass\n");
-    defTag(funName);
+    map2Asm("jmp ", m_astree->getPrefix(funName), funName, "$pass\n");
     m_astree->down(funName);
+    map2Asm(funName, ":\n");
     map2Asm("pop ebp\n");
     for (int i = m_funcParams.size() - 1; i >= 0; i--)
     {
+      m_astree->addChild(m_funcParams[i]);
       map2Asm(";param: ", m_funcParams[i], "\n");
-      map2Asm("jmp ", m_astree->getPrefix(), m_funcParams[i], "$pass\n");
-      map2Asm(m_astree->getPrefix(), m_funcParams[i], ": dd 0", "\n");
-      map2Asm(m_astree->getPrefix(), m_funcParams[i], "$pass:\n");
+      map2Asm("jmp ", m_astree->getPrefix(m_funcParams[i]), m_funcParams[i], "$pass\n");
+      map2Asm(m_astree->getPrefix(m_funcParams[i]), m_funcParams[i], ": dd 0", "\n");
+      map2Asm(m_astree->getPrefix(m_funcParams[i]), m_funcParams[i], "$pass:\n");
       map2Asm("pop eax\n");
-      map2Asm("mov [", m_astree->getPrefix(), m_funcParams[i], "], eax\n");
+      map2Asm("mov [", m_astree->getPrefix(m_funcParams[i]), m_funcParams[i], "], eax\n");
     }
     map2Asm("push ebp\n");
     m_funcParams.clear();
@@ -87,7 +91,7 @@ public:
     funName = formatPrefixes(funName);
     m_astree->up();
     map2Asm("ret\n");
-    map2Asm(m_astree->getPrefix(), funName, "$pass:\n");
+    map2Asm(m_astree->getPrefix(funName), funName, "$pass:\n");
     map2Asm(";============[fun end]", funName, "=============\n\n");
   }
 
@@ -104,25 +108,29 @@ public:
   // 变量赋值
   virtual void assginVar(string varName)
   {
+    varName = formatPrefixes(varName);
     map2Asm("pop eax\n");
-    map2Asm("mov [", m_astree->getPrefix(), varName, "], eax\n");
+    map2Asm("mov [", m_astree->getPrefix(varName), varName, "], eax\n");
   }
 
   virtual void assginPrefixesVar(string prefixesVarName)
   {
+    prefixesVarName = formatPrefixes(prefixesVarName);
     map2Asm("pop eax\n");
     map2Asm("mov [", prefixesVarName, "], eax\n");
   }
 
   virtual void assginArray(string arrName)
   {
+    arrName = formatPrefixes(arrName);
     map2Asm("pop eax\n");     // var
     map2Asm("pop ebx\n"); // index
-    map2Asm("mov [", m_astree->getPrefix(), arrName, "+ebx], eax\n");
+    map2Asm("mov [", m_astree->getPrefix(arrName), arrName, "+ebx], eax\n");
   }
 
   virtual void assginPrefixesArray(string prefixesArrName)
   {
+    prefixesArrName = formatPrefixes(prefixesArrName);
     map2Asm("pop eax\n");     // var
     map2Asm("pop ebx\n"); // index
     map2Asm("mov [", prefixesArrName, "+ebx], eax\n");
@@ -130,10 +138,11 @@ public:
 
   virtual void pushArrayItem(string arrName)
   {
+    arrName = formatPrefixes(arrName);
     map2Asm("pop eax\n");
     map2Asm("mov ebx, 4\n");
     map2Asm("mul ebx\n");
-    map2Asm("mov ebx, [", m_astree->getPrefix(), arrName, "+eax]\n");
+    map2Asm("mov ebx, [", m_astree->getPrefix(arrName), arrName, "+eax]\n");
     map2Asm("push ebx\n");
   }
 
@@ -145,7 +154,8 @@ public:
 
   virtual void pushVar(string var)
   {
-    map2Asm("mov eax, [", m_astree->getPrefix(), var, "]\n");
+    var = formatPrefixes(var);
+    map2Asm("mov eax, [", m_astree->getPrefix(var), var, "]\n");
     map2Asm("push eax\n");
   }
 
@@ -158,18 +168,21 @@ public:
 
   virtual void pushAddress(string address) 
   {
-    map2Asm("mov eax, [", m_astree->getPrefix(), address, "]\n");
+    address = formatPrefixes(address);
+    map2Asm("mov eax, [", m_astree->getPrefix(address), address, "]\n");
     map2Asm("push eax\n");
   }
 
   virtual void pushPrefixedAddress(string prefixedAddress)
   {
+    prefixedAddress = formatPrefixes(prefixedAddress);
     map2Asm("mov eax, [", prefixedAddress, "]\n");
     map2Asm("push eax\n");
   }
 
   virtual void pushPrefixedArrayItem(string prefixedAddress)
   {
+    prefixedAddress = formatPrefixes(prefixedAddress);
     map2Asm("pop eax\n");
     map2Asm("mov ebx, 4\n");
     map2Asm("mov ebx, [", prefixedAddress, "+eax]\n");
@@ -178,11 +191,12 @@ public:
 
   virtual void pushAddl(string val) 
   {
+    val = formatPrefixes(val);
     map2Asm("mov ebx, 4\n");
     map2Asm("pop eax\n");
     map2Asm("mul ebx\n");
     map2Asm("mov ebx, eax\n");
-    map2Asm("mov eax, [", m_astree->getPrefix(), val, "]\n");
+    map2Asm("mov eax, [", m_astree->getPrefix(val), val, "]\n");
     map2Asm("add eax, ebx\n");
     map2Asm("mov ebx, [eax]\n");
     map2Asm("push eax\n");
@@ -209,54 +223,56 @@ public:
 
   virtual void callFunction(string functionName)
   {
-    map2Asm("call ", m_astree->getPrefix(), functionName, "\n\n");
+    functionName = formatPrefixes(functionName);
+    map2Asm("call ", m_astree->getPrefix(functionName), functionName, "\n\n");
   }
 
   virtual void defIfHead()
   {
+    m_astree->addChild("if");
     m_astree->down("if");
-    map2Asm(";########## ",m_astree->getPrefix(), "$start ##########\n");
+    map2Asm(";########## ",m_astree->getPrefix("if"), "$start ##########\n");
   }
 
   virtual void defIfThen()
   {
     map2Asm("pop eax\n");
     map2Asm("cmp eax, 0\n");
-    map2Asm("je ", m_astree->getPrefix(), "$else\n");
+    map2Asm("je ", m_astree->getPrefix("if"), "$else\n");
   }
 
   virtual void defIfElse()
   {
-    map2Asm("jmp ", m_astree->getPrefix(), "$end\n");
-    map2Asm(m_astree->getPrefix(), "$else:\n");
+    map2Asm("jmp ", m_astree->getPrefix("if"), "$end\n");
+    map2Asm(m_astree->getPrefix("if"), "$else:\n");
   }
 
   virtual void defIfEnd()
   {
-    map2Asm(m_astree->getPrefix(), "$end:\n");
-    map2Asm(";========== ", m_astree->getPrefix(), "$end ==========\n\n");
+    map2Asm(m_astree->getPrefix("if"), "$end:\n");
+    map2Asm(";========== ", m_astree->getPrefix("if"), "$end ==========\n\n");
     m_astree->up();
   }
 
   virtual void defWhileHead()
   {
     m_astree->down("while");
-    map2Asm(";########## ", m_astree->getPrefix(), "$start ##########\n");
-    map2Asm(m_astree->getPrefix(), "$start:\n");
+    map2Asm(";########## ", m_astree->getPrefix("while"), "$start ##########\n");
+    map2Asm(m_astree->getPrefix("while"), "$start:\n");
   }
 
   virtual void defWhileMid()
   {
     map2Asm("pop eax\n");
     map2Asm("cmp eax, 0\n");
-    map2Asm("je ", m_astree->getPrefix(), "$end\n");
+    map2Asm("je ", m_astree->getPrefix("while"), "$end\n");
   }
 
   virtual void defWhileEnd()
   {
-    map2Asm("jmp ", m_astree->getPrefix(), "$start\n");
-    map2Asm(m_astree->getPrefix(), "$end:\n");
-    map2Asm(";========== ", m_astree->getPrefix(), "$end ==========\n\n");
+    map2Asm("jmp ", m_astree->getPrefix("while"), "$start\n");
+    map2Asm(m_astree->getPrefix("while"), "$end:\n");
+    map2Asm(";========== ", m_astree->getPrefix("while"), "$end ==========\n\n");
     m_astree->up();
   }
 
@@ -289,12 +305,12 @@ public:
     map2Asm("pop ebx\n");
     map2Asm("pop eax\n");
     map2Asm("cmp eax, ebx\n");
-    map2Asm("jb ", m_astree->getPrefix(), "les#", randomNum, "@true\n");
+    map2Asm("jb ", "les#", randomNum, "@true\n");
     map2Asm("mov eax, 0\n");
-    map2Asm("jmp ", m_astree->getPrefix(), "les#", randomNum, "@false\n");
-    map2Asm(m_astree->getPrefix(), "les#", randomNum, "@true:\n");
+    map2Asm("jmp ", "les#", randomNum, "@false\n");
+    map2Asm("les#", randomNum, "@true:\n");
     map2Asm("mov eax, 1\n");
-    map2Asm(m_astree->getPrefix(), "les#", randomNum, "@false:\n");
+    map2Asm("les#", randomNum, "@false:\n");
     map2Asm("push eax\n");
   }
 
@@ -304,12 +320,12 @@ public:
     map2Asm("pop ebx\n");
     map2Asm("pop eax\n");
     map2Asm("cmp eax, ebx\n");
-    map2Asm("ja ", m_astree->getPrefix(), "mor#", randomNum, "@true\n");
+    map2Asm("ja ", "mor#", randomNum, "@true\n");
     map2Asm("mov eax, 0\n");
-    map2Asm("jmp ", m_astree->getPrefix(), "mor#", randomNum, "@false\n");
-    map2Asm(m_astree->getPrefix(), "mor#", randomNum, "@true:\n");
+    map2Asm("jmp ", "mor#", randomNum, "@false\n");
+    map2Asm("mor#", randomNum, "@true:\n");
     map2Asm("mov eax, 1\n");
-    map2Asm(m_astree->getPrefix(), "mor#", randomNum, "@false:\n");
+    map2Asm("mor#", randomNum, "@false:\n");
     map2Asm("push eax\n");
   }
 
@@ -319,12 +335,12 @@ public:
     map2Asm("pop ebx\n");
     map2Asm("pop eax\n");
     map2Asm("cmp eax, ebx\n");
-    map2Asm("jbe ", m_astree->getPrefix(), "leq#", randomNum, "@true\n");
+    map2Asm("jbe ", "leq#", randomNum, "@true\n");
     map2Asm("mov eax, 0\n");
-    map2Asm("jmp ", m_astree->getPrefix(), "leq#", randomNum, "@false\n");
-    map2Asm(m_astree->getPrefix(), "leq#", randomNum, "@true:\n");
+    map2Asm("jmp ", "leq#", randomNum, "@false\n");
+    map2Asm("leq#", randomNum, "@true:\n");
     map2Asm("mov eax, 1\n");
-    map2Asm(m_astree->getPrefix(), "leq#", randomNum, "@false:\n");
+    map2Asm("leq#", randomNum, "@false:\n");
     map2Asm("push eax\n");
   }
 
@@ -334,12 +350,12 @@ public:
     map2Asm("pop ebx\n");
     map2Asm("pop eax\n");
     map2Asm("cmp eax, ebx\n");
-    map2Asm("jae ", m_astree->getPrefix(), "meq#", randomNum, "@true\n");
+    map2Asm("jae ", "meq#", randomNum, "@true\n");
     map2Asm("mov eax, 0\n");
-    map2Asm("jmp ", m_astree->getPrefix(), "meq#", randomNum, "@false\n");
-    map2Asm(m_astree->getPrefix(), "meq#", randomNum, "@true:\n");
+    map2Asm("jmp ", "meq#", randomNum, "@false\n");
+    map2Asm("meq#", randomNum, "@true:\n");
     map2Asm("mov eax, 1\n");
-    map2Asm(m_astree->getPrefix(), "meq#", randomNum, "@false:\n");
+    map2Asm("meq#", randomNum, "@false:\n");
     map2Asm("push eax\n");
   }
 
@@ -349,12 +365,12 @@ public:
     map2Asm("pop ebx\n");
     map2Asm("pop eax\n");
     map2Asm("cmp eax, ebx\n");
-    map2Asm("je ", m_astree->getPrefix(), "equ#", randomNum, "@true\n");
+    map2Asm("je ", "equ#", randomNum, "@true\n");
     map2Asm("mov eax, 0\n");
-    map2Asm("jmp ", m_astree->getPrefix(), "equ#", randomNum, "@false\n");
-    map2Asm(m_astree->getPrefix(), "equ#", randomNum, "@true:\n");
+    map2Asm("jmp ", "equ#", randomNum, "@false\n");
+    map2Asm("equ#", randomNum, "@true:\n");
     map2Asm("mov eax, 1\n");
-    map2Asm(m_astree->getPrefix(), "equ#", randomNum, "@false:\n");
+    map2Asm("equ#", randomNum, "@false:\n");
     map2Asm("push eax\n");
   }
 
@@ -364,12 +380,12 @@ public:
     map2Asm("pop ebx\n");
     map2Asm("pop eax\n");
     map2Asm("cmp eax, ebx\n");
-    map2Asm("jne ", m_astree->getPrefix(), "neq#", randomNum, "@true\n");
+    map2Asm("jne ", "neq#", randomNum, "@true\n");
     map2Asm("mov eax, 0\n");
-    map2Asm("jmp ", m_astree->getPrefix(), "neq#", randomNum, "@false\n");
-    map2Asm(m_astree->getPrefix(), "neq#", randomNum, "@true:\n");
+    map2Asm("jmp ", "neq#", randomNum, "@false\n");
+    map2Asm("neq#", randomNum, "@true:\n");
     map2Asm("mov eax, 1\n");
-    map2Asm(m_astree->getPrefix(), "neq#", randomNum, "@false:\n");
+    map2Asm("neq#", randomNum, "@false:\n");
     map2Asm("push eax\n");
   }
 

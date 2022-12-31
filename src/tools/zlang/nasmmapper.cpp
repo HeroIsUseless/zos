@@ -30,8 +30,10 @@ public:
     varName = formatPrefixes(varName);
     m_astree->addChild(varName);
     map2Asm("jmp ", m_astree->getPrefix(varName), varName, "$pass\n");
-    map2Asm(m_astree->getPrefix(varName), varName, ": dd ", str, "\n");
+    map2Asm(m_astree->getPrefix(varName), varName, ": dd 0 ", str, "\n");
     map2Asm(m_astree->getPrefix(varName), varName, "$pass:\n");
+    map2Asm("mov eax, ", m_astree->getPrefix(varName), varName, "+4\n");
+    map2Asm("mov [", m_astree->getPrefix(varName), varName, "], eax\n\n");
   }
 
   // 定义数组前半部分

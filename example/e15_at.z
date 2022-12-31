@@ -4,4 +4,4 @@ func(strAddr: dword):(
   a <= strAddr\(1);
   a <= @strAddr;
 );
-func(strAddr);
+func(str);

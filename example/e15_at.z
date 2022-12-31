@@ -1,7 +1,0 @@
-str: "ABCD";
-func(strAddr: dword):(
-  a: 0;
-  a <= strAddr\(1);
-  a <= @strAddr;
-);
-func(str);

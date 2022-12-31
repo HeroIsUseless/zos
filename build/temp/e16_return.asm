@@ -1,18 +1,18 @@
 
 ;############[fun begin]func############
-jmp e16_return_z@func$pass
-e16_return_z@func:
+jmp e15_return_z@func$pass
+e15_return_z@func:
 pop ebp
 push ebp
 mov eax, 0
 push eax
-jmp e16_return_z@func@a$pass
-e16_return_z@func@a: dd 0
-e16_return_z@func@a$pass:
+jmp e15_return_z@func@a$pass
+e15_return_z@func@a: dd 0
+e15_return_z@func@a$pass:
 pop eax
-mov [e16_return_z@func@a], eax
+mov [e15_return_z@func@a], eax
 
-mov eax, [e16_return_z@func@a]
+mov eax, [e15_return_z@func@a]
 push eax
 pop eax
 pop ebp
@@ -21,22 +21,22 @@ push ebp
 ret
 mov eax, 1
 push eax
-jmp e16_return_z@func@b$pass
-e16_return_z@func@b: dd 0
-e16_return_z@func@b$pass:
+jmp e15_return_z@func@b$pass
+e15_return_z@func@b: dd 0
+e15_return_z@func@b$pass:
 pop eax
-mov [e16_return_z@func@b], eax
+mov [e15_return_z@func@b], eax
 
 ret
-e16_return_z@func$pass:
+e15_return_z@func$pass:
 ;============[fun end]func=============
 
-call e16_return_z@func
+call e15_return_z@func
 
-jmp e16_return_z@b$pass
-e16_return_z@b: dd 0
-e16_return_z@b$pass:
+jmp e15_return_z@b$pass
+e15_return_z@b: dd 0
+e15_return_z@b$pass:
 pop eax
-mov [e16_return_z@b], eax
+mov [e15_return_z@b], eax
 
 

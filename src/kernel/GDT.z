@@ -24,8 +24,8 @@ init():(
 	[GDT全部清零]
   i: 0;
   while(i<8192, (
-    main.z\Addr_GDT\i*2 <= 0;
-    main.z\Addr_GDT\i*2+1 <= 0;
+    main.z\Addr_GDT\(i*2) <= 0;
+    main.z\Addr_GDT\(i*2+1) <= 0;
     i<= i+1;
   ));
 	[GDT初始化]

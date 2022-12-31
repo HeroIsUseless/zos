@@ -6,10 +6,10 @@ pop eax
 pop ebx
 add eax, ebx
 push eax
-jmp e17_float_z@a$pass
-e17_float_z@a: dd 0
-e17_float_z@a$pass:
+jmp e16_float_z@a$pass
+e16_float_z@a: dd 0
+e16_float_z@a$pass:
 pop eax
-mov [e17_float_z@a], eax
+mov [e16_float_z@a], eax
 
 

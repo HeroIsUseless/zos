@@ -43,7 +43,7 @@ mov eax, 0
 push eax
 pop eax
 pop ebx
-mov [main_z_Addr_GDT+ebx], eax
+mov [main_z_addrGDT+ebx], eax
 mov eax, [GDT_z_init_i]
 push eax
 mov eax, 2
@@ -62,7 +62,7 @@ mov eax, 0
 push eax
 pop eax
 pop ebx
-mov [main_z_Addr_GDT+ebx], eax
+mov [main_z_addrGDT+ebx], eax
 mov eax, [GDT_z_init_i]
 push eax
 mov eax, 1
@@ -76,6 +76,26 @@ mov [GDT_z_init_i], eax
 jmp GDT_z_init_while#r1_$start
 GDT_z_init_while#r1_$end:
 ;========== GDT_z_init_while#r1_$end ==========
+
+mov eax, [main_z_addrGDT]
+push eax
+mov eax, 0
+push eax
+mov eax, 8
+push eax
+pop eax
+pop ebx
+mul ebx
+push eax
+pop eax
+pop ebx
+add eax, ebx
+push eax
+mov eax, 0x00000000
+push eax
+mov eax, 0x00000000
+push eax
+call kernel_z_setGDT
 
 mov eax, [main_z_addrGDT]
 push eax

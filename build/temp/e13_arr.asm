@@ -24,7 +24,6 @@ mov eax, 1
 push eax
 mov eax, 2
 push eax
-;zws 2942
 pop edx
 pop eax
 mov ebx, 4
@@ -41,7 +40,6 @@ add eax, ebx
 push eax
 mov eax, 2
 push eax
-;zws 2942
 pop edx
 pop eax
 mov ebx, 4

@@ -17,7 +17,7 @@ addrGDT:  0x00270000; [GDT一行8字节，一共8192行，一共65536字节=65KB
 
 run.once():(
   test.z\draw(addrVram);
-  [GDT.z\init();
+  GDT.z\init();
 );
 
 run.loop():(

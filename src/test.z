@@ -15,7 +15,7 @@ rect(left: dword, top: dword, addrVram: dword):(
 
 block(addrVram: dword):(
   i: 0;
-  while(i < 300, (draw.z\pixel(i, i, i, 320, addrVram);i<=i+1;));
+  while(i < 300, (draw.z\pixel(0, i, i, 320, addrVram);i<=i+1;));
 );
 
 draw(addrVram: dword):(

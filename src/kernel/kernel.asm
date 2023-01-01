@@ -20,7 +20,7 @@ GDTR:
 ; 因此用一个常量代替比较好
 ; 设置GDT内容
 ; kernel.z\setGDT(addr: dword, param1: dword, param2: dword)
-setGDT:
+kernel_z_setGDT:
   pop ebp
   pop ebx
   pop eax
@@ -49,7 +49,7 @@ ret
 
 ; 加载GDT
 ; kernel.z\loadGDT()
-loadGDT:
+kernel_z_loadGDT:
   lgdt [GDTR] ; 不加dword会警告，因为现在的标签的确从0开始的
 ret
 

@@ -129,7 +129,6 @@ public:
   virtual void assginArrayItem(string arrName)
   {
     arrName = formatPrefixes(arrName);
-    map2Asm(";zws 2942\n");
     map2Asm("pop edx\n");
     map2Asm("pop eax\n");
     map2Asm("mov ebx, 4\n");

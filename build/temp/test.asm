@@ -179,7 +179,7 @@ push eax
 pop eax
 cmp eax, 0
 je test_z_block_while#r5_$end
-mov eax, [test_z_block_i]
+mov eax, 0
 push eax
 mov eax, [test_z_block_i]
 push eax

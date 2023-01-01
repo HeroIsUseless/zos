@@ -4,6 +4,7 @@ test.z: @\test.z;
 
 screenWidth:  320; [屏幕宽度]
 screenHeight: 200; [屏幕高度]
+
 [0~0xffffffff(共8位，4G)]
 [0x7c00之前是BIOS，引导完了就没用了]
 [0x8200(33kb处)之后是不超过1MB的代码段，用作暂时代码段，切换32位后拷贝到0x280000]
@@ -15,7 +16,7 @@ addrGDT:  0x00270000; [GDT一行8字节，一共8192行，一共65536字节=65KB
 [0x280000 说的粗略点就是下面了]
 
 run.once():(
-  [test.z\draw(addrVram);
+  test.z\draw(addrVram);
   [GDT.z\init();
 );
 

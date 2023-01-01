@@ -1,1044 +1,1044 @@
-jmp font_z@A$pass
-font_z@A: dd 0
+jmp font_z_A$pass
+font_z_A: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@A$pass:
-mov eax, font_z@A
-mov eax, [font_z@A+4]
+font_z_A$pass:
+mov eax, font_z_A
+mov eax, [font_z_A+4]
 
-jmp font_z@B$pass
-font_z@B: dd 0
+jmp font_z_B$pass
+font_z_B: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@B$pass:
-mov eax, font_z@B
-mov eax, [font_z@B+4]
+font_z_B$pass:
+mov eax, font_z_B
+mov eax, [font_z_B+4]
 
-jmp font_z@C$pass
-font_z@C: dd 0
+jmp font_z_C$pass
+font_z_C: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@C$pass:
-mov eax, font_z@C
-mov eax, [font_z@C+4]
+font_z_C$pass:
+mov eax, font_z_C
+mov eax, [font_z_C+4]
 
-jmp font_z@D$pass
-font_z@D: dd 0
+jmp font_z_D$pass
+font_z_D: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@D$pass:
-mov eax, font_z@D
-mov eax, [font_z@D+4]
+font_z_D$pass:
+mov eax, font_z_D
+mov eax, [font_z_D+4]
 
-jmp font_z@E$pass
-font_z@E: dd 0
+jmp font_z_E$pass
+font_z_E: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@E$pass:
-mov eax, font_z@E
-mov eax, [font_z@E+4]
+font_z_E$pass:
+mov eax, font_z_E
+mov eax, [font_z_E+4]
 
-jmp font_z@F$pass
-font_z@F: dd 0
+jmp font_z_F$pass
+font_z_F: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@F$pass:
-mov eax, font_z@F
-mov eax, [font_z@F+4]
+font_z_F$pass:
+mov eax, font_z_F
+mov eax, [font_z_F+4]
 
-jmp font_z@G$pass
-font_z@G: dd 0
+jmp font_z_G$pass
+font_z_G: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@G$pass:
-mov eax, font_z@G
-mov eax, [font_z@G+4]
+font_z_G$pass:
+mov eax, font_z_G
+mov eax, [font_z_G+4]
 
-jmp font_z@H$pass
-font_z@H: dd 0
+jmp font_z_H$pass
+font_z_H: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@H$pass:
-mov eax, font_z@H
-mov eax, [font_z@H+4]
+font_z_H$pass:
+mov eax, font_z_H
+mov eax, [font_z_H+4]
 
-jmp font_z@I$pass
-font_z@I: dd 0
+jmp font_z_I$pass
+font_z_I: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@I$pass:
-mov eax, font_z@I
-mov eax, [font_z@I+4]
+font_z_I$pass:
+mov eax, font_z_I
+mov eax, [font_z_I+4]
 
-jmp font_z@J$pass
-font_z@J: dd 0
+jmp font_z_J$pass
+font_z_J: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@J$pass:
-mov eax, font_z@J
-mov eax, [font_z@J+4]
+font_z_J$pass:
+mov eax, font_z_J
+mov eax, [font_z_J+4]
 
-jmp font_z@K$pass
-font_z@K: dd 0
+jmp font_z_K$pass
+font_z_K: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@K$pass:
-mov eax, font_z@K
-mov eax, [font_z@K+4]
+font_z_K$pass:
+mov eax, font_z_K
+mov eax, [font_z_K+4]
 
-jmp font_z@L$pass
-font_z@L: dd 0
+jmp font_z_L$pass
+font_z_L: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@L$pass:
-mov eax, font_z@L
-mov eax, [font_z@L+4]
+font_z_L$pass:
+mov eax, font_z_L
+mov eax, [font_z_L+4]
 
-jmp font_z@M$pass
-font_z@M: dd 0
+jmp font_z_M$pass
+font_z_M: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@M$pass:
-mov eax, font_z@M
-mov eax, [font_z@M+4]
+font_z_M$pass:
+mov eax, font_z_M
+mov eax, [font_z_M+4]
 
-jmp font_z@N$pass
-font_z@N: dd 0
+jmp font_z_N$pass
+font_z_N: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@N$pass:
-mov eax, font_z@N
-mov eax, [font_z@N+4]
+font_z_N$pass:
+mov eax, font_z_N
+mov eax, [font_z_N+4]
 
-jmp font_z@O$pass
-font_z@O: dd 0
+jmp font_z_O$pass
+font_z_O: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@O$pass:
-mov eax, font_z@O
-mov eax, [font_z@O+4]
+font_z_O$pass:
+mov eax, font_z_O
+mov eax, [font_z_O+4]
 
-jmp font_z@P$pass
-font_z@P: dd 0
+jmp font_z_P$pass
+font_z_P: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@P$pass:
-mov eax, font_z@P
-mov eax, [font_z@P+4]
+font_z_P$pass:
+mov eax, font_z_P
+mov eax, [font_z_P+4]
 
-jmp font_z@Q$pass
-font_z@Q: dd 0
+jmp font_z_Q$pass
+font_z_Q: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@Q$pass:
-mov eax, font_z@Q
-mov eax, [font_z@Q+4]
+font_z_Q$pass:
+mov eax, font_z_Q
+mov eax, [font_z_Q+4]
 
-jmp font_z@R$pass
-font_z@R: dd 0
+jmp font_z_R$pass
+font_z_R: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@R$pass:
-mov eax, font_z@R
-mov eax, [font_z@R+4]
+font_z_R$pass:
+mov eax, font_z_R
+mov eax, [font_z_R+4]
 
-jmp font_z@S$pass
-font_z@S: dd 0
+jmp font_z_S$pass
+font_z_S: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@S$pass:
-mov eax, font_z@S
-mov eax, [font_z@S+4]
+font_z_S$pass:
+mov eax, font_z_S
+mov eax, [font_z_S+4]
 
-jmp font_z@T$pass
-font_z@T: dd 0
+jmp font_z_T$pass
+font_z_T: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@T$pass:
-mov eax, font_z@T
-mov eax, [font_z@T+4]
+font_z_T$pass:
+mov eax, font_z_T
+mov eax, [font_z_T+4]
 
-jmp font_z@U$pass
-font_z@U: dd 0
+jmp font_z_U$pass
+font_z_U: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@U$pass:
-mov eax, font_z@U
-mov eax, [font_z@U+4]
+font_z_U$pass:
+mov eax, font_z_U
+mov eax, [font_z_U+4]
 
-jmp font_z@V$pass
-font_z@V: dd 0
+jmp font_z_V$pass
+font_z_V: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@V$pass:
-mov eax, font_z@V
-mov eax, [font_z@V+4]
+font_z_V$pass:
+mov eax, font_z_V
+mov eax, [font_z_V+4]
 
-jmp font_z@W$pass
-font_z@W: dd 0
+jmp font_z_W$pass
+font_z_W: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@W$pass:
-mov eax, font_z@W
-mov eax, [font_z@W+4]
+font_z_W$pass:
+mov eax, font_z_W
+mov eax, [font_z_W+4]
 
-jmp font_z@X$pass
-font_z@X: dd 0
+jmp font_z_X$pass
+font_z_X: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@X$pass:
-mov eax, font_z@X
-mov eax, [font_z@X+4]
+font_z_X$pass:
+mov eax, font_z_X
+mov eax, [font_z_X+4]
 
-jmp font_z@Y$pass
-font_z@Y: dd 0
+jmp font_z_Y$pass
+font_z_Y: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@Y$pass:
-mov eax, font_z@Y
-mov eax, [font_z@Y+4]
+font_z_Y$pass:
+mov eax, font_z_Y
+mov eax, [font_z_Y+4]
 
-jmp font_z@Z$pass
-font_z@Z: dd 0
+jmp font_z_Z$pass
+font_z_Z: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@Z$pass:
-mov eax, font_z@Z
-mov eax, [font_z@Z+4]
+font_z_Z$pass:
+mov eax, font_z_Z
+mov eax, [font_z_Z+4]
 
-jmp font_z@question$pass
-font_z@question: dd 0
+jmp font_z_question$pass
+font_z_question: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 
-font_z@question$pass:
-mov eax, font_z@question
-mov eax, [font_z@question+4]
+font_z_question$pass:
+mov eax, font_z_question
+mov eax, [font_z_question+4]
 
-jmp font_z@space$pass
-font_z@space: dd 0
+jmp font_z_space$pass
+font_z_space: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@space$pass:
-mov eax, font_z@space
-mov eax, [font_z@space+4]
+font_z_space$pass:
+mov eax, font_z_space
+mov eax, [font_z_space+4]
 
-jmp font_z@add$pass
-font_z@add: dd 0
+jmp font_z_add$pass
+font_z_add: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@add$pass:
-mov eax, font_z@add
-mov eax, [font_z@add+4]
+font_z_add$pass:
+mov eax, font_z_add
+mov eax, [font_z_add+4]
 
-jmp font_z@sub$pass
-font_z@sub: dd 0
+jmp font_z_sub$pass
+font_z_sub: dd 0\
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-font_z@sub$pass:
-mov eax, font_z@sub
-mov eax, [font_z@sub+4]
+font_z_sub$pass:
+mov eax, font_z_sub
+mov eax, [font_z_sub+4]
 
-jmp font_z@screen_buf$pass
-font_z@screen_buf: dd 0
+jmp font_z_screen_buf$pass
+font_z_screen_buf: dd 0\
 32, 32, 32, 32, 33, 34, 35, 36, 37, 38, 39, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 
-font_z@screen_buf$pass:
-mov eax, font_z@screen_buf
-mov eax, [font_z@screen_buf+4]
+font_z_screen_buf$pass:
+mov eax, font_z_screen_buf
+mov eax, [font_z_screen_buf+4]
 
 
 ;############[fun begin]getAddrByAscii############
-jmp font_z@getAddrByAscii$pass
-font_z@getAddrByAscii:
+jmp font_z_getAddrByAscii$pass
+font_z_getAddrByAscii:
 pop ebp
 ;param: ascii
-jmp font_z@getAddrByAscii@ascii$pass
-font_z@getAddrByAscii@ascii: dd 0
-font_z@getAddrByAscii@ascii$pass:
+jmp font_z_getAddrByAscii_ascii$pass
+font_z_getAddrByAscii_ascii: dd 0
+font_z_getAddrByAscii_ascii$pass:
 pop eax
-mov [font_z@getAddrByAscii@ascii], eax
+mov [font_z_getAddrByAscii_ascii], eax
 push ebp
-;########## font_z@getAddrByAscii@if#r1@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r1_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 32
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r2@true
+je font_z_getAddrByAscii_if#r1_equ#r2$true
 mov eax, 0
-jmp equ#r2@false
-equ#r2@true:
+jmp font_z_getAddrByAscii_if#r1_equ#r2$false
+font_z_getAddrByAscii_if#r1_equ#r2$true:
 mov eax, 1
-equ#r2@false:
+font_z_getAddrByAscii_if#r1_equ#r2$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r1@$else
-mov eax, [font_z@space]
+je font_z_getAddrByAscii_if#r1_$else
+mov eax, [font_z_space]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r1@$end
-font_z@getAddrByAscii@if#r1@$else:
-font_z@getAddrByAscii@if#r1@$end:
-;========== font_z@getAddrByAscii@if#r1@$end ==========
+jmp font_z_getAddrByAscii_if#r1_$end
+font_z_getAddrByAscii_if#r1_$else:
+font_z_getAddrByAscii_if#r1_$end:
+;========== font_z_getAddrByAscii_if#r1_$end ==========
 
-;########## font_z@getAddrByAscii@if#r3@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r3_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 65
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r4@true
+je font_z_getAddrByAscii_if#r3_equ#r4$true
 mov eax, 0
-jmp equ#r4@false
-equ#r4@true:
+jmp font_z_getAddrByAscii_if#r3_equ#r4$false
+font_z_getAddrByAscii_if#r3_equ#r4$true:
 mov eax, 1
-equ#r4@false:
+font_z_getAddrByAscii_if#r3_equ#r4$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r3@$else
-mov eax, [font_z@A]
+je font_z_getAddrByAscii_if#r3_$else
+mov eax, [font_z_A]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r3@$end
-font_z@getAddrByAscii@if#r3@$else:
-font_z@getAddrByAscii@if#r3@$end:
-;========== font_z@getAddrByAscii@if#r3@$end ==========
+jmp font_z_getAddrByAscii_if#r3_$end
+font_z_getAddrByAscii_if#r3_$else:
+font_z_getAddrByAscii_if#r3_$end:
+;========== font_z_getAddrByAscii_if#r3_$end ==========
 
-;########## font_z@getAddrByAscii@if#r5@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r5_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 66
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r6@true
+je font_z_getAddrByAscii_if#r5_equ#r6$true
 mov eax, 0
-jmp equ#r6@false
-equ#r6@true:
+jmp font_z_getAddrByAscii_if#r5_equ#r6$false
+font_z_getAddrByAscii_if#r5_equ#r6$true:
 mov eax, 1
-equ#r6@false:
+font_z_getAddrByAscii_if#r5_equ#r6$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r5@$else
-mov eax, [font_z@B]
+je font_z_getAddrByAscii_if#r5_$else
+mov eax, [font_z_B]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r5@$end
-font_z@getAddrByAscii@if#r5@$else:
-font_z@getAddrByAscii@if#r5@$end:
-;========== font_z@getAddrByAscii@if#r5@$end ==========
+jmp font_z_getAddrByAscii_if#r5_$end
+font_z_getAddrByAscii_if#r5_$else:
+font_z_getAddrByAscii_if#r5_$end:
+;========== font_z_getAddrByAscii_if#r5_$end ==========
 
-;########## font_z@getAddrByAscii@if#r7@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r7_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 67
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r8@true
+je font_z_getAddrByAscii_if#r7_equ#r8$true
 mov eax, 0
-jmp equ#r8@false
-equ#r8@true:
+jmp font_z_getAddrByAscii_if#r7_equ#r8$false
+font_z_getAddrByAscii_if#r7_equ#r8$true:
 mov eax, 1
-equ#r8@false:
+font_z_getAddrByAscii_if#r7_equ#r8$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r7@$else
-mov eax, [font_z@C]
+je font_z_getAddrByAscii_if#r7_$else
+mov eax, [font_z_C]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r7@$end
-font_z@getAddrByAscii@if#r7@$else:
-font_z@getAddrByAscii@if#r7@$end:
-;========== font_z@getAddrByAscii@if#r7@$end ==========
+jmp font_z_getAddrByAscii_if#r7_$end
+font_z_getAddrByAscii_if#r7_$else:
+font_z_getAddrByAscii_if#r7_$end:
+;========== font_z_getAddrByAscii_if#r7_$end ==========
 
-;########## font_z@getAddrByAscii@if#r9@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r9_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 68
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r01@true
+je font_z_getAddrByAscii_if#r9_equ#r01$true
 mov eax, 0
-jmp equ#r01@false
-equ#r01@true:
+jmp font_z_getAddrByAscii_if#r9_equ#r01$false
+font_z_getAddrByAscii_if#r9_equ#r01$true:
 mov eax, 1
-equ#r01@false:
+font_z_getAddrByAscii_if#r9_equ#r01$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r9@$else
-mov eax, [font_z@D]
+je font_z_getAddrByAscii_if#r9_$else
+mov eax, [font_z_D]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r9@$end
-font_z@getAddrByAscii@if#r9@$else:
-font_z@getAddrByAscii@if#r9@$end:
-;========== font_z@getAddrByAscii@if#r9@$end ==========
+jmp font_z_getAddrByAscii_if#r9_$end
+font_z_getAddrByAscii_if#r9_$else:
+font_z_getAddrByAscii_if#r9_$end:
+;========== font_z_getAddrByAscii_if#r9_$end ==========
 
-;########## font_z@getAddrByAscii@if#r11@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r11_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 69
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r21@true
+je font_z_getAddrByAscii_if#r11_equ#r21$true
 mov eax, 0
-jmp equ#r21@false
-equ#r21@true:
+jmp font_z_getAddrByAscii_if#r11_equ#r21$false
+font_z_getAddrByAscii_if#r11_equ#r21$true:
 mov eax, 1
-equ#r21@false:
+font_z_getAddrByAscii_if#r11_equ#r21$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r11@$else
-mov eax, [font_z@E]
+je font_z_getAddrByAscii_if#r11_$else
+mov eax, [font_z_E]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r11@$end
-font_z@getAddrByAscii@if#r11@$else:
-font_z@getAddrByAscii@if#r11@$end:
-;========== font_z@getAddrByAscii@if#r11@$end ==========
+jmp font_z_getAddrByAscii_if#r11_$end
+font_z_getAddrByAscii_if#r11_$else:
+font_z_getAddrByAscii_if#r11_$end:
+;========== font_z_getAddrByAscii_if#r11_$end ==========
 
-;########## font_z@getAddrByAscii@if#r31@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r31_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 70
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r41@true
+je font_z_getAddrByAscii_if#r31_equ#r41$true
 mov eax, 0
-jmp equ#r41@false
-equ#r41@true:
+jmp font_z_getAddrByAscii_if#r31_equ#r41$false
+font_z_getAddrByAscii_if#r31_equ#r41$true:
 mov eax, 1
-equ#r41@false:
+font_z_getAddrByAscii_if#r31_equ#r41$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r31@$else
-mov eax, [font_z@F]
+je font_z_getAddrByAscii_if#r31_$else
+mov eax, [font_z_F]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r31@$end
-font_z@getAddrByAscii@if#r31@$else:
-font_z@getAddrByAscii@if#r31@$end:
-;========== font_z@getAddrByAscii@if#r31@$end ==========
+jmp font_z_getAddrByAscii_if#r31_$end
+font_z_getAddrByAscii_if#r31_$else:
+font_z_getAddrByAscii_if#r31_$end:
+;========== font_z_getAddrByAscii_if#r31_$end ==========
 
-;########## font_z@getAddrByAscii@if#r51@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r51_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 71
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r61@true
+je font_z_getAddrByAscii_if#r51_equ#r61$true
 mov eax, 0
-jmp equ#r61@false
-equ#r61@true:
+jmp font_z_getAddrByAscii_if#r51_equ#r61$false
+font_z_getAddrByAscii_if#r51_equ#r61$true:
 mov eax, 1
-equ#r61@false:
+font_z_getAddrByAscii_if#r51_equ#r61$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r51@$else
-mov eax, [font_z@G]
+je font_z_getAddrByAscii_if#r51_$else
+mov eax, [font_z_G]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r51@$end
-font_z@getAddrByAscii@if#r51@$else:
-font_z@getAddrByAscii@if#r51@$end:
-;========== font_z@getAddrByAscii@if#r51@$end ==========
+jmp font_z_getAddrByAscii_if#r51_$end
+font_z_getAddrByAscii_if#r51_$else:
+font_z_getAddrByAscii_if#r51_$end:
+;========== font_z_getAddrByAscii_if#r51_$end ==========
 
-;########## font_z@getAddrByAscii@if#r71@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r71_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 72
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r81@true
+je font_z_getAddrByAscii_if#r71_equ#r81$true
 mov eax, 0
-jmp equ#r81@false
-equ#r81@true:
+jmp font_z_getAddrByAscii_if#r71_equ#r81$false
+font_z_getAddrByAscii_if#r71_equ#r81$true:
 mov eax, 1
-equ#r81@false:
+font_z_getAddrByAscii_if#r71_equ#r81$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r71@$else
-mov eax, [font_z@H]
+je font_z_getAddrByAscii_if#r71_$else
+mov eax, [font_z_H]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r71@$end
-font_z@getAddrByAscii@if#r71@$else:
-font_z@getAddrByAscii@if#r71@$end:
-;========== font_z@getAddrByAscii@if#r71@$end ==========
+jmp font_z_getAddrByAscii_if#r71_$end
+font_z_getAddrByAscii_if#r71_$else:
+font_z_getAddrByAscii_if#r71_$end:
+;========== font_z_getAddrByAscii_if#r71_$end ==========
 
-;########## font_z@getAddrByAscii@if#r91@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r91_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 73
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r02@true
+je font_z_getAddrByAscii_if#r91_equ#r02$true
 mov eax, 0
-jmp equ#r02@false
-equ#r02@true:
+jmp font_z_getAddrByAscii_if#r91_equ#r02$false
+font_z_getAddrByAscii_if#r91_equ#r02$true:
 mov eax, 1
-equ#r02@false:
+font_z_getAddrByAscii_if#r91_equ#r02$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r91@$else
-mov eax, [font_z@I]
+je font_z_getAddrByAscii_if#r91_$else
+mov eax, [font_z_I]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r91@$end
-font_z@getAddrByAscii@if#r91@$else:
-font_z@getAddrByAscii@if#r91@$end:
-;========== font_z@getAddrByAscii@if#r91@$end ==========
+jmp font_z_getAddrByAscii_if#r91_$end
+font_z_getAddrByAscii_if#r91_$else:
+font_z_getAddrByAscii_if#r91_$end:
+;========== font_z_getAddrByAscii_if#r91_$end ==========
 
-;########## font_z@getAddrByAscii@if#r12@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r12_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 74
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r22@true
+je font_z_getAddrByAscii_if#r12_equ#r22$true
 mov eax, 0
-jmp equ#r22@false
-equ#r22@true:
+jmp font_z_getAddrByAscii_if#r12_equ#r22$false
+font_z_getAddrByAscii_if#r12_equ#r22$true:
 mov eax, 1
-equ#r22@false:
+font_z_getAddrByAscii_if#r12_equ#r22$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r12@$else
-mov eax, [font_z@G]
+je font_z_getAddrByAscii_if#r12_$else
+mov eax, [font_z_G]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r12@$end
-font_z@getAddrByAscii@if#r12@$else:
-font_z@getAddrByAscii@if#r12@$end:
-;========== font_z@getAddrByAscii@if#r12@$end ==========
+jmp font_z_getAddrByAscii_if#r12_$end
+font_z_getAddrByAscii_if#r12_$else:
+font_z_getAddrByAscii_if#r12_$end:
+;========== font_z_getAddrByAscii_if#r12_$end ==========
 
-;########## font_z@getAddrByAscii@if#r32@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r32_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 75
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r42@true
+je font_z_getAddrByAscii_if#r32_equ#r42$true
 mov eax, 0
-jmp equ#r42@false
-equ#r42@true:
+jmp font_z_getAddrByAscii_if#r32_equ#r42$false
+font_z_getAddrByAscii_if#r32_equ#r42$true:
 mov eax, 1
-equ#r42@false:
+font_z_getAddrByAscii_if#r32_equ#r42$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r32@$else
-mov eax, [font_z@K]
+je font_z_getAddrByAscii_if#r32_$else
+mov eax, [font_z_K]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r32@$end
-font_z@getAddrByAscii@if#r32@$else:
-font_z@getAddrByAscii@if#r32@$end:
-;========== font_z@getAddrByAscii@if#r32@$end ==========
+jmp font_z_getAddrByAscii_if#r32_$end
+font_z_getAddrByAscii_if#r32_$else:
+font_z_getAddrByAscii_if#r32_$end:
+;========== font_z_getAddrByAscii_if#r32_$end ==========
 
-;########## font_z@getAddrByAscii@if#r52@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r52_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 76
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r62@true
+je font_z_getAddrByAscii_if#r52_equ#r62$true
 mov eax, 0
-jmp equ#r62@false
-equ#r62@true:
+jmp font_z_getAddrByAscii_if#r52_equ#r62$false
+font_z_getAddrByAscii_if#r52_equ#r62$true:
 mov eax, 1
-equ#r62@false:
+font_z_getAddrByAscii_if#r52_equ#r62$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r52@$else
-mov eax, [font_z@L]
+je font_z_getAddrByAscii_if#r52_$else
+mov eax, [font_z_L]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r52@$end
-font_z@getAddrByAscii@if#r52@$else:
-font_z@getAddrByAscii@if#r52@$end:
-;========== font_z@getAddrByAscii@if#r52@$end ==========
+jmp font_z_getAddrByAscii_if#r52_$end
+font_z_getAddrByAscii_if#r52_$else:
+font_z_getAddrByAscii_if#r52_$end:
+;========== font_z_getAddrByAscii_if#r52_$end ==========
 
-;########## font_z@getAddrByAscii@if#r72@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r72_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 77
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r82@true
+je font_z_getAddrByAscii_if#r72_equ#r82$true
 mov eax, 0
-jmp equ#r82@false
-equ#r82@true:
+jmp font_z_getAddrByAscii_if#r72_equ#r82$false
+font_z_getAddrByAscii_if#r72_equ#r82$true:
 mov eax, 1
-equ#r82@false:
+font_z_getAddrByAscii_if#r72_equ#r82$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r72@$else
-mov eax, [font_z@M]
+je font_z_getAddrByAscii_if#r72_$else
+mov eax, [font_z_M]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r72@$end
-font_z@getAddrByAscii@if#r72@$else:
-font_z@getAddrByAscii@if#r72@$end:
-;========== font_z@getAddrByAscii@if#r72@$end ==========
+jmp font_z_getAddrByAscii_if#r72_$end
+font_z_getAddrByAscii_if#r72_$else:
+font_z_getAddrByAscii_if#r72_$end:
+;========== font_z_getAddrByAscii_if#r72_$end ==========
 
-;########## font_z@getAddrByAscii@if#r92@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r92_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 78
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r03@true
+je font_z_getAddrByAscii_if#r92_equ#r03$true
 mov eax, 0
-jmp equ#r03@false
-equ#r03@true:
+jmp font_z_getAddrByAscii_if#r92_equ#r03$false
+font_z_getAddrByAscii_if#r92_equ#r03$true:
 mov eax, 1
-equ#r03@false:
+font_z_getAddrByAscii_if#r92_equ#r03$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r92@$else
-mov eax, [font_z@N]
+je font_z_getAddrByAscii_if#r92_$else
+mov eax, [font_z_N]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r92@$end
-font_z@getAddrByAscii@if#r92@$else:
-font_z@getAddrByAscii@if#r92@$end:
-;========== font_z@getAddrByAscii@if#r92@$end ==========
+jmp font_z_getAddrByAscii_if#r92_$end
+font_z_getAddrByAscii_if#r92_$else:
+font_z_getAddrByAscii_if#r92_$end:
+;========== font_z_getAddrByAscii_if#r92_$end ==========
 
-;########## font_z@getAddrByAscii@if#r13@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r13_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 79
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r23@true
+je font_z_getAddrByAscii_if#r13_equ#r23$true
 mov eax, 0
-jmp equ#r23@false
-equ#r23@true:
+jmp font_z_getAddrByAscii_if#r13_equ#r23$false
+font_z_getAddrByAscii_if#r13_equ#r23$true:
 mov eax, 1
-equ#r23@false:
+font_z_getAddrByAscii_if#r13_equ#r23$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r13@$else
-mov eax, [font_z@O]
+je font_z_getAddrByAscii_if#r13_$else
+mov eax, [font_z_O]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r13@$end
-font_z@getAddrByAscii@if#r13@$else:
-font_z@getAddrByAscii@if#r13@$end:
-;========== font_z@getAddrByAscii@if#r13@$end ==========
+jmp font_z_getAddrByAscii_if#r13_$end
+font_z_getAddrByAscii_if#r13_$else:
+font_z_getAddrByAscii_if#r13_$end:
+;========== font_z_getAddrByAscii_if#r13_$end ==========
 
-;########## font_z@getAddrByAscii@if#r33@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r33_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 80
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r43@true
+je font_z_getAddrByAscii_if#r33_equ#r43$true
 mov eax, 0
-jmp equ#r43@false
-equ#r43@true:
+jmp font_z_getAddrByAscii_if#r33_equ#r43$false
+font_z_getAddrByAscii_if#r33_equ#r43$true:
 mov eax, 1
-equ#r43@false:
+font_z_getAddrByAscii_if#r33_equ#r43$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r33@$else
-mov eax, [font_z@P]
+je font_z_getAddrByAscii_if#r33_$else
+mov eax, [font_z_P]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r33@$end
-font_z@getAddrByAscii@if#r33@$else:
-font_z@getAddrByAscii@if#r33@$end:
-;========== font_z@getAddrByAscii@if#r33@$end ==========
+jmp font_z_getAddrByAscii_if#r33_$end
+font_z_getAddrByAscii_if#r33_$else:
+font_z_getAddrByAscii_if#r33_$end:
+;========== font_z_getAddrByAscii_if#r33_$end ==========
 
-;########## font_z@getAddrByAscii@if#r53@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r53_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 81
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r63@true
+je font_z_getAddrByAscii_if#r53_equ#r63$true
 mov eax, 0
-jmp equ#r63@false
-equ#r63@true:
+jmp font_z_getAddrByAscii_if#r53_equ#r63$false
+font_z_getAddrByAscii_if#r53_equ#r63$true:
 mov eax, 1
-equ#r63@false:
+font_z_getAddrByAscii_if#r53_equ#r63$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r53@$else
-mov eax, [font_z@Q]
+je font_z_getAddrByAscii_if#r53_$else
+mov eax, [font_z_Q]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r53@$end
-font_z@getAddrByAscii@if#r53@$else:
-font_z@getAddrByAscii@if#r53@$end:
-;========== font_z@getAddrByAscii@if#r53@$end ==========
+jmp font_z_getAddrByAscii_if#r53_$end
+font_z_getAddrByAscii_if#r53_$else:
+font_z_getAddrByAscii_if#r53_$end:
+;========== font_z_getAddrByAscii_if#r53_$end ==========
 
-;########## font_z@getAddrByAscii@if#r73@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r73_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 82
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r83@true
+je font_z_getAddrByAscii_if#r73_equ#r83$true
 mov eax, 0
-jmp equ#r83@false
-equ#r83@true:
+jmp font_z_getAddrByAscii_if#r73_equ#r83$false
+font_z_getAddrByAscii_if#r73_equ#r83$true:
 mov eax, 1
-equ#r83@false:
+font_z_getAddrByAscii_if#r73_equ#r83$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r73@$else
-mov eax, [font_z@R]
+je font_z_getAddrByAscii_if#r73_$else
+mov eax, [font_z_R]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r73@$end
-font_z@getAddrByAscii@if#r73@$else:
-font_z@getAddrByAscii@if#r73@$end:
-;========== font_z@getAddrByAscii@if#r73@$end ==========
+jmp font_z_getAddrByAscii_if#r73_$end
+font_z_getAddrByAscii_if#r73_$else:
+font_z_getAddrByAscii_if#r73_$end:
+;========== font_z_getAddrByAscii_if#r73_$end ==========
 
-;########## font_z@getAddrByAscii@if#r93@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r93_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 83
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r04@true
+je font_z_getAddrByAscii_if#r93_equ#r04$true
 mov eax, 0
-jmp equ#r04@false
-equ#r04@true:
+jmp font_z_getAddrByAscii_if#r93_equ#r04$false
+font_z_getAddrByAscii_if#r93_equ#r04$true:
 mov eax, 1
-equ#r04@false:
+font_z_getAddrByAscii_if#r93_equ#r04$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r93@$else
-mov eax, [font_z@S]
+je font_z_getAddrByAscii_if#r93_$else
+mov eax, [font_z_S]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r93@$end
-font_z@getAddrByAscii@if#r93@$else:
-font_z@getAddrByAscii@if#r93@$end:
-;========== font_z@getAddrByAscii@if#r93@$end ==========
+jmp font_z_getAddrByAscii_if#r93_$end
+font_z_getAddrByAscii_if#r93_$else:
+font_z_getAddrByAscii_if#r93_$end:
+;========== font_z_getAddrByAscii_if#r93_$end ==========
 
-;########## font_z@getAddrByAscii@if#r14@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r14_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 84
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r24@true
+je font_z_getAddrByAscii_if#r14_equ#r24$true
 mov eax, 0
-jmp equ#r24@false
-equ#r24@true:
+jmp font_z_getAddrByAscii_if#r14_equ#r24$false
+font_z_getAddrByAscii_if#r14_equ#r24$true:
 mov eax, 1
-equ#r24@false:
+font_z_getAddrByAscii_if#r14_equ#r24$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r14@$else
-mov eax, [font_z@T]
+je font_z_getAddrByAscii_if#r14_$else
+mov eax, [font_z_T]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r14@$end
-font_z@getAddrByAscii@if#r14@$else:
-font_z@getAddrByAscii@if#r14@$end:
-;========== font_z@getAddrByAscii@if#r14@$end ==========
+jmp font_z_getAddrByAscii_if#r14_$end
+font_z_getAddrByAscii_if#r14_$else:
+font_z_getAddrByAscii_if#r14_$end:
+;========== font_z_getAddrByAscii_if#r14_$end ==========
 
-;########## font_z@getAddrByAscii@if#r34@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r34_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 85
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r44@true
+je font_z_getAddrByAscii_if#r34_equ#r44$true
 mov eax, 0
-jmp equ#r44@false
-equ#r44@true:
+jmp font_z_getAddrByAscii_if#r34_equ#r44$false
+font_z_getAddrByAscii_if#r34_equ#r44$true:
 mov eax, 1
-equ#r44@false:
+font_z_getAddrByAscii_if#r34_equ#r44$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r34@$else
-mov eax, [font_z@U]
+je font_z_getAddrByAscii_if#r34_$else
+mov eax, [font_z_U]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r34@$end
-font_z@getAddrByAscii@if#r34@$else:
-font_z@getAddrByAscii@if#r34@$end:
-;========== font_z@getAddrByAscii@if#r34@$end ==========
+jmp font_z_getAddrByAscii_if#r34_$end
+font_z_getAddrByAscii_if#r34_$else:
+font_z_getAddrByAscii_if#r34_$end:
+;========== font_z_getAddrByAscii_if#r34_$end ==========
 
-;########## font_z@getAddrByAscii@if#r54@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r54_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 86
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r64@true
+je font_z_getAddrByAscii_if#r54_equ#r64$true
 mov eax, 0
-jmp equ#r64@false
-equ#r64@true:
+jmp font_z_getAddrByAscii_if#r54_equ#r64$false
+font_z_getAddrByAscii_if#r54_equ#r64$true:
 mov eax, 1
-equ#r64@false:
+font_z_getAddrByAscii_if#r54_equ#r64$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r54@$else
-mov eax, [font_z@V]
+je font_z_getAddrByAscii_if#r54_$else
+mov eax, [font_z_V]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r54@$end
-font_z@getAddrByAscii@if#r54@$else:
-font_z@getAddrByAscii@if#r54@$end:
-;========== font_z@getAddrByAscii@if#r54@$end ==========
+jmp font_z_getAddrByAscii_if#r54_$end
+font_z_getAddrByAscii_if#r54_$else:
+font_z_getAddrByAscii_if#r54_$end:
+;========== font_z_getAddrByAscii_if#r54_$end ==========
 
-;########## font_z@getAddrByAscii@if#r74@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r74_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 87
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r84@true
+je font_z_getAddrByAscii_if#r74_equ#r84$true
 mov eax, 0
-jmp equ#r84@false
-equ#r84@true:
+jmp font_z_getAddrByAscii_if#r74_equ#r84$false
+font_z_getAddrByAscii_if#r74_equ#r84$true:
 mov eax, 1
-equ#r84@false:
+font_z_getAddrByAscii_if#r74_equ#r84$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r74@$else
-mov eax, [font_z@W]
+je font_z_getAddrByAscii_if#r74_$else
+mov eax, [font_z_W]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r74@$end
-font_z@getAddrByAscii@if#r74@$else:
-font_z@getAddrByAscii@if#r74@$end:
-;========== font_z@getAddrByAscii@if#r74@$end ==========
+jmp font_z_getAddrByAscii_if#r74_$end
+font_z_getAddrByAscii_if#r74_$else:
+font_z_getAddrByAscii_if#r74_$end:
+;========== font_z_getAddrByAscii_if#r74_$end ==========
 
-;########## font_z@getAddrByAscii@if#r94@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r94_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 88
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r05@true
+je font_z_getAddrByAscii_if#r94_equ#r05$true
 mov eax, 0
-jmp equ#r05@false
-equ#r05@true:
+jmp font_z_getAddrByAscii_if#r94_equ#r05$false
+font_z_getAddrByAscii_if#r94_equ#r05$true:
 mov eax, 1
-equ#r05@false:
+font_z_getAddrByAscii_if#r94_equ#r05$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r94@$else
-mov eax, [font_z@X]
+je font_z_getAddrByAscii_if#r94_$else
+mov eax, [font_z_X]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r94@$end
-font_z@getAddrByAscii@if#r94@$else:
-font_z@getAddrByAscii@if#r94@$end:
-;========== font_z@getAddrByAscii@if#r94@$end ==========
+jmp font_z_getAddrByAscii_if#r94_$end
+font_z_getAddrByAscii_if#r94_$else:
+font_z_getAddrByAscii_if#r94_$end:
+;========== font_z_getAddrByAscii_if#r94_$end ==========
 
-;########## font_z@getAddrByAscii@if#r15@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r15_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 89
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r25@true
+je font_z_getAddrByAscii_if#r15_equ#r25$true
 mov eax, 0
-jmp equ#r25@false
-equ#r25@true:
+jmp font_z_getAddrByAscii_if#r15_equ#r25$false
+font_z_getAddrByAscii_if#r15_equ#r25$true:
 mov eax, 1
-equ#r25@false:
+font_z_getAddrByAscii_if#r15_equ#r25$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r15@$else
-mov eax, [font_z@Y]
+je font_z_getAddrByAscii_if#r15_$else
+mov eax, [font_z_Y]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r15@$end
-font_z@getAddrByAscii@if#r15@$else:
-font_z@getAddrByAscii@if#r15@$end:
-;========== font_z@getAddrByAscii@if#r15@$end ==========
+jmp font_z_getAddrByAscii_if#r15_$end
+font_z_getAddrByAscii_if#r15_$else:
+font_z_getAddrByAscii_if#r15_$end:
+;========== font_z_getAddrByAscii_if#r15_$end ==========
 
-;########## font_z@getAddrByAscii@if#r35@$start ##########
-mov eax, [font_z@getAddrByAscii@ascii]
+;########## font_z_getAddrByAscii_if#r35_$start ##########
+mov eax, [font_z_getAddrByAscii_ascii]
 push eax
 mov eax, 90
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-je equ#r45@true
+je font_z_getAddrByAscii_if#r35_equ#r45$true
 mov eax, 0
-jmp equ#r45@false
-equ#r45@true:
+jmp font_z_getAddrByAscii_if#r35_equ#r45$false
+font_z_getAddrByAscii_if#r35_equ#r45$true:
 mov eax, 1
-equ#r45@false:
+font_z_getAddrByAscii_if#r35_equ#r45$false:
 push eax
 pop eax
 cmp eax, 0
-je font_z@getAddrByAscii@if#r35@$else
-mov eax, [font_z@Z]
+je font_z_getAddrByAscii_if#r35_$else
+mov eax, [font_z_Z]
 push eax
 pop eax
 pop ebp
 push eax
 push ebp
 ret
-jmp font_z@getAddrByAscii@if#r35@$end
-font_z@getAddrByAscii@if#r35@$else:
-font_z@getAddrByAscii@if#r35@$end:
-;========== font_z@getAddrByAscii@if#r35@$end ==========
+jmp font_z_getAddrByAscii_if#r35_$end
+font_z_getAddrByAscii_if#r35_$else:
+font_z_getAddrByAscii_if#r35_$end:
+;========== font_z_getAddrByAscii_if#r35_$end ==========
 
 ret
-font_z@getAddrByAscii$pass:
+font_z_getAddrByAscii$pass:
 ;============[fun end]getAddrByAscii=============
 
 

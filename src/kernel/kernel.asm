@@ -88,12 +88,15 @@ ret
 TESTA: DW 0x1234
 ; 主进程入口
 main:
+
+  ; 测试用
   finit
   fld DWORD [TESTA]
   fld DWORD [eax]
   fadd to st1
-  call main_z@run_once
+
+  call main_z_run_once
   .loop:
-    call main_z@run_loop
+    call main_z_run_loop
   jmp .loop
 

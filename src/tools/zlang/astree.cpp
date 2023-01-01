@@ -120,7 +120,7 @@ public:
   {
     string prefix = "";
     ASNode *pNode = m_nowNode;
-    if(name == "if" || name == "while") {
+    if(name == "if" || name == "while" || name == "logic") {
       // if，while直接返回当前域
     } else {
       // 查看哪一个域有这个变量
@@ -147,7 +147,7 @@ public:
     } else {
       while (pNode)
       {
-        prefix = pNode->name + "@" + prefix;
+        prefix = pNode->name + "_" + prefix;
         pNode = pNode->parent;
       }
     }

@@ -66,6 +66,8 @@ call test_z_draw
 
 call GDT_z_init
 
+call IDT_z_init
+
 ret
 main_z_run_once$pass:
 ;============[fun end]run_once=============

@@ -1,5 +1,6 @@
 kernel.z: @\kernel\kernel.z;
 GDT.z: @\kernel\GDT.z;
+IDT.z: @\kernel\IDT.z;
 test.z: @\test.z;
 
 screenWidth:  320; [屏幕宽度]
@@ -18,6 +19,7 @@ addrGDT:  0x00270000; [GDT一行8字节，一共8192行，一共65536字节=65KB
 run.once():(
   test.z\draw(addrVram);
   GDT.z\init();
+  IDT.z\init();
 );
 
 run.loop():(

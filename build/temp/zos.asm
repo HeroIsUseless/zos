@@ -68,6 +68,8 @@ call test_z_draw
 
 call GDT_z_init
 
+call IDT_z_init
+
 ret
 main_z_run_once$pass:
 ;============[fun end]run_once=============
@@ -2308,6 +2310,67 @@ GDT_z_init$pass:
 ;============[fun end]init=============
 
 
+
+;############[fun begin]init############
+jmp IDT_z_init$pass
+IDT_z_init:
+pop ebp
+push ebp
+mov eax, 0
+push eax
+jmp IDT_z_init_i$pass
+IDT_z_init_i: dd 0
+IDT_z_init_i$pass:
+pop eax
+mov [IDT_z_init_i], eax
+
+;########## IDT_z_init_while#r1_$start ##########
+IDT_z_init_while#r1_$start:
+mov eax, [IDT_z_init_i]
+push eax
+mov eax, 256
+push eax
+pop ebx
+pop eax
+cmp eax, ebx
+jb IDT_z_init_while#r1_les#r2$true
+mov eax, 0
+jmp IDT_z_init_while#r1_les#r2$false
+IDT_z_init_while#r1_les#r2$true:
+mov eax, 1
+IDT_z_init_while#r1_les#r2$false:
+push eax
+pop eax
+cmp eax, 0
+je IDT_z_init_while#r1_$end
+mov eax, [IDT_z_init_i]
+push eax
+mov eax, 0
+push eax
+pop eax
+pop ebx
+mov [main_z_addrIDT+ebx], eax
+mov eax, [IDT_z_init_i]
+push eax
+mov eax, 1
+push eax
+pop eax
+pop ebx
+add eax, ebx
+push eax
+pop eax
+mov [IDT_z_init_i], eax
+jmp IDT_z_init_while#r1_$start
+IDT_z_init_while#r1_$end:
+;========== IDT_z_init_while#r1_$end ==========
+
+call kernel_z_loadIDT
+
+ret
+IDT_z_init$pass:
+;============[fun end]init=============
+
+
 jmp main
 
 limit_low equ 0
@@ -2321,6 +2384,11 @@ ALIGNB	16
 GDTR:
 		DW 8*8192-1 ; 最后一个字节的偏移
 		DD 0x270000 ; 表的地址
+
+ALIGNB	16
+IDTR:
+		DW 8*256-1       ; 后16位是IDT的大小，limit
+		DD 0x26f800      ; 前32位是IDT在内存中的位置
 
 ; esi是将要填入的地址，就是GDT表的地址，例如Addr_GDT+1*8, Addr_GDT+2*8
 ; eax是基地址，是代码的
@@ -2361,6 +2429,31 @@ ret
 ; kernel.z\loadGDT()
 kernel_z_loadGDT:
   lgdt [GDTR] ; 不加dword会警告，因为现在的标签的确从0开始的
+ret
+
+kernel_z_loadIDT:
+	lidt [IDTR];装载IDT
+ret
+
+offset_low equ 0
+selector equ 2
+dw_count equ 4
+access_right equ 5
+offset_high equ 6
+	
+; esi是将要填入的地址
+; eax偏移地址4字节,也就是中断函数地址了
+kernel_z_setIDT:
+	pop ebp
+	pop eax 
+	pop esi 
+	push ebp 
+	mov [esi+offset_low], ax 
+	shr eax, 16
+	mov [esi+offset_high], ax
+	mov [esi+selector], word 2<<3 ; 第二段 
+	mov ax, 1000111000000000B ; 参数都在这里，中断门
+	mov [esi+dw_count], ax 
 ret
 
 ; 读写内存

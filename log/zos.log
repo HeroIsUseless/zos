@@ -66,9 +66,9 @@
     66 00000087 50                      push eax
     67 00000088 E8BC3C0000              call test_z_draw
     68                                  
-    69 0000008D E8FD3C0000              call GDT_z_init
+    69 0000008D E8303D0000              call GDT_z_init
     70                                  
-    71 00000092 E8253E0000              call IDT_z_init
+    71 00000092 E8583E0000              call IDT_z_init
     72                                  
     73 00000097 C3                      ret
     74                                  main_z_run_once$pass:
@@ -80,7 +80,7 @@
     80                                  main_z_run_loop:
     81 0000009A 5D                      pop ebp
     82 0000009B 55                      push ebp
-    83 0000009C E8103F0000              call kernel_z_halt
+    83 0000009C E8403F0000              call kernel_z_halt
     84                                  
     85 000000A1 C3                      ret
     86                                  main_z_run_loop$pass:
@@ -109,7 +109,7 @@
    109 000000C3 50                      push eax
    110 000000C4 A1[A7000000]            mov eax, [memory_z_set_1byte_addr]
    111 000000C9 50                      push eax
-   112 000000CA E8CC3E0000              call kernel_z_setMem_1byte
+   112 000000CA E8FC3E0000              call kernel_z_setMem_1byte
    113                                  
    114 000000CF C3                      ret
    115                                  memory_z_set_1byte$pass:
@@ -137,7 +137,7 @@
    137 000000F1 50                      push eax
    138 000000F2 A1[D5000000]            mov eax, [memory_z_set_2byte_addr]
    139 000000F7 50                      push eax
-   140 000000F8 E8A53E0000              call kernel_z_setMem_2byte
+   140 000000F8 E8D53E0000              call kernel_z_setMem_2byte
    141                                  
    142 000000FD C3                      ret
    143                                  memory_z_set_2byte$pass:
@@ -165,7 +165,7 @@
    165 0000011F 50                      push eax
    166 00000120 A1[03010000]            mov eax, [memory_z_set_4byte_addr]
    167 00000125 50                      push eax
-   168 00000126 E87F3E0000              call kernel_z_setMem_4byte
+   168 00000126 E8AF3E0000              call kernel_z_setMem_4byte
    169                                  
    170 0000012B C3                      ret
    171                                  memory_z_set_4byte$pass:
@@ -3398,7 +3398,7 @@
   2145                                  
   2146                                  
   2147                                  ;############[fun begin]draw############
-  2148 00003D47 EB41                    jmp test_z_draw$pass
+  2148 00003D47 EB74                    jmp test_z_draw$pass
   2149                                  test_z_draw:
   2150 00003D49 5D                      pop ebp
   2151                                  ;param: addrVram
@@ -3412,361 +3412,375 @@
   2159 00003D5C 50                      push eax
   2160 00003D5D E863FFFFFF              call test_z_block
   2161                                  
-  2162 00003D62 EB04                    jmp test_z_draw_tstr$pass
-  2163 00003D64 00000000                test_z_draw_tstr: dd 0 "HELLO WORLD"
+  2162 00003D62 EB14                    jmp test_z_draw_tstr$pass
+  2163 00003D64 0000000048454C4C4F-     test_z_draw_tstr: dd 0, "HELLO WORLD", 0
+  2163 00003D6D 20574F524C44000000-
+  2163 00003D76 0000               
   2164                                  test_z_draw_tstr$pass:
-  2165 00003D68 B8[683D0000]            mov eax, test_z_draw_tstr+4
-  2166 00003D6D A3[643D0000]            mov [test_z_draw_tstr], eax
+  2165 00003D78 B8[683D0000]            mov eax, test_z_draw_tstr+4
+  2166 00003D7D A3[643D0000]            mov [test_z_draw_tstr], eax
   2167                                  
-  2168 00003D72 B864000000              mov eax, 100
-  2169 00003D77 50                      push eax
-  2170 00003D78 B864000000              mov eax, 100
-  2171 00003D7D 50                      push eax
-  2172 00003D7E A1[4C3D0000]            mov eax, [test_z_draw_addrVram]
-  2173 00003D83 50                      push eax
-  2174 00003D84 E81BFEFFFF              call test_z_rect
-  2175                                  
-  2176 00003D89 C3                      ret
-  2177                                  test_z_draw$pass:
-  2178                                  ;============[fun end]draw=============
+  2168 00003D82 B808000000              mov eax, 8
+  2169 00003D87 50                      push eax
+  2170 00003D88 B808000000              mov eax, 8
+  2171 00003D8D 50                      push eax
+  2172 00003D8E B8[643D0000]            mov eax, test_z_draw_tstr
+  2173 00003D93 50                      push eax
+  2174 00003D94 B840010000              mov eax, 320
+  2175 00003D99 50                      push eax
+  2176 00003D9A A1[4C3D0000]            mov eax, [test_z_draw_addrVram]
+  2177 00003D9F 50                      push eax
+  2178 00003DA0 E83AC8FFFF              call draw_z_string
   2179                                  
-  2180                                  
-  2181                                  
-  2182                                  ;############[fun begin]init############
-  2183 00003D8A E92B010000              jmp GDT_z_init$pass
-  2184                                  GDT_z_init:
-  2185 00003D8F 5D                      pop ebp
-  2186 00003D90 55                      push ebp
-  2187 00003D91 B800000000              mov eax, 0
-  2188 00003D96 50                      push eax
-  2189 00003D97 EB04                    jmp GDT_z_init_i$pass
-  2190 00003D99 00000000                GDT_z_init_i: dd 0
-  2191                                  GDT_z_init_i$pass:
-  2192 00003D9D 58                      pop eax
-  2193 00003D9E A3[993D0000]            mov [GDT_z_init_i], eax
-  2194                                  
-  2195                                  ;########## GDT_z_init_while#r1_$start ##########
-  2196                                  GDT_z_init_while#r1_$start:
-  2197 00003DA3 A1[993D0000]            mov eax, [GDT_z_init_i]
-  2198 00003DA8 50                      push eax
-  2199 00003DA9 B800200000              mov eax, 8192
-  2200 00003DAE 50                      push eax
-  2201 00003DAF 5B                      pop ebx
-  2202 00003DB0 58                      pop eax
-  2203 00003DB1 39D8                    cmp eax, ebx
-  2204 00003DB3 7207                    jb GDT_z_init_while#r1_les#r2$true
-  2205 00003DB5 B800000000              mov eax, 0
-  2206 00003DBA EB05                    jmp GDT_z_init_while#r1_les#r2$false
-  2207                                  GDT_z_init_while#r1_les#r2$true:
-  2208 00003DBC B801000000              mov eax, 1
-  2209                                  GDT_z_init_while#r1_les#r2$false:
-  2210 00003DC1 50                      push eax
-  2211 00003DC2 58                      pop eax
-  2212 00003DC3 83F800                  cmp eax, 0
-  2213 00003DC6 7465                    je GDT_z_init_while#r1_$end
-  2214 00003DC8 A1[993D0000]            mov eax, [GDT_z_init_i]
-  2215 00003DCD 50                      push eax
-  2216 00003DCE B802000000              mov eax, 2
-  2217 00003DD3 50                      push eax
-  2218 00003DD4 58                      pop eax
-  2219 00003DD5 5B                      pop ebx
-  2220 00003DD6 F7E3                    mul ebx
-  2221 00003DD8 50                      push eax
-  2222 00003DD9 B800000000              mov eax, 0
-  2223 00003DDE 50                      push eax
-  2224 00003DDF 58                      pop eax
-  2225 00003DE0 5B                      pop ebx
-  2226 00003DE1 8983[74000000]          mov [main_z_addrGDT+ebx], eax
-  2227 00003DE7 A1[993D0000]            mov eax, [GDT_z_init_i]
-  2228 00003DEC 50                      push eax
-  2229 00003DED B802000000              mov eax, 2
-  2230 00003DF2 50                      push eax
-  2231 00003DF3 58                      pop eax
-  2232 00003DF4 5B                      pop ebx
-  2233 00003DF5 F7E3                    mul ebx
-  2234 00003DF7 50                      push eax
-  2235 00003DF8 B801000000              mov eax, 1
-  2236 00003DFD 50                      push eax
-  2237 00003DFE 58                      pop eax
-  2238 00003DFF 5B                      pop ebx
-  2239 00003E00 01D8                    add eax, ebx
-  2240 00003E02 50                      push eax
-  2241 00003E03 B800000000              mov eax, 0
-  2242 00003E08 50                      push eax
-  2243 00003E09 58                      pop eax
-  2244 00003E0A 5B                      pop ebx
-  2245 00003E0B 8983[74000000]          mov [main_z_addrGDT+ebx], eax
-  2246 00003E11 A1[993D0000]            mov eax, [GDT_z_init_i]
-  2247 00003E16 50                      push eax
-  2248 00003E17 B801000000              mov eax, 1
-  2249 00003E1C 50                      push eax
-  2250 00003E1D 58                      pop eax
-  2251 00003E1E 5B                      pop ebx
-  2252 00003E1F 01D8                    add eax, ebx
-  2253 00003E21 50                      push eax
-  2254 00003E22 58                      pop eax
-  2255 00003E23 A3[993D0000]            mov [GDT_z_init_i], eax
-  2256 00003E28 E976FFFFFF              jmp GDT_z_init_while#r1_$start
-  2257                                  GDT_z_init_while#r1_$end:
-  2258                                  ;========== GDT_z_init_while#r1_$end ==========
-  2259                                  
-  2260 00003E2D A1[74000000]            mov eax, [main_z_addrGDT]
-  2261 00003E32 50                      push eax
-  2262 00003E33 B800000000              mov eax, 0
-  2263 00003E38 50                      push eax
-  2264 00003E39 B808000000              mov eax, 8
-  2265 00003E3E 50                      push eax
-  2266 00003E3F 58                      pop eax
-  2267 00003E40 5B                      pop ebx
-  2268 00003E41 F7E3                    mul ebx
-  2269 00003E43 50                      push eax
-  2270 00003E44 58                      pop eax
-  2271 00003E45 5B                      pop ebx
-  2272 00003E46 01D8                    add eax, ebx
-  2273 00003E48 50                      push eax
-  2274 00003E49 B800000000              mov eax, 0x00000000
-  2275 00003E4E 50                      push eax
-  2276 00003E4F B800000000              mov eax, 0x00000000
-  2277 00003E54 50                      push eax
-  2278 00003E55 E8EC000000              call kernel_z_setGDT
-  2279                                  
-  2280 00003E5A A1[74000000]            mov eax, [main_z_addrGDT]
-  2281 00003E5F 50                      push eax
-  2282 00003E60 B801000000              mov eax, 1
-  2283 00003E65 50                      push eax
-  2284 00003E66 B808000000              mov eax, 8
-  2285 00003E6B 50                      push eax
-  2286 00003E6C 58                      pop eax
-  2287 00003E6D 5B                      pop ebx
-  2288 00003E6E F7E3                    mul ebx
-  2289 00003E70 50                      push eax
-  2290 00003E71 58                      pop eax
-  2291 00003E72 5B                      pop ebx
-  2292 00003E73 01D8                    add eax, ebx
-  2293 00003E75 50                      push eax
-  2294 00003E76 B800000000              mov eax, 0x00000000
-  2295 00003E7B 50                      push eax
-  2296 00003E7C B892FFFF0F              mov eax, 0x0fffff92
-  2297 00003E81 50                      push eax
-  2298 00003E82 E8BF000000              call kernel_z_setGDT
-  2299                                  
-  2300 00003E87 A1[74000000]            mov eax, [main_z_addrGDT]
-  2301 00003E8C 50                      push eax
-  2302 00003E8D B802000000              mov eax, 2
-  2303 00003E92 50                      push eax
-  2304 00003E93 B808000000              mov eax, 8
-  2305 00003E98 50                      push eax
-  2306 00003E99 58                      pop eax
-  2307 00003E9A 5B                      pop ebx
-  2308 00003E9B F7E3                    mul ebx
-  2309 00003E9D 50                      push eax
-  2310 00003E9E 58                      pop eax
-  2311 00003E9F 5B                      pop ebx
-  2312 00003EA0 01D8                    add eax, ebx
-  2313 00003EA2 50                      push eax
-  2314 00003EA3 B800000000              mov eax, 0x00000000
-  2315 00003EA8 50                      push eax
-  2316 00003EA9 B89AFFFF07              mov eax, 0x07ffff9a
-  2317 00003EAE 50                      push eax
-  2318 00003EAF E892000000              call kernel_z_setGDT
-  2319                                  
-  2320 00003EB4 E8B5000000              call kernel_z_loadGDT
-  2321                                  
-  2322 00003EB9 C3                      ret
-  2323                                  GDT_z_init$pass:
-  2324                                  ;============[fun end]init=============
-  2325                                  
-  2326                                  
-  2327                                  
-  2328                                  ;############[fun begin]init############
-  2329 00003EBA EB6C                    jmp IDT_z_init$pass
-  2330                                  IDT_z_init:
-  2331 00003EBC 5D                      pop ebp
-  2332 00003EBD 55                      push ebp
-  2333 00003EBE B800000000              mov eax, 0
-  2334 00003EC3 50                      push eax
-  2335 00003EC4 EB04                    jmp IDT_z_init_i$pass
-  2336 00003EC6 00000000                IDT_z_init_i: dd 0
-  2337                                  IDT_z_init_i$pass:
-  2338 00003ECA 58                      pop eax
-  2339 00003ECB A3[C63E0000]            mov [IDT_z_init_i], eax
-  2340                                  
-  2341                                  ;########## IDT_z_init_while#r1_$start ##########
-  2342                                  IDT_z_init_while#r1_$start:
-  2343 00003ED0 A1[C63E0000]            mov eax, [IDT_z_init_i]
-  2344 00003ED5 50                      push eax
-  2345 00003ED6 B800010000              mov eax, 256
-  2346 00003EDB 50                      push eax
-  2347 00003EDC 5B                      pop ebx
-  2348 00003EDD 58                      pop eax
-  2349 00003EDE 39D8                    cmp eax, ebx
-  2350 00003EE0 7207                    jb IDT_z_init_while#r1_les#r2$true
-  2351 00003EE2 B800000000              mov eax, 0
-  2352 00003EE7 EB05                    jmp IDT_z_init_while#r1_les#r2$false
-  2353                                  IDT_z_init_while#r1_les#r2$true:
-  2354 00003EE9 B801000000              mov eax, 1
-  2355                                  IDT_z_init_while#r1_les#r2$false:
-  2356 00003EEE 50                      push eax
-  2357 00003EEF 58                      pop eax
-  2358 00003EF0 83F800                  cmp eax, 0
-  2359 00003EF3 742D                    je IDT_z_init_while#r1_$end
-  2360 00003EF5 A1[C63E0000]            mov eax, [IDT_z_init_i]
-  2361 00003EFA 50                      push eax
-  2362 00003EFB B800000000              mov eax, 0
-  2363 00003F00 50                      push eax
-  2364 00003F01 58                      pop eax
-  2365 00003F02 5B                      pop ebx
-  2366 00003F03 8983[62000000]          mov [main_z_addrIDT+ebx], eax
-  2367 00003F09 A1[C63E0000]            mov eax, [IDT_z_init_i]
-  2368 00003F0E 50                      push eax
-  2369 00003F0F B801000000              mov eax, 1
-  2370 00003F14 50                      push eax
-  2371 00003F15 58                      pop eax
-  2372 00003F16 5B                      pop ebx
-  2373 00003F17 01D8                    add eax, ebx
-  2374 00003F19 50                      push eax
-  2375 00003F1A 58                      pop eax
-  2376 00003F1B A3[C63E0000]            mov [IDT_z_init_i], eax
-  2377 00003F20 EBAE                    jmp IDT_z_init_while#r1_$start
-  2378                                  IDT_z_init_while#r1_$end:
-  2379                                  ;========== IDT_z_init_while#r1_$end ==========
-  2380                                  
-  2381 00003F22 E84F000000              call kernel_z_loadIDT
-  2382                                  
-  2383 00003F27 C3                      ret
-  2384                                  IDT_z_init$pass:
-  2385                                  ;============[fun end]init=============
-  2386                                  
-  2387                                  
-  2388 00003F28 E988000000              jmp main
-  2389                                  
-  2390                                  limit_low equ 0
-  2391                                  base_low equ 2 
-  2392                                  base_mid equ 4 
-  2393                                  access_right equ 5
-  2394                                  limit_high equ 6 
-  2395                                  base_high equ 7 
-  2396                                  	
-  2397 00003F2D ??????                  ALIGNB	16
-  2398                                  GDTR:
-  2399 00003F30 FFFF                    		DW 8*8192-1 ; 最后一个字节的偏移
-  2400 00003F32 00002700                		DD 0x270000 ; 表的地址
+  2180 00003DA5 B864000000              mov eax, 100
+  2181 00003DAA 50                      push eax
+  2182 00003DAB B864000000              mov eax, 100
+  2183 00003DB0 50                      push eax
+  2184 00003DB1 A1[4C3D0000]            mov eax, [test_z_draw_addrVram]
+  2185 00003DB6 50                      push eax
+  2186 00003DB7 E8E8FDFFFF              call test_z_rect
+  2187                                  
+  2188 00003DBC C3                      ret
+  2189                                  test_z_draw$pass:
+  2190                                  ;============[fun end]draw=============
+  2191                                  
+  2192                                  
+  2193                                  
+  2194                                  ;############[fun begin]init############
+  2195 00003DBD E92B010000              jmp GDT_z_init$pass
+  2196                                  GDT_z_init:
+  2197 00003DC2 5D                      pop ebp
+  2198 00003DC3 55                      push ebp
+  2199 00003DC4 B800000000              mov eax, 0
+  2200 00003DC9 50                      push eax
+  2201 00003DCA EB04                    jmp GDT_z_init_i$pass
+  2202 00003DCC 00000000                GDT_z_init_i: dd 0
+  2203                                  GDT_z_init_i$pass:
+  2204 00003DD0 58                      pop eax
+  2205 00003DD1 A3[CC3D0000]            mov [GDT_z_init_i], eax
+  2206                                  
+  2207                                  ;########## GDT_z_init_while#r1_$start ##########
+  2208                                  GDT_z_init_while#r1_$start:
+  2209 00003DD6 A1[CC3D0000]            mov eax, [GDT_z_init_i]
+  2210 00003DDB 50                      push eax
+  2211 00003DDC B800200000              mov eax, 8192
+  2212 00003DE1 50                      push eax
+  2213 00003DE2 5B                      pop ebx
+  2214 00003DE3 58                      pop eax
+  2215 00003DE4 39D8                    cmp eax, ebx
+  2216 00003DE6 7207                    jb GDT_z_init_while#r1_les#r2$true
+  2217 00003DE8 B800000000              mov eax, 0
+  2218 00003DED EB05                    jmp GDT_z_init_while#r1_les#r2$false
+  2219                                  GDT_z_init_while#r1_les#r2$true:
+  2220 00003DEF B801000000              mov eax, 1
+  2221                                  GDT_z_init_while#r1_les#r2$false:
+  2222 00003DF4 50                      push eax
+  2223 00003DF5 58                      pop eax
+  2224 00003DF6 83F800                  cmp eax, 0
+  2225 00003DF9 7465                    je GDT_z_init_while#r1_$end
+  2226 00003DFB A1[CC3D0000]            mov eax, [GDT_z_init_i]
+  2227 00003E00 50                      push eax
+  2228 00003E01 B802000000              mov eax, 2
+  2229 00003E06 50                      push eax
+  2230 00003E07 58                      pop eax
+  2231 00003E08 5B                      pop ebx
+  2232 00003E09 F7E3                    mul ebx
+  2233 00003E0B 50                      push eax
+  2234 00003E0C B800000000              mov eax, 0
+  2235 00003E11 50                      push eax
+  2236 00003E12 58                      pop eax
+  2237 00003E13 5B                      pop ebx
+  2238 00003E14 8983[74000000]          mov [main_z_addrGDT+ebx], eax
+  2239 00003E1A A1[CC3D0000]            mov eax, [GDT_z_init_i]
+  2240 00003E1F 50                      push eax
+  2241 00003E20 B802000000              mov eax, 2
+  2242 00003E25 50                      push eax
+  2243 00003E26 58                      pop eax
+  2244 00003E27 5B                      pop ebx
+  2245 00003E28 F7E3                    mul ebx
+  2246 00003E2A 50                      push eax
+  2247 00003E2B B801000000              mov eax, 1
+  2248 00003E30 50                      push eax
+  2249 00003E31 58                      pop eax
+  2250 00003E32 5B                      pop ebx
+  2251 00003E33 01D8                    add eax, ebx
+  2252 00003E35 50                      push eax
+  2253 00003E36 B800000000              mov eax, 0
+  2254 00003E3B 50                      push eax
+  2255 00003E3C 58                      pop eax
+  2256 00003E3D 5B                      pop ebx
+  2257 00003E3E 8983[74000000]          mov [main_z_addrGDT+ebx], eax
+  2258 00003E44 A1[CC3D0000]            mov eax, [GDT_z_init_i]
+  2259 00003E49 50                      push eax
+  2260 00003E4A B801000000              mov eax, 1
+  2261 00003E4F 50                      push eax
+  2262 00003E50 58                      pop eax
+  2263 00003E51 5B                      pop ebx
+  2264 00003E52 01D8                    add eax, ebx
+  2265 00003E54 50                      push eax
+  2266 00003E55 58                      pop eax
+  2267 00003E56 A3[CC3D0000]            mov [GDT_z_init_i], eax
+  2268 00003E5B E976FFFFFF              jmp GDT_z_init_while#r1_$start
+  2269                                  GDT_z_init_while#r1_$end:
+  2270                                  ;========== GDT_z_init_while#r1_$end ==========
+  2271                                  
+  2272 00003E60 A1[74000000]            mov eax, [main_z_addrGDT]
+  2273 00003E65 50                      push eax
+  2274 00003E66 B800000000              mov eax, 0
+  2275 00003E6B 50                      push eax
+  2276 00003E6C B808000000              mov eax, 8
+  2277 00003E71 50                      push eax
+  2278 00003E72 58                      pop eax
+  2279 00003E73 5B                      pop ebx
+  2280 00003E74 F7E3                    mul ebx
+  2281 00003E76 50                      push eax
+  2282 00003E77 58                      pop eax
+  2283 00003E78 5B                      pop ebx
+  2284 00003E79 01D8                    add eax, ebx
+  2285 00003E7B 50                      push eax
+  2286 00003E7C B800000000              mov eax, 0x00000000
+  2287 00003E81 50                      push eax
+  2288 00003E82 B800000000              mov eax, 0x00000000
+  2289 00003E87 50                      push eax
+  2290 00003E88 E8E9000000              call kernel_z_setGDT
+  2291                                  
+  2292 00003E8D A1[74000000]            mov eax, [main_z_addrGDT]
+  2293 00003E92 50                      push eax
+  2294 00003E93 B801000000              mov eax, 1
+  2295 00003E98 50                      push eax
+  2296 00003E99 B808000000              mov eax, 8
+  2297 00003E9E 50                      push eax
+  2298 00003E9F 58                      pop eax
+  2299 00003EA0 5B                      pop ebx
+  2300 00003EA1 F7E3                    mul ebx
+  2301 00003EA3 50                      push eax
+  2302 00003EA4 58                      pop eax
+  2303 00003EA5 5B                      pop ebx
+  2304 00003EA6 01D8                    add eax, ebx
+  2305 00003EA8 50                      push eax
+  2306 00003EA9 B800000000              mov eax, 0x00000000
+  2307 00003EAE 50                      push eax
+  2308 00003EAF B892FFFF0F              mov eax, 0x0fffff92
+  2309 00003EB4 50                      push eax
+  2310 00003EB5 E8BC000000              call kernel_z_setGDT
+  2311                                  
+  2312 00003EBA A1[74000000]            mov eax, [main_z_addrGDT]
+  2313 00003EBF 50                      push eax
+  2314 00003EC0 B802000000              mov eax, 2
+  2315 00003EC5 50                      push eax
+  2316 00003EC6 B808000000              mov eax, 8
+  2317 00003ECB 50                      push eax
+  2318 00003ECC 58                      pop eax
+  2319 00003ECD 5B                      pop ebx
+  2320 00003ECE F7E3                    mul ebx
+  2321 00003ED0 50                      push eax
+  2322 00003ED1 58                      pop eax
+  2323 00003ED2 5B                      pop ebx
+  2324 00003ED3 01D8                    add eax, ebx
+  2325 00003ED5 50                      push eax
+  2326 00003ED6 B800000000              mov eax, 0x00000000
+  2327 00003EDB 50                      push eax
+  2328 00003EDC B89AFFFF07              mov eax, 0x07ffff9a
+  2329 00003EE1 50                      push eax
+  2330 00003EE2 E88F000000              call kernel_z_setGDT
+  2331                                  
+  2332 00003EE7 E8B2000000              call kernel_z_loadGDT
+  2333                                  
+  2334 00003EEC C3                      ret
+  2335                                  GDT_z_init$pass:
+  2336                                  ;============[fun end]init=============
+  2337                                  
+  2338                                  
+  2339                                  
+  2340                                  ;############[fun begin]init############
+  2341 00003EED EB6C                    jmp IDT_z_init$pass
+  2342                                  IDT_z_init:
+  2343 00003EEF 5D                      pop ebp
+  2344 00003EF0 55                      push ebp
+  2345 00003EF1 B800000000              mov eax, 0
+  2346 00003EF6 50                      push eax
+  2347 00003EF7 EB04                    jmp IDT_z_init_i$pass
+  2348 00003EF9 00000000                IDT_z_init_i: dd 0
+  2349                                  IDT_z_init_i$pass:
+  2350 00003EFD 58                      pop eax
+  2351 00003EFE A3[F93E0000]            mov [IDT_z_init_i], eax
+  2352                                  
+  2353                                  ;########## IDT_z_init_while#r1_$start ##########
+  2354                                  IDT_z_init_while#r1_$start:
+  2355 00003F03 A1[F93E0000]            mov eax, [IDT_z_init_i]
+  2356 00003F08 50                      push eax
+  2357 00003F09 B800010000              mov eax, 256
+  2358 00003F0E 50                      push eax
+  2359 00003F0F 5B                      pop ebx
+  2360 00003F10 58                      pop eax
+  2361 00003F11 39D8                    cmp eax, ebx
+  2362 00003F13 7207                    jb IDT_z_init_while#r1_les#r2$true
+  2363 00003F15 B800000000              mov eax, 0
+  2364 00003F1A EB05                    jmp IDT_z_init_while#r1_les#r2$false
+  2365                                  IDT_z_init_while#r1_les#r2$true:
+  2366 00003F1C B801000000              mov eax, 1
+  2367                                  IDT_z_init_while#r1_les#r2$false:
+  2368 00003F21 50                      push eax
+  2369 00003F22 58                      pop eax
+  2370 00003F23 83F800                  cmp eax, 0
+  2371 00003F26 742D                    je IDT_z_init_while#r1_$end
+  2372 00003F28 A1[F93E0000]            mov eax, [IDT_z_init_i]
+  2373 00003F2D 50                      push eax
+  2374 00003F2E B800000000              mov eax, 0
+  2375 00003F33 50                      push eax
+  2376 00003F34 58                      pop eax
+  2377 00003F35 5B                      pop ebx
+  2378 00003F36 8983[62000000]          mov [main_z_addrIDT+ebx], eax
+  2379 00003F3C A1[F93E0000]            mov eax, [IDT_z_init_i]
+  2380 00003F41 50                      push eax
+  2381 00003F42 B801000000              mov eax, 1
+  2382 00003F47 50                      push eax
+  2383 00003F48 58                      pop eax
+  2384 00003F49 5B                      pop ebx
+  2385 00003F4A 01D8                    add eax, ebx
+  2386 00003F4C 50                      push eax
+  2387 00003F4D 58                      pop eax
+  2388 00003F4E A3[F93E0000]            mov [IDT_z_init_i], eax
+  2389 00003F53 EBAE                    jmp IDT_z_init_while#r1_$start
+  2390                                  IDT_z_init_while#r1_$end:
+  2391                                  ;========== IDT_z_init_while#r1_$end ==========
+  2392                                  
+  2393 00003F55 E84C000000              call kernel_z_loadIDT
+  2394                                  
+  2395 00003F5A C3                      ret
+  2396                                  IDT_z_init$pass:
+  2397                                  ;============[fun end]init=============
+  2398                                  
+  2399                                  
+  2400 00003F5B E985000000              jmp main
   2401                                  
-  2402 00003F36 <res Ah>                ALIGNB	16
-  2403                                  IDTR:
-  2404 00003F40 FF07                    		DW 8*256-1       ; 后16位是IDT的大小，limit
-  2405 00003F42 00F82600                		DD 0x26f800      ; 前32位是IDT在内存中的位置
-  2406                                  
-  2407                                  ; esi是将要填入的地址，就是GDT表的地址，例如Addr_GDT+1*8, Addr_GDT+2*8
-  2408                                  ; eax是基地址，是代码的
-  2409                                  ; ebx是控制参数和限制 24+8 4位扩展(自动填上)20位限长8位参数
-  2410                                  ;     高4位参数 高4位限制 低16位限制 8位参数 = 32位ebx
-  2411                                  ; 实际上高4位参数被自己固定掉了
-  2412                                  ; 因此用一个常量代替比较好
-  2413                                  ; 设置GDT内容
-  2414                                  ; kernel.z\setGDT(addr: dword, param1: dword, param2: dword)
-  2415                                  kernel_z_setGDT:
-  2416 00003F46 5D                        pop ebp
-  2417 00003F47 5B                        pop ebx
-  2418 00003F48 58                        pop eax
-  2419 00003F49 5E                        pop esi
-  2420 00003F4A 55                        push ebp
-  2421 00003F4B 66894602                	mov [esi+base_low],  ax ; 基地址的低16位
-  2422 00003F4F C1E810                  	shr eax, 16
-  2423 00003F52 884604                  	mov [esi+base_mid], al ; 8位，1个字节
-  2424 00003F55 886607                  	mov [esi+base_high], ah
-  2425                                  	; 下面是限制与权限设置
-  2426 00003F58 885E05                  	mov [esi+access_right], bl;8位参数
-  2427                                  	; 0x00 未使用的记录表
-  2428                                  	; 0x92 系统模式，可读写不可执行
-  2429                                  	; 0x9a 系统模式，可执行可读不可写
-  2430                                  	; 0xf2 应用模式，可读写不可执行
-  2431                                  	; 0xfa 应用模式，可执行可读不可写
-  2432 00003F5B C1EB08                  	shr ebx, 8
-  2433 00003F5E 66891E                  	mov [esi+limit_low], bx ; 限制的低16位
-  2434 00003F61 C1EB10                  	shr ebx, 16
-  2435 00003F64 80CBC0                  	or  bl, 0xc0 ; 0xc0=11000000
-  2436 00003F67 80E3CF                  	and bl, 0xcf ; 规定好前4位为1100，0x11001111
-  2437 00003F6A 885E06                  	mov [esi+limit_high], bl ; 4位参数+4位段限长，高4位被称为扩展访问权，参数固定为
-  2438                                  	; G=1(开启4K),D/B=1(32位段),0(固定),AVL=0(也是默认的)这4位在386前是没有的
-  2439                                  	; 因此注意limit在这里被规定为24位长，其中高四位是扩展访问权，是固定的
-  2440 00003F6D C3                      ret 
-  2441                                  
-  2442                                  ; 加载GDT
-  2443                                  ; kernel.z\loadGDT()
-  2444                                  kernel_z_loadGDT:
-  2445 00003F6E 0F0115[303F0000]          lgdt [GDTR] ; 不加dword会警告，因为现在的标签的确从0开始的
-  2446 00003F75 C3                      ret
-  2447                                  
-  2448                                  kernel_z_loadIDT:
-  2449 00003F76 0F011D[403F0000]        	lidt [IDTR];装载IDT
-  2450 00003F7D C3                      ret
-  2451                                  
-  2452                                  offset_low equ 0
-  2453                                  selector equ 2
-  2454                                  dw_count equ 4
-  2455                                  access_right equ 5
-  2456                                  offset_high equ 6
-  2457                                  	
-  2458                                  ; esi是将要填入的地址
-  2459                                  ; eax偏移地址4字节,也就是中断函数地址了
-  2460                                  kernel_z_setIDT:
-  2461 00003F7E 5D                      	pop ebp
-  2462 00003F7F 58                      	pop eax 
-  2463 00003F80 5E                      	pop esi 
-  2464 00003F81 55                      	push ebp 
-  2465 00003F82 668906                  	mov [esi+offset_low], ax 
-  2466 00003F85 C1E810                  	shr eax, 16
-  2467 00003F88 66894606                	mov [esi+offset_high], ax
-  2468 00003F8C 66C746021000            	mov [esi+selector], word 2<<3 ; 第二段 
-  2469 00003F92 66B8008E                	mov ax, 1000111000000000B ; 参数都在这里，中断门
-  2470 00003F96 66894604                	mov [esi+dw_count], ax 
-  2471 00003F9A C3                      ret
-  2472                                  
-  2473                                  ; 读写内存
-  2474                                  ; kernel.z\setMem.1byte(val:dword, addr:dword)
-  2475                                  kernel_z_setMem_1byte:
-  2476 00003F9B 5D                        pop ebp
-  2477 00003F9C 5B                        pop ebx
-  2478 00003F9D 58                        pop eax
-  2479 00003F9E 55                        push ebp
-  2480 00003F9F 8803                      mov [ebx], al
-  2481 00003FA1 C3                      ret
-  2482                                  
-  2483                                  ; kernel.z\setMem.2byte(val:dword, addr:dword)
-  2484                                  kernel_z_setMem_2byte:
-  2485 00003FA2 5D                        pop ebp
-  2486 00003FA3 5B                        pop ebx
-  2487 00003FA4 58                        pop eax
-  2488 00003FA5 55                        push ebp
-  2489 00003FA6 668903                    mov [ebx], ax
-  2490 00003FA9 C3                      ret
-  2491                                  
-  2492                                  ; kernel.z\setMem.4byte(val:dword, addr:dword)
-  2493                                  kernel_z_setMem_4byte:
-  2494 00003FAA 5D                        pop ebp
-  2495 00003FAB 5B                        pop ebx
-  2496 00003FAC 58                        pop eax
-  2497 00003FAD 55                        push ebp
-  2498 00003FAE 8903                      mov [ebx], eax
-  2499 00003FB0 C3                      ret
-  2500                                  
-  2501                                  ; kernel.z\halt()
-  2502                                  kernel_z_halt:
-  2503 00003FB1 F4                        hlt
-  2504 00003FB2 C3                      ret
-  2505 00003FB3 3412                    TESTA: DW 0x1234
-  2506                                  ; 主进程入口
-  2507                                  main:
-  2508                                  
-  2509                                    ; 测试用
-  2510 00003FB5 9BDBE3                    finit
-  2511 00003FB8 D905[B33F0000]            fld DWORD [TESTA]
-  2512 00003FBE D900                      fld DWORD [eax]
-  2513 00003FC0 DCC1                      fadd to st1
-  2514                                  
-  2515 00003FC2 E8B9C0FFFF                call main_z_run_once
-  2516                                    .loop:
-  2517 00003FC7 E8CEC0FFFF                  call main_z_run_loop
-  2518 00003FCC EBF9                      jmp .loop
-  2519                                  
+  2402                                  limit_low equ 0
+  2403                                  base_low equ 2 
+  2404                                  base_mid equ 4 
+  2405                                  access_right equ 5
+  2406                                  limit_high equ 6 
+  2407                                  base_high equ 7 
+  2408                                  	
+  2409                                  ALIGNB	16
+  2410                                  GDTR:
+  2411 00003F60 FFFF                    		DW 8*8192-1 ; 最后一个字节的偏移
+  2412 00003F62 00002700                		DD 0x270000 ; 表的地址
+  2413                                  
+  2414 00003F66 <res Ah>                ALIGNB	16
+  2415                                  IDTR:
+  2416 00003F70 FF07                    		DW 8*256-1       ; 后16位是IDT的大小，limit
+  2417 00003F72 00F82600                		DD 0x26f800      ; 前32位是IDT在内存中的位置
+  2418                                  
+  2419                                  ; esi是将要填入的地址，就是GDT表的地址，例如Addr_GDT+1*8, Addr_GDT+2*8
+  2420                                  ; eax是基地址，是代码的
+  2421                                  ; ebx是控制参数和限制 24+8 4位扩展(自动填上)20位限长8位参数
+  2422                                  ;     高4位参数 高4位限制 低16位限制 8位参数 = 32位ebx
+  2423                                  ; 实际上高4位参数被自己固定掉了
+  2424                                  ; 因此用一个常量代替比较好
+  2425                                  ; 设置GDT内容
+  2426                                  ; kernel.z\setGDT(addr: dword, param1: dword, param2: dword)
+  2427                                  kernel_z_setGDT:
+  2428 00003F76 5D                        pop ebp
+  2429 00003F77 5B                        pop ebx
+  2430 00003F78 58                        pop eax
+  2431 00003F79 5E                        pop esi
+  2432 00003F7A 55                        push ebp
+  2433 00003F7B 66894602                	mov [esi+base_low],  ax ; 基地址的低16位
+  2434 00003F7F C1E810                  	shr eax, 16
+  2435 00003F82 884604                  	mov [esi+base_mid], al ; 8位，1个字节
+  2436 00003F85 886607                  	mov [esi+base_high], ah
+  2437                                  	; 下面是限制与权限设置
+  2438 00003F88 885E05                  	mov [esi+access_right], bl;8位参数
+  2439                                  	; 0x00 未使用的记录表
+  2440                                  	; 0x92 系统模式，可读写不可执行
+  2441                                  	; 0x9a 系统模式，可执行可读不可写
+  2442                                  	; 0xf2 应用模式，可读写不可执行
+  2443                                  	; 0xfa 应用模式，可执行可读不可写
+  2444 00003F8B C1EB08                  	shr ebx, 8
+  2445 00003F8E 66891E                  	mov [esi+limit_low], bx ; 限制的低16位
+  2446 00003F91 C1EB10                  	shr ebx, 16
+  2447 00003F94 80CBC0                  	or  bl, 0xc0 ; 0xc0=11000000
+  2448 00003F97 80E3CF                  	and bl, 0xcf ; 规定好前4位为1100，0x11001111
+  2449 00003F9A 885E06                  	mov [esi+limit_high], bl ; 4位参数+4位段限长，高4位被称为扩展访问权，参数固定为
+  2450                                  	; G=1(开启4K),D/B=1(32位段),0(固定),AVL=0(也是默认的)这4位在386前是没有的
+  2451                                  	; 因此注意limit在这里被规定为24位长，其中高四位是扩展访问权，是固定的
+  2452 00003F9D C3                      ret 
+  2453                                  
+  2454                                  ; 加载GDT
+  2455                                  ; kernel.z\loadGDT()
+  2456                                  kernel_z_loadGDT:
+  2457 00003F9E 0F0115[603F0000]          lgdt [GDTR] ; 不加dword会警告，因为现在的标签的确从0开始的
+  2458 00003FA5 C3                      ret
+  2459                                  
+  2460                                  kernel_z_loadIDT:
+  2461 00003FA6 0F011D[703F0000]        	lidt [IDTR];装载IDT
+  2462 00003FAD C3                      ret
+  2463                                  
+  2464                                  offset_low equ 0
+  2465                                  selector equ 2
+  2466                                  dw_count equ 4
+  2467                                  access_right equ 5
+  2468                                  offset_high equ 6
+  2469                                  	
+  2470                                  ; esi是将要填入的地址
+  2471                                  ; eax偏移地址4字节,也就是中断函数地址了
+  2472                                  kernel_z_setIDT:
+  2473 00003FAE 5D                      	pop ebp
+  2474 00003FAF 58                      	pop eax 
+  2475 00003FB0 5E                      	pop esi 
+  2476 00003FB1 55                      	push ebp 
+  2477 00003FB2 668906                  	mov [esi+offset_low], ax 
+  2478 00003FB5 C1E810                  	shr eax, 16
+  2479 00003FB8 66894606                	mov [esi+offset_high], ax
+  2480 00003FBC 66C746021000            	mov [esi+selector], word 2<<3 ; 第二段 
+  2481 00003FC2 66B8008E                	mov ax, 1000111000000000B ; 参数都在这里，中断门
+  2482 00003FC6 66894604                	mov [esi+dw_count], ax 
+  2483 00003FCA C3                      ret
+  2484                                  
+  2485                                  ; 读写内存
+  2486                                  ; kernel.z\setMem.1byte(val:dword, addr:dword)
+  2487                                  kernel_z_setMem_1byte:
+  2488 00003FCB 5D                        pop ebp
+  2489 00003FCC 5B                        pop ebx
+  2490 00003FCD 58                        pop eax
+  2491 00003FCE 55                        push ebp
+  2492 00003FCF 8803                      mov [ebx], al
+  2493 00003FD1 C3                      ret
+  2494                                  
+  2495                                  ; kernel.z\setMem.2byte(val:dword, addr:dword)
+  2496                                  kernel_z_setMem_2byte:
+  2497 00003FD2 5D                        pop ebp
+  2498 00003FD3 5B                        pop ebx
+  2499 00003FD4 58                        pop eax
+  2500 00003FD5 55                        push ebp
+  2501 00003FD6 668903                    mov [ebx], ax
+  2502 00003FD9 C3                      ret
+  2503                                  
+  2504                                  ; kernel.z\setMem.4byte(val:dword, addr:dword)
+  2505                                  kernel_z_setMem_4byte:
+  2506 00003FDA 5D                        pop ebp
+  2507 00003FDB 5B                        pop ebx
+  2508 00003FDC 58                        pop eax
+  2509 00003FDD 55                        push ebp
+  2510 00003FDE 8903                      mov [ebx], eax
+  2511 00003FE0 C3                      ret
+  2512                                  
+  2513                                  ; kernel.z\halt()
+  2514                                  kernel_z_halt:
+  2515 00003FE1 F4                        hlt
+  2516 00003FE2 C3                      ret
+  2517 00003FE3 3412                    TESTA: DW 0x1234
+  2518                                  ; 主进程入口
+  2519                                  main:
+  2520                                  
+  2521                                    ; 测试用
+  2522 00003FE5 9BDBE3                    finit
+  2523 00003FE8 D905[E33F0000]            fld DWORD [TESTA]
+  2524 00003FEE D900                      fld DWORD [eax]
+  2525 00003FF0 DCC1                      fadd to st1
+  2526                                  
+  2527 00003FF2 E889C0FFFF                call main_z_run_once
+  2528                                    .loop:
+  2529 00003FF7 E89EC0FFFF                  call main_z_run_loop
+  2530 00003FFC EBF9                      jmp .loop
+  2531                                  

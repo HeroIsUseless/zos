@@ -2160,10 +2160,22 @@ push eax
 call test_z_block
 
 jmp test_z_draw_tstr$pass
-test_z_draw_tstr: dd 0 "HELLO WORLD"
+test_z_draw_tstr: dd 0, "HELLO WORLD", 0
 test_z_draw_tstr$pass:
 mov eax, test_z_draw_tstr+4
 mov [test_z_draw_tstr], eax
+
+mov eax, 8
+push eax
+mov eax, 8
+push eax
+mov eax, test_z_draw_tstr
+push eax
+mov eax, 320
+push eax
+mov eax, [test_z_draw_addrVram]
+push eax
+call draw_z_string
 
 mov eax, 100
 push eax

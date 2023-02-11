@@ -18,8 +18,20 @@ addrGDT:  0x00270000; [GDT一行8字节，一共8192行，一共65536字节=65KB
 
 run.once():(
   test.z\draw(addrVram);
+  [初始化段表]
   GDT.z\init();
+  [初始化中断表]
   IDT.z\init();
+  [登记各种事件]
+	[mov esi, Addr_IDT+0x21*8 ; 键盘中断
+	mov eax, Keyboard_Interrupt
+	call IDT_Set
+	mov esi, Addr_IDT+0x2c*8 ; 鼠标中断
+	mov eax, Mouse_Interrupt
+	call IDT_Set
+	mov esi, Addr_IDT+0x20*8 ; 时间中断
+	mov eax, PIT_Interrupt
+	call IDT_Set]
 );
 
 run.loop():(

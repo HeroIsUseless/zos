@@ -1,9 +1,9 @@
 draw.z: @\screen\draw.z;
 
 rect(left: dword, top: dword, addrVram: dword):(
-  x: 0;
   y: 0;
   while(y\<8, (
+    x: 0;
     while(x\<8, (
       color: 3;
       draw.z\pixel(left+x, top+y, color, 320, addrVram);
@@ -15,13 +15,16 @@ rect(left: dword, top: dword, addrVram: dword):(
 
 block(addrVram: dword):(
   i: 0;
-  while(i < 300, (draw.z\pixel(0, i, i, 320, addrVram);i<=i+1;));
+  while(i < 300, (draw.z\pixel(i, i, i, 320, addrVram);i<=i+1;));
 );
 
 draw(addrVram: dword):(
   block(addrVram);
-  [tstr: "HELLO WORLD";
+  tstr: "HELLO WORLD";
   [draw.z\string(8, 8, @tstr, 320, addrVram);
-  [rect(0, 0, addrVram);
+  rect(100, 100, addrVram);
+  [rect(100, 101, addrVram);
+  [rect(100, 102, addrVram);
+  [rect(100, 103, addrVram);
 );
 

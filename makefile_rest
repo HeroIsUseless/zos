@@ -1,5 +1,0 @@
-				#  ./temp/memory.asm \
-											#  ./temp/GDT.asm \
-											#  ./temp/draw.asm \
-											#  ./temp/font.asm \
-											#  ./temp/test.asm \

@@ -24,14 +24,6 @@ mov [test_z_rect_left], eax
 push ebp
 mov eax, 0
 push eax
-jmp test_z_rect_x$pass
-test_z_rect_x: dd 0
-test_z_rect_x$pass:
-pop eax
-mov [test_z_rect_x], eax
-
-mov eax, 0
-push eax
 jmp test_z_rect_y$pass
 test_z_rect_y: dd 0
 test_z_rect_y$pass:
@@ -57,9 +49,17 @@ push eax
 pop eax
 cmp eax, 0
 je test_z_rect_while#r1_$end
+mov eax, 0
+push eax
+jmp test_z_rect_while#r1_x$pass
+test_z_rect_while#r1_x: dd 0
+test_z_rect_while#r1_x$pass:
+pop eax
+mov [test_z_rect_while#r1_x], eax
+
 ;########## test_z_rect_while#r1_while#r3_$start ##########
 test_z_rect_while#r1_while#r3_$start:
-mov eax, [test_z_rect_x]
+mov eax, [test_z_rect_while#r1_x]
 push eax
 mov eax, 8
 push eax
@@ -86,7 +86,7 @@ mov [test_z_rect_while#r1_while#r3_color], eax
 
 mov eax, [test_z_rect_left]
 push eax
-mov eax, [test_z_rect_x]
+mov eax, [test_z_rect_while#r1_x]
 push eax
 pop eax
 pop ebx
@@ -108,7 +108,7 @@ mov eax, [test_z_rect_addrVram]
 push eax
 call draw_z_pixel
 
-mov eax, [test_z_rect_x]
+mov eax, [test_z_rect_while#r1_x]
 push eax
 mov eax, 1
 push eax
@@ -117,7 +117,7 @@ pop ebx
 add eax, ebx
 push eax
 pop eax
-mov [test_z_rect_x], eax
+mov [test_z_rect_while#r1_x], eax
 jmp test_z_rect_while#r1_while#r3_$start
 test_z_rect_while#r1_while#r3_$end:
 ;========== test_z_rect_while#r1_while#r3_$end ==========
@@ -179,7 +179,7 @@ push eax
 pop eax
 cmp eax, 0
 je test_z_block_while#r5_$end
-mov eax, 0
+mov eax, [test_z_block_i]
 push eax
 mov eax, [test_z_block_i]
 push eax
@@ -224,6 +224,20 @@ push ebp
 mov eax, [test_z_draw_addrVram]
 push eax
 call test_z_block
+
+jmp test_z_draw_tstr$pass
+test_z_draw_tstr: dd 0 "HELLO WORLD"
+test_z_draw_tstr$pass:
+mov eax, test_z_draw_tstr+4
+mov [test_z_draw_tstr], eax
+
+mov eax, 100
+push eax
+mov eax, 100
+push eax
+mov eax, [test_z_draw_addrVram]
+push eax
+call test_z_rect
 
 ret
 test_z_draw$pass:

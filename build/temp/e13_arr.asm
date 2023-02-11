@@ -1,5 +1,5 @@
 jmp e13_arr_z_a$pass
-e13_arr_z_a: dd 0\
+e13_arr_z_a: dd 0 \
 1, 2, 3, 4, 5, 6, 
 e13_arr_z_a$pass:
 mov eax, e13_arr_z_a
@@ -14,7 +14,7 @@ pop eax
 mov [e13_arr_z_e_f], eax
 
 jmp e13_arr_z_b_c$pass
-e13_arr_z_b_c: dd 0\
+e13_arr_z_b_c: dd 0 \
 1, 2, 3, 4, 5, 6, 
 e13_arr_z_b_c$pass:
 mov eax, e13_arr_z_b_c

@@ -40,6 +40,7 @@ exam:
 	cd build && ./zlang ../example/e15_return.z ./temp/e16_return.asm
 	cd build && ./zlang ../example/e16_float.z ./temp/e17_float.asm
 	cd build && ./zlang ../example/e17_addr.z ./temp/e17_addr.asm
+	cd build && ./zlang ../example/e18_varAddr.z ./temp/e18_varAddr.asm
 
 # 仅编译ZOS所有代码，并运行
 compile:

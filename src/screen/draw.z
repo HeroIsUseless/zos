@@ -44,15 +44,14 @@ flush(addrVram: dword):(
   ));
 );
 
-char(left: dword, top: dword, foreColor: dword, backColor: dword, ascii: dword, screenWidth: dword, addrVram: dword):(
-  fontAddr: font.z\getAddrByAscii(ascii);
-  x: 0;
+char(left: dword, top: dword, foreColor: dword, backColor: dword, charAddr: dword, screenWidth: dword, addrVram: dword):(
+  [fontAddr: font.z\getAddrByAscii(ascii);
   y: 0;
   while(y<8, (
-    x <= 0;
+    x: 0;
     while(x<8, (
-      color: fontAddr\(y*8+x);
-      if(fontAddr\(y*8+x)#0, (color <= 15;), (color <= 0;));
+      color: foreColor;
+      [if(fontAddr\(y*8+x)#0, (color <= 15;), (color <= 0;));
       draw.z\pixel(left+x, top+y, color, 320, addrVram);
       x <= x+1;
     ));
@@ -61,9 +60,15 @@ char(left: dword, top: dword, foreColor: dword, backColor: dword, ascii: dword, 
 );
 
 string(left: dword, top: dword, strAddr: dword, screenWidth:dword, addrVram: dword):(
-  i: 0;
-  while(strAddr\(i) # 0, (
-    char(left+i*8, top, 1, 2, strAddr\(i), screenWidth, addrVram);
+  i: 1;
+  charAddr: strAddr + i;
+  t_char: ^charAddr;
+  t_char <= ~t_char;
+  while(^t_char # 0, (
+    char(left+i*8, top, 7, 8, charAddr, screenWidth, addrVram);
     i <= i+1;
+    charAddr <= strAddr + i;
+    t_char <= ^charAddr;
+    t_char <= ~t_char;
   ));
 );

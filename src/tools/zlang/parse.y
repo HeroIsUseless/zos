@@ -142,8 +142,12 @@ term: INTEGER {am->pushInt($1);}
     | PREFIXES_VAR {am->pushPrefixesVar($1);}
     | '@' VAR {am->pushAddress($2);}
     | '@' PREFIXES_VAR {am->pushPrefixedAddress($2);}
-    | '@' VAR '\\' '(' exp ')' {am->pushArrayItemAddr($2);}
+    | '@' VAR '\\' '(' exp ')' {am->pushArrayItemAddr($2);} /*将一个元素的地址返回TODO*/
     | '@' PREFIXES_VAR '\\' '(' exp ')' {am->pushPrefixedArrayItemAddr($2);}    
+    | '^' VAR {am->pushVarByAddr($2);} /*该变量的值是另一个变量的地址，将另一个变量的值返回*/
+    | '^' PREFIXES_VAR {am->pushVarByPrefixedAddr($2);}
+    | '~' VAR {am->pushVarByTest($2);} /*测试运算符，表示右移4*3=12个*/
+    | '~' PREFIXES_VAR {am->pushVarByPrefixedTest($2);}
     | VAR '\\' '(' exp ')' {am->pushArrayItem($1);}
     | PREFIXES_VAR '\\' '(' exp ')' {am->pushPrefixedArrayItem($1);}
     | VAR params {am->callFunction($1);}                        /*调用文件内定义的函数*/

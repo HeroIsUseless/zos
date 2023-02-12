@@ -32,8 +32,6 @@ public:
     map2Asm("jmp ", m_astree->getPrefix(varName), varName, "$pass\n");
     map2Asm(m_astree->getPrefix(varName), varName, ": dd 0, ", str, ", 0\n");
     map2Asm(m_astree->getPrefix(varName), varName, "$pass:\n");
-    map2Asm("mov eax, ", m_astree->getPrefix(varName), varName, "+4\n");
-    map2Asm("mov [", m_astree->getPrefix(varName), varName, "], eax\n\n");
   }
 
   // 定义数组前半部分
@@ -172,6 +170,36 @@ public:
     prefixedVar = formatPrefixes(prefixedVar);
     map2Asm("mov eax, [", prefixedVar, "]\n");
     map2Asm("push eax\n");
+  }
+
+  /*测试运算符，表示右移4*3=12个*/
+  virtual void pushVarByTest(string var) {
+    var = formatPrefixes(var);
+    map2Asm("mov eax, [", m_astree->getPrefix(var), var, "]\n");
+    map2Asm("shr eax, 24\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void pushVarByPrefixedTest(string prefixedVar) {
+    prefixedVar = formatPrefixes(prefixedVar);
+    map2Asm("mov eax, [", prefixedVar, "]\n");
+    map2Asm("shr eax, 24\n");
+    map2Asm("push eax\n");
+  }
+
+  /*该变量的值是另一个变量的地址，将另一个变量的值返回*/
+  virtual void pushVarByAddr(string address) {
+    address = formatPrefixes(address);
+    map2Asm("mov eax, [", m_astree->getPrefix(address), address, "]\n");
+    map2Asm("mov ebx, [eax]\n");
+    map2Asm("push ebx\n");
+  }
+
+  virtual void pushVarByPrefixedAddr(string prefixedAddress) {
+    prefixedAddress = formatPrefixes(prefixedAddress);
+    map2Asm("mov eax, [", prefixedAddress, "]\n");
+    map2Asm("mov ebx, [eax]\n");
+    map2Asm("push ebx\n");
   }
 
   virtual void pushAddress(string address) 

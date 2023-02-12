@@ -21,6 +21,10 @@ block(addrVram: dword):(
 draw(addrVram: dword):(
   block(addrVram);
   tstr: "HELLO WORLD";
+  tstrAddr: @tstr;
+  tstrAddr <= tstrAddr + 4;
+  tstrContent: ^tstrAddr;
+  tstrContent<= ~tstrContent;
   draw.z\string(8, 8, @tstr, 320, addrVram);
   rect(100, 100, addrVram);
   [rect(100, 101, addrVram);

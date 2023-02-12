@@ -228,9 +228,38 @@ call test_z_block
 jmp test_z_draw_tstr$pass
 test_z_draw_tstr: dd 0, "HELLO WORLD", 0
 test_z_draw_tstr$pass:
-mov eax, test_z_draw_tstr+4
-mov [test_z_draw_tstr], eax
+mov eax, test_z_draw_tstr
+push eax
+jmp test_z_draw_tstrAddr$pass
+test_z_draw_tstrAddr: dd 0
+test_z_draw_tstrAddr$pass:
+pop eax
+mov [test_z_draw_tstrAddr], eax
 
+mov eax, [test_z_draw_tstrAddr]
+push eax
+mov eax, 4
+push eax
+pop eax
+pop ebx
+add eax, ebx
+push eax
+pop eax
+mov [test_z_draw_tstrAddr], eax
+mov eax, [test_z_draw_tstrAddr]
+mov ebx, [eax]
+push ebx
+jmp test_z_draw_tstrContent$pass
+test_z_draw_tstrContent: dd 0
+test_z_draw_tstrContent$pass:
+pop eax
+mov [test_z_draw_tstrContent], eax
+
+mov eax, [test_z_draw_tstrContent]
+shr eax, 12
+push eax
+pop eax
+mov [test_z_draw_tstrContent], eax
 mov eax, 8
 push eax
 mov eax, 8

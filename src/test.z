@@ -1,11 +1,11 @@
 draw.z: @\screen\draw.z;
 
-rect(left: dword, top: dword, addrVram: dword):(
+rect(left: dword, top: dword, width: dword, height: dword, color: dword, addrVram: dword):(
   y: 0;
-  while(y\<8, (
+  while(y\<height, (
     x: 0;
-    while(x\<8, (
-      color: 3;
+    while(x\<width, (
+      color: color;
       draw.z\pixel(left+x, top+y, color, 320, addrVram);
       x <= x+1;
     ));
@@ -13,22 +13,14 @@ rect(left: dword, top: dword, addrVram: dword):(
   ));
 );
 
-block(addrVram: dword):(
-  i: 0;
-  while(i < 300, (draw.z\pixel(i, i, i, 320, addrVram);i<=i+1;));
+blocks(addrVram: dword):(
+  rect(0, 175, 320, 24, 7, addrVram);
+  rect(5, 180, 24, 12, 3, addrVram);
 );
 
 draw(addrVram: dword):(
-  block(addrVram);
-  tstr: "HELLO WORLD";
-  tstrAddr: @tstr;
-  tstrAddr <= tstrAddr + 4;
-  tstrContent: ^tstrAddr;
-  tstrContent<= ~tstrContent;
-  draw.z\string(8, 8, @tstr, 320, addrVram);
-  rect(100, 100, addrVram);
-  [rect(100, 101, addrVram);
-  [rect(100, 102, addrVram);
-  [rect(100, 103, addrVram);
+  blocks(addrVram);
+  tstr: "HELLO ZLANG";
+  draw.z\string(110, 75, @tstr, 320, addrVram);
 );
 

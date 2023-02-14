@@ -356,6 +356,22 @@ public:
     map2Asm("push eax\n");
   }
 
+  virtual void shr()
+  {
+    map2Asm("pop ecx\n");
+    map2Asm("pop eax\n");
+    map2Asm("shr eax, cl\n");
+    map2Asm("push eax\n");
+  }
+
+  virtual void shl()
+  {
+    map2Asm("pop ecx\n");
+    map2Asm("pop eax\n");
+    map2Asm("shl eax, cl\n");
+    map2Asm("push eax\n");
+  }
+
   virtual void mor()
   {
     string randomNum = getRandomNum();
@@ -428,24 +444,6 @@ public:
     map2Asm( m_astree->getPrefix("logic"),"neq#", randomNum, "$true:\n");
     map2Asm("mov eax, 1\n");
     map2Asm( m_astree->getPrefix("logic"),"neq#", randomNum, "$false:\n");
-    map2Asm("push eax\n");
-  }
-
-  virtual void lmo()
-  {
-    map2Asm("pop ebx\n");
-    map2Asm("pop eax\n");
-    map2Asm("mov cl, bl\n");
-    map2Asm("shl eax\n");
-    map2Asm("push eax\n");
-  }
-
-  virtual void rmo()
-  {
-    map2Asm("pop ebx\n");
-    map2Asm("pop eax\n");
-    map2Asm("mov cl, bl\n");
-    map2Asm("shr eax\n");
     map2Asm("push eax\n");
   }
 

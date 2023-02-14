@@ -366,12 +366,12 @@ draw_z_char_screenWidth: dd 0
 draw_z_char_screenWidth$pass:
 pop eax
 mov [draw_z_char_screenWidth], eax
-;param: charAddr
-jmp draw_z_char_charAddr$pass
-draw_z_char_charAddr: dd 0
-draw_z_char_charAddr$pass:
+;param: ascii
+jmp draw_z_char_ascii$pass
+draw_z_char_ascii: dd 0
+draw_z_char_ascii$pass:
 pop eax
-mov [draw_z_char_charAddr], eax
+mov [draw_z_char_ascii], eax
 ;param: backColor
 jmp draw_z_char_backColor$pass
 draw_z_char_backColor: dd 0
@@ -397,6 +397,16 @@ draw_z_char_left$pass:
 pop eax
 mov [draw_z_char_left], eax
 push ebp
+mov eax, [draw_z_char_ascii]
+push eax
+call font_z_getAddrByAscii
+
+jmp draw_z_char_fontAddr$pass
+draw_z_char_fontAddr: dd 0
+draw_z_char_fontAddr$pass:
+pop eax
+mov [draw_z_char_fontAddr], eax
+
 mov eax, 0
 push eax
 jmp draw_z_char_y$pass
@@ -458,6 +468,84 @@ draw_z_char_while#r7_while#r9_color: dd 0
 draw_z_char_while#r7_while#r9_color$pass:
 pop eax
 mov [draw_z_char_while#r7_while#r9_color], eax
+
+mov eax, [draw_z_char_fontAddr]
+push eax
+mov eax, [draw_z_char_y]
+push eax
+mov eax, 8
+push eax
+pop eax
+pop ebx
+mul ebx
+push eax
+mov eax, 4
+push eax
+pop eax
+pop ebx
+mul ebx
+push eax
+pop eax
+pop ebx
+add eax, ebx
+push eax
+mov eax, [draw_z_char_while#r7_x]
+push eax
+mov eax, 4
+push eax
+pop eax
+pop ebx
+mul ebx
+push eax
+pop eax
+pop ebx
+add eax, ebx
+push eax
+jmp draw_z_char_while#r7_while#r9_fontByteAddr$pass
+draw_z_char_while#r7_while#r9_fontByteAddr: dd 0
+draw_z_char_while#r7_while#r9_fontByteAddr$pass:
+pop eax
+mov [draw_z_char_while#r7_while#r9_fontByteAddr], eax
+
+mov eax, [draw_z_char_while#r7_while#r9_fontByteAddr]
+mov ebx, [eax]
+push ebx
+jmp draw_z_char_while#r7_while#r9_fontByte$pass
+draw_z_char_while#r7_while#r9_fontByte: dd 0
+draw_z_char_while#r7_while#r9_fontByte$pass:
+pop eax
+mov [draw_z_char_while#r7_while#r9_fontByte], eax
+
+;########## draw_z_char_while#r7_while#r9_if#r11_$start ##########
+mov eax, [draw_z_char_while#r7_while#r9_fontByte]
+push eax
+mov eax, 0
+push eax
+pop ebx
+pop eax
+cmp eax, ebx
+jne draw_z_char_while#r7_while#r9_if#r11_neq#r21$true
+mov eax, 0
+jmp draw_z_char_while#r7_while#r9_if#r11_neq#r21$false
+draw_z_char_while#r7_while#r9_if#r11_neq#r21$true:
+mov eax, 1
+draw_z_char_while#r7_while#r9_if#r11_neq#r21$false:
+push eax
+pop eax
+cmp eax, 0
+je draw_z_char_while#r7_while#r9_if#r11_$else
+mov eax, 15
+push eax
+pop eax
+mov [draw_z_char_while#r7_while#r9_color], eax
+jmp draw_z_char_while#r7_while#r9_if#r11_$end
+draw_z_char_while#r7_while#r9_if#r11_$else:
+mov eax, 0
+push eax
+pop eax
+mov [draw_z_char_while#r7_while#r9_color], eax
+draw_z_char_while#r7_while#r9_if#r11_$end:
+;========== draw_z_char_while#r7_while#r9_if#r11_$end ==========
 
 mov eax, [draw_z_char_left]
 push eax
@@ -551,7 +639,7 @@ draw_z_string_left$pass:
 pop eax
 mov [draw_z_string_left], eax
 push ebp
-mov eax, 1
+mov eax, 0
 push eax
 jmp draw_z_string_i$pass
 draw_z_string_i: dd 0
@@ -561,11 +649,15 @@ mov [draw_z_string_i], eax
 
 mov eax, [draw_z_string_strAddr]
 push eax
-mov eax, [draw_z_string_i]
+mov eax, 1
 push eax
 pop eax
 pop ebx
 add eax, ebx
+push eax
+pop eax
+mov [draw_z_string_strAddr], eax
+mov eax, [draw_z_string_strAddr]
 push eax
 jmp draw_z_string_charAddr$pass
 draw_z_string_charAddr: dd 0
@@ -583,30 +675,34 @@ pop eax
 mov [draw_z_string_t_char], eax
 
 mov eax, [draw_z_string_t_char]
-shr eax, 12
+push eax
+mov eax, 24
+push eax
+pop ecx
+pop eax
+shr eax, cl
 push eax
 pop eax
 mov [draw_z_string_t_char], eax
-;########## draw_z_string_while#r11_$start ##########
-draw_z_string_while#r11_$start:
+;########## draw_z_string_while#r31_$start ##########
+draw_z_string_while#r31_$start:
 mov eax, [draw_z_string_t_char]
-mov ebx, [eax]
-push ebx
+push eax
 mov eax, 0
 push eax
 pop ebx
 pop eax
 cmp eax, ebx
-jne draw_z_string_while#r11_neq#r21$true
+jne draw_z_string_while#r31_neq#r41$true
 mov eax, 0
-jmp draw_z_string_while#r11_neq#r21$false
-draw_z_string_while#r11_neq#r21$true:
+jmp draw_z_string_while#r31_neq#r41$false
+draw_z_string_while#r31_neq#r41$true:
 mov eax, 1
-draw_z_string_while#r11_neq#r21$false:
+draw_z_string_while#r31_neq#r41$false:
 push eax
 pop eax
 cmp eax, 0
-je draw_z_string_while#r11_$end
+je draw_z_string_while#r31_$end
 mov eax, [draw_z_string_left]
 push eax
 mov eax, [draw_z_string_i]
@@ -627,7 +723,7 @@ mov eax, 7
 push eax
 mov eax, 8
 push eax
-mov eax, [draw_z_string_charAddr]
+mov eax, [draw_z_string_t_char]
 push eax
 mov eax, [draw_z_string_screenWidth]
 push eax
@@ -661,13 +757,13 @@ push ebx
 pop eax
 mov [draw_z_string_t_char], eax
 mov eax, [draw_z_string_t_char]
-shr eax, 12
+shr eax, 24
 push eax
 pop eax
 mov [draw_z_string_t_char], eax
-jmp draw_z_string_while#r11_$start
-draw_z_string_while#r11_$end:
-;========== draw_z_string_while#r11_$end ==========
+jmp draw_z_string_while#r31_$start
+draw_z_string_while#r31_$end:
+;========== draw_z_string_while#r31_$end ==========
 
 ret
 draw_z_string$pass:

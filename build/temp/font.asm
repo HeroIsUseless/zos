@@ -245,7 +245,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r1_$else
-mov eax, [font_z_space]
+mov eax, font_z_space
 push eax
 pop eax
 pop ebp
@@ -275,7 +275,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r3_$else
-mov eax, [font_z_A]
+mov eax, font_z_A
 push eax
 pop eax
 pop ebp
@@ -305,7 +305,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r5_$else
-mov eax, [font_z_B]
+mov eax, font_z_B
 push eax
 pop eax
 pop ebp
@@ -335,7 +335,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r7_$else
-mov eax, [font_z_C]
+mov eax, font_z_C
 push eax
 pop eax
 pop ebp
@@ -365,7 +365,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r9_$else
-mov eax, [font_z_D]
+mov eax, font_z_D
 push eax
 pop eax
 pop ebp
@@ -395,7 +395,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r11_$else
-mov eax, [font_z_E]
+mov eax, font_z_E
 push eax
 pop eax
 pop ebp
@@ -425,7 +425,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r31_$else
-mov eax, [font_z_F]
+mov eax, font_z_F
 push eax
 pop eax
 pop ebp
@@ -455,7 +455,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r51_$else
-mov eax, [font_z_G]
+mov eax, font_z_G
 push eax
 pop eax
 pop ebp
@@ -485,7 +485,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r71_$else
-mov eax, [font_z_H]
+mov eax, font_z_H
 push eax
 pop eax
 pop ebp
@@ -515,7 +515,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r91_$else
-mov eax, [font_z_I]
+mov eax, font_z_I
 push eax
 pop eax
 pop ebp
@@ -545,7 +545,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r12_$else
-mov eax, [font_z_G]
+mov eax, font_z_G
 push eax
 pop eax
 pop ebp
@@ -575,7 +575,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r32_$else
-mov eax, [font_z_K]
+mov eax, font_z_K
 push eax
 pop eax
 pop ebp
@@ -605,7 +605,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r52_$else
-mov eax, [font_z_L]
+mov eax, font_z_L
 push eax
 pop eax
 pop ebp
@@ -635,7 +635,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r72_$else
-mov eax, [font_z_M]
+mov eax, font_z_M
 push eax
 pop eax
 pop ebp
@@ -665,7 +665,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r92_$else
-mov eax, [font_z_N]
+mov eax, font_z_N
 push eax
 pop eax
 pop ebp
@@ -695,7 +695,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r13_$else
-mov eax, [font_z_O]
+mov eax, font_z_O
 push eax
 pop eax
 pop ebp
@@ -725,7 +725,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r33_$else
-mov eax, [font_z_P]
+mov eax, font_z_P
 push eax
 pop eax
 pop ebp
@@ -755,7 +755,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r53_$else
-mov eax, [font_z_Q]
+mov eax, font_z_Q
 push eax
 pop eax
 pop ebp
@@ -785,7 +785,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r73_$else
-mov eax, [font_z_R]
+mov eax, font_z_R
 push eax
 pop eax
 pop ebp
@@ -815,7 +815,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r93_$else
-mov eax, [font_z_S]
+mov eax, font_z_S
 push eax
 pop eax
 pop ebp
@@ -845,7 +845,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r14_$else
-mov eax, [font_z_T]
+mov eax, font_z_T
 push eax
 pop eax
 pop ebp
@@ -875,7 +875,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r34_$else
-mov eax, [font_z_U]
+mov eax, font_z_U
 push eax
 pop eax
 pop ebp
@@ -905,7 +905,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r54_$else
-mov eax, [font_z_V]
+mov eax, font_z_V
 push eax
 pop eax
 pop ebp
@@ -935,7 +935,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r74_$else
-mov eax, [font_z_W]
+mov eax, font_z_W
 push eax
 pop eax
 pop ebp
@@ -965,7 +965,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r94_$else
-mov eax, [font_z_X]
+mov eax, font_z_X
 push eax
 pop eax
 pop ebp
@@ -995,7 +995,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r15_$else
-mov eax, [font_z_Y]
+mov eax, font_z_Y
 push eax
 pop eax
 pop ebp
@@ -1025,7 +1025,7 @@ push eax
 pop eax
 cmp eax, 0
 je font_z_getAddrByAscii_if#r35_$else
-mov eax, [font_z_Z]
+mov eax, font_z_Z
 push eax
 pop eax
 pop ebp

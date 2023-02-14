@@ -124,14 +124,14 @@ exp: factor
    | exp '-' factor {am->sub();}
    | exp '<' factor {am->les();}
    | exp '>' factor {am->mor();}
+   | exp LMO factor {am->shl();}
+   | exp RMO factor {am->shr();}
    | exp LEQ factor {am->leq();}
    | exp MEQ factor {am->meq();}
-   | exp LMO factor {am->lmo();}
-   | exp RMO factor {am->rmo();}
    | exp '=' factor {am->equ();}
    | exp '#' factor {am->neq();}
    ;
-
+/* 相当于exp，只不过优先级比较高 */
 factor: term 
       | factor '*' term {am->mul();}
       | factor '/' term {am->div();} 

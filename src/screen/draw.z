@@ -44,14 +44,16 @@ flush(addrVram: dword):(
   ));
 );
 
-char(left: dword, top: dword, foreColor: dword, backColor: dword, charAddr: dword, screenWidth: dword, addrVram: dword):(
-  [fontAddr: font.z\getAddrByAscii(ascii);
+char(left: dword, top: dword, foreColor: dword, backColor: dword, ascii: dword, screenWidth: dword, addrVram: dword):(
+  fontAddr: font.z\getAddrByAscii(ascii);
   y: 0;
   while(y<8, (
     x: 0;
     while(x<8, (
       color: foreColor;
-      [if(fontAddr\(y*8+x)#0, (color <= 15;), (color <= 0;));
+      fontByteAddr: fontAddr + y*8*4+x*4;
+      fontByte: ^fontByteAddr;
+      if(fontByte#0, (color <= 15;), (color <= 0;));
       draw.z\pixel(left+x, top+y, color, 320, addrVram);
       x <= x+1;
     ));
@@ -60,13 +62,18 @@ char(left: dword, top: dword, foreColor: dword, backColor: dword, charAddr: dwor
 );
 
 string(left: dword, top: dword, strAddr: dword, screenWidth:dword, addrVram: dword):(
-  i: 1;
-  charAddr: strAddr + i;
+  i: 0;
+  [+4是string从1开始，第一个4字节是0]
+  strAddr <= strAddr + 1;
+  charAddr: strAddr;
+  [^类似于*]
   t_char: ^charAddr;
-  t_char <= ~t_char;
-  while(^t_char # 0, (
-    char(left+i*8, top, 7, 8, charAddr, screenWidth, addrVram);
+  [~是右移4*6=24位]
+  t_char <= t_char >> 24;
+  while(t_char # 0, (
+    char(left+i*8, top, 7, 8, t_char, screenWidth, addrVram);
     i <= i+1;
+    [+1是string即便用db4字节定义，它还是一字节的]
     charAddr <= strAddr + i;
     t_char <= ^charAddr;
     t_char <= ~t_char;

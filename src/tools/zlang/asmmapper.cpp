@@ -81,8 +81,8 @@ public:
   virtual void mor() = 0;
   virtual void leq() = 0;
   virtual void meq() = 0;
-  virtual void lmo() = 0;
-  virtual void rmo() = 0;
+  virtual void shr() = 0;
+  virtual void shl() = 0;
   virtual void equ() = 0;
   virtual void neq() = 0;
   virtual void mul() = 0;

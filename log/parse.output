@@ -83,10 +83,10 @@ Grammar
    47    | exp '-' factor
    48    | exp '<' factor
    49    | exp '>' factor
-   50    | exp LEQ factor
-   51    | exp MEQ factor
-   52    | exp LMO factor
-   53    | exp RMO factor
+   50    | exp LMO factor
+   51    | exp RMO factor
+   52    | exp LEQ factor
+   53    | exp MEQ factor
    54    | exp '=' factor
    55    | exp '#' factor
 
@@ -136,10 +136,10 @@ $end (0) 0
 '}' (125) 14
 '~' (126) 68 69
 error (256)
-RMO (258) 53
-LMO (259) 52
-MEQ (260) 51
-LEQ (261) 50
+RMO (258) 51
+LMO (259) 50
+MEQ (260) 53
+LEQ (261) 52
 INTEGER (262) 15 16 25 59
 STRING (263) 12
 VAR (264) 10 11 12 14 19 25 30 32 34 60 62 64 66 68 70 72
@@ -446,10 +446,10 @@ state 20
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -804,7 +804,7 @@ state 50
 
 state 51
 
-   53 exp: exp RMO . factor
+   51 exp: exp RMO . factor
 
     INTEGER       shift, and go to state 1
     VAR           shift, and go to state 70
@@ -819,7 +819,7 @@ state 51
 
 state 52
 
-   52 exp: exp LMO . factor
+   50 exp: exp LMO . factor
 
     INTEGER       shift, and go to state 1
     VAR           shift, and go to state 70
@@ -834,7 +834,7 @@ state 52
 
 state 53
 
-   51 exp: exp MEQ . factor
+   53 exp: exp MEQ . factor
 
     INTEGER       shift, and go to state 1
     VAR           shift, and go to state 70
@@ -849,7 +849,7 @@ state 53
 
 state 54
 
-   50 exp: exp LEQ . factor
+   52 exp: exp LEQ . factor
 
     INTEGER       shift, and go to state 1
     VAR           shift, and go to state 70
@@ -1022,10 +1022,10 @@ state 68
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -1089,10 +1089,10 @@ state 73
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -1317,31 +1317,7 @@ state 91
 
 state 92
 
-   53 exp: exp RMO factor .
-   57 factor: factor . '*' term
-   58       | factor . '/' term
-
-    '*'  shift, and go to state 58
-    '/'  shift, and go to state 59
-
-    $default  reduce using rule 53 (exp)
-
-
-state 93
-
-   52 exp: exp LMO factor .
-   57 factor: factor . '*' term
-   58       | factor . '/' term
-
-    '*'  shift, and go to state 58
-    '/'  shift, and go to state 59
-
-    $default  reduce using rule 52 (exp)
-
-
-state 94
-
-   51 exp: exp MEQ factor .
+   51 exp: exp RMO factor .
    57 factor: factor . '*' term
    58       | factor . '/' term
 
@@ -1351,9 +1327,9 @@ state 94
     $default  reduce using rule 51 (exp)
 
 
-state 95
+state 93
 
-   50 exp: exp LEQ factor .
+   50 exp: exp LMO factor .
    57 factor: factor . '*' term
    58       | factor . '/' term
 
@@ -1361,6 +1337,30 @@ state 95
     '/'  shift, and go to state 59
 
     $default  reduce using rule 50 (exp)
+
+
+state 94
+
+   53 exp: exp MEQ factor .
+   57 factor: factor . '*' term
+   58       | factor . '/' term
+
+    '*'  shift, and go to state 58
+    '/'  shift, and go to state 59
+
+    $default  reduce using rule 53 (exp)
+
+
+state 95
+
+   52 exp: exp LEQ factor .
+   57 factor: factor . '*' term
+   58       | factor . '/' term
+
+    '*'  shift, and go to state 58
+    '/'  shift, and go to state 59
+
+    $default  reduce using rule 52 (exp)
 
 
 state 96
@@ -1424,10 +1424,10 @@ state 101
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -1535,10 +1535,10 @@ state 111
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
    70 term: VAR '\\' '(' exp . ')'
@@ -1572,10 +1572,10 @@ state 113
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -1602,10 +1602,10 @@ state 114
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
    71 term: PREFIXES_VAR '\\' '(' exp . ')'
@@ -1632,10 +1632,10 @@ state 115
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -1664,10 +1664,10 @@ state 116
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -1693,10 +1693,10 @@ state 117
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -1951,10 +1951,10 @@ state 137
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -1980,10 +1980,10 @@ state 138
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -2008,10 +2008,10 @@ state 139
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
    64 term: '@' VAR '\\' '(' exp . ')'
@@ -2037,10 +2037,10 @@ state 140
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
    65 term: '@' PREFIXES_VAR '\\' '(' exp . ')'
@@ -2066,10 +2066,10 @@ state 141
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
    70 term: VAR '\\' '(' exp . ')'
@@ -2095,10 +2095,10 @@ state 142
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
    71 term: PREFIXES_VAR '\\' '(' exp . ')'
@@ -2332,10 +2332,10 @@ state 164
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -2362,10 +2362,10 @@ state 165
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -2431,10 +2431,10 @@ state 169
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 
@@ -2461,10 +2461,10 @@ state 170
    47    | exp . '-' factor
    48    | exp . '<' factor
    49    | exp . '>' factor
-   50    | exp . LEQ factor
-   51    | exp . MEQ factor
-   52    | exp . LMO factor
-   53    | exp . RMO factor
+   50    | exp . LMO factor
+   51    | exp . RMO factor
+   52    | exp . LEQ factor
+   53    | exp . MEQ factor
    54    | exp . '=' factor
    55    | exp . '#' factor
 

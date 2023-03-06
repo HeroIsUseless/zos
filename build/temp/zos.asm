@@ -2209,7 +2209,7 @@ push eax
 call test_z_blocks
 
 jmp test_z_draw_tstr$pass
-test_z_draw_tstr: dd 0, "HELLO ZLANG", 0
+test_z_draw_tstr: dd 0, "HELLO ZOS", 0
 test_z_draw_tstr$pass:
 mov eax, 110
 push eax

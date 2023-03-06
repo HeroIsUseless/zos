@@ -20,7 +20,7 @@ blocks(addrVram: dword):(
 
 draw(addrVram: dword):(
   blocks(addrVram);
-  tstr: "HELLO ZLANG";
+  tstr: "HELLO ZOS";
   draw.z\string(110, 75, @tstr, 320, addrVram);
 );
 

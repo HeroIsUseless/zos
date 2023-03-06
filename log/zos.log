@@ -3462,8 +3462,8 @@
   2209 00003DD2 E884FFFFFF              call test_z_blocks
   2210                                  
   2211 00003DD7 EB14                    jmp test_z_draw_tstr$pass
-  2212 00003DD9 0000000048454C4C4F-     test_z_draw_tstr: dd 0, "HELLO ZLANG", 0
-  2212 00003DE2 205A4C414E47000000-
+  2212 00003DD9 0000000048454C4C4F-     test_z_draw_tstr: dd 0, "HELLO ZOS", 0
+  2212 00003DE2 205A4F530000000000-
   2212 00003DEB 0000               
   2213                                  test_z_draw_tstr$pass:
   2214 00003DED B86E000000              mov eax, 110

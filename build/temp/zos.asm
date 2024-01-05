@@ -2556,26 +2556,40 @@ TESTA: DD 0x11111111
 ; 主进程入口
 main:
 
-  ; 测试用
-	; 每当执行一个新的浮点程序时，第一条指令都应该是初始化FPU的指令finit。
-	; 该指令清除浮点数据寄存器栈和异常，为程序提供一个“干净”的初始状态。
-	; 否则，遗留在浮点寄存器栈中的数据可能会产生堆栈溢出。
-	; 另一方面，浮点指令程序段结束，也最好清空浮点数据寄存器。
-  finit
+	; 每当执行一个新的浮点程序时，第一条指令都应该是初始化FPU的指令finit
+	; 该指令清除浮点数据寄存器栈和异常，为程序提供一个“干净”的初始状态
+	; 否则，遗留在浮点寄存器栈中的数据可能会产生堆栈溢出
+	; 另一方面，浮点指令程序段结束，也最好清空浮点数据寄存器
+  ; finit
 	; fld src	;将浮点数src压入ST（0）
   ; fild src  ;将整数src压入ST（0）
   ;fild DWORD [TESTA]
   ;fild DWORD [eax]
-	mov ebx, [TESTA]
-  fild DWORD [TESTA]
-  fild DWORD [TESTA]
-	fadd
-	fist DWORD [eax]
-	mov eax, [eax]
-  ;fadd to st1
-	tt:
-		hlt
-	jmp tt
+	; mov ebx, [TESTA]
+  ; fild DWORD [TESTA]
+  ; fild DWORD [TESTA]
+	; fadd
+	; fist DWORD [eax]
+	; mov eax, [eax]
+  ; ;fadd to st1
+	; tt:
+	; 	hlt
+	; jmp tt
+
+	; 四舍五入除法
+	; roundDiv(a: DWORD, b: DWORD): DWORD
+	; 就能实现画斜线功能
+	; 输入两个整数src
+	; 用浮点数指令实现四舍五入除法
+	; 通过浮点除法指令计算得出浮点数结果
+	; 再根据浮点数比较指令实现四舍五入
+	; roundDiv:
+	; 	fild src1 
+	; 	fild src2
+	; 	fdiv
+	; 	fist dst
+
+	; ret
 
   call main_z_run_once
   .loop:

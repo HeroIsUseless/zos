@@ -3811,29 +3811,43 @@
   2556                                  ; 主进程入口
   2557                                  main:
   2558                                  
-  2559                                    ; 测试用
-  2560                                  	; 每当执行一个新的浮点程序时，第一条指令都应该是初始化FPU的指令finit。
-  2561                                  	; 该指令清除浮点数据寄存器栈和异常，为程序提供一个“干净”的初始状态。
-  2562                                  	; 否则，遗留在浮点寄存器栈中的数据可能会产生堆栈溢出。
-  2563                                  	; 另一方面，浮点指令程序段结束，也最好清空浮点数据寄存器。
-  2564 00004047 9BDBE3                    finit
-  2565                                  	; fld src	;将浮点数src压入ST（0）
-  2566                                    ; fild src  ;将整数src压入ST（0）
-  2567                                    ;fild DWORD [TESTA]
-  2568                                    ;fild DWORD [eax]
-  2569 0000404A 8B1D[43400000]          	mov ebx, [TESTA]
-  2570 00004050 DB05[43400000]            fild DWORD [TESTA]
-  2571 00004056 DB05[43400000]            fild DWORD [TESTA]
-  2572 0000405C DEC1                    	fadd
-  2573 0000405E DB10                    	fist DWORD [eax]
-  2574 00004060 8B00                    	mov eax, [eax]
-  2575                                    ;fadd to st1
-  2576                                  	tt:
-  2577 00004062 F4                      		hlt
-  2578 00004063 EBFD                    	jmp tt
-  2579                                  
-  2580 00004065 E816C0FFFF                call main_z_run_once
-  2581                                    .loop:
-  2582 0000406A E82BC0FFFF                  call main_z_run_loop
-  2583 0000406F EBF9                      jmp .loop
-  2584                                  
+  2559                                  	; 每当执行一个新的浮点程序时，第一条指令都应该是初始化FPU的指令finit
+  2560                                  	; 该指令清除浮点数据寄存器栈和异常，为程序提供一个“干净”的初始状态
+  2561                                  	; 否则，遗留在浮点寄存器栈中的数据可能会产生堆栈溢出
+  2562                                  	; 另一方面，浮点指令程序段结束，也最好清空浮点数据寄存器
+  2563                                    ; finit
+  2564                                  	; fld src	;将浮点数src压入ST（0）
+  2565                                    ; fild src  ;将整数src压入ST（0）
+  2566                                    ;fild DWORD [TESTA]
+  2567                                    ;fild DWORD [eax]
+  2568                                  	; mov ebx, [TESTA]
+  2569                                    ; fild DWORD [TESTA]
+  2570                                    ; fild DWORD [TESTA]
+  2571                                  	; fadd
+  2572                                  	; fist DWORD [eax]
+  2573                                  	; mov eax, [eax]
+  2574                                    ; ;fadd to st1
+  2575                                  	; tt:
+  2576                                  	; 	hlt
+  2577                                  	; jmp tt
+  2578                                  
+  2579                                  	; 四舍五入除法
+  2580                                  	; roundDiv(a: DWORD, b: DWORD): DWORD
+  2581                                  	; 就能实现画斜线功能
+  2582                                  	; 输入两个整数src
+  2583                                  	; 用浮点数指令实现四舍五入除法
+  2584                                  	; 通过浮点除法指令计算得出浮点数结果
+  2585                                  	; 再根据浮点数比较指令实现四舍五入
+  2586                                  	; roundDiv:
+  2587                                  	; 	fild src1 
+  2588                                  	; 	fild src2
+  2589                                  	; 	fdiv
+  2590                                  	; 	fist dst
+  2591                                  
+  2592                                  	; ret
+  2593                                  
+  2594 00004047 E834C0FFFF                call main_z_run_once
+  2595                                    .loop:
+  2596 0000404C E849C0FFFF                  call main_z_run_loop
+  2597 00004051 EBF9                      jmp .loop
+  2598                                  
